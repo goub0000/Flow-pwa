@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Create your Flow account - Join as a student, institution, counselor, parent, or recommender." />
+  <meta name="theme-color" content="#373896" />
+  <title>Sign Up - Flow</title>
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/design-system.css" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/home.css" />
+  
+  <style>
+    .auth-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    
+    .auth-card {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 3rem;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .auth-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .auth-logo {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1rem;
+      display: block;
+    }
+    
+    .auth-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    
+    .auth-subtitle {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: white;
+      font-weight: 500;
+    }
+    
+    .form-input, .form-select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: #5a5bb8;
+      box-shadow: 0 0 0 3px rgba(90, 91, 184, 0.2);
+    }
+    
+    .form-input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .form-select option {
+      background: #1a1a2e;
+      color: white;
+    }
+    
+    .form-help {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 0.25rem;
+    }
+    
+    .auth-button {
+      width: 100%;
+      padding: 0.875rem;
+      background: linear-gradient(135deg, #5a5bb8 0%, #6b6cc8 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 1rem;
+    }
+    
+    .auth-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(90, 91, 184, 0.4);
+    }
+    
+    .auth-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .auth-link {
+      color: #5a5bb8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .auth-link:hover {
+      text-decoration: underline;
+    }
+    
+    .auth-divider {
+      text-align: center;
+      margin: 2rem 0;
+      color: rgba(255, 255, 255, 0.5);
+      position: relative;
+    }
+    
+    .auth-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: 1;
+    }
+    
+    .auth-divider span {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+      padding: 0 1rem;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .error-message {
+      background: rgba(220, 53, 69, 0.1);
+      border: 1px solid rgba(220, 53, 69, 0.3);
+      color: #ff6b7a;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+    }
+    
+    .success-message {
+      background: rgba(40, 167, 69, 0.1);
+      border: 1px solid rgba(40, 167, 69, 0.3);
+      color: #4caf50;
+      padding: 0.75rem;
+      border-radius: 6px;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+    }
+    
+    .loading {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid transparent;
+      border-top: 2px solid currentColor;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    @media (max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .auth-card {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Unified Header -->
+  <header class="unified-header">
+    <div class="header-content">
+      <a href="/" class="header-logo">
+        <img src="/assets/img/logo.png" alt="Flow Logo" width="32" height="32" loading="lazy" />
+        <span>Flow</span>
+      </a>
+      
+      <div class="header-actions">
+        <div id="registerLanguageSelector" class="language-selector"></div>
+        <a href="/auth/index.html" class="btn btn--ghost" data-i18n="auth.hasAccount">Already have an account?</a>
+        <a href="/" class="btn btn--ghost" data-i18n="auth.backToHome">← Back to Home</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Futuristic background -->
+  <div class="bg-animation" aria-hidden="true">
+    <div class="bg-orb bg-orb--primary"></div>
+    <div class="bg-orb bg-orb--accent"></div>
+    <div class="bg-orb bg-orb--secondary"></div>
+  </div>
+
+  <!-- Auth Container -->
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <img src="/assets/img/logo.png" alt="Flow Logo" class="auth-logo">
+        <h1 class="auth-title">Sign Up</h1>
+        <p class="auth-subtitle">Create your Flow account</p>
+      </div>
+
+      <!-- Error/Success Messages -->
+      <div id="errorMessage" class="error-message" style="display: none;"></div>
+      <div id="successMessage" class="success-message" style="display: none;"></div>
+      
+      <!-- Loading Indicator -->
+      <div id="loadingIndicator" class="loading">
+        <div class="spinner"></div>
+        <span>Creating account...</span>
+      </div>
+
+      <!-- Registration Form -->
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="accountType" class="form-label">Account Type</label>
+          <select id="accountType" name="accountType" class="form-select" required>
+            <option value="">Choose your account type</option>
+            <option value="student">Student</option>
+            <option value="institution">Institution</option>
+            <option value="counselor">Counselor</option>
+            <option value="parent">Parent</option>
+            <option value="recommender">Recommender</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName" class="form-label">First Name</label>
+            <input 
+              type="text" 
+              id="firstName" 
+              name="firstName" 
+              class="form-input" 
+              placeholder="Enter your first name"
+              required
+            >
+          </div>
+          <div class="form-group">
+            <label for="lastName" class="form-label">Last Name</label>
+            <input 
+              type="text" 
+              id="lastName" 
+              name="lastName" 
+              class="form-input" 
+              placeholder="Enter your last name"
+              required
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            class="form-input" 
+            placeholder="Enter your email address"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            class="form-input" 
+            placeholder="Create a strong password"
+            required
+          >
+          <div class="form-help">
+            Must be at least 8 characters with uppercase, lowercase, number, and special character
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <input 
+            type="password" 
+            id="confirmPassword" 
+            name="confirmPassword" 
+            class="form-input" 
+            placeholder="Confirm your password"
+            required
+          >
+        </div>
+
+        <button type="submit" class="auth-button" id="registerButton">
+          Create Account
+        </button>
+      </form>
+
+      <div class="auth-divider">
+        <span>or</span>
+      </div>
+
+      <p style="text-align: center; color: rgba(255, 255, 255, 0.7);">
+        Already have an account? 
+        <a href="/auth/index.html" class="auth-link">Sign in here</a>
+      </p>
+      
+      <p style="text-align: center; margin-top: 2rem;">
+        <a href="/" class="auth-link">← Back to Home</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
+
+  <!-- Firebase Configuration -->
+  <script src="/assets/js/firebase-config.js"></script>
+  
+  <!-- Firebase Services -->
+  <script src="/assets/js/firebase-auth.js"></script>
+  <script src="/assets/js/firebase-data.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const form = document.getElementById('registerForm');
+      const errorMessage = document.getElementById('errorMessage');
+      const successMessage = document.getElementById('successMessage');
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      const registerButton = document.getElementById('registerButton');
+
+      // Pre-select account type from URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const accountType = urlParams.get('type');
+      if (accountType) {
+        document.getElementById('accountType').value = accountType;
+      }
+
+      // Hide messages function
+      function hideMessages() {
+        errorMessage.style.display = 'none';
+        successMessage.style.display = 'none';
+      }
+
+      // Show error message
+      function showError(message) {
+        hideMessages();
+        errorMessage.innerHTML = message;
+        errorMessage.style.display = 'block';
+      }
+
+      // Show success message
+      function showSuccess(message) {
+        hideMessages();
+        successMessage.textContent = message;
+        successMessage.style.display = 'block';
+      }
+
+      // Show loading state
+      function showLoading(show = true) {
+        if (show) {
+          loadingIndicator.style.display = 'flex';
+          registerButton.disabled = true;
+          registerButton.textContent = 'Creating Account...';
+        } else {
+          loadingIndicator.style.display = 'none';
+          registerButton.disabled = false;
+          registerButton.textContent = 'Create Account';
+        }
+      }
+
+      // Password validation
+      function validatePassword(password) {
+        const errors = [];
+        if (password.length < 8) errors.push('At least 8 characters');
+        if (!/[a-z]/.test(password)) errors.push('One lowercase letter');
+        if (!/[A-Z]/.test(password)) errors.push('One uppercase letter');
+        if (!/\d/.test(password)) errors.push('One number');
+        if (!/[@$!%*?&]/.test(password)) errors.push('One special character (@$!%*?&)');
+        return errors;
+      }
+
+      // Handle form submission
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        hideMessages();
+
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData.entries());
+
+        // Validation
+        if (!data.accountType) {
+          showError('Please select an account type');
+          return;
+        }
+
+        if (!data.firstName || !data.lastName || !data.email || !data.password) {
+          showError('Please fill in all required fields');
+          return;
+        }
+
+        // Password validation
+        const passwordErrors = validatePassword(data.password);
+        if (passwordErrors.length > 0) {
+          showError('Password must have:<br>• ' + passwordErrors.join('<br>• '));
+          return;
+        }
+
+        if (data.password !== data.confirmPassword) {
+          showError('Passwords do not match');
+          return;
+        }
+
+        showLoading(true);
+
+        try {
+          // Wait for FlowAuth to be available
+          if (!window.FlowAuth) {
+            throw new Error('Firebase authentication system not available');
+          }
+
+          const result = await window.FlowAuth.register({
+            email: data.email,
+            password: data.password,
+            firstName: data.firstName,
+            lastName: data.lastName,
+            accountType: data.accountType,
+            displayName: `${data.firstName} ${data.lastName}`
+          });
+
+          if (result.success) {
+            showSuccess('Account created successfully! Please check your email to verify your account.');
+            
+            // Track registration event
+            if (window.FirebaseData) {
+              await window.FirebaseData.AnalyticsService.trackEvent('sign_up', {
+                method: 'email',
+                account_type: data.accountType
+              });
+            }
+            
+            // Clear form
+            form.reset();
+            
+            // Redirect to login page after a delay
+            setTimeout(() => {
+              window.location.href = '/auth/index.html?message=Please check your email to verify your account before signing in.';
+            }, 3000);
+          } else {
+            showError(result.error || 'Registration failed');
+          }
+        } catch (error) {
+          console.error('Registration error:', error);
+          showError('Registration failed: ' + error.message);
+        } finally {
+          showLoading(false);
+        }
+      });
+
+      // Auto-focus first field
+      document.getElementById('accountType').focus();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow | Community Forum</title>
+    <link rel="icon" type="image/png" href="/assets/img/logo.PNG">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Multi-layer Header */
+        .header {
+            position: relative;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #4facfe 100%);
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-20px, -20px) rotate(180deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .brand-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
+            font-weight: 300;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            min-height: calc(100vh - 300px);
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .forum-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e1e8ed;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .forum-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e1e8ed;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .category-info {
+            flex: 1;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 0.3rem;
+        }
+
+        .category-stats {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .category-description {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .recent-posts {
+            border-top: 1px solid #e1e8ed;
+            padding-top: 1rem;
+        }
+
+        .recent-posts h4 {
+            font-size: 0.9rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .post-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .post-item:last-child {
+            border-bottom: none;
+        }
+
+        .post-title {
+            font-size: 0.9rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .post-title:hover {
+            text-decoration: underline;
+        }
+
+        .post-meta {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+
+        .new-post-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .new-post-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .new-post-section p {
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .post-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .post-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .trending-topics {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .trending-topics h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .trending-list {
+            list-style: none;
+        }
+
+        .trending-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .trending-item:last-child {
+            border-bottom: none;
+        }
+
+        .trending-topic {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .trending-topic:hover {
+            text-decoration: underline;
+        }
+
+        .trending-count {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .community-guidelines {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-left: 4px solid #667eea;
+        }
+
+        .community-guidelines h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .guidelines-list {
+            list-style: none;
+            color: #555;
+        }
+
+        .guidelines-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .guidelines-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section {
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .footer-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .footer-link:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .footer-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .forum-categories {
+                grid-template-columns: 1fr;
+            }
+
+            .forum-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Multi-layer Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-brand">
+                    <div class="brand-content">
+                        <div class="header-logo">
+                            <img src="/assets/img/logo.PNG" alt="Flow Logo" class="logo-img">
+                        </div>
+                        <div class="logo-container">
+                            <div class="logo">Flow</div>
+                            <div class="brand-subtitle">Community Forum</div>
+                        </div>
+                    </div>
+                </div>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="index.html">Dashboard</a></li>
+                        <li><a href="help-center.html">Help</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Community Forum</h1>
+            <p class="page-subtitle">Connect with other parents, share experiences, and get advice from the Flow community. Together, we can navigate the educational journey more effectively.</p>
+        </div>
+
+        <!-- Forum Statistics -->
+        <div class="forum-stats">
+            <div class="stat-card">
+                <div class="stat-number">2,847</div>
+                <div class="stat-label">Active Members</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">12,453</div>
+                <div class="stat-label">Total Posts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">856</div>
+                <div class="stat-label">Active Topics</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">23</div>
+                <div class="stat-label">Online Now</div>
+            </div>
+        </div>
+
+        <!-- New Post Section -->
+        <div class="new-post-section">
+            <h3>Share Your Experience</h3>
+            <p>Have a question, tip, or success story? Join the conversation and help other families on their educational journey.</p>
+            <a href="#" class="post-btn" onclick="showNewPostForm()">Start New Discussion</a>
+        </div>
+
+        <!-- Trending Topics -->
+        <div class="trending-topics">
+            <h3>🔥 Trending Topics</h3>
+            <ul class="trending-list">
+                <li class="trending-item">
+                    <a href="#" class="trending-topic">College Application Deadlines for 2024</a>
+                    <span class="trending-count">127 replies</span>
+                </li>
+                <li class="trending-item">
+                    <a href="#" class="trending-topic">Financial Aid Tips and Strategies</a>
+                    <span class="trending-count">89 replies</span>
+                </li>
+                <li class="trending-item">
+                    <a href="#" class="trending-topic">SAT vs ACT: Which is Better?</a>
+                    <span class="trending-count">76 replies</span>
+                </li>
+                <li class="trending-item">
+                    <a href="#" class="trending-topic">Navigating Parent-Student Communication</a>
+                    <span class="trending-count">54 replies</span>
+                </li>
+                <li class="trending-item">
+                    <a href="#" class="trending-topic">Early Decision vs Regular Decision</a>
+                    <span class="trending-count">43 replies</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Forum Categories -->
+        <div class="forum-categories">
+            <div class="category-card" onclick="openCategory('admissions')">
+                <div class="category-header">
+                    <div class="category-icon">🎓</div>
+                    <div class="category-info">
+                        <h3 class="category-title">College Admissions</h3>
+                        <div class="category-stats">1,247 topics • 8,923 posts</div>
+                    </div>
+                </div>
+                <p class="category-description">
+                    Discuss college applications, admission strategies, essays, interviews, and everything related to the college admissions process.
+                </p>
+                <div class="recent-posts">
+                    <h4>Recent Posts:</h4>
+                    <div class="post-item">
+                        <a href="#" class="post-title">Tips for Writing Compelling Personal Essays</a>
+                        <span class="post-meta">2h ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">How to Prepare for College Interviews</a>
+                        <span class="post-meta">5h ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">Common Application Timeline Questions</a>
+                        <span class="post-meta">1d ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="openCategory('financial-aid')">
+                <div class="category-header">
+                    <div class="category-icon">💰</div>
+                    <div class="category-info">
+                        <h3 class="category-title">Financial Aid & Scholarships</h3>
+                        <div class="category-stats">856 topics • 5,432 posts</div>
+                    </div>
+                </div>
+                <p class="category-description">
+                    Get help with FAFSA, scholarships, grants, student loans, and financial planning for your student's education.
+                </p>
+                <div class="recent-posts">
+                    <h4>Recent Posts:</h4>
+                    <div class="post-item">
+                        <a href="#" class="post-title">FAFSA Completion Guide for 2024-2025</a>
+                        <span class="post-meta">1h ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">Merit Scholarships: What You Need to Know</a>
+                        <span class="post-meta">4h ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">CSS Profile vs FAFSA Differences</a>
+                        <span class="post-meta">6h ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="openCategory('test-prep')">
+                <div class="category-header">
+                    <div class="category-icon">📚</div>
+                    <div class="category-info">
+                        <h3 class="category-title">Test Preparation</h3>
+                        <div class="category-stats">634 topics • 4,128 posts</div>
+                    </div>
+                </div>
+                <p class="category-description">
+                    Share strategies and resources for SAT, ACT, AP exams, and other standardized tests that impact college admissions.
+                </p>
+                <div class="recent-posts">
+                    <h4>Recent Posts:</h4>
+                    <div class="post-item">
+                        <a href="#" class="post-title">Best SAT Prep Resources for Self-Study</a>
+                        <span class="post-meta">3h ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">ACT Science Section Strategies</a>
+                        <span class="post-meta">7h ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">When to Take the SAT/ACT?</a>
+                        <span class="post-meta">12h ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="openCategory('parent-support')">
+                <div class="category-header">
+                    <div class="category-icon">👨‍👩‍👧‍👦</div>
+                    <div class="category-info">
+                        <h3 class="category-title">Parent Support</h3>
+                        <div class="category-stats">923 topics • 6,721 posts</div>
+                    </div>
+                </div>
+                <p class="category-description">
+                    Connect with other parents, share experiences, get emotional support, and discuss the challenges of the college journey.
+                </p>
+                <div class="recent-posts">
+                    <h4>Recent Posts:</h4>
+                    <div class="post-item">
+                        <a href="#" class="post-title">Dealing with College Application Stress</a>
+                        <span class="post-meta">30m ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">How Much Should Parents Help?</a>
+                        <span class="post-meta">2h ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">Supporting a Rejected Student</a>
+                        <span class="post-meta">8h ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="openCategory('college-life')">
+                <div class="category-header">
+                    <div class="category-icon">🏫</div>
+                    <div class="category-info">
+                        <h3 class="category-title">College Life & Transition</h3>
+                        <div class="category-stats">512 topics • 3,246 posts</div>
+                    </div>
+                </div>
+                <p class="category-description">
+                    Discuss dorm life, campus visits, college selection criteria, and helping your student transition to college independence.
+                </p>
+                <div class="recent-posts">
+                    <h4>Recent Posts:</h4>
+                    <div class="post-item">
+                        <a href="#" class="post-title">What to Pack for College Dorms</a>
+                        <span class="post-meta">1h ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">Campus Visit Questions to Ask</a>
+                        <span class="post-meta">5h ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">Choosing Between Accepted Schools</a>
+                        <span class="post-meta">9h ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-card" onclick="openCategory('success-stories')">
+                <div class="category-header">
+                    <div class="category-icon">🌟</div>
+                    <div class="category-info">
+                        <h3 class="category-title">Success Stories</h3>
+                        <div class="category-stats">287 topics • 1,834 posts</div>
+                    </div>
+                </div>
+                <p class="category-description">
+                    Celebrate achievements, share success stories, and inspire other families with positive outcomes and lessons learned.
+                </p>
+                <div class="recent-posts">
+                    <h4>Recent Posts:</h4>
+                    <div class="post-item">
+                        <a href="#" class="post-title">From Community College to Ivy League</a>
+                        <span class="post-meta">4h ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">Full Scholarship Success Story</a>
+                        <span class="post-meta">1d ago</span>
+                    </div>
+                    <div class="post-item">
+                        <a href="#" class="post-title">Dream School Acceptance After Deferrals</a>
+                        <span class="post-meta">2d ago</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Guidelines -->
+        <div class="community-guidelines">
+            <h3>Community Guidelines</h3>
+            <ul class="guidelines-list">
+                <li>Be respectful and supportive of all community members</li>
+                <li>Keep discussions relevant to educational topics and experiences</li>
+                <li>Protect privacy - avoid sharing personal identifying information</li>
+                <li>No spam, advertisements, or promotional content</li>
+                <li>Use constructive language and provide helpful feedback</li>
+                <li>Report inappropriate content to moderators</li>
+                <li>Follow all applicable laws and Flow's terms of service</li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="/assets/img/logo.PNG" alt="Flow Logo" class="footer-logo-img">
+                    <h3 class="footer-title">Flow</h3>
+                    <p>Building a supportive community where families can share experiences and support each other's educational journeys.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-links">
+            <a href="help-center.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v4z"/>
+                </svg>
+                Help Center
+            </a>
+            <a href="contact.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                Contact Us
+            </a>
+            <a href="faq.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+                </svg>
+                FAQ
+            </a>
+            <a href="privacy.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+                </svg>
+                Privacy Policy
+            </a>
+            <a href="security.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11H16V17H8V11H9.2V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.4,8.7 10.4,10V11H13.6V10C13.6,8.7 12.8,8.2 12,8.2Z"/>
+                </svg>
+                Security & Privacy
+            </a>
+            <a href="tutorials.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16A1,1 0 0,0 17,17V13.5L21,17.5V6.5L17,10.5Z"/>
+                </svg>
+                Video Tutorials
+            </a>
+            <a href="updates.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,18.5L21,5H3L12,18.5Z"/>
+                </svg>
+                Latest Updates
+            </a>
+            <a href="community.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z"/>
+                </svg>
+                Community Forum
+            </a>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 Flow. All rights reserved. | Connecting families through shared educational experiences.</p>
+        </div>
+    </footer>
+
+    <script>
+        function openCategory(categoryId) {
+            alert(`Opening ${categoryId} category. In a full implementation, this would navigate to the category's discussion threads.`);
+        }
+
+        function showNewPostForm() {
+            alert('Opening new post form. In a full implementation, this would show a form to create a new discussion topic.');
+        }
+    </script>
+</body>
+</html>

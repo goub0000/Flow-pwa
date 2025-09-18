@@ -1,0 +1,1155 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Manage and review student applications - Institution Portal" />
+  <meta name="theme-color" content="#373896" />
+  <title>Flow — Applicants Management</title>
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/institutions.css" />
+  
+  <!-- Advanced Interactive Padding Styles for Applicants Page -->
+  <style>
+    /* Header Advanced Padding */
+    .header {
+      transition: all 0.3s ease;
+      padding: 1.5rem 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .header:hover {
+      padding: 2rem 0;
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    .header__inner {
+      transition: all 0.3s ease;
+      padding: 0 2rem;
+    }
+
+    .header:hover .header__inner {
+      padding: 0 2.5rem;
+    }
+
+    /* Sub-navigation Enhanced Padding */
+    .subnav {
+      transition: all 0.3s ease;
+      padding: 1.5rem 0;
+      background: linear-gradient(135deg, rgba(55, 56, 150, 0.95), rgba(107, 108, 232, 0.95));
+      backdrop-filter: blur(8px);
+    }
+
+    .subnav:hover {
+      padding: 2rem 0;
+      background: linear-gradient(135deg, rgba(55, 56, 150, 0.98), rgba(107, 108, 232, 0.98));
+      box-shadow: 0 8px 32px rgba(55, 56, 150, 0.3);
+    }
+
+    .subnav__link, .badge {
+      transition: all 0.3s ease;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      color: white !important;
+    }
+
+    .subnav__link--active {
+      background: rgba(255, 255, 255, 0.9) !important;
+      color: #4338ca !important;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .subnav__link:hover, .badge:hover {
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+      color: white !important;
+    }
+
+    /* Page Header Enhanced Padding */
+    .page-header {
+      transition: all 0.3s ease;
+      padding: 3rem 0 2rem;
+      background: linear-gradient(135deg, rgba(67, 56, 202, 0.03), rgba(139, 92, 246, 0.03));
+    }
+
+    .page-header:hover {
+      padding: 3.5rem 0 2.5rem;
+      background: linear-gradient(135deg, rgba(67, 56, 202, 0.05), rgba(139, 92, 246, 0.05));
+    }
+
+    .page-header__content {
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .page-header:hover .page-header__content {
+      transform: translateY(-2px);
+    }
+
+    .page-header h1 {
+      transition: all 0.3s ease;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    .page-header:hover h1 {
+      color: #4338ca;
+      text-shadow: 0 2px 4px rgba(67, 56, 202, 0.1);
+    }
+
+    /* Stats Cards Enhanced Padding */
+    .applicants-stats {
+      transition: all 0.3s ease;
+      padding: 2rem 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .page-header:hover .applicants-stats {
+      padding: 2.5rem 0;
+      gap: 2.5rem;
+    }
+
+    .stat-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2rem 2.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(229, 231, 235, 0.6);
+      text-align: center;
+    }
+
+    .stat-card:hover {
+      padding: 2.5rem 3rem;
+      background: linear-gradient(135deg, rgba(67, 56, 202, 0.08), rgba(139, 92, 246, 0.08));
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      border-left: 6px solid #4338ca;
+    }
+
+    .stat-card:nth-child(2):hover {
+      border-left-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.08));
+    }
+
+    .stat-card:nth-child(3):hover {
+      border-left-color: #22c55e;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(16, 185, 129, 0.08));
+    }
+
+    .stat-card:nth-child(4):hover {
+      border-left-color: #ef4444;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(248, 113, 113, 0.08));
+    }
+
+    .stat-card:nth-child(5):hover {
+      border-left-color: #8b5cf6;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(168, 85, 247, 0.08));
+    }
+
+    /* Advanced Filters Enhanced Padding */
+    .filters-section {
+      transition: all 0.3s ease;
+      padding: 2.5rem 3rem;
+      margin: 2rem 0;
+      border-radius: 24px;
+      background: rgba(249, 250, 251, 0.9);
+      border: 1px solid rgba(229, 231, 235, 0.6);
+    }
+
+    .filters-section:hover {
+      padding: 3rem 3.5rem;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+      border-left: 6px solid #6366f1;
+    }
+
+    .filters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .filter-group {
+      transition: all 0.3s ease;
+    }
+
+    .filters-section:hover .filter-group {
+      transform: translateY(-1px);
+    }
+
+    .filter-input, .filter-select {
+      transition: all 0.3s ease;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(209, 213, 219, 0.8);
+      background: rgba(255, 255, 255, 0.9);
+      width: 100%;
+    }
+
+    .filter-input:hover, .filter-select:hover, .filter-input:focus, .filter-select:focus {
+      padding: 1.25rem 1.75rem;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border-color: #6366f1;
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    /* Quick Actions Enhanced Padding */
+    .quick-actions {
+      transition: all 0.3s ease;
+      padding: 1.5rem 2rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 16px;
+      margin: 1.5rem 0;
+    }
+
+    .quick-actions:hover {
+      padding: 2rem 2.5rem;
+      background: rgba(255, 255, 255, 0.9);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .action-btn {
+      transition: all 0.3s ease;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #4338ca, #6366f1);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .action-btn:hover {
+      padding: 1rem 2rem;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(67, 56, 202, 0.3);
+      background: linear-gradient(135deg, #3730a3, #4338ca);
+    }
+
+    .action-btn--secondary {
+      background: linear-gradient(135deg, #6b7280, #9ca3af);
+    }
+
+    .action-btn--secondary:hover {
+      background: linear-gradient(135deg, #4b5563, #6b7280);
+    }
+
+    .action-btn--danger {
+      background: linear-gradient(135deg, #dc2626, #ef4444);
+    }
+
+    .action-btn--danger:hover {
+      background: linear-gradient(135deg, #b91c1c, #dc2626);
+    }
+
+    /* Applicants Table Enhanced Padding */
+    .applicants-container {
+      transition: all 0.3s ease;
+      padding: 2.5rem;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      margin: 2rem 0;
+      border: 1px solid rgba(229, 231, 235, 0.6);
+    }
+
+    .applicants-container:hover {
+      padding: 3rem;
+      background: rgba(255, 255, 255, 0.98);
+      transform: translateY(-2px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      border-left: 6px solid #4338ca;
+    }
+
+    .applicant-row {
+      transition: all 0.3s ease;
+      padding: 1.5rem 2rem;
+      border-radius: 16px;
+      margin: 1rem 0;
+      background: rgba(248, 250, 252, 0.8);
+      border: 1px solid rgba(229, 231, 235, 0.4);
+      display: grid;
+      grid-template-columns: auto 1fr auto auto auto auto;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .applicant-row:hover {
+      padding: 2rem 2.5rem;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .applicant-avatar {
+      transition: all 0.3s ease;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .applicant-row:hover .applicant-avatar {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .applicant-info h4 {
+      transition: all 0.3s ease;
+      margin: 0 0 0.25rem 0;
+      color: #1f2937;
+    }
+
+    .applicant-row:hover .applicant-info h4 {
+      color: #3b82f6;
+      text-shadow: 0 1px 2px rgba(59, 130, 246, 0.1);
+    }
+
+    .status-badge {
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .applicant-row:hover .status-badge {
+      padding: 0.75rem 1.25rem;
+      transform: scale(1.05);
+    }
+
+    .status-badge--new {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
+      color: #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .status-badge--review {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.1));
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .status-badge--interview {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(168, 85, 247, 0.1));
+      color: #8b5cf6;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+    }
+
+    .status-badge--accepted {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1));
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+
+    .status-badge--rejected {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(248, 113, 113, 0.1));
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .applicant-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .action-icon {
+      transition: all 0.3s ease;
+      padding: 0.5rem;
+      border-radius: 8px;
+      background: rgba(107, 114, 128, 0.1);
+      border: none;
+      cursor: pointer;
+      color: #6b7280;
+    }
+
+    .action-icon:hover {
+      padding: 0.75rem;
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    }
+
+    /* Bulk Actions Enhanced Padding */
+    .bulk-actions {
+      transition: all 0.3s ease;
+      padding: 1.5rem 2rem;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(251, 191, 36, 0.1));
+      border-radius: 16px;
+      margin: 2rem 0;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      display: none;
+    }
+
+    .bulk-actions.show {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bulk-actions:hover {
+      padding: 2rem 2.5rem;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(251, 191, 36, 0.15));
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(245, 158, 11, 0.2);
+      border-left: 4px solid #f59e0b;
+    }
+
+    /* Pagination Enhanced Padding */
+    .pagination {
+      transition: all 0.3s ease;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .pagination:hover {
+      padding: 2.5rem;
+    }
+
+    .pagination-btn {
+      transition: all 0.3s ease;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(209, 213, 219, 0.8);
+      background: rgba(255, 255, 255, 0.9);
+      color: #6b7280;
+      cursor: pointer;
+    }
+
+    .pagination-btn:hover, .pagination-btn.active {
+      padding: 1rem 1.25rem;
+      background: linear-gradient(135deg, #4338ca, #6366f1);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(67, 56, 202, 0.3);
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .applicant-row {
+        grid-template-columns: auto 1fr auto;
+        gap: 1rem;
+      }
+
+      .applicant-actions {
+        grid-column: span 3;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+
+      .filters-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-actions {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+
+    /* Footer White Text Styling */
+    .footer * {
+      color: white !important;
+    }
+
+    .footer a {
+      color: white !important;
+    }
+
+    .footer a:hover {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .footer .footer__brand-name,
+    .footer .footer__tagline,
+    .footer .footer__title,
+    .footer .footer__links a,
+    .footer .footer__copyright,
+    .footer .footer__status {
+      color: white !important;
+    }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body data-user-id="u-institution-001">
+  <!-- Skip Link -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Toast notifications container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Site header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+
+      <!-- Header Tools -->
+      <div class="header-tools">
+        <!-- Search -->
+        <div class="header-search">
+          <button class="header-search__trigger" aria-label="Search">
+            <svg width="20" height="20" fill="currentColor">
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="currentColor" stroke-width="2" fill="none"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Notifications -->
+        <div class="header-notifications">
+          <button class="header-notifications__trigger" aria-label="Notifications">
+            <svg width="20" height="20" fill="currentColor">
+              <path d="M10 2C8.346 2 7 3.346 7 5v2.267A6.001 6.001 0 003 13v2a1 1 0 001 1h3.083A3.001 3.001 0 0010 18a3.001 3.001 0 002.917-2H16a1 1 0 001-1v-2a6.001 6.001 0 00-4-5.733V5c0-1.654-1.346-3-3-3z"/>
+            </svg>
+            <span class="header-notifications__badge">4</span>
+          </button>
+        </div>
+
+        <!-- Messages -->
+        <div class="header-messages">
+          <button class="header-messages__trigger" aria-label="Messages">
+            <svg width="20" height="20" fill="currentColor">
+              <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <span class="header-messages__badge">2</span>
+          </button>
+        </div>
+
+        <!-- User Profile -->
+        <div class="header-profile">
+          <button class="header-profile__trigger" aria-label="User profile">
+            <div class="profile-avatar">
+              <img src="/assets/img/avatars/institution.jpg" alt="Institution avatar" width="32" height="32">
+            </div>
+            <div class="profile-info">
+              <span class="profile-name">University of Excellence</span>
+              <span class="profile-role">Institution Admin</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sub-navigation -->
+  <nav class="subnav" role="navigation" aria-label="Institution sections">
+    <div class="container">
+      <div class="subnav__inner">
+        <a href="/institutions/onboarding.html" class="badge badge--primary">
+          <svg width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2z"/>
+          </svg>
+          <span>Setup Institution</span>
+        </a>
+        <a href="/institutions/" class="subnav__link">Dashboard</a>
+        <a href="/institutions/applicants.html" class="subnav__link subnav__link--active">Applicants</a>
+        <a href="/institutions/messages.html" class="subnav__link">Messages</a>
+        <a href="/institutions/programs.html" class="subnav__link">Programs</a>
+        <a href="/institutions/admissions.html" class="subnav__link">Admissions</a>
+        <a href="/institutions/reports.html" class="subnav__link">Reports</a>
+        <a href="/institutions/help.html" class="subnav__link">Help</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main id="main" role="main">
+    <!-- Page Header -->
+    <section class="page-header">
+      <div class="container">
+        <div class="page-header__content">
+          <h1>Applicant Management</h1>
+          <p class="page-description">Review, manage, and process student applications efficiently</p>
+          
+          <!-- Quick Stats -->
+          <div class="applicants-stats">
+            <div class="stat-card">
+              <div class="stat-card__number">2,847</div>
+              <div class="stat-card__label">Total Applications</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__number">486</div>
+              <div class="stat-card__label">Pending Review</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__number">1,203</div>
+              <div class="stat-card__label">Accepted</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__number">312</div>
+              <div class="stat-card__label">Rejected</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card__number">846</div>
+              <div class="stat-card__label">Interviews Scheduled</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="container">
+      <div class="filters-section">
+        <h3>Advanced Filters</h3>
+        <div class="filters-grid">
+          <div class="filter-group">
+            <label for="statusFilter">Application Status</label>
+            <select id="statusFilter" class="filter-select">
+              <option value="">All Status</option>
+              <option value="new">New Applications</option>
+              <option value="review">Under Review</option>
+              <option value="interview">Interview Scheduled</option>
+              <option value="accepted">Accepted</option>
+              <option value="rejected">Rejected</option>
+              <option value="waitlist">Waitlisted</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="programFilter">Program</label>
+            <select id="programFilter" class="filter-select">
+              <option value="">All Programs</option>
+              <option value="cs">Computer Science</option>
+              <option value="business">Business Administration</option>
+              <option value="medicine">Medicine</option>
+              <option value="engineering">Engineering</option>
+              <option value="law">Law</option>
+              <option value="education">Education</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="degreeFilter">Degree Level</label>
+            <select id="degreeFilter" class="filter-select">
+              <option value="">All Levels</option>
+              <option value="bachelor">Bachelor's</option>
+              <option value="master">Master's</option>
+              <option value="phd">PhD</option>
+              <option value="certificate">Certificate</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="countryFilter">Country</label>
+            <select id="countryFilter" class="filter-select">
+              <option value="">All Countries</option>
+              <option value="nigeria">Nigeria</option>
+              <option value="ghana">Ghana</option>
+              <option value="kenya">Kenya</option>
+              <option value="south-africa">South Africa</option>
+              <option value="egypt">Egypt</option>
+              <option value="morocco">Morocco</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="dateFilter">Application Date</label>
+            <select id="dateFilter" class="filter-select">
+              <option value="">All Dates</option>
+              <option value="today">Today</option>
+              <option value="week">This Week</option>
+              <option value="month">This Month</option>
+              <option value="quarter">This Quarter</option>
+              <option value="custom">Custom Range</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="searchFilter">Search</label>
+            <input type="search" id="searchFilter" class="filter-input" placeholder="Search by name, email, or ID">
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <div class="action-group">
+            <button class="action-btn">
+              <svg width="16" height="16" fill="currentColor" style="margin-right: 8px;">
+                <path d="M3 17v-6h18v6a1 1 0 01-1 1H4a1 1 0 01-1-1zM3 10V7a4 4 0 118 0v3H3z"/>
+              </svg>
+              Export Data
+            </button>
+            <button class="action-btn action-btn--secondary">
+              <svg width="16" height="16" fill="currentColor" style="margin-right: 8px;">
+                <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+              Refresh
+            </button>
+          </div>
+          <div class="results-info">
+            <span>Showing <strong>1-25</strong> of <strong>2,847</strong> applicants</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bulk Actions -->
+    <section class="container">
+      <div class="bulk-actions" id="bulkActions">
+        <div class="bulk-info">
+          <span id="selectedCount">0</span> applicants selected
+        </div>
+        <div class="bulk-buttons">
+          <button class="action-btn">Accept Selected</button>
+          <button class="action-btn action-btn--secondary">Schedule Interview</button>
+          <button class="action-btn action-btn--secondary">Send Message</button>
+          <button class="action-btn action-btn--danger">Reject Selected</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Applicants List -->
+    <section class="container">
+      <div class="applicants-container">
+        <div class="applicant-row">
+          <input type="checkbox" class="applicant-checkbox" aria-label="Select applicant">
+          <div class="applicant-avatar">
+            <img src="/assets/img/avatars/student1.jpg" alt="Sarah Johnson" width="48" height="48">
+          </div>
+          <div class="applicant-info">
+            <h4>Sarah Johnson</h4>
+            <p>sarah.johnson@email.com</p>
+            <small>Applied: Sep 15, 2024</small>
+          </div>
+          <div class="applicant-program">
+            <strong>Computer Science</strong>
+            <small>Master's Program</small>
+          </div>
+          <div class="applicant-score">
+            <strong>8.5/10</strong>
+            <small>Overall Score</small>
+          </div>
+          <div class="status-badge status-badge--new">New</div>
+          <div class="applicant-actions">
+            <button class="action-icon" title="View Details">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+            </button>
+            <button class="action-icon" title="Send Message">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+            </button>
+            <button class="action-icon" title="Download Documents">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="applicant-row">
+          <input type="checkbox" class="applicant-checkbox" aria-label="Select applicant">
+          <div class="applicant-avatar">
+            <img src="/assets/img/avatars/student2.jpg" alt="Michael Chen" width="48" height="48">
+          </div>
+          <div class="applicant-info">
+            <h4>Michael Chen</h4>
+            <p>michael.chen@email.com</p>
+            <small>Applied: Sep 12, 2024</small>
+          </div>
+          <div class="applicant-program">
+            <strong>Business Administration</strong>
+            <small>MBA Program</small>
+          </div>
+          <div class="applicant-score">
+            <strong>9.2/10</strong>
+            <small>Overall Score</small>
+          </div>
+          <div class="status-badge status-badge--review">Under Review</div>
+          <div class="applicant-actions">
+            <button class="action-icon" title="View Details">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+            </button>
+            <button class="action-icon" title="Send Message">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+            </button>
+            <button class="action-icon" title="Download Documents">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="applicant-row">
+          <input type="checkbox" class="applicant-checkbox" aria-label="Select applicant">
+          <div class="applicant-avatar">
+            <img src="/assets/img/avatars/student3.jpg" alt="Emily Rodriguez" width="48" height="48">
+          </div>
+          <div class="applicant-info">
+            <h4>Emily Rodriguez</h4>
+            <p>emily.rodriguez@email.com</p>
+            <small>Applied: Sep 10, 2024</small>
+          </div>
+          <div class="applicant-program">
+            <strong>Medicine</strong>
+            <small>Doctor of Medicine</small>
+          </div>
+          <div class="applicant-score">
+            <strong>9.8/10</strong>
+            <small>Overall Score</small>
+          </div>
+          <div class="status-badge status-badge--interview">Interview</div>
+          <div class="applicant-actions">
+            <button class="action-icon" title="View Details">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+            </button>
+            <button class="action-icon" title="Send Message">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+            </button>
+            <button class="action-icon" title="Download Documents">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="applicant-row">
+          <input type="checkbox" class="applicant-checkbox" aria-label="Select applicant">
+          <div class="applicant-avatar">
+            <img src="/assets/img/avatars/student1.jpg" alt="Amara Okafor" width="48" height="48">
+          </div>
+          <div class="applicant-info">
+            <h4>Amara Okafor</h4>
+            <p>amara.okafor@email.com</p>
+            <small>Applied: Sep 8, 2024</small>
+          </div>
+          <div class="applicant-program">
+            <strong>Engineering</strong>
+            <small>Bachelor's Program</small>
+          </div>
+          <div class="applicant-score">
+            <strong>8.9/10</strong>
+            <small>Overall Score</small>
+          </div>
+          <div class="status-badge status-badge--accepted">Accepted</div>
+          <div class="applicant-actions">
+            <button class="action-icon" title="View Details">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+            </button>
+            <button class="action-icon" title="Send Message">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+            </button>
+            <button class="action-icon" title="Download Documents">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="applicant-row">
+          <input type="checkbox" class="applicant-checkbox" aria-label="Select applicant">
+          <div class="applicant-avatar">
+            <img src="/assets/img/avatars/student2.jpg" alt="David Kim" width="48" height="48">
+          </div>
+          <div class="applicant-info">
+            <h4>David Kim</h4>
+            <p>david.kim@email.com</p>
+            <small>Applied: Sep 5, 2024</small>
+          </div>
+          <div class="applicant-program">
+            <strong>Law</strong>
+            <small>Juris Doctor</small>
+          </div>
+          <div class="applicant-score">
+            <strong>7.2/10</strong>
+            <small>Overall Score</small>
+          </div>
+          <div class="status-badge status-badge--rejected">Rejected</div>
+          <div class="applicant-actions">
+            <button class="action-icon" title="View Details">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
+                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
+              </svg>
+            </button>
+            <button class="action-icon" title="Send Message">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+            </button>
+            <button class="action-icon" title="Download Documents">
+              <svg width="16" height="16" fill="currentColor">
+                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pagination -->
+    <section class="container">
+      <div class="pagination">
+        <button class="pagination-btn" disabled>Previous</button>
+        <button class="pagination-btn active">1</button>
+        <button class="pagination-btn">2</button>
+        <button class="pagination-btn">3</button>
+        <button class="pagination-btn">...</button>
+        <button class="pagination-btn">114</button>
+        <button class="pagination-btn">Next</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer" style="background: linear-gradient(135deg, rgba(55, 56, 150, 0.95), rgba(107, 108, 232, 0.95)); position: relative; overflow: hidden; color: white;">
+    <div class="container footer__inner" style="position: relative; z-index: 2; color: white;">
+      <div class="footer__grid">
+        <!-- Brand section -->
+        <div class="footer__brand">
+          <div class="footer__logo" onclick="scrollToTop()" style="cursor: pointer;" title="Back to top">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#373896"/>
+                  <stop offset="100%" style="stop-color:#6b6ce8"/>
+                </linearGradient>
+              </defs>
+              <circle cx="20" cy="20" r="18" fill="url(#logoGradient)" stroke="currentColor" stroke-width="2"/>
+              <path d="M15 18l5-5 5 5M20 13v14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="footer__brand-text">
+            <div class="footer__brand-name">Flow</div>
+            <div class="footer__tagline">Streamlining Education Access</div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="footer__section">
+          <h3 class="footer__title">For Institutions</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="12" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M4 6h8M4 8h6M4 10h4"/>
+                <circle cx="11" cy="5" r="2" fill="#22c55e" opacity="0.8"/>
+                <path d="M10 5l0.7 0.7 1.3-1.4" stroke="white" stroke-width="0.8" fill="none"/>
+              </svg>
+              Dashboard</a></li>
+            <li><a href="/institutions/programs.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h4M5 9h5"/>
+                <circle cx="11" cy="6" r="1.5" fill="#22c55e" opacity="0.8"/>
+                <path d="M10.3 6l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.8" fill="none"/>
+              </svg>
+              Manage Programs</a></li>
+            <li><a href="/institutions/admissions.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="8" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <rect x="12" y="3" width="2" height="10" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M4 6h4M4 8h3M4 10h4"/>
+                <circle cx="8" cy="6" r="1" fill="#22c55e"/>
+                <path d="M7.5 6l0.3 0.3 0.5-0.6" stroke="white" stroke-width="0.6" fill="none"/>
+              </svg>
+              Admissions</a></li>
+            <li><a href="/institutions/reports.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="12" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M2 7h12"/>
+                <rect x="4" y="9" width="1.5" height="2" fill="#3b82f6" opacity="0.8" rx="0.3"/>
+                <rect x="6" y="10" width="1.5" height="1" fill="#22c55e" opacity="0.8" rx="0.3"/>
+                <rect x="8" y="8" width="1.5" height="3" fill="#f59e0b" opacity="0.8" rx="0.3"/>
+                <rect x="10" y="11" width="1.5" height="0.5" fill="#ef4444" opacity="0.8" rx="0.3"/>
+              </svg>
+              Reports</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title">Support</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/help.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M8 6v2M8 10h.01"/>
+                <circle cx="8" cy="4" r="1" fill="#3b82f6"/>
+                <path d="M4 12l8-8M12 12l-8-8" stroke="#22c55e" stroke-width="0.8" opacity="0.5"/>
+              </svg>
+              Help Center</a></li>
+            <li><a href="/contact/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M2 3h12l-6 5-6-5zM2 3v10h12V3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="12" cy="4" r="1.5" fill="#22c55e"/>
+                <path d="M11.3 4l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+              </svg>
+              Contact</a></li>
+            <li><a href="/legal/privacy.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="3" y="2" width="10" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M8 6v4M6 8h4"/>
+                <circle cx="8" cy="5" r="1" fill="#f59e0b"/>
+                <rect x="5" y="9" width="6" height="1" fill="#ef4444" opacity="0.6"/>
+              </svg>
+              Privacy</a></li>
+            <li><a href="/legal/terms.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h5M5 9h4M5 11h6"/>
+                <circle cx="12" cy="4" r="1" fill="#8b5cf6"/>
+                <rect x="4" y="6" width="1" height="6" fill="#3b82f6" opacity="0.3"/>
+              </svg>
+              Terms</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title">Connect</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/messages.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="4" width="12" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M2 6l5 3 2-1 5-2"/>
+                <circle cx="12" cy="5" r="1.5" fill="#ef4444"/>
+                <text x="12" y="6" text-anchor="middle" font-size="2.5" fill="white" font-weight="bold">2</text>
+              </svg>
+              Messages</a></li>
+            <li><a href="/community/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <circle cx="5" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="11" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="8" cy="11" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="5" cy="6" r="1" fill="#22c55e"/>
+                <circle cx="11" cy="6" r="1" fill="#3b82f6"/>
+                <circle cx="8" cy="11" r="1" fill="#f59e0b"/>
+                <path d="M7 8l2 1M9 8l-2 1" stroke="currentColor" stroke-width="0.8"/>
+              </svg>
+              Community</a></li>
+            <li><a href="/blog/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h4M5 9h5"/>
+                <circle cx="12" cy="4" r="1.5" fill="#22c55e"/>
+                <path d="M11.3 4l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+                <rect x="4" y="11" width="8" height="1" fill="#8b5cf6" opacity="0.6"/>
+              </svg>
+              Updates</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <div class="footer__copyright">
+          © 2024 Flow Education Platform. All rights reserved.
+        </div>
+        <div class="footer__status">
+          <span class="footer__status-dot"></span>
+          <span>All systems operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Flow Cookie Consent System -->
+  <script src="/assets/js/cookie-consent.js"></script>
+
+  <!-- JavaScript -->
+  <script>
+    // Basic functionality for checkboxes and bulk actions
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkboxes = document.querySelectorAll('.applicant-checkbox');
+      const bulkActions = document.getElementById('bulkActions');
+      const selectedCount = document.getElementById('selectedCount');
+      
+      function updateBulkActions() {
+        const checkedBoxes = document.querySelectorAll('.applicant-checkbox:checked');
+        const count = checkedBoxes.length;
+        
+        selectedCount.textContent = count;
+        
+        if (count > 0) {
+          bulkActions.classList.add('show');
+        } else {
+          bulkActions.classList.remove('show');
+        }
+      }
+      
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', updateBulkActions);
+      });
+      
+      // Filter functionality placeholder
+      const filterSelects = document.querySelectorAll('.filter-select');
+      const searchInput = document.getElementById('searchFilter');
+      
+      filterSelects.forEach(select => {
+        select.addEventListener('change', function() {
+          console.log('Filter changed:', this.id, this.value);
+          // Implement filtering logic here
+        });
+      });
+      
+      searchInput.addEventListener('input', function() {
+        console.log('Search:', this.value);
+        // Implement search logic here
+      });
+    });
+
+    // Scroll to top function
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

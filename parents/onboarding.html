@@ -1,0 +1,2060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow — Parent Guardian Onboarding</title>
+    <meta name="description" content="Complete 6-step verification process for parent guardian access">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/assets/img/logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="/assets/img/logo.png">
+    
+    <!-- Countries Data -->
+    <script src="/assets/js/countries.js"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary: #3B82F6;
+            --primary-dark: #2563EB;
+            --secondary: #10B981;
+            --success: #059669;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --white: #FFFFFF;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--gray-50) 0%, var(--gray-100) 100%);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        .header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--gray-800);
+        }
+        
+        .logo img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .progress-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .help-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            color: var(--gray-600);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+        
+        .help-link:hover {
+            background: var(--gray-50);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        /* Progress Indicator */
+        .step-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .step-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.875rem;
+            border: 2px solid var(--gray-300);
+            background: var(--white);
+            color: var(--gray-500);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .step-dot.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            border-color: var(--primary);
+            box-shadow: var(--shadow);
+            transform: scale(1.1);
+        }
+        
+        .step-dot.completed {
+            background: linear-gradient(135deg, var(--secondary), var(--success));
+            color: var(--white);
+            border-color: var(--secondary);
+        }
+        
+        .step-dot.completed::after {
+            content: '✓';
+            position: absolute;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .step-line {
+            width: 48px;
+            height: 3px;
+            background: var(--gray-300);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .step-line.completed {
+            background: linear-gradient(90deg, var(--secondary), var(--success));
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        /* Step Cards */
+        .step-card {
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border: 1px solid var(--gray-200);
+            opacity: 0.4;
+            pointer-events: none;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+        }
+        
+        .step-card.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary);
+        }
+        
+        .step-card.completed {
+            opacity: 0.8;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .step-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .step-number.completed {
+            background: var(--secondary);
+        }
+        
+        .step-number.completed::after {
+            content: '✓';
+            position: absolute;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .step-info h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .step-info p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+        
+        .step-content {
+            padding: 2rem;
+        }
+        
+        /* Info Boxes */
+        .info-box {
+            background: linear-gradient(135deg, #EBF8FF, #DBEAFE);
+            border: 1px solid var(--primary);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+            border-radius: 0 0 0 12px;
+        }
+        
+        .info-box.warning {
+            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+            border-color: var(--warning);
+        }
+        
+        .info-box.warning::before {
+            background: var(--warning);
+        }
+        
+        .info-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-box.warning .info-title {
+            color: #92400E;
+        }
+        
+        .info-text {
+            color: var(--primary-dark);
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        
+        .info-box.warning .info-text {
+            color: #92400E;
+        }
+        
+        /* Form Groups */
+        .form-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .form-grid.two-columns {
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--gray-700);
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .required {
+            color: var(--error);
+        }
+        
+        .form-input,
+        .form-select,
+        .form-textarea {
+            padding: 0.875rem 1rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            background: var(--white);
+            font-family: inherit;
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .form-input.error {
+            border-color: var(--error);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+        
+        .form-input.success {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        .error-message {
+            color: var(--error);
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+        
+        /* Document Verification */
+        .verification-methods {
+            display: grid;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .verification-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 2px solid var(--gray-300);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--white);
+            position: relative;
+        }
+        
+        .verification-option:hover {
+            border-color: var(--primary);
+            background: var(--gray-50);
+        }
+        
+        .verification-option.selected {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .verification-icon {
+            font-size: 2rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .verification-info {
+            flex: 1;
+        }
+        
+        .verification-name {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+        
+        .verification-desc {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+        
+        .verification-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* File Upload */
+        .upload-area {
+            border: 2px dashed var(--gray-300);
+            border-radius: 12px;
+            padding: 3rem 2rem;
+            text-align: center;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            margin: 1rem 0;
+            background: var(--gray-50);
+        }
+        
+        .upload-area:hover {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.02);
+        }
+        
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+        }
+        
+        .upload-text {
+            color: var(--gray-700);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .upload-hint {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+        
+        .file-list {
+            margin-top: 1rem;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background: var(--white);
+        }
+        
+        .file-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+        
+        .file-icon {
+            font-size: 1.5rem;
+        }
+        
+        .file-details h4 {
+            margin: 0;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+        
+        .file-details p {
+            margin: 0;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+        }
+        
+        /* Permission Checkboxes */
+        .permission-list {
+            display: grid;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .permission-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            background: var(--white);
+            transition: all 0.2s ease;
+        }
+        
+        .permission-item:hover {
+            background: var(--gray-50);
+            border-color: var(--primary);
+        }
+        
+        .permission-item.checked {
+            background: rgba(59, 130, 246, 0.05);
+            border-color: var(--primary);
+        }
+        
+        .permission-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray-300);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .permission-checkbox.checked {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .permission-checkbox.checked::after {
+            content: '✓';
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .permission-info {
+            flex: 1;
+        }
+        
+        .permission-name {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+        
+        .permission-desc {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            min-height: 48px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .btn-primary:disabled {
+            background: var(--gray-400) !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+            box-shadow: none !important;
+            opacity: 0.6 !important;
+        }
+        
+        .btn-secondary {
+            background: var(--white);
+            color: var(--gray-700);
+            border: 2px solid var(--gray-300);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--secondary), var(--success));
+            color: var(--white);
+            box-shadow: var(--shadow);
+        }
+        
+        .btn-success:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Step Actions */
+        .step-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+            margin-top: 2rem;
+        }
+        
+        /* Summary */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: 8px;
+            border: 1px solid var(--gray-200);
+        }
+        
+        .summary-icon {
+            font-size: 1.25rem;
+        }
+        
+        .summary-text {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+        
+        /* Loading State */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            padding: 1rem 1.5rem;
+            max-width: 400px;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success {
+            border-left-color: var(--secondary);
+        }
+        
+        .notification.error {
+            border-left-color: var(--error);
+        }
+        
+        .notification.warning {
+            border-left-color: var(--warning);
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+                margin: 1rem auto;
+            }
+            
+            .step-content {
+                padding: 1.5rem;
+            }
+            
+            .form-grid.two-columns {
+                grid-template-columns: 1fr;
+            }
+            
+            .step-actions {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1rem;
+            }
+            
+            .notification {
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+            }
+            
+            .header-content {
+                padding: 1rem;
+            }
+            
+            .progress-header {
+                gap: 1rem;
+            }
+            
+            .step-indicator {
+                gap: 0.5rem;
+            }
+            
+            .step-dot {
+                width: 32px;
+                height: 32px;
+                font-size: 0.75rem;
+            }
+            
+            .step-line {
+                width: 32px;
+            }
+            
+            .upload-area {
+                padding: 2rem 1rem;
+            }
+        }
+        
+        /* Hide inactive steps */
+        .step-card:not(.active):not(.completed) {
+            display: none;
+        }
+        
+        /* Animation */
+        .fade-in {
+            animation: fadeIn 0.6s ease forwards;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="/parents/" class="logo">
+                <img src="/assets/img/logo.png" alt="Flow Logo">
+                <span class="logo-text">Flow</span>
+            </a>
+            
+            <div class="progress-header">
+                <div class="step-indicator">
+                    <div class="step-dot active" id="dot-1">1</div>
+                    <div class="step-line" id="line-1"></div>
+                    <div class="step-dot" id="dot-2">2</div>
+                    <div class="step-line" id="line-2"></div>
+                    <div class="step-dot" id="dot-3">3</div>
+                    <div class="step-line" id="line-3"></div>
+                    <div class="step-dot" id="dot-4">4</div>
+                    <div class="step-line" id="line-4"></div>
+                    <div class="step-dot" id="dot-5">5</div>
+                    <div class="step-line" id="line-5"></div>
+                    <div class="step-dot" id="dot-6">6</div>
+                </div>
+                
+                <a href="#" class="help-link">
+                    💬 Need Help?
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Step 1: Identity Verification -->
+        <div class="step-card active fade-in" id="step-1">
+            <div class="step-header">
+                <div class="step-number" id="num-1">1</div>
+                <div class="step-info">
+                    <h2>Identity Verification</h2>
+                    <p>We need to verify your identity as a parent or legal guardian</p>
+                </div>
+            </div>
+            
+            <div class="step-content">
+                <div class="info-box warning">
+                    <h3 class="info-title">
+                        🛡️ Why we verify parents
+                    </h3>
+                    <p class="info-text">
+                        To protect student privacy and ensure only authorized parents/guardians can access student information, 
+                        we require identity verification. This is a one-time process that helps keep your student's data secure.
+                    </p>
+                </div>
+
+                <div class="form-grid two-columns">
+                    <div class="form-group">
+                        <label class="form-label">
+                            First Name <span class="required">*</span>
+                        </label>
+                        <input type="text" id="firstName" class="form-input" placeholder="Enter your first name" required>
+                        <span class="error-message" id="firstName-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            Last Name <span class="required">*</span>
+                        </label>
+                        <input type="text" id="lastName" class="form-input" placeholder="Enter your last name" required>
+                        <span class="error-message" id="lastName-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-grid two-columns">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Email Address <span class="required">*</span>
+                        </label>
+                        <input type="email" id="email" class="form-input" placeholder="your@email.com" required>
+                        <span class="error-message" id="email-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            Phone Number <span class="required">*</span>
+                        </label>
+                        <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 123-4567" required>
+                        <span class="error-message" id="phone-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-grid two-columns">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Country <span class="required">*</span>
+                        </label>
+                        <select id="country" class="form-select" required>
+                            <option value="">Select your country</option>
+                        </select>
+                        <span class="error-message" id="country-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            Relationship to Student <span class="required">*</span>
+                        </label>
+                        <select id="relationship" class="form-select" required>
+                            <option value="">Select relationship</option>
+                            <option value="parent">Parent</option>
+                            <option value="legal-guardian">Legal Guardian</option>
+                            <option value="step-parent">Step Parent</option>
+                            <option value="grandparent">Grandparent</option>
+                            <option value="other">Other (specify in documents)</option>
+                        </select>
+                        <span class="error-message" id="relationship-error"></span>
+                    </div>
+                </div>
+
+                <div class="step-actions">
+                    <a href="/parents/" class="btn btn-secondary">← Back to Portal</a>
+                    <button class="btn btn-primary" id="continue-step1" disabled>
+                        Continue to Documents
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Document Verification -->
+        <div class="step-card" id="step-2">
+            <div class="step-header">
+                <div class="step-number" id="num-2">2</div>
+                <div class="step-info">
+                    <h2>Document Verification</h2>
+                    <p>Upload official documents to verify your identity and relationship</p>
+                </div>
+            </div>
+            
+            <div class="step-content">
+                <div class="info-box warning">
+                    <h3 class="info-title">
+                        📋 Required Documents
+                    </h3>
+                    <p class="info-text">
+                        Please provide one government-issued ID and one document proving your relationship to the student. 
+                        All documents will be securely processed and stored according to our privacy policy.
+                    </p>
+                </div>
+
+                <h4>Government-Issued Photo ID (Choose one):</h4>
+                <div class="verification-methods">
+                    <div class="verification-option" data-doc-type="passport">
+                        <div class="verification-icon">📘</div>
+                        <div class="verification-info">
+                            <div class="verification-name">Passport</div>
+                            <div class="verification-desc">Valid passport from any country</div>
+                        </div>
+                        <input type="radio" name="government-id" value="passport">
+                    </div>
+                    
+                    <div class="verification-option" data-doc-type="drivers-license">
+                        <div class="verification-icon">🪪</div>
+                        <div class="verification-info">
+                            <div class="verification-name">Driver's License</div>
+                            <div class="verification-desc">Government-issued driver's license</div>
+                        </div>
+                        <input type="radio" name="government-id" value="drivers-license">
+                    </div>
+                    
+                    <div class="verification-option" data-doc-type="national-id">
+                        <div class="verification-icon">🆔</div>
+                        <div class="verification-info">
+                            <div class="verification-name">National ID Card</div>
+                            <div class="verification-desc">Government-issued identification card</div>
+                        </div>
+                        <input type="radio" name="government-id" value="national-id">
+                    </div>
+                </div>
+
+                <div class="upload-area" id="id-upload">
+                    <div class="upload-icon">📤</div>
+                    <div class="upload-text">Upload Government ID</div>
+                    <div class="upload-hint">Drag and drop or click to select (JPG, PNG, PDF - Max 5MB)</div>
+                    <input type="file" id="id-file" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+                </div>
+                <div class="file-list" id="id-files"></div>
+
+                <h4 style="margin-top: 2rem;">Relationship Proof Document (Choose one):</h4>
+                <div class="verification-methods">
+                    <div class="verification-option" data-doc-type="birth-certificate">
+                        <div class="verification-icon">📜</div>
+                        <div class="verification-info">
+                            <div class="verification-name">Birth Certificate</div>
+                            <div class="verification-desc">Student's birth certificate showing your name</div>
+                        </div>
+                        <input type="radio" name="relationship-doc" value="birth-certificate">
+                    </div>
+                    
+                    <div class="verification-option" data-doc-type="custody-papers">
+                        <div class="verification-icon">⚖️</div>
+                        <div class="verification-info">
+                            <div class="verification-name">Legal Custody Documents</div>
+                            <div class="verification-desc">Court-ordered custody or guardianship papers</div>
+                        </div>
+                        <input type="radio" name="relationship-doc" value="custody-papers">
+                    </div>
+                    
+                    <div class="verification-option" data-doc-type="adoption-papers">
+                        <div class="verification-icon">👨‍👩‍👧‍👦</div>
+                        <div class="verification-info">
+                            <div class="verification-name">Adoption Certificate</div>
+                            <div class="verification-desc">Legal adoption documentation</div>
+                        </div>
+                        <input type="radio" name="relationship-doc" value="adoption-papers">
+                    </div>
+
+                    <div class="verification-option" data-doc-type="school-records">
+                        <div class="verification-icon">🏫</div>
+                        <div class="verification-info">
+                            <div class="verification-name">School Emergency Contact Form</div>
+                            <div class="verification-desc">Official school document listing you as parent/guardian</div>
+                        </div>
+                        <input type="radio" name="relationship-doc" value="school-records">
+                    </div>
+                </div>
+
+                <div class="upload-area" id="relationship-upload">
+                    <div class="upload-icon">📤</div>
+                    <div class="upload-text">Upload Relationship Proof</div>
+                    <div class="upload-hint">Drag and drop or click to select (JPG, PNG, PDF - Max 5MB)</div>
+                    <input type="file" id="relationship-file" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+                </div>
+                <div class="file-list" id="relationship-files"></div>
+
+                <div class="step-actions">
+                    <button class="btn btn-secondary" id="back-step2">← Back</button>
+                    <button class="btn btn-primary" id="continue-step2" disabled>
+                        Continue to Student Link
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Student Linking -->
+        <div class="step-card" id="step-3">
+            <div class="step-header">
+                <div class="step-number" id="num-3">3</div>
+                <div class="step-info">
+                    <h2>Link to Your Student</h2>
+                    <p>Connect with your student's account securely</p>
+                </div>
+            </div>
+            
+            <div class="step-content">
+                <div class="info-box">
+                    <h3 class="info-title">
+                        🔐 Secure Student Connection
+                    </h3>
+                    <p class="info-text">
+                        To protect student privacy, we require verification from both you and your student before linking accounts. 
+                        Your student will receive a secure invitation to approve the connection.
+                    </p>
+                </div>
+
+                <h4>Student Information:</h4>
+                <div class="form-grid two-columns">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Student's Full Name <span class="required">*</span>
+                        </label>
+                        <input type="text" id="studentName" class="form-input" placeholder="Enter student's full legal name" required>
+                        <span class="error-message" id="studentName-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            Student's Date of Birth <span class="required">*</span>
+                        </label>
+                        <input type="date" id="studentDOB" class="form-input" required>
+                        <span class="error-message" id="studentDOB-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-grid two-columns">
+                    <div class="form-group">
+                        <label class="form-label">
+                            Student's Email Address <span class="required">*</span>
+                        </label>
+                        <input type="email" id="studentEmail" class="form-input" placeholder="student@email.com" required>
+                        <span class="error-message" id="studentEmail-error"></span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            Student's School/Institution
+                        </label>
+                        <input type="text" id="studentSchool" class="form-input" placeholder="Current school or last attended">
+                    </div>
+                </div>
+
+                <h4>Connection Method:</h4>
+                <div class="verification-methods">
+                    <div class="verification-option selected" data-method="invite">
+                        <div class="verification-icon">📧</div>
+                        <div class="verification-info">
+                            <div class="verification-name">Send Connection Request</div>
+                            <div class="verification-desc">Send a secure invitation to your student's email</div>
+                        </div>
+                        <input type="radio" name="connection-method" value="invite" checked>
+                    </div>
+                    
+                    <div class="verification-option" data-method="code">
+                        <div class="verification-icon">🔢</div>
+                        <div class="verification-info">
+                            <div class="verification-name">Use Connection Code</div>
+                            <div class="verification-desc">Enter a code provided by your student</div>
+                        </div>
+                        <input type="radio" name="connection-method" value="code">
+                    </div>
+                </div>
+
+                <div id="invite-section">
+                    <div class="form-group">
+                        <label class="form-label">Personal Message (Optional)</label>
+                        <textarea id="inviteMessage" class="form-textarea" rows="3" placeholder="Hi! I'm setting up my parent account to follow your college applications. Please accept my connection request."></textarea>
+                    </div>
+                </div>
+
+                <div id="code-section" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">6-Digit Connection Code</label>
+                        <input type="text" id="connectionCode" class="form-input" placeholder="Enter code from student" maxlength="6">
+                        <span class="error-message" id="connectionCode-error"></span>
+                    </div>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn btn-secondary" id="back-step3">← Back</button>
+                    <button class="btn btn-primary" id="continue-step3">
+                        Send Connection Request
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Permissions & Access -->
+        <div class="step-card" id="step-4">
+            <div class="step-header">
+                <div class="step-number" id="num-4">4</div>
+                <div class="step-info">
+                    <h2>Permissions & Access</h2>
+                    <p>Set up what you can access and approve for your student</p>
+                </div>
+            </div>
+            
+            <div class="step-content">
+                <div class="info-box">
+                    <h3 class="info-title">
+                        ⚙️ Customizable Access
+                    </h3>
+                    <p class="info-text">
+                        Choose what information you'd like to access and what actions require your approval. 
+                        You can modify these settings anytime in your account preferences.
+                    </p>
+                </div>
+
+                <h4>Information Access Permissions:</h4>
+                <div class="permission-list">
+                    <div class="permission-item checked">
+                        <div class="permission-checkbox checked" data-permission="access-applications"></div>
+                        <div class="permission-info">
+                            <div class="permission-name">View Application Status</div>
+                            <div class="permission-desc">See progress on college applications and deadlines</div>
+                        </div>
+                    </div>
+
+                    <div class="permission-item checked">
+                        <div class="permission-checkbox checked" data-permission="access-finance"></div>
+                        <div class="permission-info">
+                            <div class="permission-name">View Financial Information</div>
+                            <div class="permission-desc">Access tuition costs, financial aid, and payment status</div>
+                        </div>
+                    </div>
+
+                    <div class="permission-item">
+                        <div class="permission-checkbox" data-permission="access-academics"></div>
+                        <div class="permission-info">
+                            <div class="permission-name">View Academic Records</div>
+                            <div class="permission-desc">See transcripts, grades, and academic progress</div>
+                        </div>
+                    </div>
+
+                    <div class="permission-item checked">
+                        <div class="permission-checkbox checked" data-permission="access-messages"></div>
+                        <div class="permission-info">
+                            <div class="permission-name">Receive Important Messages</div>
+                            <div class="permission-desc">Get notifications about deadlines and critical updates</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4 style="margin-top: 2rem;">Approval Permissions:</h4>
+                <div class="permission-list">
+                    <div class="permission-item">
+                        <div class="permission-checkbox" data-permission="approve-applications"></div>
+                        <div class="permission-info">
+                            <div class="permission-name">Approve Application Submissions</div>
+                            <div class="permission-desc">Student must get your approval before submitting applications</div>
+                        </div>
+                    </div>
+
+                    <div class="permission-item">
+                        <div class="permission-checkbox" data-permission="approve-payments"></div>
+                        <div class="permission-info">
+                            <div class="permission-name">Approve Financial Transactions</div>
+                            <div class="permission-desc">Approve application fees, tuition payments, and deposits</div>
+                        </div>
+                    </div>
+
+                    <div class="permission-item">
+                        <div class="permission-checkbox" data-permission="approve-documents"></div>
+                        <div class="permission-info">
+                            <div class="permission-name">Approve Document Releases</div>
+                            <div class="permission-desc">Approve sharing of transcripts and documents with institutions</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn btn-secondary" id="back-step4">← Back</button>
+                    <button class="btn btn-primary" id="continue-step4">
+                        Continue to Notifications
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 5: Notifications & Preferences -->
+        <div class="step-card" id="step-5">
+            <div class="step-header">
+                <div class="step-number" id="num-5">5</div>
+                <div class="step-info">
+                    <h2>Notifications & Preferences</h2>
+                    <p>Choose how and when you want to be notified</p>
+                </div>
+            </div>
+            
+            <div class="step-content">
+                <div class="info-box">
+                    <h3 class="info-title">
+                        🔔 Stay Informed
+                    </h3>
+                    <p class="info-text">
+                        Configure your notification preferences to stay updated on your student's college journey. 
+                        You can change these settings anytime from your account dashboard.
+                    </p>
+                </div>
+
+                <h4>Notification Methods:</h4>
+                <div class="permission-list">
+                    <div class="permission-item checked">
+                        <div class="permission-checkbox checked" data-permission="notify-email"></div>
+                        <div class="permission-info">
+                            <div class="permission-name">Email Notifications</div>
+                            <div class="permission-desc">Receive updates via email</div>
+                        </div>
+                    </div>
+
+                    <div class="permission-item">
+                        <div class="permission-checkbox" data-permission="notify-sms"></div>
+                        <div class="permission-info">
+                            <div class="permission-name">SMS Text Messages</div>
+                            <div class="permission-desc">Get urgent notifications via text</div>
+                        </div>
+                    </div>
+
+                    <div class="permission-item">
+                        <div class="permission-checkbox" data-permission="notify-push"></div>
+                        <div class="permission-info">
+                            <div class="permission-name">Push Notifications</div>
+                            <div class="permission-desc">Browser and mobile app notifications</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h4>Notification Frequency:</h4>
+                <div class="form-grid two-columns">
+                    <div class="form-group">
+                        <label class="form-label">Application Updates</label>
+                        <select id="freq-applications" class="form-select">
+                            <option value="immediate">Immediate</option>
+                            <option value="daily">Daily digest</option>
+                            <option value="weekly">Weekly summary</option>
+                            <option value="never">Never</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Financial Updates</label>
+                        <select id="freq-finance" class="form-select">
+                            <option value="immediate">Immediate</option>
+                            <option value="daily">Daily digest</option>
+                            <option value="weekly">Weekly summary</option>
+                            <option value="never">Never</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Critical Deadlines</label>
+                        <select id="freq-deadlines" class="form-select">
+                            <option value="immediate" selected>Immediate</option>
+                            <option value="daily">Daily digest</option>
+                            <option value="weekly">Weekly summary</option>
+                            <option value="never">Never</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Preferred Language</label>
+                        <select id="language" class="form-select">
+                            <option value="en" selected>English</option>
+                            <option value="es">Español</option>
+                            <option value="fr">Français</option>
+                            <option value="de">Deutsch</option>
+                            <option value="ar">العربية</option>
+                            <option value="sw">Kiswahili</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn btn-secondary" id="back-step5">← Back</button>
+                    <button class="btn btn-primary" id="continue-step5">
+                        Continue to Review
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 6: Review & Complete -->
+        <div class="step-card" id="step-6">
+            <div class="step-header">
+                <div class="step-number" id="num-6">6</div>
+                <div class="step-info">
+                    <h2>Review & Complete</h2>
+                    <p>Review your settings and complete the onboarding process</p>
+                </div>
+            </div>
+            
+            <div class="step-content">
+                <div class="info-box">
+                    <h3 class="info-title">
+                        🎉 Almost Done! Here's What You've Set Up:
+                    </h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="summary-icon">✅</span>
+                            <span class="summary-text">Identity Verified</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">📋</span>
+                            <span class="summary-text">Documents Uploaded</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">👨‍👩‍👧‍👦</span>
+                            <span class="summary-text">Student Connection Pending</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">⚙️</span>
+                            <span class="summary-text">Permissions Configured</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">🔔</span>
+                            <span class="summary-text">Notifications Set</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-icon">🔐</span>
+                            <span class="summary-text">Account Secured</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="review-details"></div>
+
+                <div class="info-box warning">
+                    <h3 class="info-title">
+                        ⏳ What Happens Next?
+                    </h3>
+                    <ol style="margin-left: 1.5rem; line-height: 1.8;">
+                        <li><strong>Document Review:</strong> Our team will review your uploaded documents (usually within 24 hours)</li>
+                        <li><strong>Student Confirmation:</strong> Your student will need to accept the connection request</li>
+                        <li><strong>Account Activation:</strong> Once verified, you'll have full access to your parent portal</li>
+                        <li><strong>Welcome Email:</strong> You'll receive login instructions and next steps</li>
+                    </ol>
+                </div>
+
+                <div class="permission-item">
+                    <div class="permission-checkbox" id="agree-terms-checkbox"></div>
+                    <div class="permission-info">
+                        <div class="permission-name">I agree to Flow's Terms of Service and Privacy Policy</div>
+                        <div class="permission-desc">
+                            By completing onboarding, you agree to our 
+                            <a href="/legal/terms.html" target="_blank" style="color: var(--primary);">Terms of Service</a> and 
+                            <a href="/legal/privacy.html" target="_blank" style="color: var(--primary);">Privacy Policy</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn btn-secondary" id="back-step6">← Back</button>
+                    <button class="btn btn-success" id="complete-onboarding" disabled>
+                        🎉 Complete Onboarding
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
+    <script>
+        // Global variables
+        let currentStep = 1;
+        const totalSteps = 6;
+        let formData = {
+            permissions: {},
+            notifications: {},
+            frequency: {}
+        };
+
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCountries();
+            setupEventListeners();
+            setupPermissions();
+            setupFileUploads();
+            updateProgress();
+            
+            // Load any saved data
+            loadSavedData();
+        });
+
+        // Initialize country dropdown
+        function initializeCountries() {
+            const countrySelect = document.getElementById('country');
+            
+            const loadCountries = () => {
+                if (window.FlowCountries && window.FlowCountries.generateOptions) {
+                    const options = window.FlowCountries.generateOptions('', true);
+                    countrySelect.innerHTML = '<option value="">Select your country</option>' + options;
+                    return true;
+                }
+                return false;
+            };
+
+            if (!loadCountries()) {
+                setTimeout(loadCountries, 500);
+            }
+        }
+
+        // Setup all event listeners
+        function setupEventListeners() {
+            // Step 1 validation
+            const step1Fields = ['firstName', 'lastName', 'email', 'phone', 'country', 'relationship'];
+            step1Fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.addEventListener('input', () => validateStep1());
+                    field.addEventListener('change', () => validateStep1());
+                    field.addEventListener('blur', () => validateStep1());
+                }
+            });
+
+            // Step 3 validation
+            const step3Fields = ['studentName', 'studentDOB', 'studentEmail'];
+            step3Fields.forEach(fieldId => {
+                const field = document.getElementById(fieldId);
+                if (field) {
+                    field.addEventListener('input', () => validateStep3());
+                    field.addEventListener('change', () => validateStep3());
+                }
+            });
+
+            // Navigation buttons
+            document.getElementById('continue-step1')?.addEventListener('click', () => nextStep());
+            document.getElementById('back-step2')?.addEventListener('click', () => prevStep());
+            document.getElementById('continue-step2')?.addEventListener('click', () => nextStep());
+            document.getElementById('back-step3')?.addEventListener('click', () => prevStep());
+            document.getElementById('continue-step3')?.addEventListener('click', () => nextStep());
+            document.getElementById('back-step4')?.addEventListener('click', () => prevStep());
+            document.getElementById('continue-step4')?.addEventListener('click', () => nextStep());
+            document.getElementById('back-step5')?.addEventListener('click', () => prevStep());
+            document.getElementById('continue-step5')?.addEventListener('click', () => nextStep());
+            document.getElementById('back-step6')?.addEventListener('click', () => prevStep());
+            document.getElementById('complete-onboarding')?.addEventListener('click', completeOnboarding);
+
+            // Document selection
+            setupDocumentSelection();
+            
+            // Connection method
+            setupConnectionMethod();
+        }
+
+        // Setup document selection
+        function setupDocumentSelection() {
+            document.querySelectorAll('.verification-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                        
+                        // Remove selected class from siblings
+                        this.parentNode.querySelectorAll('.verification-option').forEach(sibling => {
+                            sibling.classList.remove('selected');
+                        });
+                        
+                        // Add selected class to clicked option
+                        this.classList.add('selected');
+                        
+                        validateStep2();
+                    }
+                });
+            });
+        }
+
+        // Setup connection method
+        function setupConnectionMethod() {
+            document.querySelectorAll('input[name="connection-method"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    const inviteSection = document.getElementById('invite-section');
+                    const codeSection = document.getElementById('code-section');
+                    const continueBtn = document.getElementById('continue-step3');
+
+                    if (this.value === 'invite') {
+                        inviteSection.style.display = 'block';
+                        codeSection.style.display = 'none';
+                        continueBtn.textContent = 'Send Connection Request';
+                    } else {
+                        inviteSection.style.display = 'none';
+                        codeSection.style.display = 'block';
+                        continueBtn.textContent = 'Verify Connection Code';
+                    }
+                });
+            });
+        }
+
+        // Setup permissions
+        function setupPermissions() {
+            document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('click', function() {
+                    this.classList.toggle('checked');
+                    this.closest('.permission-item').classList.toggle('checked');
+                    
+                    if (this.id === 'agree-terms-checkbox') {
+                        validateStep6();
+                    }
+                });
+            });
+        }
+
+        // Setup file uploads
+        function setupFileUploads() {
+            setupFileUpload('id');
+            setupFileUpload('relationship');
+        }
+
+        function setupFileUpload(type) {
+            const uploadArea = document.getElementById(`${type}-upload`);
+            const fileInput = document.getElementById(`${type}-file`);
+            
+            uploadArea.addEventListener('click', () => fileInput.click());
+            uploadArea.addEventListener('dragover', handleDragOver);
+            uploadArea.addEventListener('drop', (e) => handleFileDrop(e, type));
+            fileInput.addEventListener('change', (e) => handleFileSelect(e, type));
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.currentTarget.classList.add('dragover');
+        }
+
+        function handleFileDrop(e, type) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('dragover');
+            
+            const files = Array.from(e.dataTransfer.files);
+            processFiles(files, type);
+        }
+
+        function handleFileSelect(e, type) {
+            const files = Array.from(e.target.files);
+            processFiles(files, type);
+        }
+
+        function processFiles(files, type) {
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+            const maxSize = 5 * 1024 * 1024; // 5MB
+
+            files.forEach(file => {
+                if (!validTypes.includes(file.type)) {
+                    showNotification('Please upload only JPG, PNG, or PDF files', 'error');
+                    return;
+                }
+
+                if (file.size > maxSize) {
+                    showNotification('File size must be less than 5MB', 'error');
+                    return;
+                }
+
+                addFileToList(file, type);
+                formData[type + 'File'] = file;
+                validateStep2();
+            });
+        }
+
+        function addFileToList(file, type) {
+            const fileList = document.getElementById(`${type}-files`);
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            
+            fileItem.innerHTML = `
+                <div class="file-info">
+                    <div class="file-icon">📄</div>
+                    <div class="file-details">
+                        <h4>${file.name}</h4>
+                        <p>${formatFileSize(file.size)} • ${file.type.split('/')[1].toUpperCase()}</p>
+                    </div>
+                </div>
+                <div class="file-actions">
+                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;" onclick="removeFile('${type}', this)">Remove</button>
+                </div>
+            `;
+            
+            fileList.innerHTML = '';
+            fileList.appendChild(fileItem);
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function removeFile(type, button) {
+            button.closest('.file-item').remove();
+            delete formData[type + 'File'];
+            validateStep2();
+        }
+
+        // Validation functions
+        function validateStep1() {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const country = document.getElementById('country').value;
+            const relationship = document.getElementById('relationship').value;
+
+            let isValid = true;
+
+            // Validate each field
+            isValid = validateField('firstName', firstName, 'First name is required', 2) && isValid;
+            isValid = validateField('lastName', lastName, 'Last name is required', 2) && isValid;
+            isValid = validateField('email', email, 'Valid email is required', 0, /^[^\s@]+@[^\s@]+\.[^\s@]+$/) && isValid;
+            isValid = validateField('phone', phone, 'Valid phone number is required', 0, /^[\+]?[\d\s\(\)\-]{10,}$/) && isValid;
+            isValid = validateField('country', country, 'Please select your country') && isValid;
+            isValid = validateField('relationship', relationship, 'Please select your relationship') && isValid;
+
+            // Update button
+            const continueBtn = document.getElementById('continue-step1');
+            if (continueBtn) {
+                continueBtn.disabled = !isValid;
+            }
+
+            return isValid;
+        }
+
+        function validateStep2() {
+            const governmentId = document.querySelector('input[name="government-id"]:checked');
+            const relationshipDoc = document.querySelector('input[name="relationship-doc"]:checked');
+            const idFile = formData.idFile;
+            const relationshipFile = formData.relationshipFile;
+
+            const isValid = governmentId && relationshipDoc && idFile && relationshipFile;
+
+            const continueBtn = document.getElementById('continue-step2');
+            if (continueBtn) {
+                continueBtn.disabled = !isValid;
+            }
+
+            return isValid;
+        }
+
+        function validateStep3() {
+            const studentName = document.getElementById('studentName').value.trim();
+            const studentDOB = document.getElementById('studentDOB').value;
+            const studentEmail = document.getElementById('studentEmail').value.trim();
+
+            let isValid = true;
+
+            isValid = validateField('studentName', studentName, 'Student name is required', 3) && isValid;
+            isValid = validateField('studentDOB', studentDOB, 'Student date of birth is required') && isValid;
+            isValid = validateField('studentEmail', studentEmail, 'Valid student email is required', 0, /^[^\s@]+@[^\s@]+\.[^\s@]+$/) && isValid;
+
+            return isValid;
+        }
+
+        function validateStep6() {
+            const agreeTerms = document.getElementById('agree-terms-checkbox').classList.contains('checked');
+            const completeBtn = document.getElementById('complete-onboarding');
+            
+            if (completeBtn) {
+                completeBtn.disabled = !agreeTerms;
+            }
+
+            return agreeTerms;
+        }
+
+        function validateField(fieldId, value, errorMessage, minLength = 1, pattern = null) {
+            const field = document.getElementById(fieldId);
+            const errorSpan = document.getElementById(fieldId + '-error');
+            
+            let isValid = true;
+            let error = '';
+
+            if (!value) {
+                error = errorMessage;
+                isValid = false;
+            } else if (minLength && value.length < minLength) {
+                error = `Must be at least ${minLength} characters`;
+                isValid = false;
+            } else if (pattern && !pattern.test(value)) {
+                error = errorMessage;
+                isValid = false;
+            }
+
+            // Update field appearance
+            if (field) {
+                field.classList.remove('error', 'success');
+                if (error) {
+                    field.classList.add('error');
+                } else if (value) {
+                    field.classList.add('success');
+                }
+            }
+
+            if (errorSpan) {
+                errorSpan.textContent = error;
+            }
+
+            return isValid;
+        }
+
+        // Navigation functions
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                let canProceed = false;
+                
+                switch(currentStep) {
+                    case 1:
+                        canProceed = validateStep1();
+                        if (canProceed) saveStep1Data();
+                        break;
+                    case 2:
+                        canProceed = validateStep2();
+                        if (canProceed) saveStep2Data();
+                        break;
+                    case 3:
+                        canProceed = validateStep3();
+                        if (canProceed) saveStep3Data();
+                        break;
+                    case 4:
+                        saveStep4Data();
+                        canProceed = true;
+                        break;
+                    case 5:
+                        saveStep5Data();
+                        canProceed = true;
+                        break;
+                }
+
+                if (canProceed) {
+                    currentStep++;
+                    updateSteps();
+                    updateProgress();
+                    
+                    if (currentStep === 6) {
+                        generateReviewSummary();
+                    }
+                }
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateSteps();
+                updateProgress();
+            }
+        }
+
+        function updateSteps() {
+            // Hide all steps
+            document.querySelectorAll('.step-card').forEach(card => {
+                card.classList.remove('active', 'completed');
+            });
+
+            // Show current step
+            const currentCard = document.getElementById(`step-${currentStep}`);
+            if (currentCard) {
+                currentCard.classList.add('active');
+            }
+
+            // Mark previous steps as completed
+            for (let i = 1; i < currentStep; i++) {
+                const card = document.getElementById(`step-${i}`);
+                if (card) {
+                    card.classList.add('completed');
+                }
+            }
+        }
+
+        function updateProgress() {
+            // Update step dots
+            for (let i = 1; i <= totalSteps; i++) {
+                const dot = document.getElementById(`dot-${i}`);
+                const num = document.getElementById(`num-${i}`);
+                
+                if (i < currentStep) {
+                    dot?.classList.add('completed');
+                    dot?.classList.remove('active');
+                    if (num) num.classList.add('completed');
+                } else if (i === currentStep) {
+                    dot?.classList.add('active');
+                    dot?.classList.remove('completed');
+                    if (num) num.classList.remove('completed');
+                } else {
+                    dot?.classList.remove('active', 'completed');
+                    if (num) num.classList.remove('completed');
+                }
+            }
+
+            // Update step lines
+            for (let i = 1; i < totalSteps; i++) {
+                const line = document.getElementById(`line-${i}`);
+                if (i < currentStep) {
+                    line?.classList.add('completed');
+                } else {
+                    line?.classList.remove('completed');
+                }
+            }
+        }
+
+        // Data saving functions
+        function saveStep1Data() {
+            formData.firstName = document.getElementById('firstName').value.trim();
+            formData.lastName = document.getElementById('lastName').value.trim();
+            formData.email = document.getElementById('email').value.trim();
+            formData.phone = document.getElementById('phone').value.trim();
+            formData.country = document.getElementById('country').value;
+            formData.relationship = document.getElementById('relationship').value;
+            
+            saveToLocalStorage();
+        }
+
+        function saveStep2Data() {
+            formData.governmentIdType = document.querySelector('input[name="government-id"]:checked')?.value;
+            formData.relationshipDocType = document.querySelector('input[name="relationship-doc"]:checked')?.value;
+            
+            saveToLocalStorage();
+        }
+
+        function saveStep3Data() {
+            formData.studentName = document.getElementById('studentName').value.trim();
+            formData.studentDOB = document.getElementById('studentDOB').value;
+            formData.studentEmail = document.getElementById('studentEmail').value.trim();
+            formData.studentSchool = document.getElementById('studentSchool').value.trim();
+            formData.connectionMethod = document.querySelector('input[name="connection-method"]:checked')?.value;
+            
+            if (formData.connectionMethod === 'invite') {
+                formData.inviteMessage = document.getElementById('inviteMessage').value.trim();
+            } else {
+                formData.connectionCode = document.getElementById('connectionCode').value.trim();
+            }
+            
+            saveToLocalStorage();
+        }
+
+        function saveStep4Data() {
+            formData.permissions = {};
+            document.querySelectorAll('[data-permission^="access-"], [data-permission^="approve-"]').forEach(checkbox => {
+                const permission = checkbox.dataset.permission;
+                formData.permissions[permission] = checkbox.classList.contains('checked');
+            });
+            
+            saveToLocalStorage();
+        }
+
+        function saveStep5Data() {
+            formData.notifications = {};
+            document.querySelectorAll('[data-permission^="notify-"]').forEach(checkbox => {
+                const permission = checkbox.dataset.permission;
+                formData.notifications[permission] = checkbox.classList.contains('checked');
+            });
+            
+            formData.frequency = {
+                applications: document.getElementById('freq-applications').value,
+                finance: document.getElementById('freq-finance').value,
+                deadlines: document.getElementById('freq-deadlines').value
+            };
+            
+            formData.language = document.getElementById('language').value;
+            
+            saveToLocalStorage();
+        }
+
+        function generateReviewSummary() {
+            const reviewDetails = document.getElementById('review-details');
+            if (!reviewDetails || !formData.firstName) return;
+
+            reviewDetails.innerHTML = `
+                <div style="background: var(--gray-50); border-radius: 12px; padding: 1.5rem; margin: 2rem 0;">
+                    <h4 style="margin-bottom: 1rem; color: var(--gray-800);">Your Information Summary:</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                        <div>
+                            <strong>Name:</strong> ${formData.firstName} ${formData.lastName}<br>
+                            <strong>Email:</strong> ${formData.email}<br>
+                            <strong>Phone:</strong> ${formData.phone}<br>
+                            <strong>Relationship:</strong> ${formData.relationship}
+                        </div>
+                        <div>
+                            <strong>Student:</strong> ${formData.studentName || 'Not provided'}<br>
+                            <strong>Student Email:</strong> ${formData.studentEmail || 'Not provided'}<br>
+                            <strong>Connection Method:</strong> ${formData.connectionMethod || 'Email invitation'}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function completeOnboarding() {
+            if (!validateStep6()) {
+                showNotification('Please agree to the Terms of Service and Privacy Policy', 'error');
+                return;
+            }
+
+            const completeBtn = document.getElementById('complete-onboarding');
+            completeBtn.disabled = true;
+            completeBtn.innerHTML = '<span class="loading"></span> Processing...';
+
+            // Save final data
+            formData.timestamp = new Date().toISOString();
+            formData.completed = true;
+            
+            // Simulate processing
+            setTimeout(() => {
+                completeBtn.innerHTML = '✅ Account Created!';
+                showNotification('Welcome to Flow! Your account has been created successfully.', 'success');
+                
+                // Clear saved data
+                localStorage.removeItem('parentOnboardingData');
+                
+                // Redirect to parent portal
+                setTimeout(() => {
+                    window.location.href = '/parents/';
+                }, 2000);
+            }, 3000);
+        }
+
+        function saveToLocalStorage() {
+            try {
+                const dataToSave = { ...formData };
+                // Remove file objects before saving
+                delete dataToSave.idFile;
+                delete dataToSave.relationshipFile;
+                localStorage.setItem('parentOnboardingData', JSON.stringify(dataToSave));
+            } catch (e) {
+                console.warn('Error saving to localStorage:', e);
+            }
+        }
+
+        function loadSavedData() {
+            try {
+                const saved = localStorage.getItem('parentOnboardingData');
+                if (saved) {
+                    const savedData = JSON.parse(saved);
+                    formData = { ...formData, ...savedData };
+                    
+                    // Populate form fields
+                    Object.keys(savedData).forEach(key => {
+                        const element = document.getElementById(key);
+                        if (element && savedData[key]) {
+                            element.value = savedData[key];
+                        }
+                    });
+                    
+                    // Restore permissions
+                    if (savedData.permissions) {
+                        Object.keys(savedData.permissions).forEach(permission => {
+                            const checkbox = document.querySelector(`[data-permission="${permission}"]`);
+                            if (checkbox && savedData.permissions[permission]) {
+                                checkbox.classList.add('checked');
+                                checkbox.closest('.permission-item')?.classList.add('checked');
+                            }
+                        });
+                    }
+                    
+                    // Trigger validation
+                    setTimeout(() => {
+                        validateStep1();
+                        validateStep3();
+                    }, 100);
+                }
+            } catch (e) {
+                console.warn('Error loading saved data:', e);
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type} show`;
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        // Debug function
+        window.debugOnboarding = function() {
+            console.log('Current step:', currentStep);
+            console.log('Form data:', formData);
+            console.log('Step 1 valid:', validateStep1());
+            console.log('Step 2 valid:', validateStep2());
+            console.log('Step 3 valid:', validateStep3());
+        };
+    </script>
+</body>
+</html>

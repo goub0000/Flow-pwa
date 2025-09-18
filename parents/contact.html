@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Flow Parent Portal</title>
+  <meta name="description" content="Get in touch with the Flow support team">
+  <meta name="theme-color" content="#667eea">
+  <link rel="icon" href="/assets/img/logo.png" type="image/png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f8fafc;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Same header styles as help-center.html */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="20" fill="url(%23smallGrid)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 30px 30px;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(30px, -30px) rotate(120deg); }
+      66% { transform: translate(-20px, 20px) rotate(240deg); }
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .header-brand::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .brand-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-logo {
+      position: relative;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+    }
+
+    .logo-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      padding: 8px;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .logo-container {
+      position: relative;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .brand-subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .back-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Main Content */
+    .main {
+      padding: 4rem 0;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .page-title {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+
+    .contact-form {
+      background: white;
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .form-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e1e5e9;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+    }
+
+    .btn:hover {
+      background: #5a6fd8;
+      transform: translateY(-2px);
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .contact-method {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .contact-method:hover {
+      transform: translateY(-5px);
+    }
+
+    .method-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .method-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+
+    .method-description {
+      color: #666;
+      margin-bottom: 1rem;
+    }
+
+    .method-details {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .office-hours {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      margin-top: 2rem;
+    }
+
+    .hours-title {
+      font-size: 1.2rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .hours-list {
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .hours-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .hours-day {
+      font-weight: 500;
+      color: #333;
+    }
+
+    .hours-time {
+      color: #666;
+    }
+
+    /* Same footer styles */
+    .footer {
+      background: #2d3748;
+      color: white;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 3rem 0;
+    }
+
+    .footer-section {
+      padding: 0 1rem;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo-img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      padding: 6px;
+      background: rgba(102, 126, 234, 0.1);
+      border: 2px solid rgba(102, 126, 234, 0.3);
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    .footer-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #667eea;
+    }
+
+    .footer-heading {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #e2e8f0;
+    }
+
+    .footer-description {
+      color: #a0aec0;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-link {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background: #4a5568;
+      color: white;
+      text-align: center;
+      line-height: 40px;
+      border-radius: 50%;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .social-link:hover {
+      background: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      color: #a0aec0;
+      text-decoration: none;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-links a:hover {
+      color: #667eea;
+    }
+
+    .link-icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 0.5rem;
+      transition: transform 0.2s;
+    }
+
+    .footer-links a:hover .link-icon {
+      transform: translateX(3px);
+    }
+
+    .social-link svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #4a5568;
+      padding: 2rem 0;
+      text-align: center;
+      color: #a0aec0;
+    }
+
+    .footer-bottom p {
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .page-title {
+        font-size: 2rem;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="header-brand">
+          <div class="brand-content">
+            <div class="header-logo">
+              <img src="/assets/img/logo.PNG" alt="Flow Logo" class="logo-img">
+            </div>
+            <div class="logo-container">
+              <div class="logo">Flow</div>
+              <div class="brand-subtitle">Contact Us</div>
+            </div>
+          </div>
+        </div>
+        <a href="index.html" class="back-btn">
+          ← Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">Contact Us</h1>
+        <p class="page-subtitle">We're here to help! Reach out to our support team with any questions or concerns</p>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Contact Form -->
+        <div class="contact-form">
+          <h2 class="form-title">Send us a Message</h2>
+          <form onsubmit="submitContactForm(event)">
+            <div class="form-group">
+              <label class="form-label">Full Name</label>
+              <input type="text" class="form-input" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-input" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Subject</label>
+              <select class="form-select" required>
+                <option value="">Select a topic</option>
+                <option value="general">General Inquiry</option>
+                <option value="technical">Technical Support</option>
+                <option value="billing">Billing & Payments</option>
+                <option value="application">Application Help</option>
+                <option value="account">Account Issues</option>
+                <option value="feedback">Feedback & Suggestions</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Priority Level</label>
+              <select class="form-select" required>
+                <option value="">Select priority</option>
+                <option value="low">Low - General question</option>
+                <option value="medium">Medium - Need assistance</option>
+                <option value="high">High - Urgent issue</option>
+                <option value="critical">Critical - System down</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea class="form-textarea" placeholder="Describe your question or issue in detail..." required></textarea>
+            </div>
+            
+            <button type="submit" class="btn">Send Message</button>
+          </form>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="contact-info">
+          <div class="contact-method">
+            <div class="method-icon">📧</div>
+            <h3 class="method-title">Email Support</h3>
+            <p class="method-description">Send us an email and we'll respond within 24 hours</p>
+            <div class="method-details">support@flow.edu</div>
+          </div>
+
+          <div class="contact-method">
+            <div class="method-icon">📞</div>
+            <h3 class="method-title">Phone Support</h3>
+            <p class="method-description">Speak directly with our support team</p>
+            <div class="method-details">+1 (555) 123-4567</div>
+          </div>
+
+          <div class="contact-method">
+            <div class="method-icon">💬</div>
+            <h3 class="method-title">Live Chat</h3>
+            <p class="method-description">Get instant help through our live chat system</p>
+            <div class="method-details">Available 9AM-6PM EST</div>
+          </div>
+
+          <div class="contact-method">
+            <div class="method-icon">🚨</div>
+            <h3 class="method-title">Emergency Support</h3>
+            <p class="method-description">24/7 support for critical issues</p>
+            <div class="method-details">+1 (555) 911-FLOW</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Office Hours -->
+      <div class="office-hours">
+        <h3 class="hours-title">Support Hours</h3>
+        <div class="hours-list">
+          <div class="hours-item">
+            <span class="hours-day">Monday - Friday</span>
+            <span class="hours-time">9:00 AM - 6:00 PM EST</span>
+          </div>
+          <div class="hours-item">
+            <span class="hours-day">Saturday</span>
+            <span class="hours-time">10:00 AM - 4:00 PM EST</span>
+          </div>
+          <div class="hours-item">
+            <span class="hours-day">Sunday</span>
+            <span class="hours-time">Closed</span>
+          </div>
+          <div class="hours-item">
+            <span class="hours-day">Emergency Support</span>
+            <span class="hours-time">24/7 Available</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer (same as help-center) -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <img src="/assets/img/logo.PNG" alt="Flow Logo" class="footer-logo-img">
+            <h3 class="footer-title">Flow</h3>
+          </div>
+          <p class="footer-description">Empowering students and families through their university journey with comprehensive support and guidance.</p>
+          <div class="footer-social">
+            <a href="#" class="social-link">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23 3A10.9 10.9 0 0 1 20.1 4.1C19.2 3.4 18 3 16.8 3C14.4 3 12.4 5 12.4 7.3C12.4 7.6 12.4 7.9 12.5 8.2C8.3 8 4.7 6.1 2.4 3.1C2 3.8 1.8 4.6 1.8 5.4C1.8 7 2.7 8.4 4 9.2C3.3 9.2 2.7 9 2.1 8.7V8.8C2.1 10.8 3.7 12.4 5.7 12.8C5.3 12.9 4.9 13 4.5 13C4.2 13 3.9 13 3.6 12.9C4.2 14.5 5.9 15.7 7.9 15.7C6.3 16.9 4.3 17.6 2.1 17.6H1.5C3.4 18.9 5.7 19.6 8.1 19.6C16.8 19.6 21.6 13.1 21.6 7.6V7C22.4 6.4 23.1 5.7 23.7 4.8L23 3Z" fill="currentColor"/>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="2"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M17.5 6.5H17.51" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 8A6 6 0 0 1 6 18C6 18 6 18 6 18H18A4 4 0 0 0 18 10A4 4 0 0 0 14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20.2 7.8L16 12L11.8 7.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Dashboard
+            </a></li>
+            <li><a href="contact.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 16.92V19A2 2 0 0 1 20 21A19 19 0 0 1 2 3A2 2 0 0 1 4 1H7.08A2 2 0 0 1 9 2.92L9 6A2 2 0 0 1 7.92 8L6 8.5A16 16 0 0 0 15.5 18L16 16.08A2 2 0 0 1 18 15H21.08A2 2 0 0 1 23 16.92Z" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Contact
+            </a></li>
+            <li><a href="faq.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 11H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M9 15H12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M16 3H5A2 2 0 0 0 3 5V19A2 2 0 0 0 5 21H19A2 2 0 0 0 21 19V8L16 3Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M16 3V8H21" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              FAQ
+            </a></li>
+            <li><a href="privacy.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="11" width="18" height="10" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                <circle cx="12" cy="16" r="1" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 11V7A5 5 0 0 1 17 7V11" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Privacy
+            </a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4 class="footer-heading">Support</h4>
+          <ul class="footer-links">
+            <li><a href="help-center.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <path d="M9.09 9A3 3 0 0 1 12 6C14.21 6 16 7.79 16 10S14.21 14 12 14V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 20H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Help Center
+            </a></li>
+            <li><a href="tutorials.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <polygon points="10,8 16,12 10,16 10,8" fill="currentColor"/>
+              </svg>
+              Tutorials
+            </a></li>
+            <li><a href="updates.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 16V8A2 2 0 0 0 19 6H5A2 2 0 0 0 3 8V16A2 2 0 0 0 5 18H19A2 2 0 0 0 21 16Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 2V6" stroke="currentColor" stroke-width="2"/>
+                <path d="M17 2V6" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 10H17" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 14H12" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Updates
+            </a></li>
+            <li><a href="community.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17 21V19A4 4 0 0 0 13 15H5A4 4 0 0 0 1 19V21" stroke="currentColor" stroke-width="2"/>
+                <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                <path d="M23 21V19A4 4 0 0 0 16 15.13" stroke="currentColor" stroke-width="2"/>
+                <path d="M16 3.13A4 4 0 0 1 16 11" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Community
+            </a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4 class="footer-heading">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="security.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Security
+            </a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Flow Education Platform. All rights reserved.</p>
+        <p>Built with ❤️ for students and families</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function submitContactForm(event) {
+      event.preventDefault();
+      alert('Thank you for your message! We will get back to you within 24 hours.');
+    }
+  </script>
+</body>
+</html>

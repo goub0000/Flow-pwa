@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Institution portal for managing applications, student admissions, and institutional operations." />
+  <meta name="theme-color" content="#373896" />
+  <title>Flow — Institution Portal</title>
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/institutions.css" />
+  
+  <!-- Enhanced Navigation and Advanced Interactive Padding Styles for Institution Portal -->
+  <style>
+    /* Enhanced Navigation Styling */
+    .nav-hover-item:hover {
+      background: rgba(255, 255, 255, 0.15) !important;
+      color: white !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    /* Enhanced Content Padding */
+    .dashboard-feature-card {
+      padding: 2rem !important;
+      margin: 1rem 0 !important;
+      border-radius: 16px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .dashboard-feature-card:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 8px 24px rgba(90, 91, 184, 0.15) !important;
+    }
+
+    /* Header Advanced Padding - Smaller Size */
+    .header {
+      transition: all 0.3s ease;
+      padding: 0.8rem 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+    }
+
+    .header:hover {
+      padding: 1rem 0;
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Header Buttons - Blue Background with White Icons */
+    .header-search__trigger,
+    .header-notifications__trigger,
+    .header-messages__trigger {
+      background: #5a5bb8 !important;
+      border-radius: 50% !important;
+      padding: 0.75rem !important;
+      border: none !important;
+      transition: all 0.3s ease !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    .header-search__trigger svg,
+    .header-notifications__trigger svg,
+    .header-messages__trigger svg {
+      fill: white !important;
+      stroke: white !important;
+    }
+
+    .header-search__trigger:hover,
+    .header-notifications__trigger:hover,
+    .header-messages__trigger:hover {
+      background: #4c4db8 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 12px rgba(76, 77, 184, 0.3) !important;
+    }
+
+    .header-profile__trigger,
+    .header-mobile-toggle {
+      color: #5a5bb8 !important;
+    }
+
+    .header-profile__trigger:hover,
+    .header-mobile-toggle:hover {
+      color: #4c4db8 !important;
+    }
+
+    .header__inner {
+      transition: all 0.3s ease;
+      padding: 0 2rem;
+    }
+
+    .header:hover .header__inner {
+      padding: 0 2.5rem;
+    }
+
+    /* Header Tools Enhanced Padding */
+    .header-tools {
+      transition: all 0.3s ease;
+      gap: 1.5rem;
+    }
+
+    .header:hover .header-tools {
+      gap: 2rem;
+    }
+
+    .header-search, .header-notifications, .header-messages, .header-profile {
+      transition: all 0.3s ease;
+      padding: 0.75rem;
+      border-radius: 12px;
+    }
+
+    .header-search:hover, .header-notifications:hover, .header-messages:hover, .header-profile:hover {
+      padding: 1rem;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.08));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Dropdown Enhanced Padding */
+    .header-search__dropdown, .header-notifications__dropdown, .header-messages__dropdown, .header-profile__dropdown {
+      transition: all 0.3s ease;
+      padding: 1.5rem;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    }
+
+    .header-search__dropdown:hover, .header-notifications__dropdown:hover, .header-messages__dropdown:hover, .header-profile__dropdown:hover {
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.98);
+      transform: translateY(-2px);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Sub-navigation Enhanced Padding */
+    .subnav {
+      transition: all 0.3s ease;
+      padding: 1.5rem 0;
+      background: linear-gradient(135deg, rgba(55, 56, 150, 0.95), rgba(107, 108, 232, 0.95));
+      backdrop-filter: blur(8px);
+    }
+
+    .subnav:hover {
+      padding: 2rem 0;
+      background: linear-gradient(135deg, rgba(55, 56, 150, 0.98), rgba(107, 108, 232, 0.98));
+      box-shadow: 0 8px 32px rgba(55, 56, 150, 0.3);
+    }
+
+    .subnav__inner {
+      transition: all 0.3s ease;
+      padding: 0 2rem;
+      gap: 2rem;
+    }
+
+    .subnav:hover .subnav__inner {
+      padding: 0 2.5rem;
+      gap: 2.5rem;
+    }
+
+    .subnav__link, .badge {
+      transition: all 0.3s ease;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      color: white !important;
+    }
+
+    .subnav__link--active {
+      background: rgba(255, 255, 255, 0.9) !important;
+      color: #4338ca !important;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .subnav__link:hover, .badge:hover {
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+      color: white !important;
+    }
+
+    .subnav__link--active:hover {
+      background: rgba(255, 255, 255, 0.95) !important;
+      color: #4338ca !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Dashboard Section Enhanced Padding */
+    .section {
+      transition: all 0.3s ease;
+      padding: 3rem 0;
+    }
+
+    .section:hover {
+      padding: 3.5rem 0;
+    }
+
+    .section__header {
+      transition: all 0.3s ease;
+      padding: 2rem 0;
+      text-align: center;
+    }
+
+    .section:hover .section__header {
+      padding: 2.5rem 0;
+      transform: translateY(-2px);
+    }
+
+    .section__header h1, .section__header h2 {
+      transition: all 0.3s ease;
+    }
+
+    .section:hover .section__header h1, .section:hover .section__header h2 {
+      color: #4338ca;
+      text-shadow: 0 2px 4px rgba(67, 56, 202, 0.1);
+    }
+
+    /* Stats Grid Enhanced Padding */
+    .stats-grid {
+      transition: all 0.3s ease;
+      gap: 2rem;
+      padding: 2rem 0;
+    }
+
+    .section:hover .stats-grid {
+      gap: 2.5rem;
+      padding: 2.5rem 0;
+    }
+
+    .stat-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2rem 2.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(229, 231, 235, 0.6);
+    }
+
+    .stat-card:hover {
+      padding: 2.5rem 3rem;
+      background: linear-gradient(135deg, rgba(67, 56, 202, 0.08), rgba(139, 92, 246, 0.08));
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      border-left: 6px solid #4338ca;
+      border: 1px solid rgba(67, 56, 202, 0.2);
+    }
+
+    .stat-card:nth-child(2):hover {
+      border-left-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.08));
+    }
+
+    .stat-card:nth-child(3):hover {
+      border-left-color: #22c55e;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(16, 185, 129, 0.08));
+    }
+
+    .stat-card:nth-child(4):hover {
+      border-left-color: #8b5cf6;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(168, 85, 247, 0.08));
+    }
+
+    .stat-card:hover .stat-card__icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .stat-card:hover .stat-card__number {
+      color: #4338ca;
+      text-shadow: 0 2px 4px rgba(67, 56, 202, 0.2);
+    }
+
+    /* Dashboard Grid Enhanced Padding */
+    .dashboard-grid {
+      transition: all 0.3s ease;
+      gap: 2.5rem;
+      padding: 3rem 0;
+    }
+
+    .section:hover .dashboard-grid {
+      gap: 3rem;
+      padding: 3.5rem 0;
+    }
+
+    .dashboard-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2.5rem;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(229, 231, 235, 0.8);
+    }
+
+    .dashboard-card:hover {
+      padding: 3rem;
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+      border-left: 6px solid #6366f1;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+
+    .dashboard-card--featured:hover {
+      border-left-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(251, 191, 36, 0.05));
+    }
+
+    .dashboard-card__header {
+      transition: all 0.3s ease;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+    }
+
+    .dashboard-card:hover .dashboard-card__header {
+      padding-bottom: 2rem;
+      border-bottom-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .dashboard-card:hover .dashboard-card__header h2 {
+      color: #4338ca;
+      text-shadow: 0 1px 2px rgba(67, 56, 202, 0.1);
+    }
+
+    /* Application List Enhanced Padding */
+    .application-list, .task-list {
+      transition: all 0.3s ease;
+      padding: 1.5rem 0;
+    }
+
+    .dashboard-card:hover .application-list, .dashboard-card:hover .task-list {
+      padding: 2rem 0;
+    }
+
+    .application-item, .task-item {
+      transition: all 0.3s ease;
+      padding: 1.5rem 2rem;
+      border-radius: 12px;
+      margin: 0.75rem 0;
+      background: rgba(248, 250, 252, 0.8);
+    }
+
+    .application-item:hover, .task-item:hover {
+      padding: 2rem 2.5rem;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #3b82f6;
+    }
+
+    /* Quick Actions Enhanced Padding */
+    .action-grid {
+      transition: all 0.3s ease;
+      gap: 1.5rem;
+      padding: 1.5rem 0;
+    }
+
+    .dashboard-card:hover .action-grid {
+      gap: 2rem;
+      padding: 2rem 0;
+    }
+
+    .action-item {
+      transition: all 0.3s ease;
+      padding: 1.5rem 2rem;
+      border-radius: 16px;
+      background: rgba(248, 250, 252, 0.8);
+      border: 1px solid rgba(229, 231, 235, 0.6);
+    }
+
+    .action-item:hover {
+      padding: 2rem 2.5rem;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(16, 185, 129, 0.08));
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+      border-left: 4px solid #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .action-item:hover svg {
+      transform: scale(1.1);
+      color: #22c55e;
+    }
+
+    /* Black font and icons for action item text */
+    .action-item span {
+      color: #000000 !important;
+      font-weight: 500;
+    }
+
+    .action-item:hover span {
+      color: #000000 !important;
+    }
+
+    .action-item svg {
+      fill: #000000 !important;
+      stroke: #000000 !important;
+    }
+
+    .action-item:hover svg {
+      fill: #000000 !important;
+      stroke: #000000 !important;
+      transform: scale(1.1);
+    }
+
+    /* Applicants Section Enhanced Padding */
+    .filters {
+      transition: all 0.3s ease;
+      padding: 2rem 2.5rem;
+      border-radius: 20px;
+      background: rgba(249, 250, 251, 0.8);
+      margin: 2rem 0;
+    }
+
+    .filters:hover {
+      padding: 2.5rem 3rem;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      border-left: 6px solid #6366f1;
+    }
+
+    .filters__group {
+      transition: all 0.3s ease;
+    }
+
+    .filters:hover .filters__group {
+      transform: translateY(-1px);
+    }
+
+    .filters__select, .filters__input {
+      transition: all 0.3s ease;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+    }
+
+    .filters__select:hover, .filters__input:hover, .filters__select:focus, .filters__input:focus {
+      padding: 1.25rem 1.75rem;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border-color: #6366f1;
+    }
+
+    /* Table Container Enhanced Padding */
+    .table-container {
+      transition: all 0.3s ease;
+      padding: 2rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      margin: 2rem 0;
+    }
+
+    .table-container:hover {
+      padding: 2.5rem;
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+      border-left: 6px solid #4338ca;
+    }
+
+    /* Bulk Actions Enhanced Padding */
+    .bulk-actions {
+      transition: all 0.3s ease;
+      padding: 1.5rem 2rem;
+      border-radius: 16px;
+      background: rgba(245, 158, 11, 0.1);
+      margin: 2rem 0;
+    }
+
+    .bulk-actions:hover {
+      padding: 2rem 2.5rem;
+      background: rgba(245, 158, 11, 0.15);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(245, 158, 11, 0.2);
+      border-left: 4px solid #f59e0b;
+    }
+
+    .bulk-actions__buttons .btn {
+      transition: all 0.3s ease;
+      padding: 0.75rem 1.5rem;
+      margin: 0 0.5rem;
+    }
+
+    .bulk-actions:hover .bulk-actions__buttons .btn {
+      padding: 1rem 2rem;
+      transform: translateY(-1px);
+    }
+
+    /* Help Section Enhanced Padding */
+    .help-grid {
+      transition: all 0.3s ease;
+      gap: 2rem;
+      padding: 2rem 0;
+    }
+
+    .section:hover .help-grid {
+      gap: 2.5rem;
+      padding: 2.5rem 0;
+    }
+
+    .help-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2.5rem 2rem;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(229, 231, 235, 0.6);
+      text-align: center;
+    }
+
+    .help-card:hover {
+      padding: 3rem 2.5rem;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(168, 85, 247, 0.08));
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.15);
+      border-left: 6px solid #8b5cf6;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .help-card:nth-child(1):hover {
+      border-left-color: #3b82f6;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(99, 102, 241, 0.08));
+    }
+
+    .help-card:nth-child(2):hover {
+      border-left-color: #ef4444;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(248, 113, 113, 0.08));
+    }
+
+    .help-card:nth-child(3):hover {
+      border-left-color: #22c55e;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(16, 185, 129, 0.08));
+    }
+
+    .help-card:nth-child(4):hover {
+      border-left-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.08));
+    }
+
+    .help-card:hover .help-card__icon {
+      transform: scale(1.2) rotate(5deg);
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .help-card:hover h3 {
+      color: #4338ca;
+      text-shadow: 0 1px 2px rgba(67, 56, 202, 0.1);
+    }
+
+    .help-card .btn {
+      transition: all 0.3s ease;
+      padding: 1rem 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .help-card:hover .btn {
+      padding: 1.25rem 2.5rem;
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(67, 56, 202, 0.3);
+    }
+
+    /* Floating Settings Button Enhanced */
+    .floating-settings-btn {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 1.25rem;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #5a5bb8, #6b6ce8);
+      border: 3px solid #f59e0b;
+      box-shadow: 0 8px 32px rgba(90, 91, 184, 0.3),
+                  0 0 20px rgba(245, 158, 11, 0.4),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      animation: shimmer 2s infinite alternate;
+    }
+
+    @keyframes shimmer {
+      0% {
+        border-color: #f59e0b;
+        box-shadow: 0 8px 32px rgba(90, 91, 184, 0.3),
+                    0 0 20px rgba(245, 158, 11, 0.4),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+      50% {
+        border-color: #fbbf24;
+        box-shadow: 0 8px 32px rgba(90, 91, 184, 0.3),
+                    0 0 30px rgba(251, 191, 36, 0.6),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      }
+      100% {
+        border-color: #fcd34d;
+        box-shadow: 0 8px 32px rgba(90, 91, 184, 0.3),
+                    0 0 40px rgba(252, 211, 77, 0.8),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      }
+    }
+
+    .floating-settings-btn:hover {
+      padding: 1.5rem;
+      width: 72px;
+      height: 72px;
+      transform: scale(1.1) rotate(90deg);
+      border: 4px solid #fcd34d;
+      background: linear-gradient(135deg, #4c4db8, #5a5bb8, #6b6ce8);
+      box-shadow: 0 16px 48px rgba(90, 91, 184, 0.4),
+                  0 0 50px rgba(252, 211, 77, 1),
+                  inset 0 2px 0 rgba(255, 255, 255, 0.8);
+      animation: shimmer-hover 1s infinite alternate;
+    }
+
+    @keyframes shimmer-hover {
+      0% {
+        border-color: #fcd34d;
+        box-shadow: 0 16px 48px rgba(90, 91, 184, 0.4),
+                    0 0 50px rgba(252, 211, 77, 1),
+                    inset 0 2px 0 rgba(255, 255, 255, 0.8);
+      }
+      100% {
+        border-color: #fde047;
+        box-shadow: 0 16px 48px rgba(90, 91, 184, 0.4),
+                    0 0 60px rgba(253, 224, 71, 1),
+                    inset 0 2px 0 rgba(255, 255, 255, 1);
+      }
+    }
+
+    /* Mobile Navigation Enhanced Padding */
+    .nav-overlay__content {
+      transition: all 0.3s ease;
+      padding: 2rem;
+    }
+
+    .nav-overlay[aria-hidden="false"] .nav-overlay__content {
+      padding: 2.5rem;
+    }
+
+    .nav-overlay__link {
+      transition: all 0.3s ease;
+      padding: 1rem 1.5rem;
+      margin: 0.5rem 0;
+      border-radius: 12px;
+    }
+
+    .nav-overlay__link:hover {
+      padding: 1.25rem 2rem;
+      background: rgba(67, 56, 202, 0.1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Settings Modal Enhanced Padding */
+    .settings-modal {
+      transition: all 0.3s ease;
+      padding: 2rem;
+      border-radius: 24px;
+    }
+
+    .settings-overlay[aria-hidden="false"] .settings-modal {
+      padding: 2.5rem;
+      transform: scale(1.02);
+    }
+
+    .settings-section {
+      transition: all 0.3s ease;
+      padding: 2rem;
+      margin: 1.5rem 0;
+      border-radius: 16px;
+      background: rgba(248, 250, 252, 0.8);
+    }
+
+    .settings-section:hover {
+      padding: 2.5rem;
+      background: rgba(248, 250, 252, 0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Mobile Responsive Adjustments */
+    @media (max-width: 768px) {
+      .header:hover {
+        padding: 1.75rem 0;
+      }
+
+      .header:hover .header__inner {
+        padding: 0 1.5rem;
+      }
+
+      .subnav:hover {
+        padding: 1.75rem 0;
+      }
+
+      .subnav:hover .subnav__inner {
+        padding: 0 1.5rem;
+      }
+
+      .section:hover {
+        padding: 2.5rem 0;
+      }
+
+      .stat-card:hover, .dashboard-card:hover, .help-card:hover {
+        transform: translateY(-2px) scale(1.01);
+      }
+
+      .filters:hover, .table-container:hover {
+        padding: 2rem 1.5rem;
+      }
+
+      .floating-settings-btn:hover {
+        width: 68px;
+        height: 68px;
+        transform: scale(1.05) rotate(45deg);
+      }
+    }
+
+    /* Footer White Text Styling */
+    .footer * {
+      color: white !important;
+    }
+
+    .footer a {
+      color: white !important;
+    }
+
+    .footer a:hover {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .footer .footer__brand-name,
+    .footer .footer__tagline,
+    .footer .footer__title,
+    .footer .footer__links a,
+    .footer .footer__copyright,
+    .footer .footer__status {
+      color: white !important;
+    }
+
+    /* Accessibility: Reduced motion support */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body data-user-id="u-institution-001">
+  <!-- Skip Link -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Toast notifications container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Site header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+
+      <!-- Header Tools -->
+      <div class="header-tools">
+        <!-- Search -->
+        <div class="header-search" id="headerSearch">
+          <button class="header-search__trigger" id="searchTrigger" aria-label="Search">
+            <svg width="20" height="20" fill="white">
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="header-search__dropdown" id="searchDropdown" aria-hidden="true">
+            <div class="search-box">
+              <input type="search" id="globalSearch" placeholder="Search applications, students, programs..." aria-label="Global search">
+              <button type="button" class="search-box__submit">
+                <svg width="16" height="16" fill="white">
+                  <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="white" stroke-width="2" fill="none"/>
+                </svg>
+              </button>
+            </div>
+            <div class="search-suggestions" id="searchSuggestions">
+              <div class="search-category">
+                <h4>Recent Searches</h4>
+                <div class="search-items">
+                  <a href="#" class="search-item">Computer Science applications</a>
+                  <a href="#" class="search-item">Pending reviews</a>
+                  <a href="#" class="search-item">Sarah Johnson</a>
+                </div>
+              </div>
+              <div class="search-category">
+                <h4>Quick Actions</h4>
+                <div class="search-items">
+                  <a href="#applicants" class="search-item">View All Applicants</a>
+                  <a href="#dashboard" class="search-item">Dashboard</a>
+                  <a href="#settings" class="search-item">Settings</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="header-notifications" id="headerNotifications">
+          <button class="header-notifications__trigger" id="notificationsTrigger" aria-label="Notifications">
+            <svg width="20" height="20" fill="white">
+              <path d="M10 2C8.346 2 7 3.346 7 5v2.267A6.001 6.001 0 003 13v2a1 1 0 001 1h3.083A3.001 3.001 0 0010 18a3.001 3.001 0 002.917-2H16a1 1 0 001-1v-2a6.001 6.001 0 00-4-5.733V5c0-1.654-1.346-3-3-3z"/>
+            </svg>
+            <span class="header-notifications__badge" id="notificationsBadge">4</span>
+          </button>
+          <div class="header-notifications__dropdown" id="notificationsDropdown" aria-hidden="true">
+            <div class="notifications-header">
+              <h3>Notifications</h3>
+              <div class="notifications-actions">
+                <button class="btn-link" id="markAllRead">Mark all read</button>
+                <button class="btn-link" id="notificationSettings">Settings</button>
+              </div>
+            </div>
+            <div class="notifications-list" id="notificationsList">
+              <div class="notification-item notification-item--unread">
+                <div class="notification-icon notification-icon--new">📋</div>
+                <div class="notification-content">
+                  <div class="notification-title">New Application Received</div>
+                  <div class="notification-message">Sarah Johnson submitted application for Computer Science Master's program</div>
+                  <div class="notification-time">2 minutes ago</div>
+                </div>
+                <button class="notification-dismiss" aria-label="Dismiss">×</button>
+              </div>
+              <div class="notification-item notification-item--unread">
+                <div class="notification-icon notification-icon--urgent">⚠️</div>
+                <div class="notification-content">
+                  <div class="notification-title">Review Deadline Approaching</div>
+                  <div class="notification-message">5 applications require review by end of day</div>
+                  <div class="notification-time">1 hour ago</div>
+                </div>
+                <button class="notification-dismiss" aria-label="Dismiss">×</button>
+              </div>
+              <div class="notification-item">
+                <div class="notification-icon notification-icon--message">💬</div>
+                <div class="notification-content">
+                  <div class="notification-title">New Message</div>
+                  <div class="notification-message">Michael Chen sent a message regarding document clarification</div>
+                  <div class="notification-time">3 hours ago</div>
+                </div>
+                <button class="notification-dismiss" aria-label="Dismiss">×</button>
+              </div>
+              <div class="notification-item">
+                <div class="notification-icon notification-icon--success">✅</div>
+                <div class="notification-content">
+                  <div class="notification-title">Application Processed</div>
+                  <div class="notification-message">Emily Rodriguez application has been automatically processed</div>
+                  <div class="notification-time">1 day ago</div>
+                </div>
+                <button class="notification-dismiss" aria-label="Dismiss">×</button>
+              </div>
+            </div>
+            <div class="notifications-footer">
+              <a href="/institutions/notifications.html" class="btn btn--ghost btn--full">View All Notifications</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="header-messages" id="headerMessages">
+          <button class="header-messages__trigger" id="messagesTrigger" aria-label="Messages">
+            <svg width="20" height="20" fill="white">
+              <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <span class="header-messages__badge" id="messagesBadge">2</span>
+          </button>
+          <div class="header-messages__dropdown" id="messagesDropdown" aria-hidden="true">
+            <div class="messages-header">
+              <h3>Recent Messages</h3>
+              <button class="btn-link" id="composeMessage">Compose</button>
+            </div>
+            <div class="messages-list" id="messagesList">
+              <div class="message-item message-item--unread">
+                <div class="message-avatar">
+                  <img src="/assets/img/avatars/student1.jpg" alt="Student avatar" width="40" height="40">
+                </div>
+                <div class="message-content">
+                  <div class="message-sender">Sarah Johnson</div>
+                  <div class="message-preview">Hello, I have a question about the required documents for...</div>
+                  <div class="message-time">5 min ago</div>
+                </div>
+                <div class="message-status message-status--unread"></div>
+              </div>
+              <div class="message-item message-item--unread">
+                <div class="message-avatar">
+                  <img src="/assets/img/avatars/student2.jpg" alt="Student avatar" width="40" height="40">
+                </div>
+                <div class="message-content">
+                  <div class="message-sender">Michael Chen</div>
+                  <div class="message-preview">Thank you for the feedback on my application. I will update...</div>
+                  <div class="message-time">1 hour ago</div>
+                </div>
+                <div class="message-status message-status--unread"></div>
+              </div>
+              <div class="message-item">
+                <div class="message-avatar">
+                  <img src="/assets/img/avatars/student3.jpg" alt="Student avatar" width="40" height="40">
+                </div>
+                <div class="message-content">
+                  <div class="message-sender">Emily Rodriguez</div>
+                  <div class="message-preview">I wanted to follow up on my interview schedule...</div>
+                  <div class="message-time">2 days ago</div>
+                </div>
+                <div class="message-status"></div>
+              </div>
+            </div>
+            <div class="messages-footer">
+              <a href="/institutions/messages.html" class="btn btn--ghost btn--full">View All Messages</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Profile -->
+        <div class="header-profile" id="headerProfile">
+          <button class="header-profile__trigger" id="profileTrigger" aria-label="User profile">
+            <div class="profile-avatar">
+              <img src="/assets/img/avatars/institution.jpg" alt="Institution avatar" width="32" height="32">
+            </div>
+            <div class="profile-info">
+              <span class="profile-name">University of Excellence</span>
+              <span class="profile-role">Institution Admin</span>
+            </div>
+            <svg width="16" height="16" fill="white" class="profile-chevron">
+              <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+            </svg>
+          </button>
+          <div class="header-profile__dropdown" id="profileDropdown" aria-hidden="true">
+            <div class="profile-header">
+              <div class="profile-avatar-large">
+                <img src="/assets/img/avatars/institution.jpg" alt="Institution avatar" width="48" height="48">
+              </div>
+              <div class="profile-details">
+                <div class="profile-name-large">University of Excellence</div>
+                <div class="profile-email">admin@universityexcellence.edu</div>
+                <div class="profile-plan">Premium Plan</div>
+              </div>
+            </div>
+            <div class="profile-menu">
+              <a href="/institutions/profile.html" class="profile-menu-item">
+                <svg width="16" height="16" fill="white">
+                  <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"/>
+                </svg>
+                <span>Institution Profile</span>
+              </a>
+              <a href="/institutions/settings.html" class="profile-menu-item">
+                <svg width="16" height="16" fill="white">
+                  <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                  <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span>Account Settings</span>
+              </a>
+              <a href="/institutions/billing.html" class="profile-menu-item">
+                <svg width="16" height="16" fill="white">
+                  <path d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/>
+                </svg>
+                <span>Billing & Plans</span>
+              </a>
+              <a href="/institutions/help.html" class="profile-menu-item">
+                <svg width="16" height="16" fill="white">
+                  <path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+                <span>Help & Support</span>
+              </a>
+              <div class="profile-menu-divider"></div>
+              <button class="profile-menu-item profile-menu-item--danger" id="signOutBtn">
+                <svg width="16" height="16" fill="white">
+                  <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                </svg>
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connection status -->
+        <div class="connection-status" id="connectionStatus" aria-live="polite">
+          <span class="connection-status__indicator"></span>
+          <span class="connection-status__text">Online</span>
+        </div>
+
+        <!-- Language switcher -->
+        <form class="lang-switch" aria-label="Language selector">
+          <label for="lang" class="sr-only">Language</label>
+          <select id="lang" name="lang">
+            <option value="en" selected>🇺🇸 EN</option>
+            <option value="fr">🇫🇷 FR</option>
+            <option value="ar" dir="rtl">🇸🇦 AR</option>
+            <option value="es">🇪🇸 ES</option>
+            <option value="de">🇩🇪 DE</option>
+          </select>
+        </form>
+      </div>
+
+      <!-- Mobile navigation toggle -->
+      <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu" id="mobileMenuToggle">
+        <span class="nav__toggle-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+        <span class="nav__toggle-text">Menu</span>
+      </button>
+    </div>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="nav-overlay" id="navOverlay" aria-hidden="true">
+      <div class="nav-overlay__content">
+        <div class="nav-overlay__header">
+          <div class="brand">
+            <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="32" height="32" />
+            <span class="brand__name">Flow</span>
+          </div>
+          <button class="nav-overlay__close" id="mobileMenuClose" aria-label="Close menu">×</button>
+        </div>
+        <nav class="nav-overlay__nav">
+          <a href="/" class="nav-overlay__link">🏠 Home</a>
+          <a href="/students/" class="nav-overlay__link">👥 Students</a>
+          <a href="/institutions/" class="nav-overlay__link nav-overlay__link--active">🏛️ Institutions</a>
+          <a href="/counselors/" class="nav-overlay__link">👨‍🏫 Counselors</a>
+          <a href="/parents/" class="nav-overlay__link">👨‍👩‍👧‍👦 Parents</a>
+          <a href="/recommenders/" class="nav-overlay__link">📝 Recommenders</a>
+          <div class="nav-overlay__divider"></div>
+          <a href="#settings" class="nav-overlay__link">⚙️ Settings</a>
+          <a href="/institutions/help.html" class="nav-overlay__link">❓ Help</a>
+          <a href="/auth/" class="nav-overlay__link nav-overlay__link--primary">🔑 Sign In</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sub-navigation specific to the institution portal -->
+  <nav class="subnav" role="navigation" aria-label="Institution sections" style="background: #5a5bb8; padding: 2rem 0;">
+    <div class="container">
+      <div class="subnav__inner" style="padding: 1.5rem 3rem; border-radius: 16px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);">
+        <a href="/institutions/onboarding.html" class="badge badge--primary" style="padding: 1rem 1.5rem; margin: 0 0.5rem; border-radius: 12px; background: rgba(255, 255, 255, 0.25); color: white; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); font-weight: 600;">
+          <svg width="16" height="16" fill="white" aria-hidden="true">
+            <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2z"/>
+          </svg>
+          <span>Setup Institution</span>
+        </a>
+        <a href="/institutions/" class="subnav__link subnav__link--active" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; background: rgba(255, 255, 255, 0.2); color: white; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); font-weight: 600;">Dashboard</a>
+        <a href="/institutions/applicants.html" class="subnav__link nav-hover-item" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; color: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;">Applicants</a>
+        <a href="/institutions/messages.html" class="subnav__link nav-hover-item" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; color: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;">Messages</a>
+        <a href="/institutions/programs.html" class="subnav__link nav-hover-item" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; color: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;">Programs</a>
+        <a href="/institutions/admissions.html" class="subnav__link nav-hover-item" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; color: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;">Admissions</a>
+        <a href="/institutions/reports.html" class="subnav__link nav-hover-item" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; color: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;">Reports</a>
+        <a href="#help" class="subnav__link nav-hover-item" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; color: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;">Help</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main id="main" role="main" style="padding: 4rem 0;">
+    <!-- Dashboard overview -->
+    <section id="dashboard" class="section" aria-labelledby="dashTitle" style="padding: 3rem 0;">
+      <div class="container" style="padding: 0 3rem;">
+        <header class="section__header" style="padding: 2rem 0 3rem 0; margin-bottom: 4rem;">
+          <h1 id="dashTitle" style="padding: 1rem 2rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, rgba(90, 91, 184, 0.05), rgba(90, 91, 184, 0.1)); border-radius: 16px; border-left: 6px solid #5a5bb8;">Welcome, University of Excellence</h1>
+          <p class="section__description" style="padding: 1.5rem 2rem; background: rgba(90, 91, 184, 0.03); border-radius: 12px; font-size: 1.2rem; line-height: 1.7;">Manage your admissions, review applications, and oversee institutional operations</p>
+        </header>
+
+        <!-- Quick stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card__icon">
+              <svg width="24" height="24" fill="white">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div class="stat-card__content">
+              <div class="stat-card__number">2,847</div>
+              <div class="stat-card__label">Total Applications</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card__icon">
+              <svg width="24" height="24" fill="white">
+                <path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/>
+              </svg>
+            </div>
+            <div class="stat-card__content">
+              <div class="stat-card__number">486</div>
+              <div class="stat-card__label">Pending Reviews</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card__icon">
+              <svg width="24" height="24" fill="white">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+            </div>
+            <div class="stat-card__content">
+              <div class="stat-card__number">1,203</div>
+              <div class="stat-card__label">Accepted</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-card__icon">
+              <svg width="24" height="24" fill="white">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+            </div>
+            <div class="stat-card__content">
+              <div class="stat-card__number">94.2%</div>
+              <div class="stat-card__label">Completion Rate</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard cards grid -->
+        <div class="dashboard-grid">
+          <!-- Recent applications card -->
+          <article class="dashboard-card dashboard-card--featured" aria-labelledby="recentAppsTitle">
+            <header class="dashboard-card__header">
+              <h2 id="recentAppsTitle">Recent Applications</h2>
+              <a href="/institutions/applicants.html" class="dashboard-card__action">View all</a>
+            </header>
+            <div class="application-list">
+              <div class="application-item">
+                <div class="application-item__avatar">
+                  <img src="/assets/img/avatars/student1.jpg" alt="Student avatar" width="40" height="40" />
+                </div>
+                <div class="application-item__content">
+                  <div class="application-item__name">Sarah Johnson</div>
+                  <div class="application-item__program">Computer Science, Master's</div>
+                </div>
+                <div class="application-item__status application-item__status--new">New</div>
+              </div>
+
+              <div class="application-item">
+                <div class="application-item__avatar">
+                  <img src="/assets/img/avatars/student2.jpg" alt="Student avatar" width="40" height="40" />
+                </div>
+                <div class="application-item__content">
+                  <div class="application-item__name">Michael Chen</div>
+                  <div class="application-item__program">Business Administration, MBA</div>
+                </div>
+                <div class="application-item__status application-item__status--review">Under Review</div>
+              </div>
+
+              <div class="application-item">
+                <div class="application-item__avatar">
+                  <img src="/assets/img/avatars/student3.jpg" alt="Student avatar" width="40" height="40" />
+                </div>
+                <div class="application-item__content">
+                  <div class="application-item__name">Emily Rodriguez</div>
+                  <div class="application-item__program">Medicine, Doctor of Medicine</div>
+                </div>
+                <div class="application-item__status application-item__status--interview">Interview</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Admission tasks card -->
+          <article class="dashboard-card" aria-labelledby="tasksTitle">
+            <header class="dashboard-card__header">
+              <h2 id="tasksTitle">Admission Tasks</h2>
+              <span class="dashboard-card__count">8 pending</span>
+            </header>
+            <div class="task-list">
+              <div class="task-item">
+                <div class="task-item__content">
+                  <div class="task-item__title">Review scholarship applications</div>
+                  <div class="task-item__meta">Due: Tomorrow</div>
+                </div>
+                <div class="task-item__priority task-item__priority--high"></div>
+              </div>
+
+              <div class="task-item">
+                <div class="task-item__content">
+                  <div class="task-item__title">Schedule admission interviews</div>
+                  <div class="task-item__meta">Due: This week</div>
+                </div>
+                <div class="task-item__priority task-item__priority--medium"></div>
+              </div>
+
+              <div class="task-item">
+                <div class="task-item__content">
+                  <div class="task-item__title">Update program requirements</div>
+                  <div class="task-item__meta">Due: Next week</div>
+                </div>
+                <div class="task-item__priority task-item__priority--low"></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Programs overview card -->
+          <article class="dashboard-card" aria-labelledby="programsTitle">
+            <header class="dashboard-card__header">
+              <h2 id="programsTitle">Programs</h2>
+              <a href="/institutions/programs.html" class="dashboard-card__action">Manage</a>
+            </header>
+            <div class="program-stats">
+              <div class="program-stat">
+                <div class="program-stat__number">24</div>
+                <div class="program-stat__label">Active Programs</div>
+              </div>
+              <div class="program-stat">
+                <div class="program-stat__number">156</div>
+                <div class="program-stat__label">Available Spots</div>
+              </div>
+              <div class="program-stat">
+                <div class="program-stat__number">89%</div>
+                <div class="program-stat__label">Fill Rate</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Quick actions card -->
+          <article class="dashboard-card" aria-labelledby="actionsTitle">
+            <header class="dashboard-card__header">
+              <h2 id="actionsTitle">Quick Actions</h2>
+            </header>
+            <div class="action-grid">
+              <button class="action-item" type="button">
+                <svg width="20" height="20" fill="white">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span>Create Program</span>
+              </button>
+              
+              <button class="action-item" type="button">
+                <svg width="20" height="20" fill="white">
+                  <path d="M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 0 0-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2z"/>
+                </svg>
+                <span>Send Message</span>
+              </button>
+              
+              <button class="action-item" type="button">
+                <svg width="20" height="20" fill="white">
+                  <path d="M9 11H7v6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h2v4zm2-4h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2V7z"/>
+                </svg>
+                <span>Generate Report</span>
+              </button>
+              
+              <button class="action-item" type="button">
+                <svg width="20" height="20" fill="white">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                <span>Review Applications</span>
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+
+
+    <!-- Help section -->
+    <section id="help" class="section" aria-labelledby="helpTitle">
+      <div class="container">
+        <header class="section__header">
+          <h2 id="helpTitle">Help & Support</h2>
+          <p class="section__description">Get help and support for using the institution portal</p>
+        </header>
+        
+        <div class="help-grid">
+          <article class="help-card">
+            <div class="help-card__icon">📚</div>
+            <h3>User Guide</h3>
+            <p>Comprehensive documentation on how to use all portal features.</p>
+            <button class="btn btn--primary" onclick="openUserGuide()">
+              <svg width="16" height="16" fill="white" style="margin-right: 8px;">
+                <path d="M4 6h12M4 10h8M4 14h12"/>
+                <rect x="2" y="4" width="16" height="12" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+              </svg>
+              View Guide
+            </button>
+          </article>
+          
+          <article class="help-card">
+            <div class="help-card__icon">🎥</div>
+            <h3>Video Tutorials</h3>
+            <p>Step-by-step video guides for common tasks and workflows.</p>
+            <button class="btn btn--primary" onclick="openVideoTutorials()">
+              <svg width="16" height="16" fill="white" style="margin-right: 8px;">
+                <polygon points="5,3 5,13 13,8" fill="white"/>
+                <circle cx="8" cy="8" r="7" fill="none" stroke="white" stroke-width="1.2"/>
+              </svg>
+              Watch Videos
+            </button>
+          </article>
+          
+          <article class="help-card">
+            <div class="help-card__icon">💬</div>
+            <h3>Live Support</h3>
+            <p>Chat with our support team for immediate assistance.</p>
+            <button class="btn btn--primary" onclick="startLiveChat()">
+              <svg width="16" height="16" fill="white" style="margin-right: 8px;">
+                <path d="M8 2a6 6 0 00-6 6c0 1.3.4 2.5 1.1 3.5L2 14l2.5-1.1A6 6 0 008 14a6 6 0 000-12z" fill="none" stroke="white" stroke-width="1.2"/>
+                <circle cx="6" cy="8" r="0.5" fill="white"/>
+                <circle cx="8" cy="8" r="0.5" fill="white"/>
+                <circle cx="10" cy="8" r="0.5" fill="white"/>
+              </svg>
+              Start Chat
+            </button>
+          </article>
+          
+          <article class="help-card">
+            <div class="help-card__icon">📧</div>
+            <h3>Contact Support</h3>
+            <p>Send us an email for detailed support requests.</p>
+            <button class="btn btn--primary" onclick="sendSupportEmail()">
+              <svg width="16" height="16" fill="white" style="margin-right: 8px;">
+                <path d="M2 4h12l-6 4-6-4zM2 4v8h12V4" fill="none" stroke="white" stroke-width="1.2"/>
+                <circle cx="12" cy="5" r="1" fill="#22c55e"/>
+              </svg>
+              Send Email
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer" style="background: linear-gradient(135deg, #5a5bb8, #6b6ce8); position: relative; overflow: hidden; color: white;">
+    <div class="container footer__inner" style="position: relative; z-index: 2; color: white;">
+      <div class="footer__grid">
+        <!-- Brand section -->
+        <div class="footer__brand">
+          <div class="footer__logo" onclick="scrollToTop()" style="cursor: pointer;" title="Back to top">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#373896"/>
+                  <stop offset="100%" style="stop-color:#6b6ce8"/>
+                </linearGradient>
+              </defs>
+              <circle cx="20" cy="20" r="18" fill="url(#logoGradient)" stroke="white" stroke-width="2"/>
+              <path d="M15 18l5-5 5 5M20 13v14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="footer__brand-text">
+            <div class="footer__brand-name" style="color: white;">Flow</div>
+            <div class="footer__tagline" style="color: white;">Streamlining Education Access</div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="footer__section">
+          <h3 class="footer__title" style="color: black;">For Institutions</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="12" height="10" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M4 6h8M4 8h6M4 10h4"/>
+                <circle cx="11" cy="5" r="2" fill="#22c55e" opacity="0.8"/>
+                <path d="M10 5l0.7 0.7 1.3-1.4" stroke="white" stroke-width="0.8" fill="none"/>
+              </svg>
+              <span style="color: white;">Dashboard</span></a></li>
+            <li><a href="/institutions/programs.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h4M5 9h5"/>
+                <circle cx="11" cy="6" r="1.5" fill="#22c55e" opacity="0.8"/>
+                <path d="M10.3 6l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.8" fill="none"/>
+              </svg>
+              <span style="color: white;">Manage Programs</span></a></li>
+            <li><a href="/institutions/admissions.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="8" height="10" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <rect x="12" y="3" width="2" height="10" rx="0.5" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M4 6h4M4 8h3M4 10h4"/>
+                <circle cx="8" cy="6" r="1" fill="#22c55e"/>
+                <path d="M7.5 6l0.3 0.3 0.5-0.6" stroke="white" stroke-width="0.6" fill="none"/>
+              </svg>
+              <span style="color: white;">Admissions</span></a></li>
+            <li><a href="/institutions/reports.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="12" height="10" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M2 7h12"/>
+                <rect x="4" y="9" width="1.5" height="2" fill="#3b82f6" opacity="0.8" rx="0.3"/>
+                <rect x="6" y="10" width="1.5" height="1" fill="#22c55e" opacity="0.8" rx="0.3"/>
+                <rect x="8" y="8" width="1.5" height="3" fill="#f59e0b" opacity="0.8" rx="0.3"/>
+                <rect x="10" y="11" width="1.5" height="0.5" fill="#ef4444" opacity="0.8" rx="0.3"/>
+              </svg>
+              <span style="color: white;">Reports</span></a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title" style="color: black;">Support</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/help.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <circle cx="8" cy="8" r="6" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M8 6v2M8 10h.01"/>
+                <circle cx="8" cy="4" r="1" fill="#3b82f6"/>
+                <path d="M4 12l8-8M12 12l-8-8" stroke="#22c55e" stroke-width="0.8" opacity="0.5"/>
+              </svg>
+              <span style="color: white;">Help Center</span></a></li>
+            <li><a href="/contact/">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M2 3h12l-6 5-6-5zM2 3v10h12V3" fill="none" stroke="white" stroke-width="1.2"/>
+                <circle cx="12" cy="4" r="1.5" fill="#22c55e"/>
+                <path d="M11.3 4l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+              </svg>
+              <span style="color: white;">Contact</span></a></li>
+            <li><a href="/legal/privacy.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="3" y="2" width="10" height="12" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M8 6v4M6 8h4"/>
+                <circle cx="8" cy="5" r="1" fill="#f59e0b"/>
+                <rect x="5" y="9" width="6" height="1" fill="#ef4444" opacity="0.6"/>
+              </svg>
+              <span style="color: white;">Privacy</span></a></li>
+            <li><a href="/legal/terms.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h5M5 9h4M5 11h6"/>
+                <circle cx="12" cy="4" r="1" fill="#8b5cf6"/>
+                <rect x="4" y="6" width="1" height="6" fill="#3b82f6" opacity="0.3"/>
+              </svg>
+              <span style="color: white;">Terms</span></a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title" style="color: black;">Connect</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/messages.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="4" width="12" height="8" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M2 6l5 3 2-1 5-2"/>
+                <circle cx="12" cy="5" r="1.5" fill="#ef4444"/>
+                <text x="12" y="6" text-anchor="middle" font-size="2.5" fill="white" font-weight="bold">2</text>
+              </svg>
+              <span style="color: white;">Messages</span></a></li>
+            <li><a href="/community/">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <circle cx="5" cy="6" r="2" fill="none" stroke="white" stroke-width="1.2"/>
+                <circle cx="11" cy="6" r="2" fill="none" stroke="white" stroke-width="1.2"/>
+                <circle cx="8" cy="11" r="2" fill="none" stroke="white" stroke-width="1.2"/>
+                <circle cx="5" cy="6" r="1" fill="#22c55e"/>
+                <circle cx="11" cy="6" r="1" fill="#3b82f6"/>
+                <circle cx="8" cy="11" r="1" fill="#f59e0b"/>
+                <path d="M7 8l2 1M9 8l-2 1" stroke="white" stroke-width="0.8"/>
+              </svg>
+              <span style="color: white;">Community</span></a></li>
+            <li><a href="/blog/">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h4M5 9h5"/>
+                <circle cx="12" cy="4" r="1.5" fill="#22c55e"/>
+                <path d="M11.3 4l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+                <rect x="4" y="11" width="8" height="1" fill="#8b5cf6" opacity="0.6"/>
+              </svg>
+              <span style="color: white;">Updates</span></a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <div class="footer__copyright" style="color: white;">
+          © 2024 Flow Education Platform. All rights reserved.
+        </div>
+        <div class="footer__status">
+          <span class="footer__status-dot"></span>
+          <span style="color: white;">All systems operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Settings overlay -->
+  <div class="settings-overlay" id="settingsOverlay" aria-hidden="true">
+    <div class="settings-modal" role="dialog" aria-labelledby="settingsTitle">
+      <header class="settings-modal__header">
+        <h2 id="settingsTitle">🏛️ Institution Settings</h2>
+        <button class="settings-modal__close" type="button" aria-label="Close settings">
+          <svg width="20" height="20" fill="white">
+            <path d="M6.225 4.811a1 1 0 0 0-1.414 1.414L10.586 12 4.81 17.775a1 1 0 1 0 1.414 1.414L12 13.414l5.775 5.775a1 1 0 0 0 1.414-1.414L13.414 12l5.775-5.775a1 1 0 0 0-1.414-1.414L12 10.586 6.225 4.81z"/>
+          </svg>
+        </button>
+      </header>
+
+      <div class="settings-modal__content">
+        <!-- Appearance Settings -->
+        <div class="settings-section">
+          <h3>🎨 Appearance & Display</h3>
+          <div class="settings-group">
+            <label for="themeSelect">Color Theme</label>
+            <select id="themeSelect">
+              <option value="auto">🌗 Auto (System)</option>
+              <option value="light">☀️ Light Mode</option>
+              <option value="dark">🌙 Dark Mode</option>
+              <option value="blue">🔵 Blue Theme</option>
+            </select>
+          </div>
+          <div class="settings-group">
+            <label for="densitySelect">Interface Density</label>
+            <select id="densitySelect">
+              <option value="comfortable">📏 Comfortable</option>
+              <option value="compact">📐 Compact</option>
+              <option value="spacious">📊 Spacious</option>
+            </select>
+          </div>
+          <div class="settings-group">
+            <label for="fontSizeSelect">Font Size</label>
+            <select id="fontSizeSelect">
+              <option value="small">🔤 Small</option>
+              <option value="medium" selected>🔤 Medium</option>
+              <option value="large">🔤 Large</option>
+              <option value="xl">🔤 Extra Large</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="settings-section">
+          <h3>🔔 Notifications & Alerts</h3>
+          <label class="settings-toggle">
+            <span>📧 Email Notifications</span>
+            <input type="checkbox" id="emailNotifications" checked>
+          </label>
+          <label class="settings-toggle">
+            <span>🔔 Browser Push Notifications</span>
+            <input type="checkbox" id="pushNotifications">
+          </label>
+          <label class="settings-toggle">
+            <span>📱 SMS Notifications</span>
+            <input type="checkbox" id="smsNotifications">
+          </label>
+          <label class="settings-toggle">
+            <span>🎵 Sound Alerts</span>
+            <input type="checkbox" id="soundAlerts" checked>
+          </label>
+          <div class="settings-group">
+            <label for="notificationFrequency">Digest Frequency</label>
+            <select id="notificationFrequency">
+              <option value="realtime">⚡ Real-time</option>
+              <option value="hourly">🕐 Hourly</option>
+              <option value="daily" selected>📅 Daily</option>
+              <option value="weekly">📆 Weekly</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Institution Profile -->
+        <div class="settings-section">
+          <h3>🏛️ Institution Profile</h3>
+          <div class="settings-group">
+            <label for="institutionName">Institution Name</label>
+            <input type="text" id="institutionName" value="University of Excellence" placeholder="Enter institution name">
+          </div>
+          <div class="settings-group">
+            <label for="institutionType">Institution Type</label>
+            <select id="institutionType">
+              <option value="university">🎓 University</option>
+              <option value="college">🏫 College</option>
+              <option value="community">🏘️ Community College</option>
+              <option value="trade">🔧 Trade School</option>
+              <option value="other">❓ Other</option>
+            </select>
+          </div>
+          <div class="settings-group">
+            <label for="contactEmail">Primary Contact Email</label>
+            <input type="email" id="contactEmail" value="admin@universityexcellence.edu" placeholder="contact@institution.edu">
+          </div>
+          <div class="settings-group">
+            <label for="timeZone">Time Zone</label>
+            <select id="timeZone">
+              <option value="UTC-8">🌎 Pacific Time (UTC-8)</option>
+              <option value="UTC-7">🌎 Mountain Time (UTC-7)</option>
+              <option value="UTC-6">🌎 Central Time (UTC-6)</option>
+              <option value="UTC-5" selected>🌎 Eastern Time (UTC-5)</option>
+              <option value="UTC+0">🌍 GMT (UTC+0)</option>
+              <option value="UTC+1">🌍 Central Europe (UTC+1)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Application Management -->
+        <div class="settings-section">
+          <h3>📋 Application Management</h3>
+          <label class="settings-toggle">
+            <span>🤖 Auto-assign Reviewers</span>
+            <input type="checkbox" id="autoAssignReviewers" checked>
+          </label>
+          <label class="settings-toggle">
+            <span>📎 Allow File Uploads</span>
+            <input type="checkbox" id="allowUploads" checked>
+          </label>
+          <label class="settings-toggle">
+            <span>📊 Enable Bulk Actions</span>
+            <input type="checkbox" id="bulkActions" checked>
+          </label>
+          <div class="settings-group">
+            <label for="applicationsPerPage">Applications Per Page</label>
+            <select id="applicationsPerPage">
+              <option value="10">10</option>
+              <option value="25" selected>25</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+          <div class="settings-group">
+            <label for="defaultStatus">Default Application Status</label>
+            <select id="defaultStatus">
+              <option value="pending" selected>⏳ Pending Review</option>
+              <option value="reviewing">👀 Under Review</option>
+              <option value="incomplete">❌ Incomplete</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Security & Privacy -->
+        <div class="settings-section">
+          <h3>🔐 Security & Privacy</h3>
+          <label class="settings-toggle">
+            <span>🛡️ Two-Factor Authentication</span>
+            <input type="checkbox" id="twoFactorAuth">
+          </label>
+          <label class="settings-toggle">
+            <span>📝 Audit Logging</span>
+            <input type="checkbox" id="auditLogging" checked>
+          </label>
+          <label class="settings-toggle">
+            <span>🌐 IP Whitelisting</span>
+            <input type="checkbox" id="ipWhitelisting">
+          </label>
+          <div class="settings-group">
+            <label for="sessionTimeout">Session Timeout</label>
+            <select id="sessionTimeout">
+              <option value="15">15 minutes</option>
+              <option value="30">30 minutes</option>
+              <option value="60" selected>1 hour</option>
+              <option value="120">2 hours</option>
+              <option value="480">8 hours</option>
+            </select>
+          </div>
+          <div class="settings-group">
+            <label for="passwordPolicy">Password Policy</label>
+            <select id="passwordPolicy">
+              <option value="basic">Basic (8+ chars)</option>
+              <option value="standard" selected>Standard (8+ chars, mixed)</option>
+              <option value="strict">Strict (12+ chars, symbols)</option>
+              <option value="enterprise">Enterprise (15+ chars, complex)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Data & Backup -->
+        <div class="settings-section">
+          <h3>💾 Data & Backup</h3>
+          <label class="settings-toggle">
+            <span>⚡ Auto-save Changes</span>
+            <input type="checkbox" id="autoSave" checked>
+          </label>
+          <label class="settings-toggle">
+            <span>🔄 Automatic Backups</span>
+            <input type="checkbox" id="autoBackup" checked>
+          </label>
+          <label class="settings-toggle">
+            <span>🗂️ Data Compression</span>
+            <input type="checkbox" id="dataCompression">
+          </label>
+          <div class="settings-group">
+            <label for="backupFrequency">Backup Frequency</label>
+            <select id="backupFrequency">
+              <option value="hourly">⏰ Hourly</option>
+              <option value="daily" selected>📅 Daily</option>
+              <option value="weekly">📆 Weekly</option>
+              <option value="monthly">📊 Monthly</option>
+            </select>
+          </div>
+          <div class="settings-group">
+            <label for="dataRetention">Data Retention Period</label>
+            <select id="dataRetention">
+              <option value="1">1 year</option>
+              <option value="2" selected>2 years</option>
+              <option value="5">5 years</option>
+              <option value="7">7 years</option>
+              <option value="permanent">♾️ Permanent</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <footer class="settings-modal__footer">
+        <button class="btn btn--secondary" type="button" id="cancelSettings">Cancel</button>
+        <button class="btn btn--secondary" type="button" id="resetSettings">🔄 Reset to Defaults</button>
+        <button class="btn btn--primary" type="button" id="saveSettings">💾 Save Changes</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Floating settings button -->
+  <button class="floating-settings-btn" id="floatingSettingsBtn" type="button" aria-label="Open settings">
+    <svg width="20" height="20" fill="white">
+      <path d="M15.95 10.78c.03-.25.05-.51.05-.78s-.02-.53-.06-.78l1.69-1.32c.15-.12.19-.34.1-.51l-1.6-2.77c-.1-.18-.31-.24-.49-.18l-1.99.8c-.42-.32-.86-.58-1.35-.78L12 2.34c-.03-.2-.2-.34-.4-.34H8.4c-.2 0-.36.14-.39.34l-.3 2.12c-.49.2-.94.47-1.35.78l-1.99-.8c-.18-.07-.39 0-.49.18l-1.6 2.77c-.1.18-.06.39.1.51l1.69 1.32c-.04.25-.07.52-.07.78s.02.53.06.78L2.37 12.1c-.15.12-.19.34-.1.51l1.6 2.77c.1.18.31.24.49.18l1.99-.8c.42.32.86.58 1.35.78l.3 2.12c.04.2.2.34.4.34h3.2c.2 0 .37-.14.39-.34l.3-2.12c.49-.2.94-.47 1.35-.78l1.99.8c.18.07.39 0 .49-.18l1.6-2.77c.1-.18.06-.39-.1-.51l-1.67-1.32zM10 13c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3z"/>
+    </svg>
+  </button>
+
+  <!-- Flow Cookie Consent System -->
+  <script src="/assets/js/cookie-consent.js"></script>
+
+  <!-- Scripts -->
+  <!-- Commenting out external scripts that might cause issues
+  <script src="/assets/js/base.js"></script>
+  <script src="/assets/js/auth.js"></script>
+  <script src="/assets/js/auth-guards.js"></script>
+  <script src="/assets/js/institutions.js"></script>
+  -->
+  
+  <script>
+    console.log('Institution dashboard script loaded');
+    
+    // Simple, self-contained functions
+    window.scrollToTop = function() {
+      console.log('scrollToTop function called');
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
+    }
+    
+    window.openUserGuide = function() {
+      console.log('openUserGuide function called');
+      alert('📚 User Guide\n\nWelcome to the Institution Portal!\n\n🚀 Getting Started:\n• Dashboard Overview: View key metrics\n• Program Management: Create and manage programs\n• Admissions: Handle application processes\n• Reports: Generate analytics\n\n📊 Key Features:\n• Real-time Analytics\n• Bulk Operations\n• Custom Workflows\n• Document Management\n\n💡 Pro Tip: Use the floating settings button for quick access!');
+    }
+    
+    window.openVideoTutorials = function() {
+      console.log('openVideoTutorials function called');
+      alert('🎥 Video Tutorials\n\nAvailable Tutorial Series:\n\n📚 Program Management Basics (12 min)\n📊 Analytics & Reporting (18 min)\n🎯 Admissions Workflow (25 min)\n⚙️ Advanced Configuration (22 min)\n\n💡 New tutorials are added monthly!');
+    }
+    
+    window.startLiveChat = function() {
+      console.log('startLiveChat function called');
+      alert('💬 Live Support Chat\n\nConnecting you to our support team...\n\n🕒 Support Hours: Monday-Friday, 8 AM - 8 PM EST\n📱 Response time: ~2 minutes\n\nIn a real implementation, this would open a live chat window.');
+    }
+    
+    window.sendSupportEmail = function() {
+      console.log('sendSupportEmail function called');
+      const email = prompt('📧 Contact Support\n\nPlease enter your email address:');
+      if (email) {
+        const subject = prompt('What can we help you with?\n\nEnter a brief subject:');
+        if (subject) {
+          alert('📧 Support email sent successfully!\n\nYou will receive a confirmation email shortly.\nOur team will respond within 24 hours.\n\nTicket ID: #SUP-' + Math.random().toString(36).substr(2, 6).toUpperCase());
+        }
+      }
+    }
+    
+    // Settings functionality
+    window.openSettings = function() {
+      console.log('openSettings function called');
+      const settingsOverlay = document.getElementById('settingsOverlay');
+      if (settingsOverlay) {
+        settingsOverlay.setAttribute('aria-hidden', 'false');
+        settingsOverlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    
+    window.closeSettings = function() {
+      console.log('closeSettings function called');
+      const settingsOverlay = document.getElementById('settingsOverlay');
+      if (settingsOverlay) {
+        settingsOverlay.setAttribute('aria-hidden', 'true');
+        settingsOverlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    }
+    
+    window.saveSettings = function() {
+      console.log('saveSettings function called');
+      alert('⚙️ Settings saved successfully!\n\nYour preferences have been updated.');
+      closeSettings();
+    }
+    
+    window.resetSettings = function() {
+      console.log('resetSettings function called');
+      if (confirm('🔄 Reset Settings\n\nThis will restore all settings to their default values. Are you sure?')) {
+        alert('🔄 Settings reset to defaults!');
+        closeSettings();
+      }
+    }
+    
+    // Header Dropdown Functions
+    function toggleDropdown(dropdownId, triggerId) {
+      const dropdown = document.getElementById(dropdownId);
+      const trigger = document.getElementById(triggerId);
+
+      if (!dropdown) return;
+
+      const isHidden = dropdown.getAttribute('aria-hidden') === 'true';
+
+      // Close all other dropdowns
+      ['searchDropdown', 'notificationsDropdown', 'messagesDropdown', 'profileDropdown'].forEach(id => {
+        if (id !== dropdownId) {
+          const otherDropdown = document.getElementById(id);
+          if (otherDropdown) {
+            otherDropdown.setAttribute('aria-hidden', 'true');
+            otherDropdown.style.display = 'none';
+          }
+        }
+      });
+
+      // Toggle current dropdown
+      dropdown.setAttribute('aria-hidden', isHidden ? 'false' : 'true');
+      dropdown.style.display = isHidden ? 'block' : 'none';
+
+      if (trigger) {
+        trigger.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
+      }
+    }
+
+    // Search functionality
+    window.handleSearch = function() {
+      const searchTerm = document.getElementById('globalSearch').value.trim();
+      if (searchTerm) {
+        alert(`🔍 Search Results for: "${searchTerm}"\n\nWould show results for:\n• Applications containing "${searchTerm}"\n• Students named "${searchTerm}"\n• Programs matching "${searchTerm}"\n• Documents with "${searchTerm}"\n\nIn a real system, this would display filtered results.`);
+      }
+    }
+
+    // Notifications functionality
+    window.markAllNotificationsRead = function() {
+      const badge = document.getElementById('notificationsBadge');
+      if (badge) {
+        badge.style.display = 'none';
+        alert('✅ All notifications marked as read!');
+      }
+    }
+
+    window.openNotificationSettings = function() {
+      alert('⚙️ Notification Settings\n\n📧 Email Notifications: Enabled\n📱 Push Notifications: Enabled\n🔔 Application Updates: Immediate\n📊 Weekly Reports: Monday 9 AM\n💬 Message Alerts: Instant\n\nWould open notification preferences panel.');
+    }
+
+    // Messages functionality
+    window.composeMessage = function() {
+      const recipient = prompt('✉️ Compose Message\n\nTo (student email or staff):');
+      if (recipient) {
+        const subject = prompt('Subject:');
+        if (subject) {
+          const message = prompt('Message:');
+          if (message) {
+            alert(`📨 Message sent to ${recipient}!\n\nSubject: ${subject}\nMessage: ${message.substring(0, 50)}...\n\nThe message has been delivered to their inbox.`);
+          }
+        }
+      }
+    }
+
+    // Profile functionality
+    window.viewFullProfile = function() {
+      alert('👤 Institution Profile\n\n🏫 University of Excellence\n📧 admin@university.edu\n📞 (555) 123-4567\n🌐 www.university.edu\n📍 123 Education St, Academic City\n\n📊 Statistics:\n• Active Students: 15,247\n• Programs: 127\n• Faculty: 892\n• Applications (This Year): 8,456');
+    }
+
+    window.editProfile = function() {
+      alert('✏️ Edit Profile\n\nThis would open a profile editing form with:\n• Institution details\n• Contact information\n• Branding settings\n• User preferences\n• Security settings');
+    }
+
+    window.logout = function() {
+      if (confirm('🚪 Sign Out\n\nAre you sure you want to sign out?')) {
+        alert('👋 Signing out...\n\nRedirecting to login page.');
+        // In real app: window.location.href = '/auth/login';
+      }
+    }
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      const dropdowns = ['searchDropdown', 'notificationsDropdown', 'messagesDropdown', 'profileDropdown'];
+      const triggers = ['searchTrigger', 'notificationsTrigger', 'messagesTrigger', 'profileTrigger'];
+
+      if (!triggers.some(triggerId => document.getElementById(triggerId)?.contains(e.target))) {
+        dropdowns.forEach(dropdownId => {
+          const dropdown = document.getElementById(dropdownId);
+          if (dropdown && !dropdown.contains(e.target)) {
+            dropdown.setAttribute('aria-hidden', 'true');
+            dropdown.style.display = 'none';
+          }
+        });
+      }
+    });
+
+    // Initialize event listeners and test functions
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded - all functions ready');
+      
+      // Add click handlers for header buttons
+      const searchTrigger = document.getElementById('searchTrigger');
+      const notificationsTrigger = document.getElementById('notificationsTrigger');
+      const messagesTrigger = document.getElementById('messagesTrigger');
+      const profileTrigger = document.getElementById('profileTrigger');
+
+      if (searchTrigger) {
+        searchTrigger.onclick = () => toggleDropdown('searchDropdown', 'searchTrigger');
+        console.log('Search trigger event listener added');
+      }
+
+      if (notificationsTrigger) {
+        notificationsTrigger.onclick = () => toggleDropdown('notificationsDropdown', 'notificationsTrigger');
+        console.log('Notifications trigger event listener added');
+      }
+
+      if (messagesTrigger) {
+        messagesTrigger.onclick = () => toggleDropdown('messagesDropdown', 'messagesTrigger');
+        console.log('Messages trigger event listener added');
+      }
+
+      if (profileTrigger) {
+        profileTrigger.onclick = () => toggleDropdown('profileDropdown', 'profileTrigger');
+        console.log('Profile trigger event listener added');
+      }
+
+      // Add search functionality
+      const globalSearch = document.getElementById('globalSearch');
+      const searchSubmit = document.querySelector('.search-box__submit');
+
+      if (globalSearch) {
+        globalSearch.addEventListener('keypress', function(e) {
+          if (e.key === 'Enter') {
+            handleSearch();
+          }
+        });
+      }
+
+      if (searchSubmit) {
+        searchSubmit.onclick = handleSearch;
+      }
+
+      // Add notification actions
+      const markAllRead = document.getElementById('markAllRead');
+      const notificationSettings = document.getElementById('notificationSettings');
+
+      if (markAllRead) {
+        markAllRead.onclick = markAllNotificationsRead;
+      }
+
+      if (notificationSettings) {
+        notificationSettings.onclick = openNotificationSettings;
+      }
+
+      // Add message actions
+      const composeMessageBtn = document.getElementById('composeMessage');
+      if (composeMessageBtn) {
+        composeMessageBtn.onclick = composeMessage;
+      }
+
+      // Add profile actions
+      const profileActions = document.querySelectorAll('.profile-menu a');
+      profileActions.forEach(action => {
+        const href = action.getAttribute('href');
+        if (href === '#profile') {
+          action.onclick = (e) => {
+            e.preventDefault();
+            viewFullProfile();
+          };
+        } else if (href === '#edit-profile') {
+          action.onclick = (e) => {
+            e.preventDefault();
+            editProfile();
+          };
+        } else if (href === '#logout') {
+          action.onclick = (e) => {
+            e.preventDefault();
+            logout();
+          };
+        }
+      });
+
+      // Add click handler for floating settings button
+      const floatingSettingsBtn = document.getElementById('floatingSettingsBtn');
+      if (floatingSettingsBtn) {
+        floatingSettingsBtn.onclick = openSettings;
+        console.log('Floating settings button event listener added');
+      }
+      
+      // Add click handlers for settings modal buttons
+      const cancelSettings = document.getElementById('cancelSettings');
+      const resetSettings = document.getElementById('resetSettings');
+      const saveSettingsBtn = document.getElementById('saveSettings');
+      const settingsCloseBtn = document.querySelector('.settings-modal__close');
+      
+      if (cancelSettings) cancelSettings.onclick = closeSettings;
+      if (resetSettings) resetSettings.onclick = window.resetSettings;
+      if (saveSettingsBtn) saveSettingsBtn.onclick = saveSettings;
+      if (settingsCloseBtn) settingsCloseBtn.onclick = closeSettings;
+      
+      // Close settings when clicking overlay
+      const settingsOverlay = document.getElementById('settingsOverlay');
+      if (settingsOverlay) {
+        settingsOverlay.onclick = function(e) {
+          if (e.target === settingsOverlay) closeSettings();
+        }
+      }
+      
+      console.log('Available functions:', {
+        scrollToTop: typeof window.scrollToTop,
+        openUserGuide: typeof window.openUserGuide,
+        openVideoTutorials: typeof window.openVideoTutorials,
+        startLiveChat: typeof window.startLiveChat,
+        sendSupportEmail: typeof window.sendSupportEmail,
+        openSettings: typeof window.openSettings,
+        closeSettings: typeof window.closeSettings,
+        saveSettings: typeof window.saveSettings,
+        resetSettings: typeof window.resetSettings
+      });
+    });
+  </script>
+</body>
+</html>

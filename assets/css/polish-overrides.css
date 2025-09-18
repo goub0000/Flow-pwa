@@ -1,0 +1,448 @@
+/* Final Polish Overrides
+ * Ensures complete uniformity across all pages
+ * Loaded last to override any inconsistencies
+ */
+
+/* Force uniform font family across all elements - except institution onboarding */
+body:not([data-page="institution-onboarding"]) * {
+  font-family: var(--font-family-sans) !important;
+}
+
+/* Ensure consistent body styling - but exclude institution onboarding */
+body:not([data-page="institution-onboarding"]) {
+  background: linear-gradient(135deg, var(--dark-bg-primary) 0%, var(--dark-bg-secondary) 100%) !important;
+  color: white !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 100vh !important;
+  line-height: var(--leading-normal) !important;
+}
+
+/* Force header consistency - but exclude institution onboarding */
+body:not([data-page="institution-onboarding"]) .header,
+body:not([data-page="institution-onboarding"]) .unified-header {
+  background: rgba(26, 26, 46, 0.95) !important;
+  backdrop-filter: blur(20px) !important;
+  border-bottom: 1px solid var(--dark-border) !important;
+  padding: var(--spacing-4) 0 !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: var(--z-50) !important;
+}
+
+/* Standardize all navigation links */
+.nav-link,
+.header-nav a,
+.nav__link {
+  color: rgba(255, 255, 255, 0.8) !important;
+  text-decoration: none !important;
+  font-weight: var(--font-medium) !important;
+  transition: color var(--duration-200) var(--ease-out) !important;
+}
+
+.nav-link:hover,
+.header-nav a:hover,
+.nav__link:hover {
+  color: var(--primary-400) !important;
+}
+
+/* Force button consistency */
+.btn,
+.auth-button,
+.button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: var(--spacing-2) !important;
+  padding: var(--spacing-3) var(--spacing-6) !important;
+  border: none !important;
+  border-radius: var(--radius-lg) !important;
+  font-family: var(--font-family-sans) !important;
+  font-size: var(--text-base) !important;
+  font-weight: var(--font-medium) !important;
+  text-decoration: none !important;
+  cursor: pointer !important;
+  transition: all var(--duration-200) var(--ease-out) !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.btn--primary,
+.auth-button:not([style*="background"]) {
+  background: linear-gradient(135deg, var(--primary-600) 0%, var(--primary-700) 100%) !important;
+  color: white !important;
+}
+
+.btn--ghost {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid var(--dark-border) !important;
+}
+
+.btn:hover:not(:disabled),
+.auth-button:hover:not(:disabled) {
+  transform: translateY(-2px) !important;
+}
+
+.btn--primary:hover:not(:disabled),
+.auth-button:hover:not(:disabled) {
+  box-shadow: 0 0 20px rgba(90, 91, 184, 0.4) !important;
+}
+
+/* Standardize form inputs - but exclude institution onboarding */
+body:not([data-page="institution-onboarding"]) .form-input,
+body:not([data-page="institution-onboarding"]) .form-select,
+body:not([data-page="institution-onboarding"]) .form-textarea {
+  width: 100% !important;
+  padding: var(--spacing-3) var(--spacing-4) !important;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid var(--dark-border) !important;
+  border-radius: var(--radius-lg) !important;
+  color: white !important;
+  font-family: var(--font-family-sans) !important;
+  font-size: var(--text-base) !important;
+  transition: all var(--duration-200) var(--ease-out) !important;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none !important;
+  border-color: var(--primary-600) !important;
+  box-shadow: 0 0 0 3px rgba(90, 91, 184, 0.2) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Force form labels consistency - but exclude institution onboarding */
+body:not([data-page="institution-onboarding"]) .form-label,
+body:not([data-page="institution-onboarding"]) label {
+  display: block !important;
+  margin-bottom: var(--spacing-2) !important;
+  font-weight: var(--font-medium) !important;
+  color: white !important;
+  font-family: var(--font-family-sans) !important;
+}
+
+/* Standardize cards */
+.card,
+.auth-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid var(--dark-border) !important;
+  border-radius: var(--radius-2xl) !important;
+  padding: var(--spacing-6) !important;
+}
+
+/* Modal dialogs need more opacity for readability */
+.modal__dialog {
+  background: linear-gradient(135deg, rgba(15, 20, 25, 0.95) 0%, rgba(26, 26, 46, 0.95) 100%) !important;
+  backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: var(--radius-2xl) !important;
+  padding: var(--spacing-6) !important;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Modal text elements */
+.modal__title,
+.modal__body,
+.portal-card {
+  color: white !important;
+}
+
+.portal-card {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  transition: all 0.3s ease !important;
+}
+
+.portal-card:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(90, 91, 184, 0.5) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Standardize headings - but exclude institution onboarding */
+body:not([data-page="institution-onboarding"]) h1, 
+body:not([data-page="institution-onboarding"]) h2, 
+body:not([data-page="institution-onboarding"]) h3, 
+body:not([data-page="institution-onboarding"]) h4, 
+body:not([data-page="institution-onboarding"]) h5, 
+body:not([data-page="institution-onboarding"]) h6 {
+  color: white !important;
+  font-family: var(--font-family-sans) !important;
+  font-weight: var(--font-semibold) !important;
+  line-height: var(--leading-tight) !important;
+  margin-bottom: var(--spacing-4) !important;
+}
+
+body:not([data-page="institution-onboarding"]) h1, 
+body:not([data-page="institution-onboarding"]) .auth-title { 
+  font-size: var(--text-4xl) !important; 
+  font-weight: var(--font-bold) !important;
+}
+body:not([data-page="institution-onboarding"]) h2 { font-size: var(--text-3xl) !important; }
+body:not([data-page="institution-onboarding"]) h3 { font-size: var(--text-2xl) !important; }
+body:not([data-page="institution-onboarding"]) h4 { font-size: var(--text-xl) !important; }
+body:not([data-page="institution-onboarding"]) h5 { font-size: var(--text-lg) !important; }
+body:not([data-page="institution-onboarding"]) h6 { font-size: var(--text-base) !important; }
+
+/* Standardize paragraphs and subtitles - but exclude institution onboarding */
+body:not([data-page="institution-onboarding"]) p, 
+body:not([data-page="institution-onboarding"]) .auth-subtitle {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-family: var(--font-family-sans) !important;
+  line-height: var(--leading-relaxed) !important;
+  margin-bottom: var(--spacing-4) !important;
+}
+
+/* Standardize links - except institution onboarding */
+body:not([data-page="institution-onboarding"]) a {
+  color: var(--primary-400) !important;
+  text-decoration: none !important;
+  transition: color var(--duration-200) var(--ease-out) !important;
+}
+
+body:not([data-page="institution-onboarding"]) a:hover {
+  color: var(--primary-300) !important;
+}
+
+/* Message styling consistency */
+.error-message,
+.success-message,
+.info-message {
+  padding: var(--spacing-4) !important;
+  border-radius: var(--radius-lg) !important;
+  margin-bottom: var(--spacing-4) !important;
+  font-size: var(--text-sm) !important;
+  font-family: var(--font-family-sans) !important;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #ff6b7a !important;
+}
+
+.success-message {
+  background: rgba(34, 197, 94, 0.1) !important;
+  border: 1px solid rgba(34, 197, 94, 0.3) !important;
+  color: #4caf50 !important;
+}
+
+.info-message {
+  background: rgba(59, 130, 246, 0.1) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Loading states */
+.loading,
+.spinner {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: var(--spacing-2) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.spinner {
+  width: 16px !important;
+  height: 16px !important;
+  border: 2px solid transparent !important;
+  border-top: 2px solid currentColor !important;
+  border-radius: 50% !important;
+  animation: spin 1s linear infinite !important;
+}
+
+/* Language selector consistency */
+.language-selector {
+  position: relative !important;
+  display: inline-block !important;
+}
+
+.language-trigger {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--spacing-2) !important;
+  padding: var(--spacing-2) var(--spacing-3) !important;
+  background: var(--dark-surface) !important;
+  border: 1px solid var(--dark-border) !important;
+  border-radius: var(--radius-lg) !important;
+  color: white !important;
+  cursor: pointer !important;
+  transition: all var(--duration-200) var(--ease-out) !important;
+}
+
+.language-dropdown {
+  position: absolute !important;
+  top: 100% !important;
+  right: 0 !important;
+  min-width: 200px !important;
+  background: var(--dark-bg-secondary) !important;
+  border: 1px solid var(--dark-border) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-xl) !important;
+  padding: var(--spacing-2) !important;
+  display: none !important;
+  z-index: var(--z-50) !important;
+}
+
+.language-selector.open .language-dropdown {
+  display: block !important;
+}
+
+/* Simple language select styling */
+.language-select {
+  background: var(--dark-surface) !important;
+  border: 1px solid var(--dark-border) !important;
+  border-radius: var(--radius-lg) !important;
+  color: white !important;
+  padding: var(--spacing-2) var(--spacing-3) !important;
+  font-size: 0.875rem !important;
+  cursor: pointer !important;
+  transition: all var(--duration-200) var(--ease-out) !important;
+}
+
+.language-select:hover {
+  border-color: var(--primary-400) !important;
+  background: var(--dark-bg-secondary) !important;
+}
+
+.language-select:focus {
+  outline: none !important;
+  border-color: var(--primary-500) !important;
+  box-shadow: 0 0 0 3px rgba(115, 103, 240, 0.1) !important;
+}
+
+.language-select option {
+  background: var(--dark-surface) !important;
+  color: white !important;
+  padding: var(--spacing-2) !important;
+}
+
+/* Container and layout consistency */
+.container {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 var(--spacing-4) !important;
+}
+
+/* Modal consistency */
+.modal {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: var(--z-50) !important;
+  display: none !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: var(--spacing-4) !important;
+}
+
+.modal.is-open {
+  display: flex !important;
+}
+
+.modal__overlay {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  background: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* Responsive overrides */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--spacing-3) !important;
+  }
+  
+  .btn--large,
+  .auth-button {
+    padding: var(--spacing-3) var(--spacing-6) !important;
+    font-size: var(--text-base) !important;
+  }
+  
+  .modal__dialog {
+    margin: var(--spacing-3) !important;
+    max-width: calc(100% - var(--spacing-6)) !important;
+  }
+  
+  h1, .auth-title {
+    font-size: var(--text-3xl) !important;
+  }
+  
+  h2 {
+    font-size: var(--text-2xl) !important;
+  }
+}
+
+/* Utility classes that should always work */
+.text-center { text-align: center !important; }
+.text-left { text-align: left !important; }
+.text-right { text-align: right !important; }
+
+.mb-2 { margin-bottom: var(--spacing-2) !important; }
+.mb-4 { margin-bottom: var(--spacing-4) !important; }
+.mb-6 { margin-bottom: var(--spacing-6) !important; }
+
+.mt-2 { margin-top: var(--spacing-2) !important; }
+.mt-4 { margin-top: var(--spacing-4) !important; }
+.mt-6 { margin-top: var(--spacing-6) !important; }
+
+.hidden { display: none !important; }
+.block { display: block !important; }
+.flex { display: flex !important; }
+
+/* RTL support consistency */
+.rtl {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.rtl .language-dropdown {
+  right: auto !important;
+  left: 0 !important;
+}
+
+/* Print styles */
+@media print {
+  .unified-header,
+  .header,
+  .language-selector,
+  .btn {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Animation consistency */
+@keyframes spin {
+  to { 
+    transform: rotate(360deg); 
+  }
+}
+
+/* Ensure smooth transitions everywhere - except institution onboarding */
+body:not([data-page="institution-onboarding"]) * {
+  transition: color var(--duration-200) var(--ease-out), 
+              background-color var(--duration-200) var(--ease-out),
+              border-color var(--duration-200) var(--ease-out),
+              transform var(--duration-200) var(--ease-out),
+              box-shadow var(--duration-200) var(--ease-out) !important;
+}

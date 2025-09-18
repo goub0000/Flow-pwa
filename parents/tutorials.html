@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow | Video Tutorials</title>
+    <link rel="icon" type="image/png" href="/assets/img/logo.PNG">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Multi-layer Header */
+        .header {
+            position: relative;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #4facfe 100%);
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-20px, -20px) rotate(180deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .header-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .brand-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.8);
+            font-weight: 300;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .nav-menu a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            min-height: calc(100vh - 300px);
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tutorial-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .category-btn.active,
+        .category-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tutorials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .tutorial-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e1e8ed;
+            transition: all 0.3s ease;
+        }
+
+        .tutorial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .tutorial-thumbnail {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            overflow: hidden;
+        }
+
+        .tutorial-thumbnail::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .play-button:hover {
+            background: white;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 20px solid #667eea;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            margin-left: 5px;
+        }
+
+        .tutorial-content {
+            padding: 1.5rem;
+        }
+
+        .tutorial-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .tutorial-description {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .tutorial-duration {
+            color: #667eea;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tutorial-level {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .level-beginner {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .level-intermediate {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .level-advanced {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .watch-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .watch-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tutorial-category {
+            display: none;
+        }
+
+        .tutorial-category.active {
+            display: grid;
+        }
+
+        /* Modal Styles */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .video-placeholder {
+            width: 800px;
+            height: 450px;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section {
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            border: 3px solid rgba(255,255,255,0.3);
+        }
+
+        .footer-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .footer-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .footer-link:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .footer-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.8);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .tutorials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .video-placeholder {
+                width: 100%;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Multi-layer Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="header-brand">
+                    <div class="brand-content">
+                        <div class="header-logo">
+                            <img src="/assets/img/logo.PNG" alt="Flow Logo" class="logo-img">
+                        </div>
+                        <div class="logo-container">
+                            <div class="logo">Flow</div>
+                            <div class="brand-subtitle">Video Tutorials</div>
+                        </div>
+                    </div>
+                </div>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="index.html">Dashboard</a></li>
+                        <li><a href="help-center.html">Help</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Video Tutorials</h1>
+            <p class="page-subtitle">Learn how to make the most of Flow with our comprehensive video tutorials. From getting started to advanced features, we've got you covered.</p>
+        </div>
+
+        <!-- Tutorial Categories -->
+        <div class="tutorial-categories">
+            <button class="category-btn active" onclick="showCategory('getting-started')">Getting Started</button>
+            <button class="category-btn" onclick="showCategory('parent-features')">Parent Features</button>
+            <button class="category-btn" onclick="showCategory('applications')">Applications</button>
+            <button class="category-btn" onclick="showCategory('communication')">Communication</button>
+            <button class="category-btn" onclick="showCategory('settings')">Settings & Privacy</button>
+        </div>
+
+        <!-- Getting Started Tutorials -->
+        <div id="getting-started" class="tutorial-category tutorials-grid active">
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    🚀
+                    <div class="play-button" onclick="openVideo('Welcome to Flow')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Welcome to Flow</h3>
+                    <p class="tutorial-description">Get an overview of Flow's features and how it can help you navigate your child's educational journey.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 3:45</span>
+                        <span class="tutorial-level level-beginner">Beginner</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Welcome to Flow')">Watch Tutorial</button>
+                </div>
+            </div>
+
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    👤
+                    <div class="play-button" onclick="openVideo('Setting Up Your Profile')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Setting Up Your Profile</h3>
+                    <p class="tutorial-description">Learn how to create and customize your parent profile, including privacy settings and preferences.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 5:20</span>
+                        <span class="tutorial-level level-beginner">Beginner</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Setting Up Your Profile')">Watch Tutorial</button>
+                </div>
+            </div>
+
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    🔗
+                    <div class="play-button" onclick="openVideo('Connecting with Your Student')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Connecting with Your Student</h3>
+                    <p class="tutorial-description">Step-by-step guide to linking your account with your student's profile and understanding permissions.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 4:15</span>
+                        <span class="tutorial-level level-beginner">Beginner</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Connecting with Your Student')">Watch Tutorial</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parent Features Tutorials -->
+        <div id="parent-features" class="tutorial-category tutorials-grid">
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    📊
+                    <div class="play-button" onclick="openVideo('Understanding the Dashboard')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Understanding the Dashboard</h3>
+                    <p class="tutorial-description">Navigate your parent dashboard and understand all the key metrics and information available.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 6:30</span>
+                        <span class="tutorial-level level-intermediate">Intermediate</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Understanding the Dashboard')">Watch Tutorial</button>
+                </div>
+            </div>
+
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    💳
+                    <div class="play-button" onclick="openVideo('Quick Pay Features')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Quick Pay Features</h3>
+                    <p class="tutorial-description">Learn how to use the Quick Pay feature for application fees, deposits, and other educational expenses.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 4:45</span>
+                        <span class="tutorial-level level-intermediate">Intermediate</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Quick Pay Features')">Watch Tutorial</button>
+                </div>
+            </div>
+
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    📅
+                    <div class="play-button" onclick="openVideo('Scheduling Meetings')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Scheduling Meetings</h3>
+                    <p class="tutorial-description">Schedule meetings with counselors, admissions officers, and other educational professionals.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 5:10</span>
+                        <span class="tutorial-level level-intermediate">Intermediate</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Scheduling Meetings')">Watch Tutorial</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications Tutorials -->
+        <div id="applications" class="tutorial-category tutorials-grid">
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    📝
+                    <div class="play-button" onclick="openVideo('Application Tracking')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Application Tracking</h3>
+                    <p class="tutorial-description">Monitor your student's application progress across multiple institutions and deadlines.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 7:20</span>
+                        <span class="tutorial-level level-intermediate">Intermediate</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Application Tracking')">Watch Tutorial</button>
+                </div>
+            </div>
+
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    📋
+                    <div class="play-button" onclick="openVideo('Document Management')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Document Management</h3>
+                    <p class="tutorial-description">Organize and manage important documents like transcripts, recommendations, and essays.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 6:15</span>
+                        <span class="tutorial-level level-advanced">Advanced</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Document Management')">Watch Tutorial</button>
+                </div>
+            </div>
+
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    📊
+                    <div class="play-button" onclick="openVideo('Financial Aid Tracking')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Financial Aid Tracking</h3>
+                    <p class="tutorial-description">Track scholarships, grants, and financial aid applications with deadlines and requirements.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 8:30</span>
+                        <span class="tutorial-level level-advanced">Advanced</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Financial Aid Tracking')">Watch Tutorial</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Communication Tutorials -->
+        <div id="communication" class="tutorial-category tutorials-grid">
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    💬
+                    <div class="play-button" onclick="openVideo('Messaging System')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Messaging System</h3>
+                    <p class="tutorial-description">Communicate securely with counselors, admissions officers, and your student through Flow's messaging system.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 5:45</span>
+                        <span class="tutorial-level level-intermediate">Intermediate</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Messaging System')">Watch Tutorial</button>
+                </div>
+            </div>
+
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    🔔
+                    <div class="play-button" onclick="openVideo('Notifications & Alerts')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Notifications & Alerts</h3>
+                    <p class="tutorial-description">Set up and customize notifications for deadlines, updates, and important messages.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 4:20</span>
+                        <span class="tutorial-level level-beginner">Beginner</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Notifications & Alerts')">Watch Tutorial</button>
+                </div>
+            </div>
+
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    📱
+                    <div class="play-button" onclick="openVideo('Mobile App Features')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Mobile App Features</h3>
+                    <p class="tutorial-description">Learn about Flow's mobile app features and how to stay connected on the go.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 6:00</span>
+                        <span class="tutorial-level level-intermediate">Intermediate</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Mobile App Features')">Watch Tutorial</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings & Privacy Tutorials -->
+        <div id="settings" class="tutorial-category tutorials-grid">
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    🔒
+                    <div class="play-button" onclick="openVideo('Privacy Settings')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Privacy Settings</h3>
+                    <p class="tutorial-description">Configure your privacy settings and understand how your data is protected and used.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 7:15</span>
+                        <span class="tutorial-level level-advanced">Advanced</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Privacy Settings')">Watch Tutorial</button>
+                </div>
+            </div>
+
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    ⚙️
+                    <div class="play-button" onclick="openVideo('Account Management')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Account Management</h3>
+                    <p class="tutorial-description">Manage your account settings, change passwords, and update contact information.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 5:30</span>
+                        <span class="tutorial-level level-intermediate">Intermediate</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Account Management')">Watch Tutorial</button>
+                </div>
+            </div>
+
+            <div class="tutorial-card">
+                <div class="tutorial-thumbnail">
+                    🔐
+                    <div class="play-button" onclick="openVideo('Two-Factor Authentication')">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="tutorial-content">
+                    <h3 class="tutorial-title">Two-Factor Authentication</h3>
+                    <p class="tutorial-description">Set up two-factor authentication to enhance the security of your Flow account.</p>
+                    <div class="tutorial-meta">
+                        <span class="tutorial-duration">⏱️ 4:50</span>
+                        <span class="tutorial-level level-intermediate">Intermediate</span>
+                    </div>
+                    <button class="watch-btn" onclick="openVideo('Two-Factor Authentication')">Watch Tutorial</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeVideo()">&times;</span>
+            <div class="video-placeholder">
+                <p id="videoTitle">Video Player - Tutorial would be embedded here</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="/assets/img/logo.PNG" alt="Flow Logo" class="footer-logo-img">
+                    <h3 class="footer-title">Flow</h3>
+                    <p>Empowering educational journeys through comprehensive video tutorials and support.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-links">
+            <a href="help-center.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-6h2v6zm0-8h-2V7h2v4z"/>
+                </svg>
+                Help Center
+            </a>
+            <a href="contact.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                </svg>
+                Contact Us
+            </a>
+            <a href="faq.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+                </svg>
+                FAQ
+            </a>
+            <a href="privacy.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+                </svg>
+                Privacy Policy
+            </a>
+            <a href="security.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,7C13.4,7 14.8,8.6 14.8,10V11H16V17H8V11H9.2V10C9.2,8.6 10.6,7 12,7M12,8.2C11.2,8.2 10.4,8.7 10.4,10V11H13.6V10C13.6,8.7 12.8,8.2 12,8.2Z"/>
+                </svg>
+                Security & Privacy
+            </a>
+            <a href="tutorials.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16A1,1 0 0,0 17,17V13.5L21,17.5V6.5L17,10.5Z"/>
+                </svg>
+                Video Tutorials
+            </a>
+            <a href="updates.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,18.5L21,5H3L12,18.5Z"/>
+                </svg>
+                Latest Updates
+            </a>
+            <a href="community.html" class="footer-link">
+                <svg class="footer-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z"/>
+                </svg>
+                Community Forum
+            </a>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 Flow. All rights reserved. | Learn, grow, and succeed with our comprehensive tutorials.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showCategory(categoryId) {
+            // Hide all categories
+            document.querySelectorAll('.tutorial-category').forEach(cat => {
+                cat.classList.remove('active');
+            });
+            
+            // Remove active class from all buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected category
+            document.getElementById(categoryId).classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+        }
+
+        function openVideo(videoTitle) {
+            document.getElementById('videoTitle').textContent = `Now Playing: ${videoTitle}`;
+            document.getElementById('videoModal').style.display = 'flex';
+        }
+
+        function closeVideo() {
+            document.getElementById('videoModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeVideo();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeVideo();
+            }
+        });
+    </script>
+</body>
+</html>

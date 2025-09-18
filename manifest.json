@@ -1,0 +1,196 @@
+{
+  "name": "Flow - College Application Management",
+  "short_name": "Flow",
+  "description": "Streamline your college application process with real-time collaboration, document management, and comprehensive tracking tools.",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#373896",
+  "background_color": "#0a0a0a",
+  "scope": "/",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["education", "productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "/assets/img/screenshot-desktop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "platform": "wide",
+      "label": "Flow dashboard on desktop"
+    },
+    {
+      "src": "/assets/img/screenshot-mobile.png", 
+      "sizes": "390x844",
+      "type": "image/png",
+      "platform": "narrow",
+      "label": "Flow mobile interface"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/assets/img/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-96x96.png",
+      "sizes": "96x96", 
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/img/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/icon-512x512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "My Applications",
+      "short_name": "Applications",
+      "description": "View and manage your college applications",
+      "url": "/students/applications.html",
+      "icons": [
+        {
+          "src": "/assets/img/shortcut-applications.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Messages",
+      "short_name": "Messages", 
+      "description": "Check your messages and notifications",
+      "url": "/students/messages.html",
+      "icons": [
+        {
+          "src": "/assets/img/shortcut-messages.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "short_name": "Profile",
+      "description": "Manage your profile and settings",
+      "url": "/students/profile.html", 
+      "icons": [
+        {
+          "src": "/assets/img/shortcut-profile.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "share_target": {
+    "action": "/share-handler/",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url",
+      "files": [
+        {
+          "name": "documents",
+          "accept": ["application/pdf", ".pdf", "image/*", ".doc", ".docx", "text/plain"]
+        }
+      ]
+    }
+  },
+  "file_handlers": [
+    {
+      "action": "/file-handler/",
+      "accept": {
+        "application/pdf": [".pdf"],
+        "application/msword": [".doc"],
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
+        "text/plain": [".txt"],
+        "image/*": [".jpg", ".jpeg", ".png", ".gif", ".webp"]
+      }
+    }
+  ],
+  "protocol_handlers": [
+    {
+      "protocol": "web+flow",
+      "url": "/protocol-handler/?url=%s"
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "play",
+      "url": "https://play.google.com/store/apps/details?id=com.flow.app",
+      "id": "com.flow.app"
+    },
+    {
+      "platform": "itunes",
+      "url": "https://apps.apple.com/app/flow-college-apps/id123456789",
+      "id": "123456789"
+    }
+  ],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "focus-existing"
+  },
+  "handle_links": "preferred",
+  "capture_links": "existing-client-navigate",
+  "permissions": [
+    "storage",
+    "notifications",
+    "background-sync",
+    "camera",
+    "microphone"
+  ],
+  "features": [
+    "Cross Origin Embedder Policy",
+    "Cross Origin Opener Policy", 
+    "Service Worker",
+    "Web Push",
+    "Background Sync",
+    "File System Access",
+    "Web Share",
+    "Contact Picker",
+    "Badging"
+  ]
+}

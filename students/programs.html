@@ -1,0 +1,1902 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Explore and filter programs across universities. Save favorites, compare, and apply." />
+  <meta name="theme-color" content="#373896" />
+  <title>Flow — Programs</title>
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/students.css" />
+  
+  <!-- Circular Logo Styles -->
+  <style>
+    .brand__logo,
+    .footer__logo {
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    .brand__logo:hover,
+    .footer__logo:hover {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+      animation-duration: 1.5s;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { 
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        filter: brightness(1);
+      }
+      50% { 
+        box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+        filter: brightness(1.1);
+      }
+    }
+
+    /* Flow blue for section titles */
+    .footer__nav-title {
+      color: #4338ca !important;
+      font-weight: 600 !important;
+      text-shadow: 0 2px 4px rgba(67, 56, 202, 0.3) !important;
+    }
+
+    /* White fonts for specific footer navigation links */
+    .footer__nav a {
+      color: #ffffff !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .footer__nav a:hover {
+      color: rgba(255, 255, 255, 0.8) !important;
+      transform: translateX(2px) !important;
+    }
+
+    /* White font for support description */
+    .footer__cta-description {
+      color: #ffffff !important;
+    }
+
+    /* Flow blue for "Need help?" and copyright */
+    .footer__cta-title {
+      color: #4338ca !important;
+      font-weight: 700 !important;
+      text-shadow: 0 2px 4px rgba(67, 56, 202, 0.3) !important;
+    }
+
+    .footer__copyright {
+      color: #ffffff !important;
+      font-weight: 500 !important;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    .footer__copyright #year,
+    .footer__copyright span {
+      color: #ffffff !important;
+    }
+
+    /* Advanced SVG styles */
+    .advanced-svg-link {
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.75rem !important;
+      padding: 0.5rem !important;
+      border-radius: 8px !important;
+      transition: all 0.3s ease !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    .advanced-svg-link:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      transform: translateX(4px) !important;
+    }
+
+    .advanced-svg-link:hover .svg-icon {
+      transform: scale(1.1) rotate(3deg) !important;
+    }
+
+    .svg-icon {
+      width: 20px !important;
+      height: 20px !important;
+      transition: all 0.3s ease !important;
+      filter: drop-shadow(0 2px 4px rgba(67, 56, 202, 0.3)) !important;
+    }
+
+    .advanced-svg-link::before {
+      content: '' !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: -100% !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent) !important;
+      transition: left 0.6s ease !important;
+    }
+
+    .advanced-svg-link:hover::before {
+      left: 100% !important;
+    }
+  </style>
+</head>
+
+<body data-user-id="u-student-001">
+  <!-- Futuristic background -->
+  <div class="bg-animation" aria-hidden="true">
+    <canvas id="particleCanvas"></canvas>
+  </div>
+
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Site header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+
+      <!-- Connection status -->
+      <div class="connection-status" id="connectionStatus" aria-live="polite">
+        <span class="connection-status__indicator"></span>
+        <span class="connection-status__text">Online</span>
+      </div>
+
+      <!-- Language switcher -->
+      <form class="lang-switch" aria-label="Language selector">
+        <label for="lang" class="sr-only">Language</label>
+        <select id="lang" name="lang" aria-describedby="lang-help">
+          <option value="en" selected>English</option>
+          <option value="fr">Français</option>
+          <option value="ar" dir="rtl">العربية</option>
+          <option value="sw">Kiswahili</option>
+          <option value="ha">Hausa</option>
+          <option value="yo">Yoruba</option>
+          <option value="ig">Igbo</option>
+          <option value="zu">Zulu</option>
+          <option value="am">Amharic</option>
+        </select>
+        <div id="lang-help" class="sr-only">Changing language will reload the page</div>
+      </form>
+
+      <!-- Main navigation -->
+      <nav class="nav" role="navigation" aria-label="Main navigation">
+        <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu">
+          <span class="nav__toggle-icon"><span></span><span></span><span></span></span>
+          <span class="nav__toggle-text">Menu</span>
+        </button>
+        <ul id="navMenu" class="nav__list" data-open="false">
+          <li><a href="/">Home</a></li>
+          <li><a class="nav__link--active" href="/students/">Students</a></li>
+          <li><a href="/institutions/">Institutions</a></li>
+          <li><a href="/counselors/">Counselors</a></li>
+          <li><a href="/parents/">Parents</a></li>
+          <li><a href="/recommenders/">Recommenders</a></li>
+          <li><a class="btn btn--ghost" href="/students/onboarding.html">Get Started</a></li>
+          <li><a class="btn btn--primary" href="/auth/">Sign In</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Sub-navigation -->
+  <nav class="subnav" role="navigation" aria-label="Student sections">
+    <div class="container">
+      <div class="subnav__inner">
+        <a href="/students/onboarding.html" class="badge badge--primary">
+          <svg width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2z"/>
+          </svg>
+          <span>Start Onboarding</span>
+        </a>
+        <a href="/students/" class="subnav__link">Dashboard</a>
+        <a href="/students/profile.html" class="subnav__link">Profile</a>
+        <a href="/students/programs.html" class="subnav__link subnav__link--active">Programs</a>
+        <a href="/students/applications.html" class="subnav__link">Applications</a>
+        <a href="/students/messages.html" class="subnav__link">Messages</a>
+        <a href="/students/finance.html" class="subnav__link">Finance</a>
+        <a href="/students/help.html" class="subnav__link">Help</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <div class="container">
+        <ol class="breadcrumb__list">
+          <li class="breadcrumb__item"><a href="/" class="breadcrumb__link">Home</a></li>
+          <li class="breadcrumb__separator" aria-hidden="true">/</li>
+          <li class="breadcrumb__item"><a href="/students/" class="breadcrumb__link">Student Portal</a></li>
+          <li class="breadcrumb__separator" aria-hidden="true">/</li>
+          <li class="breadcrumb__item"><span class="breadcrumb__current">Programs</span></li>
+        </ol>
+      </div>
+    </nav>
+
+    <!-- Programs -->
+    <section class="section" aria-labelledby="programsTitle">
+      <div class="container">
+        <header class="section__header">
+          <h1 id="programsTitle">Explore Programs</h1>
+          <p class="section__description">Search, filter, and save programs that match your goals.</p>
+        </header>
+
+        <!-- Filters / Toolbar -->
+        <div class="toolbar">
+          <div class="toolbar__primary">
+            <div class="searchbar">
+              <input id="programSearch" class="form-input" type="search" placeholder="Search by program, university, field…" />
+            </div>
+            <div class="toolbar__filters">
+              <select id="filterCountry" aria-label="Filter by country" data-country-selector>
+                <option value="">All countries</option>
+              </select>
+              <select id="filterLevel" aria-label="Filter by level">
+                <option value="">All levels</option>
+                <option value="high-school">High School</option>
+                <option value="middle-school">Middle School</option>
+                <option value="bachelor">Bachelor</option>
+                <option value="master">Master</option>
+                <option value="diploma">Diploma</option>
+                <option value="other">Other</option>
+              </select>
+              <input id="customLevel" type="text" placeholder="Please specify..." style="display: none; margin-left: 8px; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 14px;" />
+              <select id="filterField" aria-label="Filter by field">
+                <option value="">All fields</option>
+                <!-- Will be populated by JavaScript -->
+              </select>
+              <select id="filterMode" aria-label="Filter by mode">
+                <option value="">Any mode</option>
+                <option value="campus">On-campus</option>
+                <option value="online">Online</option>
+                <option value="hybrid">Hybrid</option>
+              </select>
+              <label class="switch">
+                <input type="checkbox" id="filterScholar" />
+                <span>Scholarship only</span>
+              </label>
+
+          <div class="toolbar__secondary">
+            <div class="toolbar__price">
+              <label for="filterTuition" class="muted">Max tuition / year:</label>
+              <input id="filterTuition" type="range" min="0" max="50000" step="1000" value="50000" />
+              <span id="tuitionLabel" data-amount-usd="50000">$50,000</span>
+            </div>
+            <div class="toolbar__sort">
+              <label for="sortBy" class="sr-only">Sort by</label>
+              <select id="sortBy">
+                <option value="match">Best match</option>
+                <option value="tuitionAsc">Lowest tuition</option>
+                <option value="deadlineAsc">Earliest deadline</option>
+                <option value="nameAsc">Name A–Z</option>
+              </select>
+            </div>
+            <button id="resetFilters" class="btn btn--ghost">Reset</button>
+          </div>
+        </div>
+
+        <!-- Active filter chips -->
+        <div id="activeFilters" class="filter-chips" hidden></div>
+
+        <!-- Results -->
+        <div id="resultsMeta" class="muted" style="margin: .5rem 0 1rem 0;">Showing <span id="resultCount">0</span> programs</div>
+
+        <div id="programGrid" class="program-grid" aria-live="polite">
+          <!-- filled by JS -->
+        </div>
+        <div id="emptyState" class="empty" hidden>
+          <div class="empty__icon" aria-hidden="true">🔎</div>
+          <h3>No programs match your filters</h3>
+          <p>Try removing a filter or broadening your search.</p>
+        </div>
+
+        <div class="loadmore">
+          <button id="loadMore" class="btn btn--ghost" hidden>Load more</button>
+        </div>
+
+        <!-- Saved -->
+        <aside class="saved-drawer">
+          <h3 class="saved-drawer__title">Saved programs (<span id="savedCount">0</span>)</h3>
+          <ul id="savedList" class="saved-drawer__list"></ul>
+          <div class="saved-drawer__actions">
+            <a class="btn btn--primary" href="/students/applications.html">Start applications</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- Sticky Compare tray -->
+  <div id="compareTray" class="compare-tray" hidden aria-live="polite">
+    <div class="compare-tray__inner container">
+      <div class="compare-tray__list" id="compareList"></div>
+      <div class="compare-tray__actions">
+        <button id="clearCompare" class="btn btn--ghost">Clear</button>
+        <button id="openCompare" class="btn btn--primary">Compare (<span id="compareCount">0</span>)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Program Details Modal -->
+  <div id="programModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="programModalTitle">
+    <div class="modal__backdrop" data-close="programModal"></div>
+    <div class="modal__dialog modal--lg">
+      <header class="modal__header">
+        <h3 id="programModalTitle">Program details</h3>
+        <button id="closeProgramModal" class="btn btn--ghost btn--sm" type="button" aria-label="Close">✕</button>
+      </header>
+      <div class="modal__body" id="programModalBody">
+        <!-- filled by JS -->
+      </div>
+      <footer class="modal__footer">
+        <button id="modalSave" class="btn btn--ghost" type="button">Save</button>
+        <a id="modalApply" class="btn btn--primary" href="/students/applications.html">Apply</a>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Compare Modal -->
+  <div id="compareModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="compareModalTitle">
+    <div class="modal__backdrop" data-close="compareModal"></div>
+    <div class="modal__dialog modal--xl">
+      <header class="modal__header">
+        <h3 id="compareModalTitle">Compare Programs</h3>
+        <button id="closeCompareModal" class="btn btn--ghost btn--sm" type="button" aria-label="Close">✕</button>
+      </header>
+      <div class="modal__body">
+        <div id="compareTable" class="compare-table"><!-- filled by JS --></div>
+      </div>
+      <footer class="modal__footer">
+        <button id="compareApplyAll" class="btn btn--primary" type="button">Start Applications</button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer">
+    <div class="container footer__grid">
+      <section class="footer__brand">
+        <img src="/assets/img/logo.png" alt="" class="footer__logo" width="40" height="40" />
+        <h3 class="footer__title">Flow</h3>
+        <p class="footer__tagline">Connecting learners and institutions across Africa with technology designed for real-world connectivity challenges.</p>
+      </section>
+      <nav aria-label="Quick links" class="footer__nav">
+        <h3 class="footer__nav-title">Student Resources</h3>
+        <ul>
+          <li><a href="/students/onboarding.html" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="getStartedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#10b981"/>
+                  <stop offset="50%" style="stop-color:#34d399"/>
+                  <stop offset="100%" style="stop-color:#6ee7b7"/>
+                </linearGradient>
+              </defs>
+              <circle cx="12" cy="12" r="10" fill="url(#getStartedGradient)" opacity="0.8"/>
+              <path d="M8 12l2 2 4-4" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="18" cy="6" r="2" fill="#f59e0b" opacity="0.8">
+                <animate attributeName="r" values="1.5;2.5;1.5" dur="2s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>Get Started</span>
+          </a></li>
+          <li><a href="/students/programs.html" aria-current="page" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="programsGradientFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#4338ca"/>
+                  <stop offset="50%" style="stop-color:#6366f1"/>
+                  <stop offset="100%" style="stop-color:#8b5cf6"/>
+                </linearGradient>
+              </defs>
+              <rect x="3" y="4" width="18" height="14" rx="2" fill="url(#programsGradientFooter)" opacity="0.8"/>
+              <rect x="5" y="7" width="4" height="1" fill="white" opacity="0.7"/>
+              <rect x="5" y="9" width="6" height="1" fill="white" opacity="0.6"/>
+              <rect x="5" y="11" width="5" height="1" fill="white" opacity="0.7"/>
+              <rect x="13" y="7" width="6" height="8" rx="1" fill="white" opacity="0.1"/>
+              <circle cx="16" cy="11" r="2" fill="#10b981">
+                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>Browse Programs</span>
+          </a></li>
+          <li><a href="/students/applications.html" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="applicationsGradientFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#059669"/>
+                  <stop offset="50%" style="stop-color:#10b981"/>
+                  <stop offset="100%" style="stop-color:#34d399"/>
+                </linearGradient>
+              </defs>
+              <rect x="4" y="3" width="14" height="18" rx="2" fill="url(#applicationsGradientFooter)" opacity="0.8"/>
+              <rect x="6" y="6" width="8" height="1" fill="white" opacity="0.8"/>
+              <rect x="6" y="8" width="6" height="1" fill="white" opacity="0.6"/>
+              <rect x="6" y="10" width="7" height="1" fill="white" opacity="0.7"/>
+              <rect x="6" y="15" width="10" height="2" rx="1" fill="rgba(255,255,255,0.2)"/>
+              <rect x="6" y="15" width="7" height="2" rx="1" fill="#34d399">
+                <animate attributeName="width" values="4;7;4" dur="3s" repeatCount="indefinite"/>
+              </rect>
+              <circle cx="19" cy="5" r="1.5" fill="#f59e0b">
+                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>My Applications</span>
+          </a></li>
+          <li><a href="/students/finance.html" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="financeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#f59e0b"/>
+                  <stop offset="50%" style="stop-color:#fbbf24"/>
+                  <stop offset="100%" style="stop-color:#fde047"/>
+                </linearGradient>
+              </defs>
+              <circle cx="12" cy="12" r="9" fill="url(#financeGradient)" opacity="0.8"/>
+              <text x="12" y="16" text-anchor="middle" fill="white" font-size="8" font-weight="bold">$</text>
+              <path d="M8 10 Q12 6 16 10" stroke="white" stroke-width="2" fill="none" opacity="0.7">
+                <animate attributeName="d" values="M8 10 Q12 6 16 10;M8 10 Q12 4 16 10;M8 10 Q12 6 16 10" dur="3s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="20" cy="4" r="1" fill="#10b981">
+                <animate attributeName="r" values="0.5;1.5;0.5" dur="2s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>Financial Planning</span>
+          </a></li>
+          <li><a href="/students/help.html" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="helpGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#8b5cf6"/>
+                  <stop offset="50%" style="stop-color:#a78bfa"/>
+                  <stop offset="100%" style="stop-color:#c4b5fd"/>
+                </linearGradient>
+              </defs>
+              <circle cx="12" cy="12" r="9" fill="url(#helpGradient)" opacity="0.8"/>
+              <text x="12" y="16" text-anchor="middle" fill="white" font-size="10" font-weight="bold">?</text>
+              <circle cx="12" cy="7" r="1.5" fill="white" opacity="0.8">
+                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M4 18 Q8 16 12 18 Q16 20 20 18" stroke="rgba(255,255,255,0.5)" stroke-width="1" fill="none">
+                <animate attributeName="d" values="M4 18 Q8 16 12 18 Q16 20 20 18;M4 18 Q8 14 12 18 Q16 22 20 18;M4 18 Q8 16 12 18 Q16 20 20 18" dur="4s" repeatCount="indefinite"/>
+              </path>
+            </svg>
+            <span>Help Center</span>
+          </a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Support navigation" class="footer__nav">
+        <h3 class="footer__nav-title">Support</h3>
+        <ul>
+          <li><a href="/help/" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="helpGradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#8b5cf6"/>
+                  <stop offset="50%" style="stop-color:#a78bfa"/>
+                  <stop offset="100%" style="stop-color:#c4b5fd"/>
+                </linearGradient>
+              </defs>
+              <rect x="4" y="4" width="16" height="16" rx="3" fill="url(#helpGradient2)" opacity="0.8"/>
+              <circle cx="12" cy="9" r="2" fill="white" opacity="0.8"/>
+              <rect x="10" y="13" width="4" height="4" rx="1" fill="white" opacity="0.8"/>
+              <circle cx="18" cy="6" r="1" fill="#10b981">
+                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M2 10 Q6 8 10 10" stroke="rgba(255,255,255,0.4)" stroke-width="1" fill="none">
+                <animate attributeName="d" values="M2 10 Q6 8 10 10;M2 10 Q6 6 10 10;M2 10 Q6 8 10 10" dur="3s" repeatCount="indefinite"/>
+              </path>
+            </svg>
+            <span>Help Center</span>
+          </a></li>
+          <li><a href="/contact/" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="contactGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#ef4444"/>
+                  <stop offset="50%" style="stop-color:#f87171"/>
+                  <stop offset="100%" style="stop-color:#fca5a5"/>
+                </linearGradient>
+              </defs>
+              <rect x="3" y="6" width="18" height="12" rx="2" fill="url(#contactGradient)" opacity="0.8"/>
+              <path d="M3 8 L12 13 L21 8" stroke="white" stroke-width="2" fill="none" opacity="0.8"/>
+              <circle cx="18" cy="4" r="1.5" fill="#10b981">
+                <animate attributeName="r" values="1;2;1" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M1 4 Q5 2 9 4" stroke="rgba(255,255,255,0.4)" stroke-width="1" fill="none">
+                <animate attributeName="opacity" values="0.2;0.6;0.2" dur="3s" repeatCount="indefinite"/>
+              </path>
+            </svg>
+            <span>Contact Us</span>
+          </a></li>
+          <li><a href="/status/" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="statusGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#10b981"/>
+                  <stop offset="50%" style="stop-color:#34d399"/>
+                  <stop offset="100%" style="stop-color:#6ee7b7"/>
+                </linearGradient>
+              </defs>
+              <circle cx="12" cy="12" r="8" fill="url(#statusGradient)" opacity="0.8"/>
+              <circle cx="12" cy="12" r="3" fill="white" opacity="0.9">
+                <animate attributeName="r" values="2;4;2" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <rect x="2" y="2" width="4" height="1" rx="0.5" fill="#10b981" opacity="0.8">
+                <animate attributeName="opacity" values="0.4;1;0.4" dur="1s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="2" y="4" width="6" height="1" rx="0.5" fill="#10b981" opacity="0.6">
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="2" y="6" width="3" height="1" rx="0.5" fill="#10b981" opacity="0.7">
+                <animate attributeName="opacity" values="0.3;0.9;0.3" dur="2s" repeatCount="indefinite"/>
+              </rect>
+            </svg>
+            <span>System Status</span>
+          </a></li>
+          <li><a href="/accessibility/" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="accessibilityGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#0ea5e9"/>
+                  <stop offset="50%" style="stop-color:#38bdf8"/>
+                  <stop offset="100%" style="stop-color:#7dd3fc"/>
+                </linearGradient>
+              </defs>
+              <circle cx="12" cy="12" r="9" fill="url(#accessibilityGradient)" opacity="0.8"/>
+              <circle cx="12" cy="7" r="2" fill="white" opacity="0.9"/>
+              <rect x="10" y="10" width="4" height="6" rx="1" fill="white" opacity="0.8"/>
+              <rect x="8" y="12" width="2" height="3" rx="0.5" fill="white" opacity="0.7"/>
+              <rect x="14" y="12" width="2" height="3" rx="0.5" fill="white" opacity="0.7"/>
+              <circle cx="20" cy="4" r="1" fill="#f59e0b">
+                <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M2 18 Q6 16 10 18" stroke="rgba(255,255,255,0.4)" stroke-width="1" fill="none">
+                <animate attributeName="d" values="M2 18 Q6 16 10 18;M2 18 Q6 14 10 18;M2 18 Q6 16 10 18" dur="4s" repeatCount="indefinite"/>
+              </path>
+            </svg>
+            <span>Accessibility</span>
+          </a></li>
+        </ul>
+      </nav>
+      <section class="footer__cta">
+        <h3 class="footer__cta-title">Need help?</h3>
+        <p class="footer__cta-description">Our support team is here to help you succeed.</p>
+        <a href="/contact/" class="btn btn--primary">Get Support</a>
+      </section>
+    </div>
+    <div class="footer__meta">
+      <div class="container footer__meta-inner">
+        <small class="footer__copyright">© <span id="year"></span> Flow. <span>Built with ❤️ for Africa.</span></small>
+        <div class="footer__links">
+          <a href="/legal/terms.html">Terms</a>
+          <a href="/legal/privacy.html">Privacy</a>
+          <a href="/legal/cookies.html">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Advanced Settings Button (matching dashboard design) -->
+  <button id="settingsToggle" class="settings-fab" type="button" aria-label="Open settings">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id="settingsGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#4338ca"/>
+          <stop offset="50%" style="stop-color:#6366f1"/>
+          <stop offset="100%" style="stop-color:#8b5cf6"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <g transform-origin="12 12">
+        <path d="M12 1l2.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 1z" fill="url(#settingsGradient1)" opacity="0.2"/>
+        <circle cx="12" cy="12" r="10" stroke="url(#settingsGradient1)" stroke-width="1.5" fill="none" opacity="0.6">
+          <animate attributeName="stroke-dasharray" values="0 63;31 31;0 63" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <g stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          <path d="m19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </g>
+        <animateTransform attributeName="transform" type="rotate" values="0;360" dur="20s" repeatCount="indefinite"/>
+      </g>
+    </svg>
+  </button>
+
+  <!-- Advanced Settings Modal -->
+  <div id="settingsModal" class="settings-modal" aria-hidden="true" aria-labelledby="settingsModalTitle">
+    <div class="settings-modal__backdrop"></div>
+    <div class="settings-modal__container">
+      <div class="settings-modal__header">
+        <div class="settings-modal__title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="modalHeaderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#4338ca"/>
+                <stop offset="100%" style="stop-color:#8b5cf6"/>
+              </linearGradient>
+            </defs>
+            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" fill="url(#modalHeaderGradient)"/>
+            <path d="m19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="url(#modalHeaderGradient)" stroke-width="1" fill="none"/>
+          </svg>
+          <h2 id="settingsModalTitle">Advanced Settings</h2>
+        </div>
+        <button id="settingsClose" class="settings-modal__close" type="button" aria-label="Close settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="settings-modal__body">
+        <div class="settings-tabs">
+          <button class="settings-tab settings-tab--active" data-tab="appearance" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            Appearance
+          </button>
+          <button class="settings-tab" data-tab="language" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Language
+          </button>
+          <button class="settings-tab" data-tab="notifications" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            Notifications
+          </button>
+          <button class="settings-tab" data-tab="accessibility" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="4" r="2"/>
+              <path d="m9 20 3-6 3 6"/>
+              <path d="m6 8 6 2 6-2"/>
+            </svg>
+            Accessibility
+          </button>
+        </div>
+
+        <div class="settings-content">
+
+          <!-- Appearance Tab -->
+          <div class="settings-panel settings-panel--active" data-panel="appearance">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Theme</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="themeSelect">Color theme</label>
+                  <p>Choose your preferred color scheme</p>
+                </div>
+                <select id="themeSelect" class="settings-select">
+                  <option value="auto">Auto (System)</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="densitySelect">Layout density</label>
+                  <p>Adjust spacing and component sizes</p>
+                </div>
+                <select id="densitySelect" class="settings-select">
+                  <option value="comfortable">Comfortable</option>
+                  <option value="compact">Compact</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Visual Effects</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="animationsToggle">Animations</label>
+                  <p>Enable smooth transitions and animations</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="animationsToggle" checked>
+                  <label for="animationsToggle" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="particlesToggle">Background effects</label>
+                  <p>Show animated background particles</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="particlesToggle" checked>
+                  <label for="particlesToggle" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Language Tab -->
+          <div class="settings-panel" data-panel="language">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Interface Language</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="languageSelect">Display language</label>
+                  <p>Change the language of the interface</p>
+                </div>
+                <select id="languageSelect" class="settings-select">
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                  <option value="ar">العربية</option>
+                  <option value="sw">Kiswahili</option>
+                  <option value="ha">Hausa</option>
+                  <option value="yo">Yoruba</option>
+                  <option value="ig">Igbo</option>
+                  <option value="zu">Zulu</option>
+                  <option value="am">Amharic</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Regional Settings</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="timezoneSelect">Timezone</label>
+                  <p>Set your local timezone for dates and times</p>
+                </div>
+                <select id="timezoneSelect" class="settings-select">
+                  <option value="auto">Auto-detect</option>
+                  <option value="Africa/Lagos">West Africa Time (WAT)</option>
+                  <option value="Africa/Cairo">Eastern European Time (EET)</option>
+                  <option value="Africa/Johannesburg">South Africa Standard Time (SAST)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications Tab -->
+          <div class="settings-panel" data-panel="notifications">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Push Notifications</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="pushNotifications">Enable push notifications</label>
+                  <p>Receive notifications even when the app is closed</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="pushNotifications" checked>
+                  <label for="pushNotifications" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="applicationUpdates">Application updates</label>
+                  <p>Get notified about your application status</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="applicationUpdates" checked>
+                  <label for="applicationUpdates" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="messageNotifications">Messages</label>
+                  <p>Receive notifications for new messages</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="messageNotifications" checked>
+                  <label for="messageNotifications" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Email Notifications</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="emailDigest">Daily digest</label>
+                  <p>Receive a daily summary of your activity</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="emailDigest">
+                  <label for="emailDigest" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accessibility Tab -->
+          <div class="settings-panel" data-panel="accessibility">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Motion & Animation</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="reducedMotion">Reduce motion</label>
+                  <p>Minimize animations for better accessibility</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="reducedMotion">
+                  <label for="reducedMotion" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Display</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="highContrast">High contrast</label>
+                  <p>Increase contrast for better readability</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="highContrast">
+                  <label for="highContrast" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="fontSizeSelect">Font size</label>
+                  <p>Adjust text size for better readability</p>
+                </div>
+                <select id="fontSizeSelect" class="settings-select">
+                  <option value="small">Small</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="large">Large</option>
+                  <option value="extra-large">Extra Large</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-modal__footer">
+        <div class="settings-actions">
+          <button id="resetSettings" class="btn btn--ghost" type="button">Reset to Defaults</button>
+          <button id="saveSettings" class="btn btn--primary" type="button">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Settings Styles -->
+  <style>
+    /* Dashboard-Style Settings FAB - Exact Match */
+    :root {
+      --flow-primary: #4338ca;
+      --flow-primary-2: #6366f1;
+      --flow-primary-3: #8b5cf6;
+      --flow-accent: #a855f7;
+    }
+
+    .settings-fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 64px;
+      height: 64px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--flow-primary), var(--flow-accent));
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      will-change: transform;
+    }
+
+    .settings-fab::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(var(--flow-primary-2), var(--flow-accent), var(--flow-primary-3), var(--flow-primary-2));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+      animation: rotate 3s linear infinite;
+    }
+
+    .settings-fab:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 40px rgba(99, 102, 241, 0.4), 0 0 30px rgba(99, 102, 241, 0.2);
+    }
+
+    .settings-fab:hover::before {
+      opacity: 1;
+    }
+
+    .settings-fab:active {
+      transform: scale(0.95);
+    }
+
+    .settings-fab svg {
+      width: 28px;
+      height: 28px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .settings-fab {
+        width: 56px;
+        height: 56px;
+        bottom: 1.5rem;
+        right: 1.5rem;
+      }
+      
+      .settings-fab svg {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    /* Advanced Settings Modal */
+    .settings-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .settings-modal[aria-hidden="false"] {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .settings-modal__backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+    }
+
+    .settings-modal__container {
+      position: relative;
+      max-width: 800px;
+      width: 90vw;
+      max-height: 90vh;
+      margin: 5vh auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .settings-modal[aria-hidden="false"] .settings-modal__container {
+      transform: scale(1);
+    }
+
+    .settings-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 32px;
+      background: linear-gradient(135deg, #4338ca 0%, #8b5cf6 100%);
+      color: white;
+    }
+
+    .settings-modal__title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .settings-modal__title-group h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .settings-modal__close {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .settings-modal__close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .settings-modal__body {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .settings-tabs {
+      display: flex;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0 32px;
+    }
+
+    .settings-tab {
+      background: none;
+      border: none;
+      padding: 16px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #64748b;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s ease;
+    }
+
+    .settings-tab:hover {
+      color: #4338ca;
+      background: rgba(67, 56, 202, 0.05);
+    }
+
+    .settings-tab--active {
+      color: #4338ca;
+      border-bottom-color: #4338ca;
+      background: rgba(67, 56, 202, 0.05);
+    }
+
+    .settings-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px;
+    }
+
+    .settings-panel {
+      display: none;
+    }
+
+    .settings-panel--active {
+      display: block;
+    }
+
+    .settings-group {
+      margin-bottom: 32px;
+    }
+
+    .settings-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-group__title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0 0 16px 0;
+    }
+
+    .settings-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .settings-option:last-child {
+      border-bottom: none;
+    }
+
+    .settings-option__info {
+      flex: 1;
+    }
+
+    .settings-option__info label {
+      display: block;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 4px;
+    }
+
+    .settings-option__info p {
+      margin: 0;
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .settings-select {
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      color: #374151;
+      background: white;
+      min-width: 150px;
+    }
+
+    .settings-select:focus {
+      outline: none;
+      border-color: #4338ca;
+      box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.1);
+    }
+
+    /* Program Filters Advanced Styling */
+    .toolbar__filters {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 20px !important;
+      align-items: center !important;
+      margin-bottom: 24px !important;
+    }
+
+    .toolbar__filters select, 
+    #sortBy {
+      background: white !important;
+      border: 2px solid #e5e7eb !important;
+      border-radius: 12px !important;
+      padding: 16px 20px !important;
+      font-size: 16px !important;
+      color: #374151 !important;
+      min-width: 160px !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+      font-weight: 500 !important;
+    }
+
+    .toolbar__filters select:focus,
+    #sortBy:focus {
+      outline: none !important;
+      border-color: #4338ca !important;
+      box-shadow: 0 0 0 4px rgba(67, 56, 202, 0.12), 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+      transform: translateY(-2px) !important;
+    }
+
+    .toolbar__filters select:hover,
+    #sortBy:hover {
+      border-color: #4338ca !important;
+      transform: translateY(-1px) !important;
+    }
+
+    /* Scholarship Only Advanced Styling */
+    .switch {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      font-weight: 500 !important;
+      color: #374151 !important;
+      background: white !important;
+      padding: 16px 20px !important;
+      border: 2px solid #e5e7eb !important;
+      border-radius: 12px !important;
+      cursor: pointer !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+      font-size: 16px !important;
+      min-width: 180px !important;
+    }
+
+    .switch:hover {
+      border-color: #4338ca !important;
+      background: #f8fafc !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .switch input[type="checkbox"] {
+      width: 20px !important;
+      height: 20px !important;
+      accent-color: #4338ca !important;
+      cursor: pointer !important;
+    }
+
+    /* Max Tuition Advanced Styling */
+    .toolbar__secondary {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      align-items: center !important;
+      gap: 24px !important;
+      justify-content: space-between !important;
+    }
+
+    .toolbar__price {
+      display: flex !important;
+      align-items: center !important;
+      gap: 16px !important;
+      background: white !important;
+      padding: 16px 20px !important;
+      border: 2px solid #e5e7eb !important;
+      border-radius: 12px !important;
+      min-width: 280px !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    .toolbar__price:hover {
+      border-color: #4338ca !important;
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    .toolbar__price label {
+      font-weight: 600 !important;
+      color: #374151 !important;
+      white-space: nowrap !important;
+      margin: 0 !important;
+      font-size: 16px !important;
+    }
+
+    .toolbar__price input[type="range"] {
+      flex: 1 !important;
+      accent-color: #4338ca !important;
+      height: 8px !important;
+      margin: 0 8px !important;
+    }
+
+    .toolbar__price span {
+      font-weight: 700 !important;
+      color: #4338ca !important;
+      min-width: 80px !important;
+      text-align: right !important;
+      font-size: 18px !important;
+      padding: 4px 8px !important;
+      background: rgba(67, 56, 202, 0.1) !important;
+      border-radius: 8px !important;
+    }
+
+    /* Sort Section Advanced Styling */
+    .toolbar__sort {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+    }
+
+    /* Reset Button Advanced Styling */
+    #resetFilters {
+      padding: 16px 24px !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+      font-size: 16px !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    #resetFilters:hover {
+      transform: translateY(-1px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    /* Explore Programs Section Styling */
+    .section__header {
+      background: white !important;
+      padding: 40px 48px !important;
+      border-radius: 16px !important;
+      border: 1px solid #e5e7eb !important;
+      margin: 32px 0 40px 0 !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    #programsTitle {
+      color: #4338ca !important;
+      font-size: 32px !important;
+      font-weight: 700 !important;
+      margin: 0 0 16px 0 !important;
+      letter-spacing: -0.5px !important;
+    }
+
+    .section__description {
+      color: #6b7280 !important;
+      font-size: 18px !important;
+      margin: 0 !important;
+      line-height: 1.6 !important;
+    }
+
+    /* Toolbar Container Advanced Padding */
+    .toolbar {
+      background: white !important;
+      padding: 32px !important;
+      border-radius: 16px !important;
+      border: 1px solid #e5e7eb !important;
+      margin: 32px 0 !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .toolbar__primary {
+      margin-bottom: 32px !important;
+    }
+
+    .toolbar__secondary {
+      padding-top: 24px !important;
+      border-top: 1px solid #f1f5f9 !important;
+      margin-top: 24px !important;
+    }
+
+    /* Search Field Styling */
+    .searchbar {
+      margin-bottom: 24px !important;
+    }
+
+    #programSearch {
+      background: white !important;
+      border: 2px solid #e5e7eb !important;
+      border-radius: 16px !important;
+      padding: 20px 24px !important;
+      font-size: 18px !important;
+      color: #374151 !important;
+      width: 100% !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+    #programSearch:focus {
+      outline: none !important;
+      border-color: #4338ca !important;
+      box-shadow: 0 0 0 4px rgba(67, 56, 202, 0.12), 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+      transform: translateY(-2px) !important;
+    }
+
+    #programSearch::placeholder {
+      color: #9ca3af !important;
+      font-size: 16px !important;
+    }
+
+    .settings-toggle {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 24px;
+    }
+
+    .settings-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #cbd5e1;
+      transition: 0.2s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.2s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: #4338ca;
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+
+    .settings-modal__footer {
+      padding: 24px 32px;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .settings-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn--primary {
+      background: #4338ca;
+      color: white;
+    }
+
+    .btn--primary:hover {
+      background: #3730a3;
+    }
+
+    .btn--ghost {
+      background: transparent;
+      color: #374151;
+      border-color: #9ca3af;
+    }
+
+    .btn--ghost:hover {
+      background: #f3f4f6;
+      color: #374151;
+      border-color: #9ca3af;
+    }
+
+    @media (max-width: 768px) {
+      .settings-modal__container {
+        width: 95vw;
+        margin: 2.5vh auto;
+        max-height: 95vh;
+      }
+
+      .settings-modal__header,
+      .settings-content,
+      .settings-modal__footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .settings-tabs {
+        padding-left: 20px;
+        padding-right: 20px;
+        overflow-x: auto;
+      }
+
+      .settings-tab {
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+
+      .settings-option {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .settings-actions {
+        flex-direction: column-reverse;
+      }
+    }
+  </style>
+
+  <script>
+    // Advanced Settings System
+    document.addEventListener('DOMContentLoaded', function() {
+      const settingsSystem = {
+        modal: null,
+        isOpen: false,
+        activeTab: 'appearance',
+        
+        settings: {
+          theme: 'auto',
+          density: 'comfortable',
+          language: 'en',
+          timezone: 'auto',
+          pushNotifications: true,
+          applicationUpdates: true,
+          messageNotifications: true,
+          emailDigest: false,
+          reducedMotion: false,
+          highContrast: false,
+          fontSize: 'medium'
+        },
+        
+        init() {
+          this.modal = document.getElementById('settingsModal');
+          this.setupEventListeners();
+          this.loadSettings();
+          this.applySettings();
+        },
+        
+        setupEventListeners() {
+          const toggleBtn = document.getElementById('settingsToggle');
+          if (toggleBtn) {
+            toggleBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.openModal();
+            });
+          }
+          
+          const closeBtn = document.getElementById('settingsClose');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.closeModal();
+            });
+          }
+          
+          if (this.modal) {
+            const backdrop = this.modal.querySelector('.settings-modal__backdrop');
+            if (backdrop) {
+              backdrop.addEventListener('click', () => {
+                this.closeModal();
+              });
+            }
+          }
+          
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen) {
+              e.preventDefault();
+              this.closeModal();
+            }
+          });
+          
+          const tabs = document.querySelectorAll('.settings-tab');
+          tabs.forEach(tab => {
+            tab.addEventListener('click', (e) => {
+              e.preventDefault();
+              const tabName = tab.dataset.tab;
+              this.switchTab(tabName);
+            });
+          });
+          
+          this.setupSettingsControls();
+          
+          const saveBtn = document.getElementById('saveSettings');
+          const resetBtn = document.getElementById('resetSettings');
+          
+          if (saveBtn) {
+            saveBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.saveSettings();
+            });
+          }
+          
+          if (resetBtn) {
+            resetBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.resetSettings();
+            });
+          }
+        },
+        
+        setupSettingsControls() {
+          const controls = {
+            'themeSelect': 'theme',
+            'densitySelect': 'density', 
+            'languageSelect': 'language',
+            'timezoneSelect': 'timezone',
+            'pushNotifications': 'pushNotifications',
+            'applicationUpdates': 'applicationUpdates',
+            'messageNotifications': 'messageNotifications',
+            'emailDigest': 'emailDigest',
+            'reducedMotion': 'reducedMotion',
+            'highContrast': 'highContrast',
+            'fontSizeSelect': 'fontSize'
+          };
+          
+          Object.keys(controls).forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+              element.addEventListener('change', (e) => {
+                const key = controls[id];
+                this.settings[key] = element.type === 'checkbox' ? element.checked : element.value;
+                this.applySettings();
+              });
+            }
+          });
+        },
+        
+        openModal() {
+          if (this.modal) {
+            this.modal.setAttribute('aria-hidden', 'false');
+            this.isOpen = true;
+            document.body.style.overflow = 'hidden';
+            
+            const firstFocusable = this.modal.querySelector('button, input, select');
+            if (firstFocusable) {
+              setTimeout(() => firstFocusable.focus(), 100);
+            }
+          }
+        },
+        
+        closeModal() {
+          if (this.modal) {
+            this.modal.setAttribute('aria-hidden', 'true');
+            this.isOpen = false;
+            document.body.style.overflow = '';
+          }
+        },
+        
+        switchTab(tabName) {
+          this.activeTab = tabName;
+          
+          const tabs = document.querySelectorAll('.settings-tab');
+          const panels = document.querySelectorAll('.settings-panel');
+          
+          tabs.forEach(tab => {
+            tab.classList.remove('settings-tab--active');
+          });
+          
+          panels.forEach(panel => {
+            panel.classList.remove('settings-panel--active');
+          });
+          
+          const activeTab = document.querySelector(`[data-tab="${tabName}"]`);
+          const activePanel = document.querySelector(`[data-panel="${tabName}"]`);
+          
+          if (activeTab) activeTab.classList.add('settings-tab--active');
+          if (activePanel) activePanel.classList.add('settings-panel--active');
+        },
+        
+        loadSettings() {
+          try {
+            const saved = localStorage.getItem('flowSettings');
+            if (saved) {
+              this.settings = { ...this.settings, ...JSON.parse(saved) };
+            }
+          } catch (e) {
+            console.log('Settings load error:', e);
+          }
+          this.updateUI();
+        },
+        
+        saveSettings() {
+          try {
+            localStorage.setItem('flowSettings', JSON.stringify(this.settings));
+            this.showToast('Settings saved successfully!', 'success');
+            this.closeModal();
+          } catch (e) {
+            this.showToast('Failed to save settings', 'error');
+          }
+        },
+        
+        resetSettings() {
+          if (confirm('Reset all settings to defaults? This cannot be undone.')) {
+            this.settings = {
+              theme: 'auto',
+              density: 'comfortable',
+              language: 'en',
+              timezone: 'auto',
+              pushNotifications: true,
+              applicationUpdates: true,
+              messageNotifications: true,
+              emailDigest: false,
+              reducedMotion: false,
+              highContrast: false,
+              fontSize: 'medium'
+            };
+            this.updateUI();
+            this.applySettings();
+            this.showToast('Settings reset to defaults', 'info');
+          }
+        },
+        
+        updateUI() {
+          Object.keys(this.settings).forEach(key => {
+            const element = document.getElementById(`${key}Select`) || document.getElementById(`${key}Toggle`);
+            if (element) {
+              if (element.type === 'checkbox') {
+                element.checked = this.settings[key];
+              } else {
+                element.value = this.settings[key];
+              }
+            }
+          });
+        },
+        
+        applySettings() {
+          this.applyTheme();
+          this.applyDensity();
+          Object.keys(this.settings).forEach(key => {
+            if (typeof this.settings[key] === 'boolean') {
+              this.applyToggleSetting(key);
+            }
+          });
+        },
+        
+        applyTheme() {
+          const theme = this.settings.theme;
+          document.documentElement.setAttribute('data-theme', theme);
+        },
+        
+        applyDensity() {
+          const density = this.settings.density;
+          document.documentElement.setAttribute('data-density', density);
+        },
+        
+        applyToggleSetting(key) {
+          const value = this.settings[key];
+          document.documentElement.setAttribute(`data-${key.toLowerCase()}`, value);
+        },
+        
+        showToast(message, type = 'info') {
+          console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+      };
+      
+      settingsSystem.init();
+    });
+  </script>
+
+  <!-- Countries Data -->
+  <script src="/assets/js/countries.js"></script>
+
+  <!-- Programs Filter Enhancement Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // Fields of Study Data
+      const fieldsOfStudy = [
+        'Accounting', 'Actuarial Science', 'Advertising', 'Aerospace Engineering', 'African Studies',
+        'Agriculture', 'American Studies', 'Anatomy', 'Animal Science', 'Anthropology',
+        'Applied Mathematics', 'Arabic', 'Architecture', 'Art History', 'Art Therapy',
+        'Artificial Intelligence', 'Asian Studies', 'Astronomy', 'Athletic Training', 'Biochemistry',
+        'Bioengineering', 'Biology', 'Biomedical Engineering', 'Biophysics', 'Business Administration',
+        'Business Analytics', 'Chemical Engineering', 'Chemistry', 'Chinese', 'Civil Engineering',
+        'Clinical Psychology', 'Communication', 'Computer Engineering', 'Computer Science', 'Criminal Justice',
+        'Culinary Arts', 'Cyber Security', 'Dance', 'Data Science', 'Dentistry',
+        'Design', 'Digital Marketing', 'Drama', 'Economics', 'Education',
+        'Electrical Engineering', 'English', 'Environmental Engineering', 'Environmental Science', 'Fashion Design',
+        'Film Studies', 'Finance', 'Fine Arts', 'Food Science', 'Foreign Languages',
+        'Forensic Science', 'French', 'Game Design', 'Geography', 'Geology',
+        'German', 'Graphic Design', 'Health Administration', 'Health Sciences', 'History',
+        'Hospitality Management', 'Human Resources', 'Industrial Engineering', 'Information Systems', 'Information Technology',
+        'International Business', 'International Relations', 'Japanese', 'Journalism', 'Law',
+        'Library Science', 'Linguistics', 'Literature', 'Management', 'Marine Biology',
+        'Marketing', 'Materials Engineering', 'Mathematics', 'Mechanical Engineering', 'Medical Technology',
+        'Medicine', 'Music', 'Music Therapy', 'Neuroscience', 'Nursing',
+        'Nutrition', 'Occupational Therapy', 'Operations Management', 'Optometry', 'Pharmacy',
+        'Philosophy', 'Photography', 'Physical Therapy', 'Physics', 'Political Science',
+        'Psychology', 'Public Administration', 'Public Health', 'Public Relations', 'Real Estate',
+        'Recreation', 'Religious Studies', 'Social Work', 'Sociology', 'Software Engineering',
+        'Spanish', 'Special Education', 'Speech Therapy', 'Sports Management', 'Statistics',
+        'Supply Chain Management', 'Theater', 'Tourism', 'Urban Planning', 'Veterinary Medicine',
+        'Web Development', 'Wildlife Biology', 'Women Studies', 'Zoology'
+      ];
+      
+      // Populate Countries Dropdown
+      function populateCountries() {
+        const countrySelect = document.getElementById('filterCountry');
+        
+        if (window.FlowCountries && window.FlowCountries.countries) {
+          window.FlowCountries.countries.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country.code.toLowerCase();
+            option.textContent = country.name;
+            countrySelect.appendChild(option);
+          });
+        }
+      }
+      
+      // Populate Fields of Study Dropdown
+      function populateFieldsOfStudy() {
+        const fieldSelect = document.getElementById('filterField');
+        
+        fieldsOfStudy.forEach(field => {
+          const option = document.createElement('option');
+          option.value = field.toLowerCase().replace(/\s+/g, '-');
+          option.textContent = field;
+          fieldSelect.appendChild(option);
+        });
+      }
+      
+      // Handle "Other" level selection
+      function setupLevelHandler() {
+        const levelSelect = document.getElementById('filterLevel');
+        const customLevelInput = document.getElementById('customLevel');
+        
+        levelSelect.addEventListener('change', function() {
+          if (this.value === 'other') {
+            customLevelInput.style.display = 'inline-block';
+            customLevelInput.required = true;
+            customLevelInput.focus();
+          } else {
+            customLevelInput.style.display = 'none';
+            customLevelInput.required = false;
+            customLevelInput.value = '';
+          }
+        });
+        
+        // Handle custom level input
+        customLevelInput.addEventListener('input', function() {
+          if (this.value.trim()) {
+            levelSelect.setAttribute('data-custom-value', this.value.trim());
+          }
+        });
+      }
+      
+      // Handle tuition range updates
+      function setupTuitionHandler() {
+        const tuitionRange = document.getElementById('filterTuition');
+        const tuitionLabel = document.getElementById('tuitionLabel');
+        
+        tuitionRange.addEventListener('input', function() {
+          const value = parseInt(this.value);
+          const formattedValue = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+          }).format(value);
+          
+          tuitionLabel.textContent = formattedValue;
+          tuitionLabel.setAttribute('data-amount-usd', value);
+        });
+      }
+      
+      // Initialize all enhancements
+      function initializeFilters() {
+        populateCountries();
+        populateFieldsOfStudy();
+        setupLevelHandler();
+        setupTuitionHandler();
+      }
+      
+      // Wait for countries.js to load, then initialize
+      if (window.FlowCountries) {
+        initializeFilters();
+      } else {
+        // Fallback: wait a bit and try again
+        setTimeout(initializeFilters, 100);
+      }
+      
+      // Enhanced filter functionality (for demonstration)
+      const resetBtn = document.getElementById('resetFilters');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', function() {
+          // Reset all filters
+          document.getElementById('filterCountry').value = '';
+          document.getElementById('filterLevel').value = '';
+          document.getElementById('filterField').value = '';
+          document.getElementById('filterMode').value = '';
+          document.getElementById('filterScholar').checked = false;
+          document.getElementById('filterTuition').value = '50000';
+          document.getElementById('tuitionLabel').textContent = '$50,000';
+          document.getElementById('customLevel').style.display = 'none';
+          document.getElementById('customLevel').value = '';
+          document.getElementById('sortBy').value = 'match';
+          
+          // Trigger change events
+          document.getElementById('filterTuition').dispatchEvent(new Event('input'));
+        });
+      }
+    });
+  </script>
+</body>
+</html>

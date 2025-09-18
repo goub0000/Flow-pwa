@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages - Flow Parent Portal</title>
+  <link rel="stylesheet" href="/assets/css/parents.css">
+  <style>
+    /* Additional styles specific to messages page */
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Clear Section Separations */
+    .header {
+      border-bottom: 3px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+    }
+    
+    .messages-page {
+      border-top: 1px solid rgba(255,255,255,0.2);
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .footer {
+      border-top: 3px solid #3f46e5 !important;
+    }
+
+    .header-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .header-brand img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .messages-page {
+      flex: 1;
+      padding: 2rem 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .messages-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .messages-header {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .messages-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin: 0;
+    }
+
+    .messages-subtitle {
+      color: #6b7280;
+      margin: 0.5rem 0 0 0;
+      font-size: 1.1rem;
+    }
+
+    .messages-stats {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .message-stat {
+      text-align: center;
+    }
+
+    .message-stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #667eea;
+      display: block;
+    }
+
+    .message-stat-label {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-top: 0.25rem;
+    }
+
+    .messages-main {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      flex: 1;
+      min-height: 500px;
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      margin-bottom: 2rem;
+    }
+
+    .conversations-panel {
+      border-right: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      background: #f9fafb;
+    }
+
+    .conversations-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      background: white;
+    }
+
+    .conversations-search {
+      position: relative;
+    }
+
+    .conversations-search input {
+      width: 100%;
+      padding: 0.75rem 2.5rem 0.75rem 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .conversations-search input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+    }
+
+    .conversations-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0;
+    }
+
+    .conversation-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid #f3f4f6;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .conversation-item:hover {
+      background: white;
+    }
+
+    .conversation-item.active {
+      background: white;
+      border-left: 4px solid #667eea;
+    }
+
+    .conversation-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .conversation-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conversation-name {
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0 0 0.25rem 0;
+      font-size: 0.95rem;
+    }
+
+    .conversation-preview {
+      color: #6b7280;
+      font-size: 0.85rem;
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .conversation-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.25rem;
+      flex-shrink: 0;
+    }
+
+    .conversation-time {
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+
+    .unread-badge {
+      background: #ef4444;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 12px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .chat-panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: white;
+    }
+
+    .chat-participant {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .participant-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .participant-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0;
+    }
+
+    .participant-status {
+      font-size: 0.85rem;
+      color: #10b981;
+      margin: 0.25rem 0 0 0;
+    }
+
+    .chat-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      background: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .message {
+      display: flex;
+      gap: 1rem;
+      max-width: 70%;
+    }
+
+    .message.sent {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .message-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .message-content {
+      flex: 1;
+    }
+
+    .message-bubble {
+      background: white;
+      padding: 0.875rem 1rem;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      margin-bottom: 0.5rem;
+      word-wrap: break-word;
+    }
+
+    .message.sent .message-bubble {
+      background: #667eea;
+      color: white;
+    }
+
+    .message-time {
+      font-size: 0.75rem;
+      color: #9ca3af;
+      text-align: right;
+    }
+
+    .message.sent .message-time {
+      text-align: left;
+    }
+
+    .chat-composer {
+      padding: 1.5rem;
+      background: white;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .composer-wrapper {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      background: #f9fafb;
+      transition: border-color 0.2s;
+    }
+
+    .composer-wrapper:focus-within {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .composer-input {
+      flex: 1;
+      border: none;
+      background: none;
+      outline: none;
+      resize: none;
+      font-family: inherit;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      min-height: 20px;
+      max-height: 120px;
+    }
+
+    .composer-actions {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .composer-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .composer-btn--attach {
+      background: #f3f4f6;
+      color: #6b7280;
+    }
+
+    .composer-btn--attach:hover {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .composer-btn--send {
+      background: #667eea;
+      color: white;
+    }
+
+    .composer-btn--send:hover {
+      background: #5a6fd8;
+    }
+
+    .empty-chat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    .empty-chat-icon {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    .back-button {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.2s;
+      margin-bottom: 1rem;
+    }
+
+    .back-button:hover {
+      background: #5a6fd8;
+    }
+
+    /* Responsive Footer Adjustments */
+    @media (max-width: 1024px) {
+      .footer .container > div {
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .footer .container > div {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .header__controls {
+        display: none;
+      }
+      
+      .header .container {
+        justify-content: space-between;
+      }
+    }
+
+    .footer-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .footer-brand {
+      color: #667eea;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .footer-links a {
+      color: #6b7280;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: #667eea;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .messages-main {
+        grid-template-columns: 1fr;
+        min-height: 400px;
+      }
+
+      .conversations-panel {
+        display: var(--show-conversations, flex);
+      }
+
+      .chat-panel {
+        display: var(--show-chat, none);
+      }
+
+      .back-button {
+        display: flex;
+      }
+
+      .messages-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+      }
+
+      .messages-stats {
+        justify-content: center;
+      }
+
+      .header .container {
+        padding: 0 1rem;
+        height: auto;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+      }
+      
+      .header__student {
+        display: none;
+      }
+
+      .footer .container {
+        padding: 2rem 1rem 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .messages-page {
+        padding: 1rem 0;
+      }
+
+      .messages-header {
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .message {
+        max-width: 85%;
+      }
+
+      .composer-wrapper {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Professional Header with Dashboard Elements -->
+  <header class="header" role="banner" aria-label="Site header" style="
+    background: white;
+    border-bottom: 2px solid #e2e8f0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  ">
+    <div class="container" style="
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 70px;
+    ">
+      <!-- Brand Section -->
+      <div class="header__brand" style="display: flex; align-items: center; gap: 0.75rem;">
+        <img src="/assets/img/logo.png" alt="Flow" style="width: 40px; height: 40px; border-radius: 8px;" />
+        <div>
+          <h1 style="margin: 0; font-size: 20px; font-weight: 600; color: #1f2937;">Flow</h1>
+          <span style="font-size: 12px; color: #6b7280;">Parent Portal</span>
+        </div>
+      </div>
+
+      <!-- Student Selector -->
+      <div class="header__student" style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="font-size: 14px; color: #6b7280;">Managing:</span>
+        <div class="student-selector" style="position: relative;">
+          <button class="student-selector__toggle" style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 8px 12px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          " onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background='#f8fafc'">
+            <div class="student-avatar" style="
+              width: 24px;
+              height: 24px;
+              background: linear-gradient(135deg, #3f46e5 0%, #8b5cf6 100%);
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: white;
+              font-size: 12px;
+              font-weight: 600;
+            ">A</div>
+            <span>Alex Johnson</span>
+            <svg width="16" height="16" fill="currentColor" style="margin-left: 4px;">
+              <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search and Controls -->
+      <div class="header__controls" style="display: flex; align-items: center; gap: 1rem;">
+        <!-- Quick Search -->
+        <div class="quick-search" style="position: relative;">
+          <input type="search" placeholder="Quick search..." style="
+            padding: 8px 12px 8px 36px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            width: 200px;
+            background: #f8fafc;
+            transition: all 0.2s ease;
+          " onfocus="this.style.background='white'; this.style.borderColor='#3f46e5'" onblur="this.style.background='#f8fafc'; this.style.borderColor='#e2e8f0'" />
+          <svg style="
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #9ca3af;
+            pointer-events: none;
+          " fill="currentColor">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg>
+        </div>
+
+        <!-- Control Buttons -->
+        <div class="header__actions" style="display: flex; align-items: center; gap: 0.5rem;">
+          <!-- Notifications -->
+          <button class="control-btn" style="
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #f8fafc;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.2s ease;
+          " onmouseover="this.style.background='#f1f5f9'; this.style.color='#374151'" onmouseout="this.style.background='#f8fafc'; this.style.color='#6b7280'" title="Notifications">
+            <svg width="20" height="20" fill="currentColor">
+              <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+            </svg>
+          </button>
+
+          <!-- Messages (Active) -->
+          <button class="control-btn control-btn--active" style="
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #3f46e5;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(63, 70, 229, 0.3);
+          " title="Messages">
+            <svg width="20" height="20" fill="currentColor">
+              <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z"/>
+              <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z"/>
+            </svg>
+          </button>
+
+          <!-- Profile Menu -->
+          <div class="profile-menu" style="position: relative;">
+            <button class="profile-btn" style="
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              padding: 6px;
+              background: transparent;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+              transition: all 0.2s ease;
+            " onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+              <div style="
+                width: 32px;
+                height: 32px;
+                background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                font-weight: 600;
+                font-size: 14px;
+              ">SM</div>
+            </button>
+          </div>
+
+          <!-- Back to Dashboard -->
+          <a href="index.html" style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #3f46e5 0%, #8b5cf6 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-left: 1rem;
+          " onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(63, 70, 229, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+            <svg width="16" height="16" fill="currentColor">
+              <path d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
+            Dashboard
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Messages Content -->
+  <main class="messages-page">
+    <div class="messages-container">
+    <!-- Header -->
+    <div class="messages-header">
+      <div>
+        <h1 class="messages-title">Messages</h1>
+        <p class="messages-subtitle">Stay connected with your educational network</p>
+      </div>
+      <div class="messages-stats">
+        <div class="message-stat">
+          <span class="message-stat-number">3</span>
+          <span class="message-stat-label">Unread</span>
+        </div>
+        <div class="message-stat">
+          <span class="message-stat-number">12</span>
+          <span class="message-stat-label">Conversations</span>
+        </div>
+        <div class="message-stat">
+          <span class="message-stat-number">8</span>
+          <span class="message-stat-label">Contacts</span>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Main Messages Interface -->
+    <div class="messages-main">
+      <!-- Conversations Panel -->
+      <div class="conversations-panel">
+        <div class="conversations-header">
+          <div class="conversations-search">
+            <input type="text" placeholder="Search conversations..." id="searchInput">
+            <svg class="search-icon" width="16" height="16" fill="currentColor">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="conversations-list">
+          <!-- Active Conversation -->
+          <div class="conversation-item active" data-conversation="sarah-johnson">
+            <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=48" alt="Sarah Johnson" class="conversation-avatar">
+            <div class="conversation-info">
+              <h4 class="conversation-name">Sarah Johnson</h4>
+              <p class="conversation-preview">Thanks for the update on Jane's application progress...</p>
+            </div>
+            <div class="conversation-meta">
+              <span class="conversation-time">2m ago</span>
+              <span class="unread-badge">2</span>
+            </div>
+          </div>
+
+          <!-- Other Conversations -->
+          <div class="conversation-item" data-conversation="jane-doe">
+            <img src="https://ui-avatars.com/api/?name=Jane+Doe&background=10b981&color=fff&size=48" alt="Jane Doe" class="conversation-avatar">
+            <div class="conversation-info">
+              <h4 class="conversation-name">Jane Doe</h4>
+              <p class="conversation-preview">Just submitted my essay for review...</p>
+            </div>
+            <div class="conversation-meta">
+              <span class="conversation-time">1h ago</span>
+            </div>
+          </div>
+
+          <div class="conversation-item" data-conversation="makerere-admissions">
+            <img src="https://ui-avatars.com/api/?name=Makerere&background=f59e0b&color=fff&size=48" alt="Makerere Admissions" class="conversation-avatar">
+            <div class="conversation-info">
+              <h4 class="conversation-name">Makerere Admissions</h4>
+              <p class="conversation-preview">Application deadline reminder for fall semester...</p>
+            </div>
+            <div class="conversation-meta">
+              <span class="conversation-time">3h ago</span>
+              <span class="unread-badge">1</span>
+            </div>
+          </div>
+
+          <div class="conversation-item" data-conversation="financial-aid">
+            <img src="https://ui-avatars.com/api/?name=Financial+Aid&background=8b5cf6&color=fff&size=48" alt="Financial Aid Office" class="conversation-avatar">
+            <div class="conversation-info">
+              <h4 class="conversation-name">Financial Aid Office</h4>
+              <p class="conversation-preview">Your FAFSA application has been processed...</p>
+            </div>
+            <div class="conversation-meta">
+              <span class="conversation-time">1d ago</span>
+            </div>
+          </div>
+
+          <div class="conversation-item" data-conversation="alex-doe">
+            <img src="https://ui-avatars.com/api/?name=Alex+Doe&background=06b6d4&color=fff&size=48" alt="Alex Doe" class="conversation-avatar">
+            <div class="conversation-info">
+              <h4 class="conversation-name">Alex Doe</h4>
+              <p class="conversation-preview">Can we schedule a meeting to discuss my course selection?</p>
+            </div>
+            <div class="conversation-meta">
+              <span class="conversation-time">2d ago</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Panel -->
+      <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+          <div class="chat-participant">
+            <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=44" alt="Sarah Johnson" class="participant-avatar">
+            <div>
+              <h3 class="participant-name">Sarah Johnson</h3>
+              <p class="participant-status">Online</p>
+            </div>
+          </div>
+          <div class="chat-actions">
+            <button class="composer-btn composer-btn--attach" title="Video Call">
+              <svg width="18" height="18" fill="currentColor">
+                <path d="m8 8.5 4.5-2.25v4.5L8 8.5ZM2.5 4A1.5 1.5 0 0 0 1 5.5v5A1.5 1.5 0 0 0 2.5 12h5A1.5 1.5 0 0 0 9 10.5v-5A1.5 1.5 0 0 0 7.5 4h-5Z"/>
+              </svg>
+            </button>
+            <button class="composer-btn composer-btn--attach" title="Call">
+              <svg width="18" height="18" fill="currentColor">
+                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122L9.98 10.98a6.12 6.12 0 0 1-3.723-.99 6.12 6.12 0 0 1-.99-3.723l.549-1.405a.678.678 0 0 0-.122-.58L3.654 1.328z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+          <!-- Received Message -->
+          <div class="message">
+            <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=44" alt="Sarah Johnson" class="message-avatar">
+            <div class="message-content">
+              <div class="message-bubble">Hi! I wanted to update you on Jane's application progress. She's doing excellent work on her essays and is staying on track with all deadlines.</div>
+              <div class="message-time">2:30 PM</div>
+            </div>
+          </div>
+
+          <!-- Sent Message -->
+          <div class="message sent">
+            <img src="https://ui-avatars.com/api/?name=You&background=374151&color=fff&size=36" alt="You" class="message-avatar">
+            <div class="message-content">
+              <div class="message-bubble">That's wonderful to hear! How is she doing with the University of Nairobi application specifically?</div>
+              <div class="message-time">2:32 PM</div>
+            </div>
+          </div>
+
+          <!-- Received Message -->
+          <div class="message">
+            <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=44" alt="Sarah Johnson" class="message-avatar">
+            <div class="message-content">
+              <div class="message-bubble">She's making great progress on that one. The application is due next week, and she'll have everything ready well before the deadline. Her personal statement is particularly strong.</div>
+              <div class="message-time">2:35 PM</div>
+            </div>
+          </div>
+
+          <!-- Sent Message -->
+          <div class="message sent">
+            <img src="https://ui-avatars.com/api/?name=You&background=374151&color=fff&size=36" alt="You" class="message-avatar">
+            <div class="message-content">
+              <div class="message-bubble">Thank you so much for keeping me updated. Should I expect any other important deadlines coming up?</div>
+              <div class="message-time">2:37 PM</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-composer">
+          <div class="composer-wrapper">
+            <textarea class="composer-input" placeholder="Type your message..." id="messageInput" rows="1"></textarea>
+            <div class="composer-actions">
+              <button class="composer-btn composer-btn--attach" title="Attach file" id="attachBtn">
+                <svg width="16" height="16" fill="currentColor">
+                  <path d="M8.5 6a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V10a.5.5 0 0 0 1 0V8.5H10a.5.5 0 0 0 0-1H8.5V6z"/>
+                  <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V14a3 3 0 1 1-6 0V3.5a2 2 0 1 1 4 0V12a1 1 0 1 1-2 0V3h.5"/>
+                </svg>
+              </button>
+              <button class="composer-btn composer-btn--send" title="Send message" id="sendBtn">
+                <svg width="16" height="16" fill="currentColor">
+                  <path d="M15.854.146a.5.5 0 0 1 .11.54L13.026 8.5l2.938 7.814a.5.5 0 0 1-.11.54.5.5 0 0 1-.54.11L1 9.8a.5.5 0 0 1 0-.9L15.314.056a.5.5 0 0 1 .54.09zM6.636 10.07l7.314-7.314L8.18 8.53 6.636 10.07z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Messages functionality
+    class MessagesApp {
+      constructor() {
+        this.activeConversation = 'sarah-johnson';
+        this.conversations = {
+          'sarah-johnson': {
+            name: 'Sarah Johnson',
+            avatar: 'https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=36',
+            status: 'Online',
+            messages: [
+              {
+                sender: 'sarah-johnson',
+                content: "Hi! I wanted to update you on Jane's application progress. She's doing excellent work on her essays and is staying on track with all deadlines.",
+                time: '2:30 PM',
+                avatar: 'https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=36'
+              },
+              {
+                sender: 'me',
+                content: "That's wonderful to hear! How is she doing with the University of Nairobi application specifically?",
+                time: '2:32 PM',
+                avatar: 'https://ui-avatars.com/api/?name=You&background=374151&color=fff&size=36'
+              },
+              {
+                sender: 'sarah-johnson',
+                content: "She's making great progress on that one. The application is due next week, and she'll have everything ready well before the deadline. Her personal statement is particularly strong.",
+                time: '2:35 PM',
+                avatar: 'https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=36'
+              },
+              {
+                sender: 'me',
+                content: "Thank you so much for keeping me updated. Should I expect any other important deadlines coming up?",
+                time: '2:37 PM',
+                avatar: 'https://ui-avatars.com/api/?name=You&background=374151&color=fff&size=36'
+              }
+            ]
+          },
+          'jane-doe': {
+            name: 'Jane Doe',
+            avatar: 'https://ui-avatars.com/api/?name=Jane+Doe&background=10b981&color=fff&size=36',
+            status: 'Online',
+            messages: [
+              {
+                sender: 'jane-doe',
+                content: "Hi Mom! Just submitted my essay for review. Sarah says it looks really good!",
+                time: '1:15 PM',
+                avatar: 'https://ui-avatars.com/api/?name=Jane+Doe&background=10b981&color=fff&size=36'
+              },
+              {
+                sender: 'me',
+                content: "That's amazing honey! I'm so proud of your hard work.",
+                time: '1:18 PM',
+                avatar: 'https://ui-avatars.com/api/?name=You&background=374151&color=fff&size=36'
+              }
+            ]
+          },
+          'makerere-admissions': {
+            name: 'Makerere Admissions',
+            avatar: 'https://ui-avatars.com/api/?name=Makerere&background=f59e0b&color=fff&size=36',
+            status: 'Office Hours',
+            messages: [
+              {
+                sender: 'makerere-admissions',
+                content: "Dear Parent, this is a friendly reminder that the application deadline for fall semester is approaching. Please ensure all documents are submitted by the end of this month.",
+                time: '11:30 AM',
+                avatar: 'https://ui-avatars.com/api/?name=Makerere&background=f59e0b&color=fff&size=36'
+              }
+            ]
+          }
+        };
+
+        this.initializeApp();
+      }
+
+      initializeApp() {
+        this.setupEventListeners();
+        this.loadConversation(this.activeConversation);
+      }
+
+      setupEventListeners() {
+        // Conversation selection
+        document.querySelectorAll('.conversation-item').forEach(item => {
+          item.addEventListener('click', () => {
+            const conversationId = item.dataset.conversation;
+            this.switchConversation(conversationId);
+          });
+        });
+
+        // Search functionality
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+          searchInput.addEventListener('input', (e) => {
+            this.filterConversations(e.target.value);
+          });
+        }
+
+        // Message sending
+        const sendBtn = document.getElementById('sendBtn');
+        const messageInput = document.getElementById('messageInput');
+        
+        if (sendBtn) {
+          sendBtn.addEventListener('click', () => this.sendMessage());
+        }
+
+        if (messageInput) {
+          messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              this.sendMessage();
+            }
+          });
+
+          // Auto-resize textarea
+          messageInput.addEventListener('input', () => {
+            this.autoResizeTextarea(messageInput);
+          });
+        }
+
+        // Mobile responsive handling
+        this.setupMobileResponsive();
+      }
+
+      switchConversation(conversationId) {
+        // Update active conversation in sidebar
+        document.querySelectorAll('.conversation-item').forEach(item => {
+          item.classList.remove('active');
+        });
+        
+        const selectedItem = document.querySelector(`[data-conversation="${conversationId}"]`);
+        if (selectedItem) {
+          selectedItem.classList.add('active');
+          
+          // Remove unread badge
+          const badge = selectedItem.querySelector('.unread-badge');
+          if (badge) {
+            badge.remove();
+          }
+        }
+
+        this.activeConversation = conversationId;
+        this.loadConversation(conversationId);
+
+        // Show chat panel on mobile
+        if (window.innerWidth <= 768) {
+          document.documentElement.style.setProperty('--show-conversations', 'none');
+          document.documentElement.style.setProperty('--show-chat', 'flex');
+        }
+      }
+
+      loadConversation(conversationId) {
+        const conversation = this.conversations[conversationId];
+        if (!conversation) return;
+
+        // Update chat header
+        const participantName = document.querySelector('.participant-name');
+        const participantStatus = document.querySelector('.participant-status');
+        const participantAvatar = document.querySelector('.participant-avatar');
+
+        if (participantName) participantName.textContent = conversation.name;
+        if (participantStatus) participantStatus.textContent = conversation.status;
+        if (participantAvatar) participantAvatar.src = conversation.avatar;
+
+        // Load messages
+        this.renderMessages(conversation.messages);
+      }
+
+      renderMessages(messages) {
+        const chatMessages = document.getElementById('chatMessages');
+        if (!chatMessages) return;
+
+        chatMessages.innerHTML = '';
+
+        messages.forEach(message => {
+          const messageElement = this.createMessageElement(message);
+          chatMessages.appendChild(messageElement);
+        });
+
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+
+      createMessageElement(message) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${message.sender === 'me' ? 'sent' : ''}`;
+
+        messageDiv.innerHTML = `
+          <img src="${message.avatar}" alt="Avatar" class="message-avatar">
+          <div class="message-content">
+            <div class="message-bubble">${message.content}</div>
+            <div class="message-time">${message.time}</div>
+          </div>
+        `;
+
+        return messageDiv;
+      }
+
+      sendMessage() {
+        const messageInput = document.getElementById('messageInput');
+        if (!messageInput) return;
+
+        const content = messageInput.value.trim();
+        if (!content) return;
+
+        const conversation = this.conversations[this.activeConversation];
+        if (!conversation) return;
+
+        // Add message to conversation
+        const newMessage = {
+          sender: 'me',
+          content: content,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          avatar: 'https://ui-avatars.com/api/?name=You&background=374151&color=fff&size=36'
+        };
+
+        conversation.messages.push(newMessage);
+
+        // Clear input
+        messageInput.value = '';
+        this.autoResizeTextarea(messageInput);
+
+        // Re-render messages
+        this.renderMessages(conversation.messages);
+
+        // Simulate response (optional)
+        setTimeout(() => {
+          this.simulateResponse();
+        }, 2000);
+      }
+
+      simulateResponse() {
+        const conversation = this.conversations[this.activeConversation];
+        if (!conversation) return;
+
+        const responses = [
+          "Thank you for your message. I'll get back to you shortly.",
+          "I understand your concern. Let me look into this for you.",
+          "That sounds great! I'll keep you updated on the progress.",
+          "I appreciate you reaching out. I'll review this information."
+        ];
+
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        
+        const responseMessage = {
+          sender: this.activeConversation,
+          content: randomResponse,
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          avatar: conversation.avatar
+        };
+
+        conversation.messages.push(responseMessage);
+        this.renderMessages(conversation.messages);
+      }
+
+      filterConversations(query) {
+        const conversations = document.querySelectorAll('.conversation-item');
+        const lowerQuery = query.toLowerCase();
+
+        conversations.forEach(item => {
+          const name = item.querySelector('.conversation-name').textContent.toLowerCase();
+          const preview = item.querySelector('.conversation-preview').textContent.toLowerCase();
+          
+          if (name.includes(lowerQuery) || preview.includes(lowerQuery)) {
+            item.style.display = 'flex';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      }
+
+      autoResizeTextarea(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.min(textarea.scrollHeight, 120) + 'px';
+      }
+
+      setupMobileResponsive() {
+        // Window resize handler
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 768) {
+            document.documentElement.style.removeProperty('--show-conversations');
+            document.documentElement.style.removeProperty('--show-chat');
+          }
+        });
+
+        // Add mobile back functionality to conversation switching
+        if (window.innerWidth <= 768) {
+          document.addEventListener('click', (e) => {
+            if (e.target.closest('.conversation-item')) {
+              document.documentElement.style.setProperty('--show-conversations', 'none');
+              document.documentElement.style.setProperty('--show-chat', 'flex');
+            }
+          });
+        }
+      }
+    }
+
+    // Initialize the app when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      new MessagesApp();
+    });
+  </script>
+
+    </div>
+  </main>
+
+  <!-- Professional Footer with Dashboard Elements -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer" style="
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    color: white;
+    margin-top: auto;
+    border-top: 3px solid #3f46e5;
+  ">
+    <div class="container" style="max-width: 1280px; margin: 0 auto; padding: 3rem 2rem 0;">
+      <div style="display: grid; grid-template-columns: 1fr 200px 200px 250px; gap: 3rem; margin-bottom: 2rem;">
+        <!-- Brand Section -->
+        <section class="footer__brand">
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+            <img src="/assets/img/logo.png" alt="" style="width: 40px; height: 40px; border-radius: 8px;" />
+            <div>
+              <h3 style="margin: 0; font-size: 20px; font-weight: 600;">Flow</h3>
+              <div style="
+                width: 60px;
+                height: 60px;
+                position: absolute;
+                margin-left: -10px;
+                margin-top: -35px;
+                opacity: 0.1;
+                pointer-events: none;
+              ">
+                <svg width="60" height="60" viewBox="0 0 60 60">
+                  <circle cx="30" cy="30" r="25" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1" stroke-dasharray="3,3">
+                    <animateTransform attributeName="transform" type="rotate" values="0 30 30;360 30 30" dur="20s" repeatCount="indefinite"/>
+                  </circle>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem; line-height: 1.6;">Supporting families through the university journey across Africa.</p>
+          
+          <!-- Social Icons -->
+          <div style="display: flex; gap: 0.75rem;">
+            <a href="#" style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 36px;
+              height: 36px;
+              background: rgba(255,255,255,0.1);
+              border-radius: 8px;
+              color: rgba(255,255,255,0.7);
+              text-decoration: none;
+              transition: all 0.2s ease;
+            " onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.color='white'" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='rgba(255,255,255,0.7)'" aria-label="Follow us on Twitter">
+              <svg width="18" height="18" fill="currentColor">
+                <path d="M6.29 18.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0020 4.077a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 7.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 010 16.407a11.616 11.616 0 006.29 1.84"/>
+              </svg>
+            </a>
+            <a href="#" style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 36px;
+              height: 36px;
+              background: rgba(255,255,255,0.1);
+              border-radius: 8px;
+              color: rgba(255,255,255,0.7);
+              text-decoration: none;
+              transition: all 0.2s ease;
+            " onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.color='white'" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='rgba(255,255,255,0.7)'" aria-label="Follow us on LinkedIn">
+              <svg width="18" height="18" fill="currentColor">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </a>
+            <a href="#" style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width: 36px;
+              height: 36px;
+              background: rgba(255,255,255,0.1);
+              border-radius: 8px;
+              color: rgba(255,255,255,0.7);
+              text-decoration: none;
+              transition: all 0.2s ease;
+            " onmouseover="this.style.background='rgba(255,255,255,0.2)'; this.style.color='white'" onmouseout="this.style.background='rgba(255,255,255,0.1)'; this.style.color='rgba(255,255,255,0.7)'" aria-label="Follow us on Facebook">
+              <svg width="18" height="18" fill="currentColor">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+              </svg>
+            </a>
+          </div>
+        </section>
+        
+        <!-- For Parents Navigation -->
+        <nav aria-label="For Parents" class="footer__nav">
+          <h3 style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 0 1rem 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+          ">
+            <svg width="18" height="18" fill="currentColor">
+              <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            </svg>
+            For Parents
+          </h3>
+          <ul style="list-style: none; margin: 0; padding: 0;">
+            <li style="margin-bottom: 8px;">
+              <a href="index.html" style="
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: rgba(255,255,255,0.7);
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.2s ease;
+              " onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                <svg width="14" height="14" fill="currentColor">
+                  <path d="M2 3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3z"/>
+                  <path d="M10 3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V3z"/>
+                </svg>
+                Parent Dashboard
+              </a>
+            </li>
+            <li style="margin-bottom: 8px;">
+              <a href="messages.html" style="
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: #3f46e5;
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.2s ease;
+                font-weight: 500;
+              " onmouseover="this.style.color='#8b5cf6'" onmouseout="this.style.color='#3f46e5'">
+                <svg width="14" height="14" fill="currentColor">
+                  <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z"/>
+                  <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z"/>
+                </svg>
+                Messages
+              </a>
+            </li>
+            <li style="margin-bottom: 8px;">
+              <a href="/parents/finance" style="
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: rgba(255,255,255,0.7);
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.2s ease;
+              " onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                <svg width="14" height="14" fill="currentColor">
+                  <path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1zm0 1a6 6 0 1 0 0 12A6 6 0 0 0 8 2z"/>
+                </svg>
+                Financial Planning
+              </a>
+            </li>
+          </ul>
+        </nav>
+        
+        <!-- Support Navigation -->
+        <nav aria-label="Support" class="footer__nav">
+          <h3 style="
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 0 1rem 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+          ">
+            <svg width="18" height="18" fill="currentColor">
+              <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
+            </svg>
+            Support & Help
+          </h3>
+          <ul style="list-style: none; margin: 0; padding: 0;">
+            <li style="margin-bottom: 8px;">
+              <a href="/help/" style="
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: rgba(255,255,255,0.7);
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.2s ease;
+              " onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                <svg width="14" height="14" fill="currentColor">
+                  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+                </svg>
+                Help Center
+              </a>
+            </li>
+            <li style="margin-bottom: 8px;">
+              <a href="/contact/" style="
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: rgba(255,255,255,0.7);
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.2s ease;
+              " onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                <svg width="14" height="14" fill="currentColor">
+                  <path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z"/>
+                  <path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z"/>
+                </svg>
+                Contact Us
+              </a>
+            </li>
+            <li style="margin-bottom: 8px;">
+              <a href="/help/parents/getting-started" style="
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: rgba(255,255,255,0.7);
+                text-decoration: none;
+                font-size: 14px;
+                transition: color 0.2s ease;
+              " onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">
+                <svg width="14" height="14" fill="currentColor">
+                  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                </svg>
+                Getting Started
+              </a>
+            </li>
+          </ul>
+        </nav>
+        
+        <!-- CTA Section -->
+        <section class="footer__cta">
+          <div style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+          ">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+              <path d="M9 6v12l9-6-9-6z" fill="rgba(255,255,255,0.8)"/>
+            </svg>
+          </div>
+          <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600;">New to Flow?</h3>
+          <p style="color: rgba(255,255,255,0.7); margin: 0 0 1rem 0; font-size: 14px; line-height: 1.5;">Ask your child to invite you to their account and start supporting their journey today.</p>
+          <a href="/parents/getting-started" style="
+            display: inline-block;
+            background: linear-gradient(135deg, #3f46e5 0%, #8b5cf6 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+          " onmouseover="this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(63, 70, 229, 0.4)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">Get Started</a>
+        </section>
+      </div>
+      
+      <!-- Footer Meta -->
+      <div style="
+        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 14px;
+      ">
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="/legal/privacy.html" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Privacy</a>
+          <a href="/legal/terms.html" style="color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Terms</a>
+          <button style="
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            font-size: 14px;
+            transition: color 0.2s ease;
+          " onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">Cookie Settings</button>
+        </div>
+        <small style="color: rgba(255,255,255,0.7);">© <span id="year">2025</span> Flow. Empowering families in education.</small>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

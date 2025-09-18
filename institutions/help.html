@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Help Center for Institution Portal - Comprehensive support and documentation for educational institutions." />
+  <meta name="theme-color" content="#373896" />
+  <title>Help Center — Flow Institution Portal</title>
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/institutions.css" />
+  
+  <style>
+    /* Help Center Specific Styles */
+    .help-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .help-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .help-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+    
+    .help-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+      border-color: #5a5bb8;
+    }
+    
+    .help-card__icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    
+    .help-card h2 {
+      color: #1f2937;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .help-card p {
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    
+    .help-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .help-list li {
+      margin-bottom: 0.75rem;
+    }
+    
+    .help-list a {
+      color: #5a5bb8;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem;
+      border-radius: 6px;
+      transition: background-color 0.2s ease;
+    }
+    
+    .help-list a:hover {
+      background-color: #f3f4f6;
+      color: #4c4db8;
+    }
+    
+    .help-list a:before {
+      content: '📄';
+      margin-right: 0.5rem;
+    }
+    
+    .faq-section {
+      background: #f9fafb;
+      padding: 3rem 0;
+      margin: 3rem 0;
+      border-radius: 12px;
+    }
+    
+    .faq-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .faq-item {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    }
+    
+    .faq-item h3 {
+      background: #5a5bb8;
+      color: white;
+      margin: 0;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      font-weight: 600;
+    }
+    
+    .faq-item h3:hover {
+      background: #4c4db8;
+    }
+    
+    .faq-answer {
+      padding: 1.25rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    
+    .contact-section {
+      margin: 3rem 0;
+    }
+    
+    .contact-card {
+      background: linear-gradient(135deg, #5a5bb8 0%, #6b6ce8 100%);
+      color: white;
+      padding: 3rem;
+      border-radius: 16px;
+      text-align: center;
+    }
+    
+    .contact-card h2 {
+      color: white;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .contact-card p {
+      font-size: 1.125rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+    }
+    
+    .contact-options {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .contact-options .btn {
+      background: white;
+      color: #5a5bb8;
+      border: none;
+    }
+    
+    .contact-options .btn:hover {
+      background: #f3f4f6;
+      transform: translateY(-2px);
+    }
+    
+    .contact-hours {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin-top: 2rem;
+    }
+    
+    .contact-hours p {
+      margin: 0.5rem 0;
+      opacity: 0.95;
+    }
+    
+    @media (max-width: 768px) {
+      .help-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .help-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .contact-options {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body data-user-id="u-institution-001">
+  <!-- Skip Link -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Site header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+
+      <nav class="header-nav">
+        <a href="/institutions/" class="header-nav__link">Dashboard</a>
+        <a href="/institutions/programs.html" class="header-nav__link">Programs</a>
+        <a href="/institutions/admissions.html" class="header-nav__link">Admissions</a>
+        <a href="/institutions/reports.html" class="header-nav__link">Reports</a>
+        <a href="/institutions/help.html" class="header-nav__link header-nav__link--active">Help</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main id="main" role="main">
+    <section class="section">
+      <div class="container">
+        <header class="section__header">
+          <h1>📚 Help Center</h1>
+          <p class="section__description">Comprehensive support and documentation for the Institution Portal</p>
+        </header>
+
+        <!-- Quick Actions -->
+        <div class="help-actions">
+          <button class="btn btn--primary" onclick="contactSupport()">
+            📧 Contact Support
+          </button>
+          <button class="btn btn--secondary" onclick="startLiveChat()">
+            💬 Live Chat
+          </button>
+          <button class="btn btn--secondary" onclick="searchHelp()">
+            🔍 Search Help
+          </button>
+        </div>
+
+        <!-- Help Topics Grid -->
+        <div class="help-grid">
+          <!-- Getting Started -->
+          <article class="help-card">
+            <div class="help-card__icon">🚀</div>
+            <h2>Getting Started</h2>
+            <p>New to the Institution Portal? Start here for a complete overview.</p>
+            <ul class="help-list">
+              <li><a href="#" onclick="showHelpTopic('setup')">Initial Setup Guide</a></li>
+              <li><a href="#" onclick="showHelpTopic('first-steps')">First Steps Tutorial</a></li>
+              <li><a href="#" onclick="showHelpTopic('navigation')">Portal Navigation</a></li>
+              <li><a href="#" onclick="showHelpTopic('account')">Account Configuration</a></li>
+            </ul>
+          </article>
+
+          <!-- Program Management -->
+          <article class="help-card">
+            <div class="help-card__icon">📚</div>
+            <h2>Program Management</h2>
+            <p>Learn how to create, configure, and manage academic programs.</p>
+            <ul class="help-list">
+              <li><a href="#" onclick="showHelpTopic('create-program')">Creating Programs</a></li>
+              <li><a href="#" onclick="showHelpTopic('program-requirements')">Setting Requirements</a></li>
+              <li><a href="#" onclick="showHelpTopic('program-deadlines')">Managing Deadlines</a></li>
+              <li><a href="#" onclick="showHelpTopic('program-capacity')">Capacity Management</a></li>
+            </ul>
+          </article>
+
+          <!-- Admissions Process -->
+          <article class="help-card">
+            <div class="help-card__icon">🎯</div>
+            <h2>Admissions Process</h2>
+            <p>Streamline your admissions workflow from application to enrollment.</p>
+            <ul class="help-list">
+              <li><a href="#" onclick="showHelpTopic('review-process')">Application Review</a></li>
+              <li><a href="#" onclick="showHelpTopic('bulk-actions')">Bulk Processing</a></li>
+              <li><a href="#" onclick="showHelpTopic('interview-scheduling')">Interview Scheduling</a></li>
+              <li><a href="#" onclick="showHelpTopic('decision-letters')">Decision Letters</a></li>
+            </ul>
+          </article>
+
+          <!-- Analytics & Reporting -->
+          <article class="help-card">
+            <div class="help-card__icon">📊</div>
+            <h2>Analytics & Reporting</h2>
+            <p>Generate insights and reports to track your institution's performance.</p>
+            <ul class="help-list">
+              <li><a href="#" onclick="showHelpTopic('dashboard-metrics')">Dashboard Metrics</a></li>
+              <li><a href="#" onclick="showHelpTopic('custom-reports')">Custom Reports</a></li>
+              <li><a href="#" onclick="showHelpTopic('data-export')">Data Export</a></li>
+              <li><a href="#" onclick="showHelpTopic('trend-analysis')">Trend Analysis</a></li>
+            </ul>
+          </article>
+
+          <!-- User Management -->
+          <article class="help-card">
+            <div class="help-card__icon">👥</div>
+            <h2>User Management</h2>
+            <p>Manage staff accounts, permissions, and access controls.</p>
+            <ul class="help-list">
+              <li><a href="#" onclick="showHelpTopic('add-users')">Adding Users</a></li>
+              <li><a href="#" onclick="showHelpTopic('permissions')">Setting Permissions</a></li>
+              <li><a href="#" onclick="showHelpTopic('role-management')">Role Management</a></li>
+              <li><a href="#" onclick="showHelpTopic('access-logs')">Access Logs</a></li>
+            </ul>
+          </article>
+
+          <!-- Technical Support -->
+          <article class="help-card">
+            <div class="help-card__icon">🔧</div>
+            <h2>Technical Support</h2>
+            <p>Troubleshoot technical issues and system configurations.</p>
+            <ul class="help-list">
+              <li><a href="#" onclick="showHelpTopic('troubleshooting')">Common Issues</a></li>
+              <li><a href="#" onclick="showHelpTopic('browser-support')">Browser Compatibility</a></li>
+              <li><a href="#" onclick="showHelpTopic('integrations')">Third-party Integrations</a></li>
+              <li><a href="#" onclick="showHelpTopic('api-docs')">API Documentation</a></li>
+            </ul>
+          </article>
+        </div>
+
+        <!-- FAQs Section -->
+        <section class="faq-section">
+          <h2>🤔 Frequently Asked Questions</h2>
+          <div class="faq-grid">
+            <div class="faq-item">
+              <h3 onclick="toggleFAQ(this)">How do I add a new academic program?</h3>
+              <div class="faq-answer">
+                <p>To add a new program, navigate to the Programs section and click "Create Program". Fill in the program details, requirements, and deadlines. Make sure to set the capacity and application requirements before publishing.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <h3 onclick="toggleFAQ(this)">Can I bulk process applications?</h3>
+              <div class="faq-answer">
+                <p>Yes! Select multiple applications using the checkboxes, then use the bulk actions toolbar to accept, reject, or schedule interviews for selected applicants simultaneously.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <h3 onclick="toggleFAQ(this)">How do I generate admission reports?</h3>
+              <div class="faq-answer">
+                <p>Go to the Reports section and choose from pre-built templates or create custom reports. You can filter by date range, program, status, and export in various formats (PDF, Excel, CSV).</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <h3 onclick="toggleFAQ(this)">What browsers are supported?</h3>
+              <div class="faq-answer">
+                <p>Flow works best with modern browsers: Chrome 90+, Firefox 88+, Safari 14+, and Edge 90+. For optimal performance, keep your browser updated.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contact Support -->
+        <section class="contact-section">
+          <div class="contact-card">
+            <h2>Still Need Help?</h2>
+            <p>Our support team is here to help you succeed. Get in touch for personalized assistance.</p>
+            <div class="contact-options">
+              <button class="btn btn--primary" onclick="contactSupport()">
+                📧 Email Support
+              </button>
+              <button class="btn btn--secondary" onclick="startLiveChat()">
+                💬 Live Chat
+              </button>
+              <button class="btn btn--secondary" onclick="scheduleCall()">
+                📞 Schedule Call
+              </button>
+            </div>
+            <div class="contact-hours">
+              <p><strong>🕒 Support Hours:</strong> Monday-Friday, 8 AM - 8 PM EST</p>
+              <p><strong>📱 Response Time:</strong> Email within 4 hours, Live Chat within 2 minutes</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer" style="background: linear-gradient(135deg, rgba(55, 56, 150, 0.95), rgba(107, 108, 232, 0.95)); position: relative; overflow: hidden; color: white;">
+    <div class="container footer__inner" style="position: relative; z-index: 2; color: white;">
+      <div class="footer__grid">
+        <!-- Brand section -->
+        <div class="footer__brand">
+          <div class="footer__logo" onclick="scrollToTop()" style="cursor: pointer;" title="Back to top">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#373896"/>
+                  <stop offset="100%" style="stop-color:#6b6ce8"/>
+                </linearGradient>
+              </defs>
+              <circle cx="20" cy="20" r="18" fill="url(#logoGradient)" stroke="currentColor" stroke-width="2"/>
+              <path d="M15 18l5-5 5 5M20 13v14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="footer__brand-text">
+            <div class="footer__brand-name">Flow</div>
+            <div class="footer__tagline">Streamlining Education Access</div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="footer__section">
+          <h3 class="footer__title">For Institutions</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="12" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M4 6h8M4 8h6M4 10h4"/>
+                <circle cx="11" cy="5" r="2" fill="#22c55e" opacity="0.8"/>
+                <path d="M10 5l0.7 0.7 1.3-1.4" stroke="white" stroke-width="0.8" fill="none"/>
+              </svg>
+              Dashboard</a></li>
+            <li><a href="/institutions/programs.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h4M5 9h5"/>
+                <circle cx="11" cy="6" r="1.5" fill="#22c55e" opacity="0.8"/>
+                <path d="M10.3 6l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.8" fill="none"/>
+              </svg>
+              Manage Programs</a></li>
+            <li><a href="/institutions/admissions.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="8" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <rect x="12" y="3" width="2" height="10" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M4 6h4M4 8h3M4 10h4"/>
+                <circle cx="8" cy="6" r="1" fill="#22c55e"/>
+                <path d="M7.5 6l0.3 0.3 0.5-0.6" stroke="white" stroke-width="0.6" fill="none"/>
+              </svg>
+              Admissions</a></li>
+            <li><a href="/institutions/reports.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="12" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M2 7h12"/>
+                <rect x="4" y="9" width="1.5" height="2" fill="#3b82f6" opacity="0.8" rx="0.3"/>
+                <rect x="6" y="10" width="1.5" height="1" fill="#22c55e" opacity="0.8" rx="0.3"/>
+                <rect x="8" y="8" width="1.5" height="3" fill="#f59e0b" opacity="0.8" rx="0.3"/>
+                <rect x="10" y="11" width="1.5" height="0.5" fill="#ef4444" opacity="0.8" rx="0.3"/>
+              </svg>
+              Reports</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title">Support</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/help.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M8 6v2M8 10h.01"/>
+                <circle cx="8" cy="4" r="1" fill="#3b82f6"/>
+                <path d="M4 12l8-8M12 12l-8-8" stroke="#22c55e" stroke-width="0.8" opacity="0.5"/>
+              </svg>
+              Help Center</a></li>
+            <li><a href="/contact/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M2 3h12l-6 5-6-5zM2 3v10h12V3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="12" cy="4" r="1.5" fill="#22c55e"/>
+                <path d="M11.3 4l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+              </svg>
+              Contact</a></li>
+            <li><a href="/legal/privacy.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="3" y="2" width="10" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M8 6v4M6 8h4"/>
+                <circle cx="8" cy="5" r="1" fill="#f59e0b"/>
+                <rect x="5" y="9" width="6" height="1" fill="#ef4444" opacity="0.6"/>
+              </svg>
+              Privacy</a></li>
+            <li><a href="/legal/terms.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h5M5 9h4M5 11h6"/>
+                <circle cx="12" cy="4" r="1" fill="#8b5cf6"/>
+                <rect x="4" y="6" width="1" height="6" fill="#3b82f6" opacity="0.3"/>
+              </svg>
+              Terms</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title">Connect</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/messages.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="4" width="12" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M2 6l5 3 2-1 5-2"/>
+                <circle cx="12" cy="5" r="1.5" fill="#ef4444"/>
+                <text x="12" y="6" text-anchor="middle" font-size="2.5" fill="white" font-weight="bold">2</text>
+              </svg>
+              Messages</a></li>
+            <li><a href="/community/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <circle cx="5" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="11" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="8" cy="11" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="5" cy="6" r="1" fill="#22c55e"/>
+                <circle cx="11" cy="6" r="1" fill="#3b82f6"/>
+                <circle cx="8" cy="11" r="1" fill="#f59e0b"/>
+                <path d="M7 8l2 1M9 8l-2 1" stroke="currentColor" stroke-width="0.8"/>
+              </svg>
+              Community</a></li>
+            <li><a href="/blog/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h4M5 9h5"/>
+                <circle cx="12" cy="4" r="1.5" fill="#22c55e"/>
+                <path d="M11.3 4l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+                <rect x="4" y="11" width="8" height="1" fill="#8b5cf6" opacity="0.6"/>
+              </svg>
+              Updates</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <div class="footer__copyright">
+          © 2024 Flow Education Platform. All rights reserved.
+        </div>
+        <div class="footer__status">
+          <span class="footer__status-dot"></span>
+          <span>All systems operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    console.log('Help Center loaded');
+    
+    // Scroll to top functionality
+    window.scrollToTop = function() {
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
+    }
+    
+    // Help functionality
+    window.contactSupport = function() {
+      const email = prompt('📧 Contact Support\n\nPlease enter your email address:');
+      if (email) {
+        const subject = prompt('What can we help you with?\n\nEnter a brief subject:');
+        if (subject) {
+          alert('📧 Support ticket created successfully!\n\nTicket ID: #HELP-' + Math.random().toString(36).substr(2, 6).toUpperCase() + '\n\nOur team will respond within 4 hours.');
+        }
+      }
+    }
+    
+    window.startLiveChat = function() {
+      alert('💬 Live Chat\n\nConnecting you to our support team...\n\n🕒 Support Hours: Monday-Friday, 8 AM - 8 PM EST\n📱 Response time: ~2 minutes\n\nIn a real implementation, this would open a live chat window.');
+    }
+    
+    window.searchHelp = function() {
+      const query = prompt('🔍 Search Help\n\nWhat would you like to search for?');
+      if (query) {
+        alert('🔍 Search Results for "' + query + '"\n\nIn a real implementation, this would show relevant help articles and documentation.');
+      }
+    }
+    
+    window.showHelpTopic = function(topic) {
+      const topics = {
+        'setup': 'Initial Setup Guide\n\n1. Create your institution profile\n2. Configure program settings\n3. Set up user accounts\n4. Customize admission workflows',
+        'first-steps': 'First Steps Tutorial\n\n1. Explore the dashboard\n2. Create your first program\n3. Review sample applications\n4. Generate your first report',
+        'create-program': 'Creating Programs\n\n1. Click "Create Program" button\n2. Fill in program details\n3. Set requirements and deadlines\n4. Configure capacity limits\n5. Publish program',
+        'review-process': 'Application Review\n\n1. Access pending applications\n2. Review documents and scores\n3. Add reviewer comments\n4. Make admission decisions\n5. Send notification letters'
+      };
+      
+      const content = topics[topic] || 'Help topic not found. Please contact support for assistance.';
+      alert('📚 ' + content);
+    }
+    
+    window.scheduleCall = function() {
+      alert('📞 Schedule Support Call\n\nIn a real implementation, this would open a calendar booking system to schedule a call with our support team.');
+    }
+    
+    window.toggleFAQ = function(element) {
+      const answer = element.nextElementSibling;
+      const isOpen = answer.style.display === 'block';
+      answer.style.display = isOpen ? 'none' : 'block';
+      element.style.cursor = 'pointer';
+    }
+    
+    // Initialize FAQ functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const faqItems = document.querySelectorAll('.faq-item h3');
+      faqItems.forEach(item => {
+        item.style.cursor = 'pointer';
+        item.nextElementSibling.style.display = 'none';
+      });
+    });
+  </script>
+
+  <!-- Flow Cookie Consent System -->
+  <script src="/assets/js/cookie-consent.js"></script>
+</body>
+</html>

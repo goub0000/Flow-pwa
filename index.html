@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Flow — One profile, multi-university applications across Africa. Students, institutions, counselors, parents, and recommenders in one platform." />
+  <meta name="author" content="Flow" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#373896" />
+
+  <title data-i18n-title="page.home">Flow — Apply to Multiple Universities with One Profile</title>
+  <link rel="canonical" href="https://example.com/" />
+
+  <!-- Favicons -->
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Flow — Apply to Multiple Universities with One Profile" />
+  <meta property="og:description" content="Students apply once, track everywhere. Institutions, counselors, parents, and recommenders collaborate in one place." />
+  <meta property="og:image" content="/assets/img/logo.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="en_US" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Flow — Apply to Multiple Universities with One Profile" />
+  <meta name="twitter:description" content="Students apply once, track everywhere. Institutions, counselors, parents, and recommenders collaborate in one place." />
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Flow",
+    "url":"https://example.com",
+    "logo":"/assets/img/logo.png",
+    "sameAs":[]
+  }
+  </script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/design-system.css" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/home.css" />
+  <link rel="stylesheet" href="/assets/css/polish-overrides.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link" data-i18n="accessibility.skipToContent">Skip to content</a>
+
+  <!-- Animated Background Elements -->
+  <div class="bg-animation" aria-hidden="true">
+    <div class="bg-orb bg-orb--primary"></div>
+    <div class="bg-orb bg-orb--accent"></div>
+    <div class="bg-orb bg-orb--secondary"></div>
+    <canvas id="particleCanvas" class="particle-canvas"></canvas>
+  </div>
+
+  <!-- Toast notifications container -->
+  <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- AUTH-AWARE HEADER -->
+  <header class="header header--futuristic" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand brand--animated brand--dynamic" href="/" aria-label="Flow home" data-i18n-attrs='{"aria-label":"brand.home"}'>
+        <div class="brand__logo-wrapper brand__logo-wrapper--circular">
+          <img src="/assets/img/logo.png" class="brand__logo brand__logo--circular" alt="Flow logo" width="40" height="40" />
+          <div class="brand__logo-glow brand__logo-glow--dynamic"></div>
+          <div class="brand__logo-pulse"></div>
+          <div class="brand__logo-orbit">
+            <div class="brand__logo-particle"></div>
+            <div class="brand__logo-particle"></div>
+            <div class="brand__logo-particle"></div>
+          </div>
+        </div>
+        <span class="brand__name brand__name--glow">Flow</span>
+      </a>
+
+      <div id="mainLanguageSelector" class="language-selector">
+        <!-- Will be populated by translation system -->
+      </div>
+
+      <nav class="nav nav--modern" role="navigation" aria-label="Main navigation">
+        <button class="nav__toggle nav__toggle--animated" 
+                aria-expanded="false"
+                aria-controls="navMenu"
+                aria-label="Toggle navigation menu"
+                type="button"
+                data-i18n-attrs='{"aria-label":"accessibility.toggleMenu"}'>
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+          <span class="nav__toggle-line"></span>
+        </button>
+        
+        <ul id="navMenu" class="nav__list nav__list--futuristic">
+          <li class="nav__item"><a href="#students" class="nav__link"><span class="nav__link-text" data-i18n="nav.students">Students</span></a></li>
+          <li class="nav__item"><a href="#institutions" class="nav__link"><span class="nav__link-text" data-i18n="nav.institutions">Institutions</span></a></li>
+          <li class="nav__item"><a href="#counselors" class="nav__link"><span class="nav__link-text" data-i18n="nav.counselors">Counselors</span></a></li>
+          <li class="nav__item"><a href="#parents" class="nav__link"><span class="nav__link-text" data-i18n="nav.parents">Parents</span></a></li>
+          <li class="nav__item"><a href="#recommenders" class="nav__link"><span class="nav__link-text" data-i18n="nav.recommenders">Recommenders</span></a></li>
+          <li class="nav__item">
+            <button type="button" class="btn btn--glass btn--glow" data-open="signupModal">
+              <span class="btn__text" data-i18n="auth.signUp">Sign Up</span>
+              <span class="btn__shine"></span>
+            </button>
+          </li>
+
+          <!-- Shown when NOT authenticated -->
+          <li class="nav__item">
+            <button type="button" data-auth="login-link" class="btn btn--primary btn--futuristic" data-open="loginPortalsModal">
+              <span class="btn__text" data-i18n="auth.signIn">Sign In</span>
+              <span class="btn__shine"></span>
+            </button>
+          </li>
+
+          <!-- Shown when authenticated (revealed by /assets/js/auth.js) -->
+          <li class="nav__item" data-auth="user-menu" hidden>
+            <div class="user-menu user-menu--modern">
+              <button class="user-menu__trigger" aria-expanded="false" aria-haspopup="true" aria-label="User menu" type="button">
+                <div class="user-menu__avatar-wrapper">
+                  <img src="/assets/img/default-avatar.svg" alt="" class="user-menu__avatar" width="32" height="32" />
+                  <div class="user-menu__avatar-ring"></div>
+                </div>
+                <span class="user-menu__name" data-auth="user-email" data-i18n="auth.account">Account</span>
+                <svg class="user-menu__arrow" width="12" height="12" viewBox="0 0 12 12">
+                  <path d="M6 9L2 5h8z" fill="currentColor"/>
+                </svg>
+              </button>
+              <ul class="user-menu__dropdown user-menu__dropdown--glass" role="menu">
+                <li role="none"><a href="/students/" role="menuitem" class="user-menu__link" data-i18n="nav.studentPortal">Student Portal</a></li>
+                <li role="none"><a href="/parents/" role="menuitem" class="user-menu__link" data-i18n="nav.parentPortal">Parent Portal</a></li>
+                <li role="none"><a href="/counselors/" role="menuitem" class="user-menu__link" data-i18n="nav.counselorPortal">Counselor Portal</a></li>
+                <li role="none"><hr class="user-menu__separator" /></li>
+                <li role="none"><a href="#" role="menuitem" class="user-menu__link user-menu__link--danger" data-auth="logout-btn" data-i18n="auth.signOut">Sign Out</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Hero Section with Parallax -->
+    <section class="hero hero--futuristic" aria-labelledby="heroTitle">
+      <div class="hero__bg-grid" aria-hidden="true"></div>
+      <div class="container hero__inner">
+        <div class="hero__content" data-aos="fade-right">
+          <span class="hero__label">The Future of University Applications</span>
+          <h1 id="heroTitle" class="hero__title hero__title--gradient" data-i18n="hero.title">
+            <span class="hero__title-line">Apply once.</span>
+            <span class="hero__title-line">Track everywhere.</span>
+          </h1>
+          <p class="lead lead--hero" data-i18n="hero.subtitle">One profile to apply to 50+ universities across Africa. Real-time status, documents, messaging, and financial tools.</p>
+          
+          <div class="hero__actions">
+            <button type="button" class="btn btn--primary btn--large btn--pulse" data-open="signupModal" data-i18n="auth.signUp">
+              <span class="btn__text">Sign Up</span>
+              <span class="btn__icon">→</span>
+              <span class="btn__shine"></span>
+            </button>
+            <a href="#how-it-works" class="btn btn--glass btn--large" data-i18n="hero.howItWorks">
+              <span class="btn__text">How it works</span>
+              <span class="btn__icon">↓</span>
+            </a>
+          </div>
+          
+          <ul class="hero__badges" aria-label="Key highlights">
+            <li class="badge badge--animated badge--glow">
+              <span class="badge__icon">🌍</span>
+              <span class="badge__text" data-i18n="hero.badge1">Multi-institution applications</span>
+            </li>
+            <li class="badge badge--animated badge--glow">
+              <span class="badge__icon">📱</span>
+              <span class="badge__text" data-i18n="hero.badge2">Offline-friendly workflows</span>
+            </li>
+            <li class="badge badge--animated badge--glow">
+              <span class="badge__icon">🌐</span>
+              <span class="badge__text" data-i18n="hero.badge3">Multi-language</span>
+            </li>
+          </ul>
+        </div>
+        
+        <figure class="hero__media" data-aos="fade-left" aria-hidden="true">
+          <div class="hero__media-wrapper">
+            <div class="hero__media-glow"></div>
+            <svg class="hero__media-img" viewBox="0 0 500 320" fill="none">
+              <!-- Background globe grid -->
+              <defs>
+                <pattern id="globalGrid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(100, 255, 218, 0.1)" stroke-width="0.5"/>
+                </pattern>
+              </defs>
+              <rect width="500" height="320" fill="url(#globalGrid)" opacity="0.5"/>
+              
+              <!-- African continent (enhanced) -->
+              <path d="M220 25C195 20 175 30 165 45C155 35 135 40 125 55C115 50 95 60 85 75C75 70 55 80 50 95C45 105 40 125 45 145C50 165 60 185 75 195C90 205 110 210 130 205C150 200 170 190 185 180C200 170 215 160 230 150C245 140 260 130 275 120C290 110 305 100 320 95C335 90 350 90 360 100C370 110 375 125 370 140C365 155 355 170 340 180C325 190 305 195 285 190C265 185 245 175 230 160C215 145 205 125 200 105C195 85 195 65 200 45C205 35 210 30 220 25Z" 
+                    stroke="#64ffda" stroke-width="2.5" fill="rgba(100, 255, 218, 0.15)"/>
+              
+              <!-- Europe continent -->
+              <path d="M200 15C195 12 190 14 185 16C182 14 178 15 175 17C173 15 169 16 167 18C165 16 161 17 160 20C158 22 160 25 163 26C166 27 170 26 173 28C176 30 180 29 183 31C186 33 190 32 193 34C196 36 200 35 203 33C206 31 209 28 207 25C205 22 202 19 200 15Z" 
+                    stroke="#5a5bb8" stroke-width="2" fill="rgba(90, 91, 184, 0.2)"/>
+              
+              <!-- Asia continent -->
+              <path d="M340 30C330 25 320 28 315 35C310 32 305 34 300 38C295 35 290 37 285 41C280 38 275 40 272 45C270 50 275 55 280 57C285 59 290 57 295 60C300 62 305 60 310 63C315 65 320 63 325 66C330 68 335 66 340 64C345 62 350 59 352 54C354 49 351 44 348 39C345 34 342 32 340 30Z" 
+                    stroke="#f093fb" stroke-width="2" fill="rgba(240, 147, 251, 0.15)"/>
+              
+              <!-- North America continent -->
+              <path d="M80 40C70 35 60 38 55 45C50 42 45 44 40 48C35 45 30 47 25 51C20 48 15 50 12 55C10 60 15 65 20 67C25 69 30 67 35 70C40 72 45 70 50 73C55 75 60 73 65 76C70 78 75 76 80 74C85 72 90 69 92 64C94 59 91 54 88 49C85 44 82 42 80 40Z" 
+                    stroke="#64ffda" stroke-width="2" fill="rgba(100, 255, 218, 0.1)"/>
+              
+              <!-- South America continent -->
+              <path d="M90 180C85 175 80 178 75 185C70 182 65 184 60 188C58 185 54 186 52 190C50 195 55 200 60 202C65 204 70 202 75 205C80 207 85 205 90 208C95 210 100 208 103 203C105 198 102 193 99 188C96 183 93 181 90 180Z" 
+                    stroke="#f093fb" stroke-width="2" fill="rgba(240, 147, 251, 0.12)"/>
+              
+              <!-- Australia continent -->
+              <path d="M380 220C375 215 370 218 365 225C360 222 355 224 350 228C348 225 344 226 342 230C340 235 345 240 350 242C355 244 360 242 365 245C370 247 375 245 380 243C385 241 390 238 392 233C394 228 391 223 388 218C385 213 382 211 380 220Z" 
+                    stroke="#5a5bb8" stroke-width="2" fill="rgba(90, 91, 184, 0.15)"/>
+              
+              <!-- Global connection network -->
+              <g class="connection-network" opacity="0.8">
+                <!-- Inter-continental connections -->
+                <path d="M200 50C250 40 300 45 340 60" stroke="#64ffda" stroke-width="1.5" fill="none" stroke-dasharray="6,3" opacity="0.6">
+                  <animate attributeName="stroke-dashoffset" values="0;-18;0" dur="5s" repeatCount="indefinite"/>
+                </path>
+                
+                <path d="M100 70C150 90 200 100 250 110" stroke="#f093fb" stroke-width="1.5" fill="none" stroke-dasharray="6,3" opacity="0.6">
+                  <animate attributeName="stroke-dashoffset" values="0;-18;0" dur="4s" begin="1s" repeatCount="indefinite"/>
+                </path>
+                
+                <path d="M75 200C150 180 250 160 380 230" stroke="#5a5bb8" stroke-width="1.5" fill="none" stroke-dasharray="6,3" opacity="0.6">
+                  <animate attributeName="stroke-dashoffset" values="0;-18;0" dur="6s" begin="2s" repeatCount="indefinite"/>
+                </path>
+                
+                <path d="M180 20C220 80 280 120 350 50" stroke="#64ffda" stroke-width="1.5" fill="none" stroke-dasharray="4,2" opacity="0.5">
+                  <animate attributeName="stroke-dashoffset" values="0;-12;0" dur="4.5s" begin="0.5s" repeatCount="indefinite"/>
+                </path>
+              </g>
+              
+              <!-- Universities across continents -->
+              <!-- African universities -->
+              <circle cx="140" cy="90" r="5" fill="#5a5bb8">
+                <animate attributeName="r" values="5;7;5" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="200" cy="80" r="5" fill="#5a5bb8">
+                <animate attributeName="r" values="5;7;5" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="260" cy="100" r="5" fill="#5a5bb8">
+                <animate attributeName="r" values="5;7;5" dur="3s" begin="1s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="170" cy="130" r="5" fill="#5a5bb8">
+                <animate attributeName="r" values="5;7;5" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="230" cy="140" r="5" fill="#5a5bb8">
+                <animate attributeName="r" values="5;7;5" dur="3s" begin="2s" repeatCount="indefinite"/>
+              </circle>
+              
+              <!-- European universities -->
+              <circle cx="175" cy="22" r="4" fill="#f093fb">
+                <animate attributeName="r" values="4;6;4" dur="2.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="195" cy="28" r="4" fill="#f093fb">
+                <animate attributeName="r" values="4;6;4" dur="2.5s" begin="0.8s" repeatCount="indefinite"/>
+              </circle>
+              
+              <!-- Asian universities -->
+              <circle cx="315" cy="45" r="4" fill="#64ffda">
+                <animate attributeName="r" values="4;6;4" dur="2.8s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="335" cy="52" r="4" fill="#64ffda">
+                <animate attributeName="r" values="4;6;4" dur="2.8s" begin="1.2s" repeatCount="indefinite"/>
+              </circle>
+              
+              <!-- American universities -->
+              <circle cx="55" cy="55" r="4" fill="#5a5bb8">
+                <animate attributeName="r" values="4;6;4" dur="3.2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="75" cy="62" r="4" fill="#5a5bb8">
+                <animate attributeName="r" values="4;6;4" dur="3.2s" begin="0.7s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="70" cy="190" r="4" fill="#f093fb">
+                <animate attributeName="r" values="4;6;4" dur="3.5s" repeatCount="indefinite"/>
+              </circle>
+              
+              <!-- Australian universities -->
+              <circle cx="365" cy="235" r="4" fill="#64ffda">
+                <animate attributeName="r" values="4;6;4" dur="3.8s" repeatCount="indefinite"/>
+              </circle>
+              
+              <!-- Central Flow platform -->
+              <circle cx="250" cy="120" r="25" stroke="#f093fb" stroke-width="3" fill="rgba(240, 147, 251, 0.1)">
+                <animate attributeName="r" values="25;30;25" dur="4s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="250" cy="115" r="10" fill="#f093fb" opacity="0.9"/>
+              <path d="M235 135C235 130 240 125 250 125C260 125 265 130 265 135" stroke="#f093fb" stroke-width="2" fill="none"/>
+              
+              <!-- Global data streams -->
+              <g class="data-streams" opacity="0.7">
+                <circle r="3" fill="#64ffda">
+                  <animateMotion dur="8s" repeatCount="indefinite">
+                    <path d="M55 55C150 80 200 100 250 120"/>
+                  </animateMotion>
+                </circle>
+                
+                <circle r="3" fill="#f093fb">
+                  <animateMotion dur="7s" begin="2s" repeatCount="indefinite">
+                    <path d="M175 22C200 60 220 90 250 120"/>
+                  </animateMotion>
+                </circle>
+                
+                <circle r="3" fill="#5a5bb8">
+                  <animateMotion dur="9s" begin="1s" repeatCount="indefinite">
+                    <path d="M335 52C300 80 270 100 250 120"/>
+                  </animateMotion>
+                </circle>
+                
+                <circle r="3" fill="#64ffda">
+                  <animateMotion dur="6s" begin="3s" repeatCount="indefinite">
+                    <path d="M365 235C320 180 280 150 250 120"/>
+                  </animateMotion>
+                </circle>
+              </g>
+              
+              <!-- Floating application documents with flags -->
+              <g class="floating-docs" opacity="0.8">
+                <g transform="rotate(10)">
+                  <rect x="60" y="40" width="12" height="16" rx="2" fill="rgba(90, 91, 184, 0.3)" stroke="#5a5bb8" stroke-width="1"/>
+                  <rect x="58" y="38" width="4" height="3" rx="0.5" fill="#64ffda"/>
+                  <animateTransform attributeName="transform" type="rotate" values="10;15;10" dur="6s" repeatCount="indefinite"/>
+                </g>
+                
+                <g transform="rotate(-15)">
+                  <rect x="380" y="70" width="12" height="16" rx="2" fill="rgba(240, 147, 251, 0.3)" stroke="#f093fb" stroke-width="1"/>
+                  <rect x="378" y="68" width="4" height="3" rx="0.5" fill="#5a5bb8"/>
+                  <animateTransform attributeName="transform" type="rotate" values="-15;-10;-15" dur="5s" repeatCount="indefinite"/>
+                </g>
+                
+                <g transform="rotate(20)">
+                  <rect x="350" y="200" width="12" height="16" rx="2" fill="rgba(100, 255, 218, 0.3)" stroke="#64ffda" stroke-width="1"/>
+                  <rect x="348" y="198" width="4" height="3" rx="0.5" fill="#f093fb"/>
+                  <animateTransform attributeName="transform" type="rotate" values="20;25;20" dur="7s" repeatCount="indefinite"/>
+                </g>
+              </g>
+              
+              <!-- Success indicators across continents -->
+              <g class="success-indicators" opacity="0.8">
+                <path d="M120 200L125 205L135 195" stroke="#64ffda" stroke-width="2" fill="none">
+                  <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/>
+                </path>
+                <path d="M40 80L45 85L55 75" stroke="#f093fb" stroke-width="2" fill="none">
+                  <animate attributeName="opacity" values="0;1;0" dur="3s" begin="1s" repeatCount="indefinite"/>
+                </path>
+                <path d="M350 80L355 85L365 75" stroke="#5a5bb8" stroke-width="2" fill="none">
+                  <animate attributeName="opacity" values="0;1;0" dur="3s" begin="2s" repeatCount="indefinite"/>
+                </path>
+                <path d="M390 250L395 255L405 245" stroke="#64ffda" stroke-width="2" fill="none">
+                  <animate attributeName="opacity" values="0;1;0" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+                </path>
+              </g>
+              
+              <!-- Continental labels -->
+              <g class="continent-labels" opacity="0.6" font-size="10" fill="#64ffda" text-anchor="middle">
+                <text x="200" y="190">Africa</text>
+                <text x="185" y="12">Europe</text>
+                <text x="315" y="25">Asia</text>
+                <text x="55" y="35">N. America</text>
+                <text x="70" y="175">S. America</text>
+                <text x="365" y="210">Australia</text>
+              </g>
+              
+              <defs>
+                <marker id="heroArrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                  <polygon points="0 0, 8 3, 0 6" fill="#f093fb"/>
+                </marker>
+              </defs>
+            </svg>
+            <div class="hero__media-particles"></div>
+          </div>
+        </figure>
+      </div>
+      
+      <div class="hero__scroll-indicator" aria-hidden="true">
+        <span class="hero__scroll-text">Scroll</span>
+        <div class="hero__scroll-arrow"></div>
+      </div>
+    </section>
+
+    <!-- Portal Landing Sections -->
+    <!-- Students Portal -->
+    <section id="students" class="portal-section portal-section--students" aria-labelledby="studentsPortalTitle">
+      <div class="container">
+        <div class="portal-content">
+          <div class="portal-text">
+            <span class="portal-label">For Students</span>
+            <h2 id="studentsPortalTitle" class="portal-title" data-i18n="portal.students.title">Your Gateway to African Universities</h2>
+            <p class="portal-description" data-i18n="portal.students.description">Create one profile and apply to 50+ universities across Africa. Track your applications in real-time, manage documents, and get personalized recommendations.</p>
+            
+            <div class="portal-features">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <!-- AI Brain with target -->
+                    <path d="M24 4C13.5 4 5 12.5 5 23C5 28.5 7.5 33.5 11.5 37L24 44L36.5 37C40.5 33.5 43 28.5 43 23C43 12.5 34.5 4 24 4Z" stroke="#5a5bb8" stroke-width="2" fill="rgba(90, 91, 184, 0.1)"/>
+                    <!-- Target circles -->
+                    <circle cx="24" cy="23" r="8" stroke="#64ffda" stroke-width="2" fill="none"/>
+                    <circle cx="24" cy="23" r="4" stroke="#64ffda" stroke-width="2" fill="rgba(100, 255, 218, 0.2)"/>
+                    <circle cx="24" cy="23" r="1.5" fill="#64ffda"/>
+                    <!-- Neural network nodes -->
+                    <circle cx="16" cy="18" r="2" fill="rgba(90, 91, 184, 0.6)"/>
+                    <circle cx="32" cy="18" r="2" fill="rgba(90, 91, 184, 0.6)"/>
+                    <circle cx="18" cy="28" r="2" fill="rgba(90, 91, 184, 0.6)"/>
+                    <circle cx="30" cy="28" r="2" fill="rgba(90, 91, 184, 0.6)"/>
+                    <!-- Connection lines -->
+                    <path d="M16 18L24 23M32 18L24 23M18 28L24 23M30 28L24 23" stroke="rgba(100, 255, 218, 0.4)" stroke-width="1"/>
+                  </svg>
+                </div>
+                <div class="feature-content">
+                  <h3>Smart Matching</h3>
+                  <p>AI-powered program recommendations based on your academic profile and career goals</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <!-- Multiple documents with connection -->
+                    <rect x="8" y="12" width="12" height="16" rx="2" stroke="#5a5bb8" stroke-width="2" fill="rgba(90, 91, 184, 0.1)"/>
+                    <rect x="18" y="8" width="12" height="16" rx="2" stroke="#5a5bb8" stroke-width="2" fill="rgba(90, 91, 184, 0.15)"/>
+                    <rect x="28" y="12" width="12" height="16" rx="2" stroke="#5a5bb8" stroke-width="2" fill="rgba(90, 91, 184, 0.1)"/>
+                    <!-- Document lines -->
+                    <line x1="10" y1="16" x2="18" y2="16" stroke="#64ffda" stroke-width="1"/>
+                    <line x1="10" y1="19" x2="16" y2="19" stroke="#64ffda" stroke-width="1"/>
+                    <line x1="20" y1="12" x2="28" y2="12" stroke="#64ffda" stroke-width="1"/>
+                    <line x1="20" y1="15" x2="26" y2="15" stroke="#64ffda" stroke-width="1"/>
+                    <line x1="30" y1="16" x2="38" y2="16" stroke="#64ffda" stroke-width="1"/>
+                    <line x1="30" y1="19" x2="36" y2="19" stroke="#64ffda" stroke-width="1"/>
+                    <!-- Connection arrows -->
+                    <path d="M20 20L24 18L28 20" stroke="#f093fb" stroke-width="2" fill="none" marker-end="url(#arrowhead)"/>
+                    <!-- Arrow marker -->
+                    <defs>
+                      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#f093fb"/>
+                      </marker>
+                    </defs>
+                  </svg>
+                </div>
+                <div class="feature-content">
+                  <h3>One Application, Multiple Universities</h3>
+                  <p>Fill out your information once and apply to multiple institutions with just a few clicks</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <!-- Dashboard with live data -->
+                    <rect x="4" y="8" width="40" height="28" rx="4" stroke="#5a5bb8" stroke-width="2" fill="rgba(90, 91, 184, 0.05)"/>
+                    <!-- Progress bars -->
+                    <rect x="8" y="14" width="16" height="3" rx="1.5" fill="rgba(100, 255, 218, 0.2)"/>
+                    <rect x="8" y="14" width="12" height="3" rx="1.5" fill="#64ffda"/>
+                    <rect x="8" y="20" width="16" height="3" rx="1.5" fill="rgba(100, 255, 218, 0.2)"/>
+                    <rect x="8" y="20" width="8" height="3" rx="1.5" fill="#64ffda"/>
+                    <rect x="8" y="26" width="16" height="3" rx="1.5" fill="rgba(100, 255, 218, 0.2)"/>
+                    <rect x="8" y="26" width="14" height="3" rx="1.5" fill="#64ffda"/>
+                    <!-- Live chart -->
+                    <path d="M28 28L32 24L36 26L40 20" stroke="#f093fb" stroke-width="2" fill="none"/>
+                    <circle cx="28" cy="28" r="2" fill="#f093fb"/>
+                    <circle cx="32" cy="24" r="2" fill="#f093fb"/>
+                    <circle cx="36" cy="26" r="2" fill="#f093fb"/>
+                    <circle cx="40" cy="20" r="2" fill="#f093fb"/>
+                    <!-- Live indicator -->
+                    <circle cx="38" cy="12" r="3" fill="#64ffda" opacity="0.8">
+                      <animate attributeName="opacity" values="0.8;0.2;0.8" dur="2s" repeatCount="indefinite"/>
+                    </circle>
+                    <text x="32" y="13" font-size="4" fill="#64ffda" text-anchor="middle">LIVE</text>
+                  </svg>
+                </div>
+                <div class="feature-content">
+                  <h3>Real-time Tracking</h3>
+                  <p>Monitor your application status, deadlines, and communications in one dashboard</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                    <!-- Scholarship discovery with magnifying glass and money -->
+                    <circle cx="20" cy="18" r="12" stroke="#5a5bb8" stroke-width="2" fill="rgba(90, 91, 184, 0.05)"/>
+                    <!-- Magnifying glass handle -->
+                    <path d="M30 28L38 36" stroke="#5a5bb8" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="37" cy="37" r="3" fill="#64ffda"/>
+                    <!-- Money/scholarship symbols inside -->
+                    <path d="M16 14C17 12 19 12 20 14C21 12 23 12 24 14" stroke="#64ffda" stroke-width="2" fill="none"/>
+                    <rect x="17" y="16" width="6" height="4" rx="1" fill="rgba(100, 255, 218, 0.3)"/>
+                    <text x="20" y="19" font-size="3" fill="#64ffda" text-anchor="middle">$</text>
+                    <!-- Sparkles for discovery -->
+                    <path d="M12 10L13 12L15 11L14 13L16 14L14 15L15 17L13 16L12 18L11 16L9 17L10 15L8 14L10 13L9 11L11 12Z" fill="#f093fb" opacity="0.7"/>
+                    <path d="M30 8L31 10L33 9L32 11L34 12L32 13L33 15L31 14L30 16L29 14L27 15L28 13L26 12L28 11L27 9L29 10Z" fill="#f093fb" opacity="0.5"/>
+                  </svg>
+                </div>
+                <div class="feature-content">
+                  <h3>Scholarship Discovery</h3>
+                  <p>Find and apply for scholarships and financial aid opportunities</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="portal-actions">
+              <button type="button" class="btn btn--primary btn--large portal-signup" data-portal="student">
+                <span class="btn__text">Sign Up as Student</span>
+                <span class="btn__icon">→</span>
+              </button>
+              <div class="portal-stats">
+                <span class="stat-item"><strong>10,000+</strong> Students registered</span>
+                <span class="stat-item"><strong>85%</strong> Application success rate</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="portal-visual">
+            <div class="portal-mockup">
+              <div class="mockup-window">
+                <div class="mockup-header">
+                  <div class="mockup-dots"></div>
+                  <span class="mockup-title">Student Dashboard</span>
+                </div>
+                <div class="mockup-content">
+                  <div class="mockup-item">✅ University of Lagos - Submitted</div>
+                  <div class="mockup-item">🕒 Makerere University - In Review</div>
+                  <div class="mockup-item">📝 University of Ghana - Draft</div>
+                  <div class="mockup-progress">Application Progress: 75%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Connector: Students → Institutions -->
+    <div class="portal-connector" aria-hidden="true">
+      <div class="container">
+        <div class="connector-content">
+          <div class="connector-visual">
+            <svg width="200" height="120" viewBox="0 0 200 120" fill="none" class="connector-svg">
+              <!-- Flow path from students to institutions -->
+              <path d="M20 60C60 60 80 40 100 60C120 80 140 40 180 60" 
+                    stroke="#64ffda" 
+                    stroke-width="3" 
+                    fill="none" 
+                    stroke-dasharray="8,4"
+                    opacity="0.7">
+                <animate attributeName="stroke-dashoffset" 
+                         values="0;-24;0" 
+                         dur="4s" 
+                         repeatCount="indefinite"/>
+              </path>
+              
+              <!-- Student applications flowing -->
+              <circle cx="30" cy="60" r="4" fill="#f093fb" opacity="0.8">
+                <animateMotion dur="4s" repeatCount="indefinite">
+                  <mpath href="#flowPath"/>
+                </animateMotion>
+              </circle>
+              
+              <circle cx="50" cy="60" r="4" fill="#f093fb" opacity="0.6">
+                <animateMotion dur="4s" begin="1s" repeatCount="indefinite">
+                  <mpath href="#flowPath"/>
+                </animateMotion>
+              </circle>
+              
+              <!-- Hidden path for animation -->
+              <path id="flowPath" d="M20 60C60 60 80 40 100 60C120 80 140 40 180 60" opacity="0"/>
+              
+              <!-- Glowing connection points -->
+              <circle cx="20" cy="60" r="6" fill="rgba(240, 147, 251, 0.3)" stroke="#f093fb" stroke-width="2">
+                <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              
+              <circle cx="180" cy="60" r="6" fill="rgba(100, 255, 218, 0.3)" stroke="#64ffda" stroke-width="2">
+                <animate attributeName="r" values="6;8;6" dur="2s" begin="1s" repeatCount="indefinite"/>
+              </circle>
+              
+              <!-- Connection sparks -->
+              <g opacity="0.7">
+                <path d="M85 50L87 52L89 50L87 48Z" fill="#64ffda">
+                  <animateTransform attributeName="transform" type="rotate" 
+                                  values="0 87 50;360 87 50" dur="3s" repeatCount="indefinite"/>
+                </path>
+                <path d="M110 70L112 72L114 70L112 68Z" fill="#f093fb">
+                  <animateTransform attributeName="transform" type="rotate" 
+                                  values="0 112 70;-360 112 70" dur="2.5s" repeatCount="indefinite"/>
+                </path>
+              </g>
+            </svg>
+          </div>
+          
+          <div class="connector-text">
+            <h3 class="connector-title">Your applications reach universities instantly</h3>
+            <p class="connector-subtitle">Seamless connection between students and institutions</p>
+            <div class="connector-cta">
+              <a href="#institutions" class="btn btn--ghost btn--pulse">
+                <span class="btn__text">See how institutions manage applications</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" class="btn__icon">
+                  <path d="M8 1L14 8L8 15M14 8H2" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Institutions Portal -->
+    <section id="institutions" class="portal-section portal-section--institutions" aria-labelledby="institutionsPortalTitle">
+      <div class="container">
+        <div class="portal-content portal-content--reverse">
+          <div class="portal-visual">
+            <div class="portal-mockup">
+              <div class="mockup-window">
+                <div class="mockup-header">
+                  <div class="mockup-dots"></div>
+                  <span class="mockup-title">Institution Dashboard</span>
+                </div>
+                <div class="mockup-content">
+                  <div class="mockup-item">📊 2,450 Applications received</div>
+                  <div class="mockup-item">🎓 Computer Science - 450 applicants</div>
+                  <div class="mockup-item">📈 95% Processing efficiency</div>
+                  <div class="mockup-progress">Review Status: On Track</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="portal-text">
+            <span class="portal-label">For Institutions</span>
+            <h2 id="institutionsPortalTitle" class="portal-title" data-i18n="portal.institutions.title">Streamline Your Admissions Process</h2>
+            <p class="portal-description" data-i18n="portal.institutions.description">Efficiently manage thousands of applications, analyze student data, and make informed admission decisions with our comprehensive institutional platform.</p>
+            
+            <div class="portal-features">
+              <div class="feature-item">
+                <div class="feature-icon">📋</div>
+                <div class="feature-content">
+                  <h3>Application Management</h3>
+                  <p>Review, filter, and process applications with powerful sorting and analytics tools</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">📊</div>
+                <div class="feature-content">
+                  <h3>Data Analytics</h3>
+                  <p>Gain insights into applicant trends, demographics, and program popularity</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">💬</div>
+                <div class="feature-content">
+                  <h3>Bulk Communications</h3>
+                  <p>Send personalized messages to applicants and manage communications at scale</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">🔐</div>
+                <div class="feature-content">
+                  <h3>Secure Document Handling</h3>
+                  <p>Safely store and manage sensitive student documents with enterprise-grade security</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="portal-actions">
+              <button type="button" class="btn btn--primary btn--large portal-signup" data-portal="institution">
+                <span class="btn__text">Sign Up as Institution</span>
+                <span class="btn__icon">→</span>
+              </button>
+              <div class="portal-stats">
+                <span class="stat-item"><strong>50+</strong> Partner Universities</span>
+                <span class="stat-item"><strong>99.9%</strong> Uptime reliability</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Connector: Institutions → Counselors -->
+    <div class="portal-connector portal-connector--reverse" aria-hidden="true">
+      <div class="container">
+        <div class="connector-content">
+          <div class="connector-text">
+            <h3 class="connector-title">Expert guidance makes the difference</h3>
+            <p class="connector-subtitle">Professional counselors help navigate complex application processes</p>
+            <div class="connector-cta">
+              <a href="#counselors" class="btn btn--ghost btn--pulse">
+                <span class="btn__text">Discover counselor expertise</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" class="btn__icon">
+                  <path d="M8 1L14 8L8 15M14 8H2" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="connector-visual">
+            <svg width="200" height="120" viewBox="0 0 200 120" fill="none" class="connector-svg">
+              <!-- Institution to counselor guidance flow -->
+              <path d="M20 30L50 30C70 30 70 50 90 50L130 50C150 50 150 70 170 70L180 70" 
+                    stroke="#5a5bb8" 
+                    stroke-width="3" 
+                    fill="none" 
+                    stroke-dasharray="6,3"
+                    opacity="0.8">
+                <animate attributeName="stroke-dashoffset" 
+                         values="0;-18;0" 
+                         dur="3s" 
+                         repeatCount="indefinite"/>
+              </path>
+              
+              <!-- Guidance nodes -->
+              <circle cx="50" cy="30" r="5" fill="rgba(90, 91, 184, 0.4)" stroke="#5a5bb8" stroke-width="2">
+                <animate attributeName="fill" values="rgba(90, 91, 184, 0.4);rgba(90, 91, 184, 0.8);rgba(90, 91, 184, 0.4)" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              
+              <circle cx="130" cy="50" r="5" fill="rgba(90, 91, 184, 0.4)" stroke="#5a5bb8" stroke-width="2">
+                <animate attributeName="fill" values="rgba(90, 91, 184, 0.4);rgba(90, 91, 184, 0.8);rgba(90, 91, 184, 0.4)" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+              </circle>
+              
+              <!-- Student figures being guided -->
+              <g opacity="0.7">
+                <circle cx="90" cy="80" r="8" fill="rgba(240, 147, 251, 0.3)" stroke="#f093fb" stroke-width="1"/>
+                <circle cx="90" cy="77" r="3" fill="#f093fb"/>
+                <path d="M82 88C82 85 85 83 90 83C95 83 98 85 98 88" stroke="#f093fb" stroke-width="1.5" fill="none"/>
+              </g>
+              
+              <!-- Guidance arrows -->
+              <path d="M100 50L95 75" stroke="#64ffda" stroke-width="2" fill="none" marker-end="url(#guidanceArrow2)"/>
+              
+              <!-- Success path indicators -->
+              <path d="M120 90L125 85L135 95" stroke="#64ffda" stroke-width="2" fill="none" opacity="0.8">
+                <animate attributeName="opacity" values="0;1;0" dur="3s" repeatCount="indefinite"/>
+              </path>
+              
+              <defs>
+                <marker id="guidanceArrow2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <polygon points="0 0, 6 3, 0 6" fill="#64ffda"/>
+                </marker>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Counselors Portal -->
+    <section id="counselors" class="portal-section portal-section--counselors" aria-labelledby="counselorsPortalTitle">
+      <div class="container">
+        <div class="portal-content">
+          <div class="portal-text">
+            <span class="portal-label">For Counselors</span>
+            <h2 id="counselorsPortalTitle" class="portal-title" data-i18n="portal.counselors.title">Guide Multiple Students to Success</h2>
+            <p class="portal-description" data-i18n="portal.counselors.description">Support your students throughout their university application journey with comprehensive tracking, resources, and communication tools designed for education professionals.</p>
+            
+            <div class="portal-features">
+              <div class="feature-item">
+                <div class="feature-icon">👥</div>
+                <div class="feature-content">
+                  <h3>Student Portfolio Management</h3>
+                  <p>Track multiple students' progress, deadlines, and application status in one dashboard</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">📅</div>
+                <div class="feature-content">
+                  <h3>Task & Deadline Management</h3>
+                  <p>Set reminders, create tasks, and ensure no important deadlines are missed</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">📢</div>
+                <div class="feature-content">
+                  <h3>Group Announcements</h3>
+                  <p>Send updates and important information to your entire student cohort</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">📚</div>
+                <div class="feature-content">
+                  <h3>Resource Library</h3>
+                  <p>Access guides, templates, and best practices for university applications</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="portal-actions">
+              <button type="button" class="btn btn--primary btn--large portal-signup" data-portal="counselor">
+                <span class="btn__text">Sign Up as Counselor</span>
+                <span class="btn__icon">→</span>
+              </button>
+              <div class="portal-stats">
+                <span class="stat-item"><strong>500+</strong> Active counselors</span>
+                <span class="stat-item"><strong>95%</strong> Student satisfaction</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="portal-visual">
+            <div class="portal-mockup">
+              <div class="mockup-window">
+                <div class="mockup-header">
+                  <div class="mockup-dots"></div>
+                  <span class="mockup-title">Counselor Dashboard</span>
+                </div>
+                <div class="mockup-content">
+                  <div class="mockup-item">📚 25 Students managed</div>
+                  <div class="mockup-item">⏰ 12 Upcoming deadlines</div>
+                  <div class="mockup-item">✅ 8 Applications submitted today</div>
+                  <div class="mockup-progress">Cohort Progress: 82%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Connector: Counselors → Parents -->
+    <div class="portal-connector" aria-hidden="true">
+      <div class="container">
+        <div class="connector-content">
+          <div class="connector-visual">
+            <svg width="200" height="120" viewBox="0 0 200 120" fill="none" class="connector-svg">
+              <!-- Family support network -->
+              <circle cx="100" cy="60" r="40" stroke="rgba(100, 255, 218, 0.3)" stroke-width="2" fill="none" stroke-dasharray="8,4" opacity="0.6">
+                <animateTransform attributeName="transform" type="rotate" values="0 100 60;360 100 60" dur="20s" repeatCount="indefinite"/>
+              </circle>
+              
+              <!-- Central student -->
+              <circle cx="100" cy="60" r="8" fill="#f093fb" opacity="0.9"/>
+              <circle cx="100" cy="57" r="3" fill="white"/>
+              <path d="M92 68C92 65 95 63 100 63C105 63 108 65 108 68" stroke="white" stroke-width="1.5" fill="none"/>
+              
+              <!-- Parent figures around -->
+              <circle cx="70" cy="40" r="6" fill="#5a5bb8" opacity="0.8">
+                <animate attributeName="fill" values="#5a5bb8;rgba(90, 91, 184, 0.4);#5a5bb8" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              
+              <circle cx="130" cy="40" r="6" fill="#5a5bb8" opacity="0.8">
+                <animate attributeName="fill" values="#5a5bb8;rgba(90, 91, 184, 0.4);#5a5bb8" dur="3s" begin="1s" repeatCount="indefinite"/>
+              </circle>
+              
+              <!-- Support connections -->
+              <path d="M76 45L94 55" stroke="#64ffda" stroke-width="2" opacity="0.6">
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <path d="M124 45L106 55" stroke="#64ffda" stroke-width="2" opacity="0.6">
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" begin="1s" repeatCount="indefinite"/>
+              </path>
+              
+              <!-- Care/protection symbols -->
+              <path d="M100 35C98 33 96 31 96 29C96 27 98 27 100 29C102 27 104 27 104 29C104 31 102 33 100 35Z" fill="rgba(240, 147, 251, 0.6)">
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+              </path>
+              
+              <!-- Information flow indicators -->
+              <g opacity="0.7">
+                <rect x="140" y="55" width="8" height="10" rx="1" fill="rgba(100, 255, 218, 0.3)" stroke="#64ffda" stroke-width="1"/>
+                <line x1="142" y1="58" x2="146" y2="58" stroke="#64ffda" stroke-width="0.5"/>
+                <line x1="142" y1="60" x2="146" y2="60" stroke="#64ffda" stroke-width="0.5"/>
+                <line x1="142" y1="62" x2="146" y2="62" stroke="#64ffda" stroke-width="0.5"/>
+              </g>
+              
+              <!-- Communication waves -->
+              <circle cx="100" cy="60" r="15" stroke="rgba(240, 147, 251, 0.2)" stroke-width="1" fill="none">
+                <animate attributeName="r" values="15;25;15" dur="3s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.2;0;0.2" dur="3s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+          </div>
+          
+          <div class="connector-text">
+            <h3 class="connector-title">Parents stay connected and informed</h3>
+            <p class="connector-subtitle">Transparent oversight while respecting student independence</p>
+            <div class="connector-cta">
+              <a href="#parents" class="btn btn--ghost btn--pulse">
+                <span class="btn__text">Explore parent features</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" class="btn__icon">
+                  <path d="M8 1L14 8L8 15M14 8H2" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Parents Portal -->
+    <section id="parents" class="portal-section portal-section--parents" aria-labelledby="parentsPortalTitle">
+      <div class="container">
+        <div class="portal-content portal-content--reverse">
+          <div class="portal-visual">
+            <div class="portal-mockup">
+              <div class="mockup-window">
+                <div class="mockup-header">
+                  <div class="mockup-dots"></div>
+                  <span class="mockup-title">Parent Dashboard</span>
+                </div>
+                <div class="mockup-content">
+                  <div class="mockup-item">👨‍🎓 Jane's Applications: 5 submitted</div>
+                  <div class="mockup-item">💰 Total saved: $4,200</div>
+                  <div class="mockup-item">✅ 2 Approvals pending</div>
+                  <div class="mockup-progress">Financial Goal: 34% complete</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="portal-text">
+            <span class="portal-label">For Parents</span>
+            <h2 id="parentsPortalTitle" class="portal-title" data-i18n="portal.parents.title">Support Your Child's University Journey</h2>
+            <p class="portal-description" data-i18n="portal.parents.description">Stay informed and involved in your child's university applications while maintaining their independence. Track progress, manage finances, and provide approvals when needed.</p>
+            
+            <div class="portal-features">
+              <div class="feature-item">
+                <div class="feature-icon">👁️</div>
+                <div class="feature-content">
+                  <h3>Application Monitoring</h3>
+                  <p>View-only access to your child's application progress and status updates</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">✅</div>
+                <div class="feature-content">
+                  <h3>Smart Approvals</h3>
+                  <p>Approve application fees, document submissions, and other important steps</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">💰</div>
+                <div class="feature-content">
+                  <h3>Financial Planning</h3>
+                  <p>Track education savings, set goals, and manage tuition-related expenses</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">📱</div>
+                <div class="feature-content">
+                  <h3>Real-time Updates</h3>
+                  <p>Receive notifications about important milestones and deadlines</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="portal-actions">
+              <button type="button" class="btn btn--primary btn--large portal-signup" data-portal="parent">
+                <span class="btn__text">Sign Up as Parent</span>
+                <span class="btn__icon">→</span>
+              </button>
+              <div class="portal-stats">
+                <span class="stat-item"><strong>3,000+</strong> Connected families</span>
+                <span class="stat-item"><strong>90%</strong> Feel more involved</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Connector: Parents → Recommenders -->
+    <div class="portal-connector portal-connector--reverse" aria-hidden="true">
+      <div class="container">
+        <div class="connector-content">
+          <div class="connector-text">
+            <h3 class="connector-title">Trusted voices strengthen applications</h3>
+            <p class="connector-subtitle">Teachers, mentors, and professionals provide crucial recommendations</p>
+            <div class="connector-cta">
+              <a href="#recommenders" class="btn btn--ghost btn--pulse">
+                <span class="btn__text">See how recommendations work</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" class="btn__icon">
+                  <path d="M8 1L14 8L8 15M14 8H2" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="connector-visual">
+            <svg width="200" height="120" viewBox="0 0 200 120" fill="none" class="connector-svg">
+              <!-- Professional network -->
+              <g opacity="0.8">
+                <!-- Teacher/Professor -->
+                <circle cx="40" cy="30" r="8" fill="rgba(90, 91, 184, 0.6)" stroke="#5a5bb8" stroke-width="2"/>
+                <rect x="35" y="22" width="10" height="4" rx="1" fill="rgba(100, 255, 218, 0.4)"/>
+                
+                <!-- Mentor/Coach -->
+                <circle cx="160" cy="40" r="8" fill="rgba(90, 91, 184, 0.6)" stroke="#5a5bb8" stroke-width="2"/>
+                <path d="M155 32L165 32M158 35L162 35" stroke="#64ffda" stroke-width="1"/>
+                
+                <!-- Professional reference -->
+                <circle cx="40" cy="90" r="8" fill="rgba(90, 91, 184, 0.6)" stroke="#5a5bb8" stroke-width="2"/>
+                <rect x="36" y="85" width="8" height="2" rx="1" fill="#f093fb"/>
+              </g>
+              
+              <!-- Central student application -->
+              <rect x="85" y="50" width="30" height="20" rx="3" fill="rgba(240, 147, 251, 0.1)" stroke="#f093fb" stroke-width="2"/>
+              <circle cx="100" cy="60" r="6" fill="rgba(240, 147, 251, 0.8)"/>
+              
+              <!-- Recommendation letters flowing in -->
+              <path d="M48 35C60 40 75 45 85 55" stroke="#64ffda" stroke-width="2" fill="none" stroke-dasharray="4,2" opacity="0.8">
+                <animate attributeName="stroke-dashoffset" values="0;-12;0" dur="3s" repeatCount="indefinite"/>
+              </path>
+              
+              <path d="M152 45C140 50 125 50 115 55" stroke="#64ffda" stroke-width="2" fill="none" stroke-dasharray="4,2" opacity="0.8">
+                <animate attributeName="stroke-dashoffset" values="0;-12;0" dur="3s" begin="1s" repeatCount="indefinite"/>
+              </path>
+              
+              <path d="M48 85C60 80 75 75 85 65" stroke="#64ffda" stroke-width="2" fill="none" stroke-dasharray="4,2" opacity="0.8">
+                <animate attributeName="stroke-dashoffset" values="0;-12;0" dur="3s" begin="2s" repeatCount="indefinite"/>
+              </path>
+              
+              <!-- Letter documents -->
+              <g opacity="0.7">
+                <rect x="60" y="32" width="8" height="10" rx="1" fill="rgba(100, 255, 218, 0.3)" stroke="#64ffda" stroke-width="1">
+                  <animateTransform attributeName="transform" type="translate" values="0,0;20,15;0,0" dur="4s" repeatCount="indefinite"/>
+                </rect>
+                <rect x="130" y="48" width="8" height="10" rx="1" fill="rgba(100, 255, 218, 0.3)" stroke="#64ffda" stroke-width="1">
+                  <animateTransform attributeName="transform" type="translate" values="0,0;-20,8;0,0" dur="4s" begin="1s" repeatCount="indefinite"/>
+                </rect>
+              </g>
+              
+              <!-- Trust indicators -->
+              <path d="M90 45L92 47L96 43" stroke="#f093fb" stroke-width="2" fill="none" opacity="0.9">
+                <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+              </path>
+              
+              <path d="M104 45L106 47L110 43" stroke="#f093fb" stroke-width="2" fill="none" opacity="0.9">
+                <animate attributeName="opacity" values="0;1;0" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+              </path>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommenders Portal -->
+    <section id="recommenders" class="portal-section portal-section--recommenders" aria-labelledby="recommendersPortalTitle">
+      <div class="container">
+        <div class="portal-content">
+          <div class="portal-text">
+            <span class="portal-label">For Recommenders</span>
+            <h2 id="recommendersPortalTitle" class="portal-title" data-i18n="portal.recommenders.title">Streamlined Recommendation Process</h2>
+            <p class="portal-description" data-i18n="portal.recommenders.description">Efficiently manage recommendation requests from your students with secure, user-friendly tools that save time while maintaining the highest standards of confidentiality.</p>
+            
+            <div class="portal-features">
+              <div class="feature-item">
+                <div class="feature-icon">🔐</div>
+                <div class="feature-content">
+                  <h3>Secure Document Upload</h3>
+                  <p>Safely upload recommendation letters with end-to-end encryption and verification</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">📋</div>
+                <div class="feature-content">
+                  <h3>Request Management</h3>
+                  <p>Organize and track all recommendation requests in one centralized dashboard</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">⏱️</div>
+                <div class="feature-content">
+                  <h3>Deadline Tracking</h3>
+                  <p>Never miss a submission deadline with automated reminders and calendar integration</p>
+                </div>
+              </div>
+              
+              <div class="feature-item">
+                <div class="feature-icon">📄</div>
+                <div class="feature-content">
+                  <h3>Template Library</h3>
+                  <p>Access professionally crafted templates to streamline your writing process</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="portal-actions">
+              <button type="button" class="btn btn--primary btn--large portal-signup" data-portal="recommender">
+                <span class="btn__text">Sign Up as Recommender</span>
+                <span class="btn__icon">→</span>
+              </button>
+              <div class="portal-stats">
+                <span class="stat-item"><strong>1,500+</strong> Active recommenders</span>
+                <span class="stat-item"><strong>98%</strong> On-time submissions</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="portal-visual">
+            <div class="portal-mockup">
+              <div class="mockup-window">
+                <div class="mockup-header">
+                  <div class="mockup-dots"></div>
+                  <span class="mockup-title">Recommender Dashboard</span>
+                </div>
+                <div class="mockup-content">
+                  <div class="mockup-item">📝 8 Requests pending</div>
+                  <div class="mockup-item">✅ 12 Letters submitted</div>
+                  <div class="mockup-item">⏰ 3 Due this week</div>
+                  <div class="mockup-progress">Completion Rate: 95%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it works with Timeline -->
+    <section id="how-it-works" class="section section--how section--dark" aria-labelledby="howTitle">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__label">Simple Process</span>
+          <h2 id="howTitle" class="section__title section__title--gradient" data-i18n="howItWorks.title">How it works</h2>
+        </div>
+        
+        <ol class="steps steps--timeline" role="list">
+          <li class="step step--modern" data-aos="fade-up" data-aos-delay="100">
+            <div class="step__number">
+              <span class="step__number-text">01</span>
+              <div class="step__number-glow"></div>
+            </div>
+            <div class="step__content">
+              <h3 class="step__title" data-i18n="howItWorks.step1.title">Create one profile</h3>
+              <p class="step__description" data-i18n="howItWorks.step1.desc">Add your personal info, academics, and documents once. Reuse across all applications.</p>
+            </div>
+            <div class="step__connector" aria-hidden="true"></div>
+          </li>
+          
+          <li class="step step--modern" data-aos="fade-up" data-aos-delay="200">
+            <div class="step__number">
+              <span class="step__number-text">02</span>
+              <div class="step__number-glow"></div>
+            </div>
+            <div class="step__content">
+              <h3 class="step__title" data-i18n="howItWorks.step2.title">Discover programs</h3>
+              <p class="step__description" data-i18n="howItWorks.step2.desc">Filter by country, field, tuition, and scholarships. Save favorites.</p>
+            </div>
+            <div class="step__connector" aria-hidden="true"></div>
+          </li>
+          
+          <li class="step step--modern" data-aos="fade-up" data-aos-delay="300">
+            <div class="step__number">
+              <span class="step__number-text">03</span>
+              <div class="step__number-glow"></div>
+            </div>
+            <div class="step__content">
+              <h3 class="step__title" data-i18n="howItWorks.step3.title">Apply & track</h3>
+              <p class="step__description" data-i18n="howItWorks.step3.desc">Submit to multiple institutions and track status in real time.</p>
+            </div>
+            <div class="step__connector" aria-hidden="true"></div>
+          </li>
+          
+          <li class="step step--modern" data-aos="fade-up" data-aos-delay="400">
+            <div class="step__number">
+              <span class="step__number-text">04</span>
+              <div class="step__number-glow"></div>
+            </div>
+            <div class="step__content">
+              <h3 class="step__title" data-i18n="howItWorks.step4.title">Collaborate</h3>
+              <p class="step__description" data-i18n="howItWorks.step4.desc">Invite parents, counselors, and recommenders to support your journey.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+
+    <!-- Trust / Stats with Counter Animation -->
+    <section class="section section--stats section--dark" aria-labelledby="statsTitle">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__label">Impact & Scale</span>
+          <h2 id="statsTitle" class="section__title section__title--gradient" data-i18n="stats.title">Built for Africa. At scale.</h2>
+        </div>
+        
+        <ul class="stats stats--modern" role="list">
+          <li class="stat stat--animated" data-aos="fade-up" data-aos-delay="100">
+            <div class="stat__inner">
+              <strong class="stat__number" data-count="50">50+</strong>
+              <span class="stat__label" data-i18n="stats.universities">universities</span>
+              <div class="stat__glow"></div>
+            </div>
+          </li>
+          <li class="stat stat--animated" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat__inner">
+              <strong class="stat__number" data-count="10">10+</strong>
+              <span class="stat__label" data-i18n="stats.countries">countries</span>
+              <div class="stat__glow"></div>
+            </div>
+          </li>
+          <li class="stat stat--animated" data-aos="fade-up" data-aos-delay="300">
+            <div class="stat__inner">
+              <strong class="stat__number" data-count="5">5</strong>
+              <span class="stat__label" data-i18n="stats.roles">roles</span>
+              <div class="stat__glow"></div>
+            </div>
+          </li>
+          <li class="stat stat--animated stat--wide" data-aos="fade-up" data-aos-delay="400">
+            <div class="stat__inner">
+              <strong class="stat__number" data-i18n="stats.multiLanguage">Multi-language</strong>
+              <span class="stat__label" data-i18n="stats.languages">English • French • Arabic • Swahili</span>
+              <div class="stat__glow"></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- FAQs with Modern Accordions -->
+    <section class="section section--faq" aria-labelledby="faqTitle">
+      <div class="container container--narrow">
+        <div class="section__header">
+          <span class="section__label">Get Answers</span>
+          <h2 id="faqTitle" class="section__title section__title--gradient" data-i18n="faq.title">Frequently Asked Questions</h2>
+        </div>
+        
+        <div class="faq-list">
+          <details class="faq faq--modern">
+            <summary class="faq__question" data-i18n="faq.q1.question">
+              <span class="faq__question-text">Is Flow free for students?</span>
+              <span class="faq__icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+            </summary>
+            <div class="faq__answer prose" data-i18n="faq.q1.answer">Yes, browsing and applying are free. Some institutions may require their standard application fees.</div>
+          </details>
+          
+          <details class="faq faq--modern">
+            <summary class="faq__question" data-i18n="faq.q2.question">
+              <span class="faq__question-text">Can I apply offline?</span>
+              <span class="faq__icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+            </summary>
+            <div class="faq__answer prose" data-i18n="faq.q2.answer">You can draft applications offline and sync when you reconnect. SMS/USSD features are coming.</div>
+          </details>
+          
+          <details class="faq faq--modern">
+            <summary class="faq__question" data-i18n="faq.q3.question">
+              <span class="faq__question-text">How do recommenders submit letters?</span>
+              <span class="faq__icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              </span>
+            </summary>
+            <div class="faq__answer prose" data-i18n="faq.q3.answer">Students send a secure link to recommenders who upload PDFs directly to Flow.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer footer--modern" role="contentinfo" aria-label="Site footer">
+    <div class="footer__glow" aria-hidden="true"></div>
+    <div class="container footer__grid">
+      <section class="footer__brand">
+        <div class="footer__logo-wrapper footer__logo-wrapper--circular">
+          <img src="/assets/img/logo.png" alt="" class="footer__logo footer__logo--circular" />
+          <div class="footer__logo-glow footer__logo-glow--dynamic"></div>
+          <div class="footer__logo-pulse"></div>
+          <div class="footer__logo-ripple"></div>
+        </div>
+        <p class="footer__tagline" data-i18n="footer.tagline">Connecting learners and institutions across Africa.</p>
+        <div class="footer__social">
+          <!-- Social links could go here -->
+        </div>
+      </section>
+
+      <nav aria-label="Footer navigation" class="footer__nav">
+        <h3 class="footer__title" data-i18n="footer.explore">Explore</h3>
+        <ul class="footer__list">
+          <li><a href="/students/" class="footer__link" data-i18n="nav.students">Students</a></li>
+          <li><a href="/institutions/" class="footer__link" data-i18n="nav.institutions">Institutions</a></li>
+          <li><a href="/counselors/" class="footer__link" data-i18n="nav.counselors">Counselors</a></li>
+          <li><a href="/parents/" class="footer__link" data-i18n="nav.parents">Parents</a></li>
+          <li><a href="/recommenders/" class="footer__link" data-i18n="nav.recommenders">Recommenders</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-label="Legal navigation" class="footer__nav">
+        <h3 class="footer__title" data-i18n="footer.legal">Legal</h3>
+        <ul class="footer__list">
+          <li><a href="/legal/terms.html" class="footer__link" data-i18n="footer.terms">Terms</a></li>
+          <li><a href="/legal/privacy.html" class="footer__link" data-i18n="footer.privacy">Privacy</a></li>
+          <li><a href="/legal/cookies.html" class="footer__link" data-i18n="footer.cookies">Cookies</a></li>
+        </ul>
+      </nav>
+
+      <section class="footer__cta">
+        <h3 class="footer__title" data-i18n="footer.ready">Ready to get started?</h3>
+        <button type="button" class="btn btn--primary btn--block btn--glow" data-open="signupModal" data-i18n="auth.signUp">
+          <span class="btn__text">Sign Up</span>
+          <span class="btn__shine"></span>
+        </button>
+      </section>
+    </div>
+
+    <div class="footer__meta">
+      <div class="container">
+        <small class="footer__copyright">© <span id="year"></span> Flow</small>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sign Up Modal - Direct to Account Type Selection -->
+  <div id="signupModal" class="modal modal--glass" role="dialog" aria-modal="true" aria-labelledby="signupTitle" aria-hidden="true">
+    <div class="modal__overlay" data-close="signupModal"></div>
+    <div class="modal__dialog modal__dialog--modern" role="document">
+      <header class="modal__header">
+        <h2 id="signupTitle" class="modal__title">Sign Up - Choose Account Type</h2>
+        <button type="button" class="modal__close" aria-label="Close" data-close="signupModal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </header>
+
+      <div class="modal__body">
+        <fieldset class="fieldset fieldset--modern">
+          <legend class="sr-only">Choose account type</legend>
+
+          <div class="choice choice--modern">
+            <input type="radio" name="acctType" id="acct-student" value="student" checked />
+            <label for="acct-student" class="choice__label">
+              <div class="choice__icon">🎓</div>
+              <div class="choice__content">
+                <strong class="choice__title">Student</strong>
+                <span class="choice__description">Create a profile, discover programs, apply once, track everywhere.</span>
+              </div>
+              <div class="choice__indicator"></div>
+            </label>
+          </div>
+
+          <div class="choice choice--modern">
+            <input type="radio" name="acctType" id="acct-institution" value="institution" />
+            <label for="acct-institution" class="choice__label">
+              <div class="choice__icon">🏛️</div>
+              <div class="choice__content">
+                <strong class="choice__title">Institution</strong>
+                <span class="choice__description">Review applicants, manage programs, analyze metrics.</span>
+              </div>
+              <div class="choice__indicator"></div>
+            </label>
+          </div>
+
+          <div class="choice choice--modern">
+            <input type="radio" name="acctType" id="acct-counselor" value="counselor" />
+            <label for="acct-counselor" class="choice__label">
+              <div class="choice__icon">👥</div>
+              <div class="choice__content">
+                <strong class="choice__title">Counselor</strong>
+                <span class="choice__description">Support multiple students and track their progress.</span>
+              </div>
+              <div class="choice__indicator"></div>
+            </label>
+          </div>
+
+          <div class="choice choice--modern">
+            <input type="radio" name="acctType" id="acct-parent" value="parent" />
+            <label for="acct-parent" class="choice__label">
+              <div class="choice__icon">👨‍👩‍👧</div>
+              <div class="choice__content">
+                <strong class="choice__title">Parent / Guardian</strong>
+                <span class="choice__description">View your child's progress and approve key steps.</span>
+              </div>
+              <div class="choice__indicator"></div>
+            </label>
+          </div>
+
+          <div class="choice choice--modern">
+            <input type="radio" name="acctType" id="acct-recommender" value="recommender" />
+            <label for="acct-recommender" class="choice__label">
+              <div class="choice__icon">📝</div>
+              <div class="choice__content">
+                <strong class="choice__title">Recommender</strong>
+                <span class="choice__description">Securely upload recommendation letters.</span>
+              </div>
+              <div class="choice__indicator"></div>
+            </label>
+          </div>
+        </fieldset>
+      </div>
+
+      <footer class="modal__footer">
+        <button type="button" class="btn btn--ghost" data-close="signupModal">Cancel</button>
+        <button type="button" class="btn btn--primary btn--glow" id="continueToOnboarding">
+          <span class="btn__text">Start Onboarding</span>
+          <span class="btn__shine"></span>
+        </button>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Login Portal Selection Modal -->
+  <div id="loginPortalsModal" class="modal modal--glass" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal__overlay" data-close="loginPortalsModal"></div>
+    <div class="modal__dialog modal__dialog--modern" role="document">
+      <header class="modal__header">
+        <h2 class="modal__title">Sign In - Choose Your Portal</h2>
+        <button type="button" class="modal__close" aria-label="Close" data-close="loginPortalsModal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </header>
+
+      <div class="modal__body">
+        <div class="portal-grid">
+          <a href="/auth/index.html" class="portal-card" data-portal-type="student">
+            <div class="portal-card__icon">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <!-- Graduation cap -->
+                <path d="M20 8L35 14L20 20L5 14L20 8Z" fill="#5a5bb8" opacity="0.8"/>
+                <path d="M20 8L35 14L20 20L5 14L20 8Z" stroke="#64ffda" stroke-width="1.5"/>
+                <!-- Cap tassel -->
+                <path d="M32 14V24C32 25 30 26 20 26C10 26 8 25 8 24V14" stroke="#64ffda" stroke-width="1.5" fill="none"/>
+                <!-- Books/knowledge -->
+                <rect x="28" y="18" width="8" height="12" rx="1" fill="rgba(100, 255, 218, 0.3)" stroke="#64ffda" stroke-width="1"/>
+                <line x1="30" y1="21" x2="34" y2="21" stroke="#64ffda" stroke-width="0.5"/>
+                <line x1="30" y1="24" x2="34" y2="24" stroke="#64ffda" stroke-width="0.5"/>
+                <line x1="30" y1="27" x2="34" y2="27" stroke="#64ffda" stroke-width="0.5"/>
+                <!-- Success star -->
+                <path d="M20 4L21 6L23 5L22 7L24 8L22 9L23 11L21 10L20 12L19 10L17 11L18 9L16 8L18 7L17 5L19 6Z" fill="#f093fb" opacity="0.9"/>
+              </svg>
+            </div>
+            <h3 class="portal-card__title">Students</h3>
+            <p class="portal-card__description">Access your applications and track progress</p>
+          </a>
+          
+          <a href="/auth/index.html" class="portal-card" data-portal-type="institution">
+            <div class="portal-card__icon">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <!-- University building -->
+                <rect x="8" y="20" width="24" height="16" rx="2" fill="rgba(90, 91, 184, 0.1)" stroke="#5a5bb8" stroke-width="1.5"/>
+                <!-- Pillars -->
+                <rect x="12" y="20" width="2" height="16" fill="#5a5bb8"/>
+                <rect x="18" y="20" width="2" height="16" fill="#5a5bb8"/>
+                <rect x="24" y="20" width="2" height="16" fill="#5a5bb8"/>
+                <rect x="30" y="20" width="2" height="16" fill="#5a5bb8"/>
+                <!-- Roof -->
+                <path d="M6 20L20 8L34 20H6Z" fill="#64ffda" opacity="0.8" stroke="#64ffda" stroke-width="1"/>
+                <!-- Flag -->
+                <line x1="20" y1="8" x2="20" y2="4" stroke="#f093fb" stroke-width="2"/>
+                <path d="M20 4L26 6L20 8Z" fill="#f093fb"/>
+                <!-- Windows -->
+                <rect x="14" y="24" width="3" height="4" fill="rgba(100, 255, 218, 0.4)"/>
+                <rect x="20.5" y="24" width="3" height="4" fill="rgba(100, 255, 218, 0.4)"/>
+                <rect x="27" y="24" width="3" height="4" fill="rgba(100, 255, 218, 0.4)"/>
+                <!-- Steps -->
+                <rect x="10" y="34" width="20" height="2" fill="rgba(90, 91, 184, 0.3)"/>
+                <rect x="11" y="32" width="18" height="2" fill="rgba(90, 91, 184, 0.4)"/>
+              </svg>
+            </div>
+            <h3 class="portal-card__title">Institutions</h3>
+            <p class="portal-card__description">Manage applicants and programs</p>
+          </a>
+          
+          <a href="/auth/index.html" class="portal-card" data-portal-type="counselor">
+            <div class="portal-card__icon">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <!-- Multiple people with guidance -->
+                <circle cx="15" cy="12" r="5" fill="rgba(90, 91, 184, 0.6)" stroke="#5a5bb8" stroke-width="1"/>
+                <circle cx="25" cy="12" r="5" fill="rgba(90, 91, 184, 0.6)" stroke="#5a5bb8" stroke-width="1"/>
+                <!-- Bodies -->
+                <path d="M8 30C8 25 11 22 15 22C19 22 22 25 22 30" stroke="#5a5bb8" stroke-width="1.5" fill="rgba(90, 91, 184, 0.2)"/>
+                <path d="M18 30C18 25 21 22 25 22C29 22 32 25 32 30" stroke="#5a5bb8" stroke-width="1.5" fill="rgba(90, 91, 184, 0.2)"/>
+                <!-- Guidance arrows and paths -->
+                <path d="M20 16C22 18 24 20 26 22" stroke="#64ffda" stroke-width="2" fill="none" marker-end="url(#guidanceArrow)"/>
+                <path d="M15 18L20 26L25 18" stroke="#f093fb" stroke-width="1.5" fill="none"/>
+                <!-- Success checkmarks -->
+                <path d="M12 26L14 28L18 24" stroke="#64ffda" stroke-width="1.5" fill="none"/>
+                <path d="M22 26L24 28L28 24" stroke="#64ffda" stroke-width="1.5" fill="none"/>
+                <!-- Connection lines -->
+                <path d="M15 17L25 17" stroke="rgba(100, 255, 218, 0.5)" stroke-width="1" stroke-dasharray="2,2"/>
+                <defs>
+                  <marker id="guidanceArrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                    <polygon points="0 0, 6 3, 0 6" fill="#64ffda"/>
+                  </marker>
+                </defs>
+              </svg>
+            </div>
+            <h3 class="portal-card__title">Counselors</h3>
+            <p class="portal-card__description">Guide students through applications</p>
+          </a>
+          
+          <a href="/auth/index.html" class="portal-card" data-portal-type="parent">
+            <div class="portal-card__icon">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <!-- Family with protective circle -->
+                <circle cx="20" cy="20" r="16" stroke="rgba(100, 255, 218, 0.3)" stroke-width="2" fill="rgba(100, 255, 218, 0.05)" stroke-dasharray="4,4"/>
+                <!-- Parent figures -->
+                <circle cx="14" cy="14" r="4" fill="#5a5bb8" opacity="0.8"/>
+                <circle cx="26" cy="14" r="4" fill="#5a5bb8" opacity="0.8"/>
+                <!-- Child/student -->
+                <circle cx="20" cy="22" r="3.5" fill="#f093fb" opacity="0.9"/>
+                <!-- Support/protection lines -->
+                <path d="M14 18L20 18.5L26 18" stroke="#64ffda" stroke-width="1.5" fill="none"/>
+                <path d="M17 20L20 18.5L23 20" stroke="#64ffda" stroke-width="1.5" fill="none"/>
+                <!-- Monitoring/tracking symbols -->
+                <circle cx="32" cy="8" r="2" fill="rgba(240, 147, 251, 0.6)">
+                  <animate attributeName="r" values="2;3;2" dur="2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="8" cy="32" r="2" fill="rgba(240, 147, 251, 0.6)">
+                  <animate attributeName="r" values="2;3;2" dur="2s" begin="1s" repeatCount="indefinite"/>
+                </circle>
+                <!-- Heart symbol for care -->
+                <path d="M20 28C18 26 16 24 16 22C16 20 18 20 20 22C22 20 24 20 24 22C24 24 22 26 20 28Z" fill="#f093fb" opacity="0.7"/>
+              </svg>
+            </div>
+            <h3 class="portal-card__title">Parents</h3>
+            <p class="portal-card__description">Monitor your child's progress</p>
+          </a>
+          
+          <a href="/auth/index.html" class="portal-card" data-portal-type="recommender">
+            <div class="portal-card__icon">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <!-- Recommendation letter/document -->
+                <rect x="8" y="8" width="20" height="26" rx="2" fill="rgba(90, 91, 184, 0.1)" stroke="#5a5bb8" stroke-width="1.5"/>
+                <!-- Letter content lines -->
+                <line x1="12" y1="14" x2="24" y2="14" stroke="#64ffda" stroke-width="1"/>
+                <line x1="12" y1="17" x2="22" y2="17" stroke="#64ffda" stroke-width="1"/>
+                <line x1="12" y1="20" x2="24" y2="20" stroke="#64ffda" stroke-width="1"/>
+                <line x1="12" y1="23" x2="20" y2="23" stroke="#64ffda" stroke-width="1"/>
+                <!-- Signature area -->
+                <path d="M12 28C14 26 16 27 18 26C20 25 22 27 24 26" stroke="#f093fb" stroke-width="1.5" fill="none"/>
+                <!-- Seal/stamp of approval -->
+                <circle cx="22" cy="30" r="3" fill="rgba(240, 147, 251, 0.2)" stroke="#f093fb" stroke-width="1"/>
+                <path d="M20.5 30L21.5 31L23.5 29" stroke="#f093fb" stroke-width="1" fill="none"/>
+                <!-- Professional pen -->
+                <rect x="28" y="12" width="8" height="2" rx="1" fill="#5a5bb8"/>
+                <circle cx="36" cy="13" r="1.5" fill="#64ffda"/>
+                <!-- Excellence stars -->
+                <path d="M30 6L30.5 7.5L32 7L31.5 8.5L33 9L31.5 9.5L32 11L30.5 10.5L30 12L29.5 10.5L28 11L28.5 9.5L27 9L28.5 8.5L28 7L29.5 7.5Z" fill="#f093fb" opacity="0.7"/>
+              </svg>
+            </div>
+            <h3 class="portal-card__title">Recommenders</h3>
+            <p class="portal-card__description">Submit recommendation letters</p>
+          </a>
+        </div>
+      </div>
+
+      <footer class="modal__footer">
+        <button type="button" class="btn btn--ghost" id="backToGetStarted">Back</button>
+      </footer>
+    </div>
+  </div>
+
+
+  <noscript>
+    <div class="noscript">JavaScript is disabled. The site will still display, but some features may be limited.</div>
+  </noscript>
+
+  <!-- AUTH HELPER (must be included on every page) -->
+  <script src="/assets/js/auth.js" defer></script>
+
+  <!-- AUTH GUARDS (route protection) -->
+  <script src="/assets/js/auth-guards.js" defer></script>
+
+  <!-- I18N SYSTEM (must be loaded before main.js) -->
+  <script src="/assets/js/i18n.js" defer></script>
+
+  <!-- MAIN SCRIPT: holds all page interactions (modal, navigation, toast, etc.) -->
+  <script src="/assets/js/main.js" defer></script>
+  
+  <!-- Translation system debug and manual trigger -->
+  <script>
+    function forceTranslationUpdate() {
+      console.log('Forcing translation update...');
+      console.log('FlowI18n available:', !!window.FlowI18n);
+      
+      if (window.FlowI18n) {
+        const currentLang = window.FlowI18n.getCurrentLanguage();
+        console.log('Current language:', currentLang);
+        
+        // Check localStorage
+        const savedLang = localStorage.getItem('flow-language');
+        console.log('Saved language in localStorage:', savedLang);
+        
+        // Update language selector to match current language
+        const selector = document.getElementById('lang');
+        if (selector) {
+          console.log('Language selector value:', selector.value);
+          if (selector.value !== currentLang) {
+            selector.value = currentLang;
+            console.log('Updated selector to:', currentLang);
+          }
+        }
+        
+        window.FlowI18n.updateTranslations();
+        
+        // Test specific translations
+        const heroTitle = document.querySelector('[data-i18n="hero.title"]');
+        if (heroTitle) {
+          const translation = window.FlowI18n.t('hero.title');
+          console.log('Translation for hero.title:', translation);
+          if (translation && !heroTitle.textContent.trim()) {
+            heroTitle.textContent = translation;
+          }
+        }
+        
+        const heroSubtitle = document.querySelector('[data-i18n="hero.subtitle"]');
+        if (heroSubtitle) {
+          const translation = window.FlowI18n.t('hero.subtitle');
+          console.log('Translation for hero.subtitle:', translation);
+          if (translation && !heroSubtitle.textContent.trim()) {
+            heroSubtitle.textContent = translation;
+          }
+        }
+      }
+    }
+    
+    // Try multiple times to ensure it works
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM loaded, initializing translation system...');
+      setTimeout(forceTranslationUpdate, 100);
+      setTimeout(forceTranslationUpdate, 500);
+      setTimeout(forceTranslationUpdate, 1000);
+    });
+    
+    // Also try when window loads
+    window.addEventListener('load', function() {
+      setTimeout(forceTranslationUpdate, 100);
+    });
+  </script>
+
+  <!-- Flow Cookie Consent System -->
+  <script src="/assets/js/cookie-consent.js"></script>
+
+  <!-- Dynamic Circular Logo Styling -->
+  <style>
+    /* Base circular logo styling */
+    .brand__logo--circular,
+    .footer__logo--circular {
+      border-radius: 50% !important;
+      transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      position: relative;
+      border: 2px solid rgba(255, 255, 255, 0.3) !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+      padding: 4px !important;
+      z-index: 3;
+    }
+
+    /* Circular wrapper enhancement */
+    .brand__logo-wrapper--circular,
+    .footer__logo-wrapper--circular {
+      position: relative;
+      border-radius: 50%;
+      padding: 4px;
+      background: linear-gradient(45deg, #667eea, #64ffda, #f093fb, #f5576c);
+      background-size: 300% 300%;
+      animation: gradientShift 4s ease infinite;
+    }
+
+    /* Dynamic gradient animation */
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      25% { background-position: 100% 50%; }
+      50% { background-position: 100% 100%; }
+      75% { background-position: 50% 100%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Enhanced glow effect */
+    .brand__logo-glow--dynamic,
+    .footer__logo-glow--dynamic {
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(100, 255, 218, 0.4) 0%, rgba(102, 126, 234, 0.3) 50%, transparent 70%);
+      animation: glowPulse 3s ease-in-out infinite alternate;
+      z-index: 1;
+    }
+
+    /* Glow pulse animation */
+    @keyframes glowPulse {
+      0% { 
+        transform: scale(0.8);
+        opacity: 0.5;
+      }
+      100% { 
+        transform: scale(1.2);
+        opacity: 0.8;
+      }
+    }
+
+    /* Pulse ring effect */
+    .brand__logo-pulse,
+    .footer__logo-pulse {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid rgba(100, 255, 218, 0.6);
+      animation: pulseRing 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+      z-index: 2;
+    }
+
+    /* Pulse ring animation */
+    @keyframes pulseRing {
+      0% {
+        transform: scale(0.8);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1.8);
+        opacity: 0;
+      }
+    }
+
+    /* Ripple effect for footer */
+    .footer__logo-ripple {
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      border: 1px solid rgba(102, 126, 234, 0.3);
+      animation: rippleExpand 4s linear infinite;
+      z-index: 1;
+    }
+
+    /* Ripple expand animation */
+    @keyframes rippleExpand {
+      0% {
+        transform: scale(0.5);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(2.5);
+        opacity: 0;
+      }
+    }
+
+    /* Orbiting particles for header logo */
+    .brand__logo-orbit {
+      position: absolute;
+      inset: -20px;
+      border-radius: 50%;
+      animation: orbitRotate 8s linear infinite;
+      z-index: 1;
+    }
+
+    /* Orbit rotation */
+    @keyframes orbitRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Particle styling */
+    .brand__logo-particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: radial-gradient(circle, #64ffda 0%, transparent 70%);
+      border-radius: 50%;
+      animation: particleGlow 2s ease-in-out infinite alternate;
+    }
+
+    .brand__logo-particle:nth-child(1) {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      animation-delay: 0s;
+    }
+
+    .brand__logo-particle:nth-child(2) {
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+      animation-delay: 0.7s;
+    }
+
+    .brand__logo-particle:nth-child(3) {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      animation-delay: 1.4s;
+    }
+
+    /* Particle glow animation */
+    @keyframes particleGlow {
+      0% { 
+        opacity: 0.3;
+        transform: scale(0.8);
+        box-shadow: 0 0 4px rgba(100, 255, 218, 0.3);
+      }
+      100% { 
+        opacity: 1;
+        transform: scale(1.2);
+        box-shadow: 0 0 12px rgba(100, 255, 218, 0.8);
+      }
+    }
+
+    /* Enhanced brand name glow */
+    .brand__name--glow {
+      background: linear-gradient(135deg, #64ffda, #667eea, #f093fb);
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+      background-clip: text;
+      background-size: 200% 200%;
+      animation: textShimmer 3s ease-in-out infinite;
+      text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+      position: relative;
+    }
+
+    /* Text shimmer animation */
+    @keyframes textShimmer {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Hover interactions */
+    .brand--dynamic:hover .brand__logo--circular {
+      transform: rotate(360deg) scale(1.1);
+    }
+
+    .brand--dynamic:hover .brand__logo-glow--dynamic {
+      animation-duration: 1s;
+      transform: scale(1.5);
+    }
+
+    .brand--dynamic:hover .brand__logo-pulse {
+      animation-duration: 0.8s;
+    }
+
+    .brand--dynamic:hover .brand__logo-orbit {
+      animation-duration: 2s;
+    }
+
+    .brand--dynamic:hover .brand__name--glow {
+      animation-duration: 1s;
+      text-shadow: 0 0 20px rgba(100, 255, 218, 0.6);
+    }
+
+    /* Footer logo hover */
+    .footer__logo-wrapper--circular:hover .footer__logo--circular {
+      transform: rotate(-360deg) scale(1.05);
+    }
+
+    .footer__logo-wrapper--circular:hover .footer__logo-glow--dynamic {
+      animation-duration: 1.5s;
+    }
+
+    .footer__logo-wrapper--circular:hover .footer__logo-pulse {
+      animation-duration: 1s;
+    }
+
+    .footer__logo-wrapper--circular:hover .footer__logo-ripple {
+      animation-duration: 2s;
+    }
+
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+      .brand__logo-orbit {
+        inset: -15px;
+      }
+      
+      .brand__logo-particle {
+        width: 3px;
+        height: 3px;
+      }
+
+      .brand__logo-glow--dynamic,
+      .footer__logo-glow--dynamic {
+        inset: -6px;
+      }
+
+      .footer__logo-ripple {
+        inset: -8px;
+      }
+    }
+
+    /* Accessibility - Reduce motion */
+    @media (prefers-reduced-motion: reduce) {
+      .brand__logo-wrapper--circular,
+      .footer__logo-wrapper--circular {
+        animation: none;
+      }
+
+      .brand__logo-glow--dynamic,
+      .footer__logo-glow--dynamic,
+      .brand__logo-pulse,
+      .footer__logo-pulse,
+      .footer__logo-ripple,
+      .brand__logo-orbit {
+        animation: none;
+      }
+
+      .brand__logo-particle {
+        animation: none;
+        opacity: 0.6;
+      }
+
+      .brand__name--glow {
+        animation: none;
+      }
+    }
+
+    /* Focus states for accessibility */
+    .brand--dynamic:focus-visible {
+      outline: 2px solid #64ffda;
+      outline-offset: 4px;
+      border-radius: 8px;
+    }
+
+    .brand--dynamic:focus-visible .brand__logo--circular {
+      transform: scale(1.1);
+    }
+
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+      .brand__logo-wrapper--circular,
+      .footer__logo-wrapper--circular {
+        background: linear-gradient(45deg, #ffffff, #000000);
+      }
+
+      .brand__logo-glow--dynamic,
+      .footer__logo-glow--dynamic {
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, transparent 70%);
+      }
+
+      .brand__name--glow {
+        background: linear-gradient(135deg, #ffffff, #000000);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  </style>
+</body>
+</html>

@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programs Management - Flow</title>
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/institutions.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+  
+  <style>
+    .programs-overview {
+      padding: 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page-header {
+      margin-bottom: 40px;
+    }
+
+    .page-title {
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: #111827;
+      margin: 0 0 12px 0;
+    }
+
+    .page-subtitle {
+      font-size: 1.125rem;
+      color: #6b7280;
+      margin: 0 0 32px 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .stat-card:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #3b82f6;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: #6b7280;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 32px;
+      transition: all 0.2s;
+    }
+
+    .feature-card:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: #eff6ff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: #3b82f6;
+      font-size: 24px;
+    }
+
+    .feature-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #111827;
+      margin: 0 0 12px 0;
+    }
+
+    .feature-description {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .feature-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border: 1px solid;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: #3b82f6;
+      border-color: #3b82f6;
+      color: #000000 !important;
+    }
+
+    .btn-primary:hover {
+      background: #2563eb;
+      border-color: #2563eb;
+      color: #000000 !important;
+    }
+
+    .btn-primary svg {
+      fill: #000000 !important;
+      stroke: #000000 !important;
+    }
+
+    .btn-primary:hover svg {
+      fill: #000000 !important;
+      stroke: #000000 !important;
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      border-color: #d1d5db;
+      color: #374151;
+    }
+
+    .btn-secondary:hover {
+      background: #f9fafb;
+      border-color: #9ca3af;
+      color: #374151;
+    }
+
+    .icon {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .quick-actions {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .quick-actions h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #111827;
+      margin: 0 0 16px 0;
+    }
+
+    .quick-actions p {
+      color: #6b7280;
+      margin: 0 0 24px 0;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 768px) {
+      .programs-overview {
+        padding: 24px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="programs-overview">
+    
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">Programs Management</h1>
+      <p class="page-subtitle">Comprehensive academic program development and management tools for your institution</p>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">24</div>
+        <div class="stat-label">Active Programs</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">8</div>
+        <div class="stat-label">In Development</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">12</div>
+        <div class="stat-label">Under Review</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">156</div>
+        <div class="stat-label">Total Courses</div>
+      </div>
+    </div>
+
+    <!-- Program Management Features -->
+    <div class="features-grid">
+      
+      <!-- Create and edit academic programs -->
+      <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3 class="feature-title">Create and edit academic programs</h3>
+        <p class="feature-description">
+          Design comprehensive academic programs with our powerful editor featuring specialized tabs for overview, outcomes, curriculum, admissions, and more.
+        </p>
+        <div class="feature-actions">
+          <a href="programs-editor.html" class="btn btn-primary">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+            </svg>
+            Open Program Editor
+          </a>
+          <button class="btn btn-secondary">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Templates
+          </button>
+        </div>
+      </div>
+
+      <!-- Set admission requirements and prerequisites -->
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3 class="feature-title">Set admission requirements and prerequisites</h3>
+        <p class="feature-description">
+          Configure admission criteria, academic prerequisites, application requirements, and program-specific entry standards for all academic programs.
+        </p>
+        <div class="feature-actions">
+          <a href="admission-manager.html" class="btn btn-primary">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            Manage Admissions
+          </a>
+          <button class="btn btn-secondary">Requirements</button>
+        </div>
+      </div>
+
+      <!-- Manage course catalogs and curricula -->
+      <div class="feature-card">
+        <div class="feature-icon">📚</div>
+        <h3 class="feature-title">Manage course catalogs and curricula</h3>
+        <p class="feature-description">
+          Build and maintain comprehensive course catalogs, design curriculum structures, manage course sequences, and define learning pathways.
+        </p>
+        <div class="feature-actions">
+          <button class="btn btn-primary">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+            Course Catalog
+          </a>
+          <button class="btn btn-secondary">Curriculum Builder</button>
+        </div>
+      </div>
+
+      <!-- Track program statistics and performance -->
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3 class="feature-title">Stats — Track program statistics and performance</h3>
+        <p class="feature-description">
+          Monitor enrollment trends, completion rates, student outcomes, faculty performance, and program effectiveness with comprehensive analytics.
+        </p>
+        <div class="feature-actions">
+          <button class="btn btn-primary">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            View Statistics
+          </a>
+          <button class="btn btn-secondary">Analytics Dashboard</button>
+        </div>
+      </div>
+
+      <!-- Configure degree requirements -->
+      <div class="feature-card">
+        <div class="feature-icon">🎓</div>
+        <h3 class="feature-title">Configure degree requirements</h3>
+        <p class="feature-description">
+          Set up graduation requirements, credit distributions, major/minor specifications, and academic milestone requirements for degree programs.
+        </p>
+        <div class="feature-actions">
+          <button class="btn btn-primary">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.586-5.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.828 15H9v-2.828l8.586-8.586 2.828 2.828L11.828 15z"/>
+            </svg>
+            Degree Requirements
+          </a>
+          <button class="btn btn-secondary">Credit Planning</button>
+        </div>
+      </div>
+
+      <!-- Set up program-specific application processes -->
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3 class="feature-title">Set up program-specific application processes</h3>
+        <p class="feature-description">
+          Create customized application workflows, define program-specific forms, set review criteria, and configure approval processes.
+        </p>
+        <div class="feature-actions">
+          <button class="btn btn-primary">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+            Application Setup
+          </a>
+          <button class="btn btn-secondary">Workflow Builder</button>
+        </div>
+      </div>
+
+      <!-- Manage faculty assignments -->
+      <div class="feature-card">
+        <div class="feature-icon">👨‍🏫</div>
+        <h3 class="feature-title">Manage faculty assignments</h3>
+        <p class="feature-description">
+          Assign faculty to programs, manage teaching loads, track qualifications, and coordinate faculty development within academic programs.
+        </p>
+        <div class="feature-actions">
+          <button class="btn btn-primary">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+            </svg>
+            Faculty Management
+          </a>
+          <button class="btn btn-secondary">Assignment Planning</button>
+        </div>
+      </div>
+
+      <!-- Generate program reports and analytics -->
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3 class="feature-title">Reports — Generate program reports and analytics</h3>
+        <p class="feature-description">
+          Create comprehensive program reports, accreditation documentation, performance analytics, and custom data exports for stakeholders.
+        </p>
+        <div class="feature-actions">
+          <button class="btn btn-primary">
+            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            Generate Reports
+          </a>
+          <button class="btn btn-secondary">Custom Reports</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <h3>Get Started</h3>
+      <p>Ready to create or manage your academic programs? Choose an action below to begin.</p>
+      <div class="action-buttons">
+        <a href="programs-editor.html" class="btn btn-primary">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          Create New Program
+        </a>
+        <button class="btn btn-secondary">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M9 19l3 3m0 0l3-3m-3 3V10"/>
+          </svg>
+          Import Programs
+        </a>
+        <button class="btn btn-secondary">
+          <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          Browse Templates
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Add some basic interactivity
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🎓 Programs Management Dashboard Loaded');
+      
+      // Add click handlers for feature cards
+      document.querySelectorAll('.feature-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-4px)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(-2px)';
+        });
+      });
+    });
+  </script>
+</body>
+</html>

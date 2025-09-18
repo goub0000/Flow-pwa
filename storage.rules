@@ -1,0 +1,133 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Documents folder - users can upload/download their own documents
+    match /documents/{userId}/{allPaths=**} {
+      // Users can read and write their own documents
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // File size limit: 10MB
+      allow write: if request.resource.size < 10 * 1024 * 1024;
+      
+      // Allowed file types for documents
+      allow write: if request.resource.contentType.matches('.*') &&
+        (request.resource.contentType.matches('application/pdf') ||
+         request.resource.contentType.matches('application/msword') ||
+         request.resource.contentType.matches('application/vnd.openxmlformats-officedocument.wordprocessingml.document') ||
+         request.resource.contentType.matches('image/jpeg') ||
+         request.resource.contentType.matches('image/png') ||
+         request.resource.contentType.matches('image/webp') ||
+         request.resource.contentType.matches('text/plain'));
+    }
+
+    // Profile images folder
+    match /profile_images/{userId}/{allPaths=**} {
+      // Users can upload their own profile images
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // File size limit: 2MB for profile images
+      allow write: if request.resource.size < 2 * 1024 * 1024;
+      
+      // Only image files allowed
+      allow write: if request.resource.contentType.matches('image/.*');
+    }
+
+    // Program images folder - institutions can upload images for their programs
+    match /program_images/{institutionId}/{allPaths=**} {
+      // Institution users can manage their program images
+      allow read, write: if request.auth != null && request.auth.uid == institutionId;
+      
+      // Anyone can read program images (public)
+      allow read: if true;
+      
+      // File size limit: 5MB for program images
+      allow write: if request.resource.size < 5 * 1024 * 1024;
+      
+      // Only image files allowed
+      allow write: if request.resource.contentType.matches('image/.*');
+    }
+
+    // Institution logos folder
+    match /institution_logos/{institutionId}/{allPaths=**} {
+      // Institution users can manage their logos
+      allow read, write: if request.auth != null && request.auth.uid == institutionId;
+      
+      // Anyone can read institution logos (public)
+      allow read: if true;
+      
+      // File size limit: 1MB for logos
+      allow write: if request.resource.size < 1 * 1024 * 1024;
+      
+      // Only image files allowed
+      allow write: if request.resource.contentType.matches('image/.*');
+    }
+
+    // Application documents folder
+    match /application_documents/{applicationId}/{allPaths=**} {
+      // Get the application document to check ownership
+      allow read, write: if request.auth != null && 
+        firestore.get(/databases/(default)/documents/applications/$(applicationId)).data.studentId == request.auth.uid;
+      
+      // Institutions can read application documents for applications they're reviewing
+      allow read: if request.auth != null &&
+        firestore.get(/databases/(default)/documents/applications/$(applicationId)).data.targetInstitutionId == request.auth.uid;
+      
+      // File size limit: 10MB
+      allow write: if request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // Recommendation letters folder
+    match /recommendations/{requestId}/{allPaths=**} {
+      // Students can read their recommendation letters
+      allow read: if request.auth != null &&
+        firestore.get(/databases/(default)/documents/recommendation_requests/$(requestId)).data.studentId == request.auth.uid;
+      
+      // Recommenders can upload and read letters for their requests
+      allow read, write: if request.auth != null &&
+        firestore.get(/databases/(default)/documents/recommendation_requests/$(requestId)).data.recommenderId == request.auth.uid;
+      
+      // Institutions can read recommendation letters for applications they're reviewing
+      allow read: if request.auth != null &&
+        firestore.exists(/databases/(default)/documents/applications/$(firestore.get(/databases/(default)/documents/recommendation_requests/$(requestId)).data.applicationId)) &&
+        firestore.get(/databases/(default)/documents/applications/$(firestore.get(/databases/(default)/documents/recommendation_requests/$(requestId)).data.applicationId)).data.targetInstitutionId == request.auth.uid;
+      
+      // File size limit: 5MB for recommendation letters
+      allow write: if request.resource.size < 5 * 1024 * 1024;
+    }
+
+    // Backup folder - admin only (for system backups)
+    match /backups/{allPaths=**} {
+      allow read, write: if false; // Only server-side operations
+    }
+
+    // Analytics exports folder - admin only
+    match /analytics_exports/{allPaths=**} {
+      allow read, write: if false; // Only server-side operations
+    }
+
+    // Temporary uploads folder - authenticated users can upload, auto-cleanup after 24 hours
+    match /temp_uploads/{userId}/{timestamp}/{allPaths=**} {
+      allow write: if request.auth != null && 
+        request.auth.uid == userId &&
+        request.resource.size < 10 * 1024 * 1024; // 10MB limit
+      
+      allow read: if request.auth != null && request.auth.uid == userId;
+      
+      // Auto-delete after 24 hours (handled by Cloud Functions)
+    }
+
+    // Shared documents folder - for documents that need to be shared between users
+    match /shared/{shareId}/{allPaths=**} {
+      // Read access based on share permissions (would need to check Firestore for permissions)
+      allow read: if request.auth != null;
+      // Write access only for the document owner (would need to implement sharing logic)
+      allow write: if false; // Implement sharing logic in Cloud Functions
+    }
+
+    // Default deny all other paths
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,2208 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" data-i18n-attrs="content:page.studentsPortal.description" content="Create a profile, discover programs, apply once to multiple universities, and track your status with AI-powered recommendations." />
+  <meta name="theme-color" content="#373896" />
+  <title data-i18n-title="page.studentsPortal.title">Flow — Student Portal</title>
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/students.css" />
+  
+  <!-- Circular Logo Styles -->
+  <style>
+    .brand__logo,
+    .footer__logo {
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    .brand__logo:hover,
+    .footer__logo:hover {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+      animation-duration: 1.5s;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { 
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        filter: brightness(1);
+      }
+      50% { 
+        box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+        filter: brightness(1.1);
+      }
+    }
+  </style>
+</head>
+
+<body data-user-id="u-student-001">
+  <!-- Futuristic background -->
+  <div class="bg-animation" aria-hidden="true">
+    <canvas id="particleCanvas"></canvas>
+  </div>
+
+  <!-- Skip Link -->
+  <a href="#main" class="skip-link" data-i18n="accessibility.skipToContent">Skip to content</a>
+
+  <!-- Toast notifications container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Site header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+
+      <!-- Connection status -->
+      <div class="connection-status" id="connectionStatus" aria-live="polite">
+        <span class="connection-status__indicator"></span>
+        <span class="connection-status__text" data-i18n="status.online">Online</span>
+      </div>
+
+      <!-- Language switcher -->
+      <form class="lang-switch" aria-label="Language selector">
+        <label for="lang" class="sr-only" data-i18n="accessibility.selectLanguage">Language</label>
+        <select id="lang" name="lang" aria-describedby="lang-help">
+          <option value="en" selected>English</option>
+          <option value="fr">Français</option>
+          <option value="ar" dir="rtl">العربية</option>
+          <option value="sw">Kiswahili</option>
+          <option value="ha">Hausa</option>
+          <option value="yo">Yoruba</option>
+          <option value="ig">Igbo</option>
+          <option value="zu">Zulu</option>
+          <option value="am">Amharic</option>
+        </select>
+        <div id="lang-help" class="sr-only" data-i18n="accessibility.langReloadNote">Changing language will reload the page</div>
+      </form>
+
+      <!-- Main navigation -->
+      <nav class="nav" role="navigation" aria-label="Main navigation" data-i18n-attrs="aria-label:accessibility.mainNav">
+        <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu">
+          <span class="nav__toggle-icon"><span></span><span></span><span></span></span>
+          <span class="nav__toggle-text" data-i18n="nav.menu">Menu</span>
+        </button>
+        <ul id="navMenu" class="nav__list" data-open="false">
+          <li><a href="/" data-i18n="nav.home">Home</a></li>
+          <li><a class="nav__link--active" href="/students/" data-i18n="nav.students">Students</a></li>
+          <li><a href="/institutions/" data-i18n="nav.institutions">Institutions</a></li>
+          <li><a href="/counselors/" data-i18n="nav.counselors">Counselors</a></li>
+          <li><a href="/parents/" data-i18n="nav.parents">Parents</a></li>
+          <li><a href="/recommenders/" data-i18n="nav.recommenders">Recommenders</a></li>
+          <li><a class="btn btn--ghost" href="/students/onboarding.html" data-i18n="nav.getStarted">Get Started</a></li>
+          <li><a class="btn btn--primary" href="/auth/" data-i18n="auth.signIn">Sign In</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Sub-navigation specific to the student portal -->
+  <nav class="subnav" role="navigation" aria-label="Student sections" data-i18n-attrs="aria-label:students.subnav.aria">
+    <div class="container">
+      <div class="subnav__inner">
+        <a href="/students/onboarding.html" class="badge badge--primary">
+          <svg width="16" height="16" fill="currentColor" aria-hidden="true">
+            <path d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2z"/>
+          </svg>
+          <span data-i18n="students.subnav.startOnboarding">Start Onboarding</span>
+        </a>
+        <a href="#dashboard" class="subnav__link subnav__link--active" data-i18n="students.subnav.dashboard">Dashboard</a>
+        <a href="/students/profile.html" class="subnav__link" data-i18n="students.subnav.profile">Profile</a>
+        <a href="/students/programs.html" class="subnav__link" data-i18n="students.subnav.programs">Programs</a>
+        <a href="/students/applications.html" class="subnav__link" data-i18n="students.subnav.applications">Applications</a>
+        <a href="/students/messages.html" class="subnav__link" data-i18n="students.subnav.messages">Messages</a>
+        <a href="/students/help.html" class="subnav__link" data-i18n="students.subnav.help">Help</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- Onboarding banner -->
+    <section class="section section--compact" aria-labelledby="onboardingTitle" id="onboardingBanner">
+      <div class="container">
+        <div class="onboarding-banner">
+          <div class="onboarding-banner__content">
+            <div class="onboarding-banner__icon" aria-hidden="true">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <defs>
+                  <radialGradient id="starGradient" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" style="stop-color:#fbbf24"/>
+                    <stop offset="70%" style="stop-color:#f59e0b"/>
+                    <stop offset="100%" style="stop-color:#d97706"/>
+                  </radialGradient>
+                </defs>
+                <path fill="url(#starGradient)" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                <path fill="white" opacity="0.4" d="M12 2l1.5 3L16 6l-2.5 2.5L14 12l-2-1-2 1 .5-3.5L8 6l2.5-1L12 2z"/>
+                <g opacity="0.6">
+                  <circle cx="12" cy="8" r="0.5" fill="white">
+                    <animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="8" cy="12" r="0.3" fill="white">
+                    <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.3s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="16" cy="12" r="0.3" fill="white">
+                    <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.6s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="12" cy="16" r="0.4" fill="white">
+                    <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.9s" repeatCount="indefinite"/>
+                  </circle>
+                </g>
+                <animateTransform attributeName="transform" type="rotate" values="0 12 12;5 12 12;0 12 12;-5 12 12;0 12 12" dur="4s" repeatCount="indefinite"/>
+              </svg>
+            </div>
+            <div class="onboarding-banner__text">
+              <h2 id="onboardingTitle" data-i18n="students.banner.title">Complete your profile to unlock AI-powered program recommendations</h2>
+              <p data-i18n="students.banner.body">Your profile is <strong>25% complete</strong>. Add academic information and documents to get personalized university suggestions.</p>
+            </div>
+            <div class="onboarding-banner__progress">
+              <div class="progress-bar">
+                <div class="progress-bar__fill" style="width: 25%" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" data-i18n-attrs="aria-label:students.banner.progressAria" aria-label="Profile completion: 25%"></div>
+              </div>
+              <span class="progress-text" data-i18n="students.banner.progressText">25% complete</span>
+            </div>
+          </div>
+          <div class="onboarding-banner__actions">
+            <a class="btn btn--primary" href="/students/onboarding.html">
+              <span data-i18n="students.banner.ctaContinue">Continue Setup</span>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <defs>
+                  <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:currentColor" opacity="0.6"/>
+                    <stop offset="100%" style="stop-color:currentColor"/>
+                  </linearGradient>
+                </defs>
+                <path fill="url(#arrowGradient)" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                <path fill="currentColor" opacity="0.3" d="M2.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L8.293 8 2.646 2.354a.5.5 0 0 1 0-.708z">
+                  <animateTransform attributeName="transform" type="translateX" values="0;2;0" dur="2s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values="0.3;0.1;0.3" dur="2s" repeatCount="indefinite"/>
+                </path>
+              </svg>
+            </a>
+            <button class="btn btn--ghost" id="dismissBanner" type="button" data-i18n="common.maybeLater">Maybe later</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dashboard overview -->
+    <section id="dashboard" class="section" aria-labelledby="dashTitle">
+      <div class="container">
+        <header class="section__header">
+          <h1 id="dashTitle" data-i18n="students.dashboard.title">Welcome back, Oumarou!</h1>
+          <p class="section__description" data-i18n="students.dashboard.subtitle">Here's what's happening with your applications</p>
+        </header>
+
+        <!-- Quick stats -->
+        <div class="dashboard-stats">
+          <div class="stat-card">
+            <div class="stat-card__icon stat-card__icon--primary" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <defs>
+                  <linearGradient id="applicationGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#4338ca"/>
+                    <stop offset="100%" style="stop-color:#6366f1"/>
+                  </linearGradient>
+                </defs>
+                <path fill="url(#applicationGradient)" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                <path fill="white" opacity="0.8" d="M14 2v6h6"/>
+                <circle cx="9" cy="12" r="1" fill="white" opacity="0.9"/>
+                <circle cx="12" cy="15" r="1" fill="white" opacity="0.7"/>
+                <circle cx="15" cy="18" r="1" fill="white" opacity="0.5"/>
+                <path stroke="white" stroke-width="0.5" fill="none" opacity="0.6" d="M9 12 L12 15 L15 18"/>
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+              </svg>
+            </div>
+            <div class="stat-card__content">
+              <div class="stat-card__number">3</div>
+              <div class="stat-card__label" data-i18n="students.stats.activeApplications">Active Applications</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon stat-card__icon--warning" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <defs>
+                  <linearGradient id="taskGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#f59e0b"/>
+                    <stop offset="100%" style="stop-color:#d97706"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="12" cy="12" r="10" fill="url(#taskGradient)"/>
+                <path fill="white" d="M12 6v6h4" stroke="white" stroke-width="1" stroke-linecap="round"/>
+                <circle cx="12" cy="12" r="1" fill="white"/>
+                <g opacity="0.7">
+                  <path stroke="white" stroke-width="0.5" fill="none" d="M18 18 L20 20"/>
+                  <path stroke="white" stroke-width="0.5" fill="none" d="M4 18 L6 20"/>
+                  <animateTransform attributeName="transform" type="rotate" values="0 12 12;10 12 12;0 12 12" dur="3s" repeatCount="indefinite"/>
+                </g>
+                <circle cx="12" cy="12" r="8" fill="none" stroke="white" stroke-width="0.3" opacity="0.5">
+                  <animate attributeName="stroke-dasharray" values="0 50;25 25;0 50" dur="2s" repeatCount="indefinite"/>
+                </circle>
+              </svg>
+            </div>
+            <div class="stat-card__content">
+              <div class="stat-card__number">2</div>
+              <div class="stat-card__label" data-i18n="students.stats.pendingTasks">Pending Tasks</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon stat-card__icon--success" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <defs>
+                  <linearGradient id="savedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#10b981"/>
+                    <stop offset="100%" style="stop-color:#059669"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="12" cy="12" r="10" fill="url(#savedGradient)"/>
+                <path fill="white" d="M8 12l2 2 4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <g opacity="0.6">
+                  <circle cx="6" cy="6" r="1" fill="white">
+                    <animate attributeName="opacity" values="0;1;0" dur="1s" begin="0s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="18" cy="6" r="1" fill="white">
+                    <animate attributeName="opacity" values="0;1;0" dur="1s" begin="0.3s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="6" cy="18" r="1" fill="white">
+                    <animate attributeName="opacity" values="0;1;0" dur="1s" begin="0.6s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="18" cy="18" r="1" fill="white">
+                    <animate attributeName="opacity" values="0;1;0" dur="1s" begin="0.9s" repeatCount="indefinite"/>
+                  </circle>
+                </g>
+                <path fill="none" stroke="white" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.4" d="M12 2 A10 10 0 1 1 12 22 A10 10 0 1 1 12 2">
+                  <animateTransform attributeName="transform" type="rotate" values="0 12 12;360 12 12" dur="4s" repeatCount="indefinite"/>
+                </path>
+              </svg>
+            </div>
+            <div class="stat-card__content">
+              <div class="stat-card__number">5</div>
+              <div class="stat-card__label" data-i18n="students.stats.programsSaved">Programs Saved</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__icon stat-card__icon--accent" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <defs>
+                  <linearGradient id="moneyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#a855f7"/>
+                    <stop offset="100%" style="stop-color:#c084fc"/>
+                  </linearGradient>
+                </defs>
+                <rect x="2" y="6" width="20" height="12" rx="2" fill="url(#moneyGradient)"/>
+                <circle cx="12" cy="12" r="3" fill="white" opacity="0.9"/>
+                <text x="12" y="15" text-anchor="middle" fill="url(#moneyGradient)" font-size="4" font-weight="bold">$</text>
+                <g opacity="0.6">
+                  <circle cx="6" cy="9" r="0.5" fill="white">
+                    <animate attributeName="cy" values="9;10;9" dur="2s" repeatCount="indefinite"/>
+                  </circle>
+                  <circle cx="18" cy="15" r="0.5" fill="white">
+                    <animate attributeName="cy" values="15;14;15" dur="2s" begin="1s" repeatCount="indefinite"/>
+                  </circle>
+                </g>
+                <path fill="none" stroke="white" stroke-width="0.5" opacity="0.3" d="M2 9 L22 9">
+                  <animate attributeName="stroke-dasharray" values="0 20;10 10;20 0;10 10;0 20" dur="3s" repeatCount="indefinite"/>
+                </path>
+                <path fill="none" stroke="white" stroke-width="0.5" opacity="0.3" d="M2 15 L22 15">
+                  <animate attributeName="stroke-dasharray" values="20 0;10 10;0 20;10 10;20 0" dur="3s" repeatCount="indefinite"/>
+                </path>
+              </svg>
+            </div>
+            <div class="stat-card__content">
+              <div class="stat-card__number">$0</div>
+              <div class="stat-card__label" data-i18n="students.stats.feesDue">Fees Due</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard cards grid -->
+        <div class="dashboard-grid">
+          <!-- Active applications card -->
+          <article class="dashboard-card dashboard-card--featured" aria-labelledby="appsTitle">
+            <header class="dashboard-card__header">
+              <h2 id="appsTitle" data-i18n="students.apps.title">Active Applications</h2>
+              <a href="/students/applications.html" class="dashboard-card__action" data-i18n="common.viewAll">View all</a>
+            </header>
+            <div class="application-list">
+              <div class="application-item">
+                <div class="application-item__status application-item__status--review"></div>
+                <div class="application-item__content">
+                  <h3 class="application-item__title">University of Accra</h3>
+                  <p class="application-item__program">B.Sc. Computer Science</p>
+                  <div class="application-item__progress">
+                    <span class="status-badge status-badge--warning" data-i18n="status.underReview">Under Review</span>
+                    <time datetime="2025-08-20" class="application-item__date" data-i18n="time.updatedOneDayAgo">Updated 1 day ago</time>
+                  </div>
+                </div>
+                <button class="application-item__action" data-i18n-attrs="aria-label:students.apps.viewAccra" aria-label="View University of Accra application">
+                  <svg width="16" height="16" fill="currentColor"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+                </button>
+              </div>
+              <div class="application-item">
+                <div class="application-item__status application-item__status--draft"></div>
+                <div class="application-item__content">
+                  <h3 class="application-item__title">Abuja Tech Institute</h3>
+                  <p class="application-item__program">B.Eng. Software Engineering</p>
+                  <div class="application-item__progress">
+                    <span class="status-badge status-badge--draft" data-i18n="status.draft">Draft</span>
+                    <time datetime="2025-08-16" class="application-item__date" data-i18n="time.lastEditedFiveDaysAgo">Last edited 5 days ago</time>
+                  </div>
+                </div>
+                <button class="application-item__action" data-i18n-attrs="aria-label:students.apps.continueAbuja" aria-label="Continue Abuja Tech Institute application">
+                  <svg width="16" height="16" fill="currentColor"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+                </button>
+              </div>
+              <div class="application-item">
+                <div class="application-item__status application-item__status--submitted"></div>
+                <div class="application-item__content">
+                  <h3 class="application-item__title">École Polytechnique Dakar</h3>
+                  <p class="application-item__program">B.Eng. Computer Engineering</p>
+                  <div class="application-item__progress">
+                    <span class="status-badge status-badge--success" data-i18n="status.submitted">Submitted</span>
+                    <time datetime="2025-08-10" class="application-item__date" data-i18n="time.submittedElevenDaysAgo">Submitted 11 days ago</time>
+                  </div>
+                </div>
+                <button class="application-item__action" data-i18n-attrs="aria-label:students.apps.viewEpd" aria-label="View École Polytechnique Dakar application">
+                  <svg width="16" height="16" fill="currentColor"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="dashboard-card__footer">
+              <a href="/students/applications.html" class="btn btn--primary">
+                <span data-i18n="students.apps.manage">Manage Applications</span>
+                <svg width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Urgent tasks card -->
+          <article class="dashboard-card" aria-labelledby="tasksTitle">
+            <header class="dashboard-card__header">
+              <h2 id="tasksTitle" data-i18n="students.tasks.title">Urgent Tasks</h2>
+              <span class="task-count" data-i18n="students.tasks.pendingCount">2 pending</span>
+            </header>
+            <div class="task-list">
+              <div class="task-item task-item--urgent">
+                <div class="task-item__priority" data-i18n-attrs="aria-label:priority.high" aria-label="High priority"></div>
+                <div class="task-item__content">
+                  <h3 class="task-item__title" data-i18n="students.tasks.essayTitle">Essay Draft Due</h3>
+                  <p class="task-item__description" data-i18n="students.tasks.essayDesc">Personal statement for Abuja Tech Institute</p>
+                  <time datetime="2025-09-01" class="task-item__deadline" data-i18n="students.tasks.essayDue">Due Sept 1, 2025</time>
+                </div>
+                <button class="task-item__action btn btn--sm btn--ghost" type="button" data-i18n="common.start">Start</button>
+              </div>
+              <div class="task-item">
+                <div class="task-item__priority" data-i18n-attrs="aria-label:priority.medium" aria-label="Medium priority"></div>
+                <div class="task-item__content">
+                  <h3 class="task-item__title" data-i18n="students.tasks.transcriptTitle">Upload Transcript</h3>
+                  <p class="task-item__description" data-i18n="students.tasks.transcriptDesc">Official transcript for École Polytechnique</p>
+                  <time datetime="2025-09-05" class="task-item__deadline" data-i18n="students.tasks.transcriptDue">Due Sept 5, 2025</time>
+                </div>
+                <button class="task-item__action btn btn--sm btn--ghost" type="button" data-i18n="common.upload">Upload</button>
+              </div>
+            </div>
+            <div class="dashboard-card__footer">
+              <a href="/students/tasks.html" class="btn btn--ghost" data-i18n="students.tasks.viewAll">View all tasks</a>
+            </div>
+          </article>
+
+          <!-- AI recommendations card -->
+          <article class="dashboard-card dashboard-card--highlight" aria-labelledby="aiTitle">
+            <header class="dashboard-card__header">
+              <h2 id="aiTitle">
+                <svg width="20" height="20" fill="currentColor" aria-hidden="true" style="margin-right: .5rem;">
+                  <path d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0v1.829zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707L14 2.707zM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707L7.293 4z"/>
+                </svg>
+                <span data-i18n="students.recs.title">AI Recommendations</span>
+              </h2>
+              <span class="recommendation-badge" data-i18n="label.new">New</span>
+            </header>
+            <div class="recommendation-content">
+              <p class="recommendation-description" data-i18n="students.recs.intro">Based on your Computer Science interest and 3.8 GPA, here are programs that match your profile:</p>
+              <div class="recommendation-list">
+                <div class="recommendation-item">
+                  <div class="recommendation-item__content">
+                    <h3 class="recommendation-item__title">Kwame Nkrumah University</h3>
+                    <p class="recommendation-item__program">B.Sc. Computer Science</p>
+                    <div class="recommendation-item__match">
+                      <span class="match-score" data-i18n="students.recs.match95">95% match</span>
+                      <span class="recommendation-item__scholarship" data-i18n="students.recs.scholarship">Scholarship available</span>
+                    </div>
+                  </div>
+                  <button class="recommendation-item__action btn btn--sm btn--primary" type="button" data-i18n="common.apply">Apply</button>
+                </div>
+                <div class="recommendation-item">
+                  <div class="recommendation-item__content">
+                    <h3 class="recommendation-item__title">University of Nairobi</h3>
+                    <p class="recommendation-item__program">B.Sc. Information Technology</p>
+                    <div class="recommendation-item__match">
+                      <span class="match-score" data-i18n="students.recs.match88">88% match</span>
+                      <span class="recommendation-item__deadline" data-i18n="students.recs.deadlineOct15">Deadline: Oct 15</span>
+                    </div>
+                  </div>
+                  <button class="recommendation-item__action btn btn--sm btn--ghost" type="button" data-i18n="common.learnMore">Learn more</button>
+                </div>
+              </div>
+            </div>
+            <div class="dashboard-card__footer">
+              <a href="/students/programs.html?view=recommended" class="btn btn--primary">
+                <span data-i18n="students.recs.viewAll">View All Recommendations</span>
+                <svg width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Recent messages card -->
+          <article class="dashboard-card" aria-labelledby="messagesTitle">
+            <header class="dashboard-card__header">
+              <h2 id="messagesTitle" data-i18n="students.messages.title">Recent Messages</h2>
+              <span class="message-count" data-i18n="students.messages.unreadCount">2 unread</span>
+            </header>
+            <div class="message-list">
+              <div class="message-item message-item--unread">
+                <div class="message-item__avatar" aria-hidden="true">
+                  <svg width="20" height="20" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>
+                </div>
+                <div class="message-item__content">
+                  <h3 class="message-item__sender">Admissions Office</h3>
+                  <p class="message-item__preview" data-i18n="students.messages.preview1">Please confirm your interview slot for next week. We have available times on...</p>
+                  <time datetime="2025-08-20" class="message-item__time" data-i18n="time.twoHoursAgo">2 hours ago</time>
+                </div>
+                <div class="message-item__status" data-i18n-attrs="aria-label:messages.unread" aria-label="Unread message"></div>
+              </div>
+              <div class="message-item">
+                <div class="message-item__avatar" aria-hidden="true">
+                  <svg width="20" height="20" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>
+                </div>
+                <div class="message-item__content">
+                  <h3 class="message-item__sender">Counselor Sarah</h3>
+                  <p class="message-item__preview" data-i18n="students.messages.preview2">I've shared some scholarship opportunities that might interest you. Check your...</p>
+                  <time datetime="2025-08-19" class="message-item__time" data-i18n="time.oneDayAgo">1 day ago</time>
+                </div>
+              </div>
+            </div>
+            <div class="dashboard-card__footer">
+              <a href="/students/messages.html" class="btn btn--ghost" data-i18n="students.messages.viewAll">View all messages</a>
+            </div>
+          </article>
+
+          <!-- Financial overview card -->
+          <article class="dashboard-card" aria-labelledby="financeTitle">
+            <header class="dashboard-card__header">
+              <h2 id="financeTitle" data-i18n="students.finance.title">Financial Overview</h2>
+              <button class="dashboard-card__menu" data-i18n-attrs="aria-label:students.finance.options" aria-label="Finance options">
+                <svg width="16" height="16" fill="currentColor"><path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+              </button>
+            </header>
+            <div class="finance-overview">
+              <div class="finance-stat">
+                <div class="finance-stat__amount">$0</div>
+                <div class="finance-stat__label" data-i18n="students.finance.feesDue">Fees Due</div>
+                <div class="finance-stat__status finance-stat__status--good" data-i18n="students.finance.allPaid">All paid</div>
+              </div>
+              <div class="finance-breakdown">
+                <div class="finance-item">
+                  <span class="finance-item__label" data-i18n="students.finance.appFees">Application fees</span>
+                  <span class="finance-item__amount">$0</span>
+                </div>
+                <div class="finance-item">
+                  <span class="finance-item__label" data-i18n="students.finance.tuition">Estimated tuition</span>
+                  <span class="finance-item__amount">$4,200</span>
+                </div>
+                <div class="finance-item">
+                  <span class="finance-item__label" data-i18n="students.finance.scholarshipPotential">Scholarship potential</span>
+                  <span class="finance-item__amount">-$1,500</span>
+                </div>
+              </div>
+              <div class="mobile-money-cta">
+                <div class="mobile-money-cta__content">
+                  <h3 class="mobile-money-cta__title" data-i18n="students.finance.mobileMoneyTitle">Mobile Money Ready</h3>
+                  <p class="mobile-money-cta__description" data-i18n="students.finance.mobileMoneyDesc">Pay fees instantly with M-Pesa, MTN MoMo, or Airtel Money</p>
+                </div>
+                <div class="mobile-money-logos" aria-hidden="true">
+                  <span class="mobile-money-logo">M-Pesa</span>
+                  <span class="mobile-money-logo">MoMo</span>
+                </div>
+              </div>
+            </div>
+            <div class="dashboard-card__footer">
+              <a href="/students/finance.html" class="btn btn--ghost" data-i18n="students.finance.manage">Manage finances</a>
+            </div>
+          </article>
+
+          <!-- Quick actions card -->
+          <article class="dashboard-card dashboard-card--actions" aria-labelledby="actionsTitle">
+            <header class="dashboard-card__header">
+              <h2 id="actionsTitle" data-i18n="students.actions.title">Quick Actions</h2>
+            </header>
+            <div class="quick-actions">
+              <button class="quick-action" type="button" data-action="search-programs">
+                <div class="quick-action__icon" aria-hidden="true">
+                  <svg width="20" height="20" fill="currentColor"><path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
+                </div>
+                <div class="quick-action__content">
+                  <h3 class="quick-action__title" data-i18n="students.actions.searchPrograms.title">Search Programs</h3>
+                  <p class="quick-action__description" data-i18n="students.actions.searchPrograms.desc">Find universities and courses</p>
+                </div>
+              </button>
+              <button class="quick-action" type="button" data-action="upload-document">
+                <div class="quick-action__icon" aria-hidden="true">
+                  <svg width="20" height="20" fill="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/></svg>
+                </div>
+                <div class="quick-action__content">
+                  <h3 class="quick-action__title" data-i18n="students.actions.uploadDocs.title">Upload Documents</h3>
+                  <p class="quick-action__description" data-i18n="students.actions.uploadDocs.desc">Add transcripts and certificates</p>
+                </div>
+              </button>
+              <button class="quick-action" type="button" data-action="invite-recommender">
+                <div class="quick-action__icon" aria-hidden="true">
+                  <svg width="20" height="20" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>
+                </div>
+                <div class="quick-action__content">
+                  <h3 class="quick-action__title" data-i18n="students.actions.inviteRec.title">Invite Recommender</h3>
+                  <p class="quick-action__description" data-i18n="students.actions.inviteRec.desc">Request recommendation letters</p>
+                </div>
+              </button>
+              <button class="quick-action" type="button" data-action="schedule-interview">
+                <div class="quick-action__icon" aria-hidden="true">
+                  <svg width="20" height="20" fill="currentColor"><path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/></svg>
+                </div>
+                <div class="quick-action__content">
+                  <h3 class="quick-action__title" data-i18n="students.actions.scheduleInterview.title">Schedule Interview</h3>
+                  <p class="quick-action__description" data-i18n="students.actions.scheduleInterview.desc">Book admission interviews</p>
+                </div>
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Site footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer">
+    <div class="container footer__grid">
+      <section class="footer__brand">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <img src="/assets/img/logo.png" alt="" class="footer__logo" width="40" height="40" />
+          <h3 class="footer__title">Flow</h3>
+        </div>
+        <p class="footer__tagline" data-i18n="footer.tagline.alt">Connecting learners and institutions across Africa with technology designed for real-world connectivity challenges.</p>
+      </section>
+      <nav aria-label="Quick links" class="footer__nav" data-i18n-attrs="aria-label:footer.quickLinks">
+        <h3 class="footer__nav-title" data-i18n="footer.students.resources">Student Resources</h3>
+        <ul>
+          <li><a href="/students/onboarding.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm1 4H7v5h5V7H9V4z" opacity="0.8"/>
+              <path d="M9 7h3v2H7V4h2v3z" fill="white" opacity="0.3"/>
+            </svg>
+            <span data-i18n="nav.getStarted">Get Started</span>
+          </a></li>
+          <li><a href="/students/programs.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <rect x="2" y="3" width="12" height="10" rx="1" opacity="0.8"/>
+              <rect x="4" y="5" width="8" height="1" fill="white" opacity="0.6"/>
+              <rect x="4" y="7" width="5" height="1" fill="white" opacity="0.4"/>
+            </svg>
+            <span data-i18n="students.nav.browsePrograms">Browse Programs</span>
+          </a></li>
+          <li><a href="/students/applications.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M10 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6l-6-6z" opacity="0.8"/>
+              <path d="M10 0v6h6" fill="white" opacity="0.4"/>
+            </svg>
+            <span data-i18n="students.nav.myApplications">My Applications</span>
+          </a></li>
+          <li><a href="/students/finance.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <circle cx="8" cy="8" r="7" opacity="0.8"/>
+              <text x="8" y="11" text-anchor="middle" fill="white" font-size="8">$</text>
+            </svg>
+            <span data-i18n="students.nav.financialPlanning">Financial Planning</span>
+          </a></li>
+          <li><a href="/students/help.html">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <circle cx="8" cy="8" r="7" opacity="0.8"/>
+              <text x="8" y="11" text-anchor="middle" fill="white" font-size="10">?</text>
+            </svg>
+            <span data-i18n="students.nav.helpCenter">Help Center</span>
+          </a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Support navigation" class="footer__nav" data-i18n-attrs="aria-label:footer.supportNav">
+        <h3 class="footer__nav-title" data-i18n="footer.support">Support</h3>
+        <ul>
+          <li><a href="#" onclick="showHelpCenter(); return false;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <circle cx="8" cy="8" r="7" opacity="0.8"/>
+              <path d="M8 3a1.5 1.5 0 0 1 1.5 1.5v.5h-3v-.5A1.5 1.5 0 0 1 8 3zM8 9.5a.75.75 0 1 0 0 1.5.75.75 0 0 0 0-1.5z" fill="white"/>
+            </svg>
+            <span data-i18n="footer.helpCenter">Help Center</span>
+          </a></li>
+          <li><a href="#" onclick="showContact(); return false;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3z" opacity="0.8"/>
+              <path d="m1 4 6.5 4L14 4" fill="white" opacity="0.6"/>
+            </svg>
+            <span data-i18n="footer.contactUs">Contact Us</span>
+          </a></li>
+          <li><a href="#" onclick="showSystemStatus(); return false;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <circle cx="8" cy="8" r="7" opacity="0.8"/>
+              <circle cx="8" cy="8" r="2" fill="#10b981"/>
+            </svg>
+            <span data-i18n="footer.systemStatus">System Status</span>
+          </a></li>
+          <li><a href="#" onclick="showAccessibility(); return false;">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <circle cx="8" cy="8" r="7" opacity="0.8"/>
+              <circle cx="8" cy="4" r="1.5" fill="white"/>
+              <path d="M6 7h4v6H6z" fill="white" opacity="0.7"/>
+            </svg>
+            <span data-i18n="footer.accessibility">Accessibility</span>
+          </a></li>
+        </ul>
+      </nav>
+      <section class="footer__cta">
+        <h3 class="footer__cta-title" data-i18n="footer.needHelp">Need help?</h3>
+        <p class="footer__cta-description" data-i18n="footer.needHelpDesc">Our support team is here to help you succeed.</p>
+        <a href="#" onclick="showContact(); return false;" class="btn btn--primary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="margin-right: 0.5rem;">
+            <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm1.5 4.5a1.5 1.5 0 1 0-3 0v3a1.5 1.5 0 0 0 3 0v-3zm0 6a1 1 0 1 0-2 0 1 1 0 0 0 2 0z" opacity="0.9"/>
+            <circle cx="8" cy="8" r="6" fill="none" stroke="white" stroke-width="0.5" opacity="0.3">
+              <animate attributeName="stroke-dasharray" values="0 38;19 19;0 38" dur="2s" repeatCount="indefinite"/>
+            </circle>
+          </svg>
+          <span data-i18n="footer.getSupport">Get Support</span>
+        </a>
+      </section>
+    </div>
+    <div class="footer__meta">
+      <div class="container footer__meta-inner">
+        <small class="footer__copyright">© <span id="year"></span> Flow. <span data-i18n="footer.builtForAfrica">Built with ❤️ for Africa.</span></small>
+        <div class="footer__links">
+          <a href="/legal/terms.html" data-i18n="footer.terms">Terms</a>
+          <a href="/legal/privacy.html" data-i18n="footer.privacy">Privacy</a>
+          <a href="/legal/cookies.html" data-i18n="footer.cookies">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Advanced Settings System -->
+  <!-- Floating settings button -->
+  <button id="settingsToggle" class="settings-fab" type="button" aria-label="Open settings">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id="settingsGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#4338ca"/>
+          <stop offset="50%" style="stop-color:#6366f1"/>
+          <stop offset="100%" style="stop-color:#8b5cf6"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <g transform-origin="12 12">
+        <path d="M12 1l2.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 1z" fill="url(#settingsGradient1)" opacity="0.2"/>
+        <circle cx="12" cy="12" r="10" stroke="url(#settingsGradient1)" stroke-width="1.5" fill="none" opacity="0.6">
+          <animate attributeName="stroke-dasharray" values="0 63;31 31;0 63" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <g stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          <path d="m19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </g>
+        <animateTransform attributeName="transform" type="rotate" values="0;360" dur="20s" repeatCount="indefinite"/>
+      </g>
+    </svg>
+  </button>
+
+  <!-- Advanced Settings Modal -->
+  <div id="settingsModal" class="settings-modal" aria-hidden="true" aria-labelledby="settingsModalTitle">
+    <div class="settings-modal__backdrop"></div>
+    <div class="settings-modal__container">
+      <div class="settings-modal__header">
+        <div class="settings-modal__title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="modalHeaderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#4338ca"/>
+                <stop offset="100%" style="stop-color:#8b5cf6"/>
+              </linearGradient>
+            </defs>
+            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" fill="url(#modalHeaderGradient)"/>
+            <path d="m19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="url(#modalHeaderGradient)" stroke-width="1" fill="none"/>
+          </svg>
+          <h2 id="settingsModalTitle">Advanced Settings</h2>
+        </div>
+        <button id="settingsClose" class="settings-modal__close" type="button" aria-label="Close settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-modal__body">
+        <div class="settings-tabs">
+          <button class="settings-tab settings-tab--active" data-tab="appearance" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            Appearance
+          </button>
+          <button class="settings-tab" data-tab="language" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Language
+          </button>
+          <button class="settings-tab" data-tab="notifications" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            Notifications
+          </button>
+          <button class="settings-tab" data-tab="accessibility" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="10" r="3"/>
+              <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>
+            </svg>
+            Accessibility
+          </button>
+        </div>
+
+        <div class="settings-content">
+          <!-- Appearance Tab -->
+          <div class="settings-panel settings-panel--active" data-panel="appearance">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Theme</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="themeSelect">Color theme</label>
+                  <p>Choose your preferred color scheme</p>
+                </div>
+                <select id="themeSelect" class="settings-select">
+                  <option value="auto">Auto (System)</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="densitySelect">Layout density</label>
+                  <p>Adjust spacing and component sizes</p>
+                </div>
+                <select id="densitySelect" class="settings-select">
+                  <option value="comfortable">Comfortable</option>
+                  <option value="compact">Compact</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Visual Effects</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="animationsToggle">Animations</label>
+                  <p>Enable smooth transitions and animations</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="animationsToggle" checked>
+                  <label for="animationsToggle" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="particlesToggle">Background effects</label>
+                  <p>Show animated background particles</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="particlesToggle" checked>
+                  <label for="particlesToggle" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Language Tab -->
+          <div class="settings-panel" data-panel="language">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Interface Language</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="languageSelect">Display language</label>
+                  <p>Change the language of the interface</p>
+                </div>
+                <select id="languageSelect" class="settings-select">
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                  <option value="ar">العربية</option>
+                  <option value="sw">Kiswahili</option>
+                  <option value="ha">Hausa</option>
+                  <option value="yo">Yoruba</option>
+                  <option value="ig">Igbo</option>
+                  <option value="zu">Zulu</option>
+                  <option value="am">Amharic</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Regional Settings</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="timezoneSelect">Timezone</label>
+                  <p>Set your local timezone for dates and times</p>
+                </div>
+                <select id="timezoneSelect" class="settings-select">
+                  <option value="auto">Auto-detect</option>
+                  <option value="Africa/Lagos">West Africa Time (WAT)</option>
+                  <option value="Africa/Cairo">Eastern European Time (EET)</option>
+                  <option value="Africa/Johannesburg">South Africa Standard Time (SAST)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications Tab -->
+          <div class="settings-panel" data-panel="notifications">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Push Notifications</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="pushNotifications">Enable push notifications</label>
+                  <p>Receive notifications even when the app is closed</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="pushNotifications" checked>
+                  <label for="pushNotifications" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="applicationUpdates">Application updates</label>
+                  <p>Get notified about application status changes</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="applicationUpdates" checked>
+                  <label for="applicationUpdates" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="messageNotifications">Messages</label>
+                  <p>Notifications for new messages and replies</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="messageNotifications" checked>
+                  <label for="messageNotifications" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Email Notifications</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="emailDigest">Daily digest</label>
+                  <p>Receive a daily summary of your activity</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="emailDigest">
+                  <label for="emailDigest" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accessibility Tab -->
+          <div class="settings-panel" data-panel="accessibility">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Motion & Animation</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="reducedMotion">Reduce motion</label>
+                  <p>Minimize animations for better accessibility</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="reducedMotion">
+                  <label for="reducedMotion" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Display</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="highContrast">High contrast</label>
+                  <p>Increase contrast for better readability</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="highContrast">
+                  <label for="highContrast" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="fontSizeSelect">Font size</label>
+                  <p>Adjust text size for better readability</p>
+                </div>
+                <select id="fontSizeSelect" class="settings-select">
+                  <option value="small">Small</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="large">Large</option>
+                  <option value="extra-large">Extra Large</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-modal__footer">
+        <div class="settings-actions">
+          <button id="resetSettings" class="btn btn--ghost" type="button">Reset to Defaults</button>
+          <button id="saveSettings" class="btn btn--primary" type="button">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- JS (order matters): auth → guards → i18n → main → page script -->
+  <script src="/assets/js/auth.js" defer></script>
+  <script src="/assets/js/auth-guards.js" defer></script>
+  <script src="/assets/js/i18n.js" defer></script>
+  <script src="/assets/js/main.js" defer></script>
+  <script src="/assets/js/students.js" defer></script>
+  
+  <!-- Advanced Settings System JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Advanced Settings System
+      const settingsSystem = {
+        modal: null,
+        isOpen: false,
+        activeTab: 'appearance',
+        
+        // Settings storage
+        settings: {
+          theme: 'auto',
+          density: 'comfortable',
+          animations: true,
+          particles: true,
+          language: 'en',
+          timezone: 'auto',
+          pushNotifications: true,
+          applicationUpdates: true,
+          messageNotifications: true,
+          emailDigest: false,
+          reducedMotion: false,
+          highContrast: false,
+          fontSize: 'medium'
+        },
+        
+        init() {
+          this.modal = document.getElementById('settingsModal');
+          this.setupEventListeners();
+          this.loadSettings();
+          this.applySettings();
+          console.log('Advanced settings system initialized');
+        },
+        
+        setupEventListeners() {
+          // Toggle button
+          const toggleBtn = document.getElementById('settingsToggle');
+          if (toggleBtn) {
+            toggleBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.openModal();
+            });
+          }
+          
+          // Close button
+          const closeBtn = document.getElementById('settingsClose');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.closeModal();
+            });
+          }
+          
+          // Backdrop click
+          if (this.modal) {
+            const backdrop = this.modal.querySelector('.settings-modal__backdrop');
+            if (backdrop) {
+              backdrop.addEventListener('click', () => {
+                this.closeModal();
+              });
+            }
+          }
+          
+          // ESC key
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen) {
+              this.closeModal();
+            }
+          });
+          
+          // Tab switching
+          const tabs = document.querySelectorAll('.settings-tab');
+          tabs.forEach(tab => {
+            tab.addEventListener('click', (e) => {
+              e.preventDefault();
+              const tabName = tab.dataset.tab;
+              this.switchTab(tabName);
+            });
+          });
+          
+          // Settings controls
+          this.setupSettingsControls();
+          
+          // Action buttons
+          const saveBtn = document.getElementById('saveSettings');
+          const resetBtn = document.getElementById('resetSettings');
+          
+          if (saveBtn) {
+            saveBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.saveSettings();
+            });
+          }
+          
+          if (resetBtn) {
+            resetBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.resetSettings();
+            });
+          }
+        },
+        
+        setupSettingsControls() {
+          // Theme select
+          const themeSelect = document.getElementById('themeSelect');
+          if (themeSelect) {
+            themeSelect.addEventListener('change', (e) => {
+              this.settings.theme = e.target.value;
+              this.applyTheme();
+            });
+          }
+          
+          // Density select
+          const densitySelect = document.getElementById('densitySelect');
+          if (densitySelect) {
+            densitySelect.addEventListener('change', (e) => {
+              this.settings.density = e.target.value;
+              this.applyDensity();
+            });
+          }
+          
+          // Language select
+          const languageSelect = document.getElementById('languageSelect');
+          if (languageSelect) {
+            languageSelect.addEventListener('change', (e) => {
+              this.settings.language = e.target.value;
+              this.applyLanguage();
+            });
+          }
+          
+          // All toggle switches
+          const toggles = [
+            'animationsToggle', 'particlesToggle', 'pushNotifications',
+            'applicationUpdates', 'messageNotifications', 'emailDigest',
+            'reducedMotion', 'highContrast'
+          ];
+          
+          toggles.forEach(toggleId => {
+            const toggle = document.getElementById(toggleId);
+            if (toggle) {
+              toggle.addEventListener('change', (e) => {
+                const settingName = this.getSettingNameFromId(toggleId);
+                this.settings[settingName] = e.target.checked;
+                this.applyToggleSetting(settingName, e.target.checked);
+              });
+            }
+          });
+          
+          // Font size select
+          const fontSizeSelect = document.getElementById('fontSizeSelect');
+          if (fontSizeSelect) {
+            fontSizeSelect.addEventListener('change', (e) => {
+              this.settings.fontSize = e.target.value;
+              this.applyFontSize();
+            });
+          }
+          
+          // Timezone select
+          const timezoneSelect = document.getElementById('timezoneSelect');
+          if (timezoneSelect) {
+            timezoneSelect.addEventListener('change', (e) => {
+              this.settings.timezone = e.target.value;
+            });
+          }
+        },
+        
+        getSettingNameFromId(id) {
+          const mapping = {
+            'animationsToggle': 'animations',
+            'particlesToggle': 'particles',
+            'pushNotifications': 'pushNotifications',
+            'applicationUpdates': 'applicationUpdates',
+            'messageNotifications': 'messageNotifications',
+            'emailDigest': 'emailDigest',
+            'reducedMotion': 'reducedMotion',
+            'highContrast': 'highContrast'
+          };
+          return mapping[id] || id;
+        },
+        
+        openModal() {
+          if (this.modal && !this.isOpen) {
+            this.modal.setAttribute('aria-hidden', 'false');
+            this.isOpen = true;
+            document.body.style.overflow = 'hidden';
+            
+            // Focus management
+            setTimeout(() => {
+              const firstTab = this.modal.querySelector('.settings-tab');
+              if (firstTab) firstTab.focus();
+            }, 100);
+            
+            console.log('Settings modal opened');
+          }
+        },
+        
+        closeModal() {
+          if (this.modal && this.isOpen) {
+            this.modal.setAttribute('aria-hidden', 'true');
+            this.isOpen = false;
+            document.body.style.overflow = '';
+            
+            // Return focus to toggle button
+            const toggleBtn = document.getElementById('settingsToggle');
+            if (toggleBtn) toggleBtn.focus();
+            
+            console.log('Settings modal closed');
+          }
+        },
+        
+        switchTab(tabName) {
+          // Update active tab
+          const tabs = document.querySelectorAll('.settings-tab');
+          const panels = document.querySelectorAll('.settings-panel');
+          
+          tabs.forEach(tab => {
+            tab.classList.toggle('settings-tab--active', tab.dataset.tab === tabName);
+          });
+          
+          panels.forEach(panel => {
+            panel.classList.toggle('settings-panel--active', panel.dataset.panel === tabName);
+          });
+          
+          this.activeTab = tabName;
+          console.log(`Switched to ${tabName} tab`);
+        },
+        
+        loadSettings() {
+          try {
+            const savedSettings = localStorage.getItem('flowSettings');
+            if (savedSettings) {
+              const parsed = JSON.parse(savedSettings);
+              this.settings = { ...this.settings, ...parsed };
+              console.log('Settings loaded from localStorage');
+            }
+          } catch (error) {
+            console.warn('Failed to load settings from localStorage:', error);
+          }
+          
+          // Update form controls
+          this.updateFormControls();
+        },
+        
+        updateFormControls() {
+          // Update all form controls to reflect current settings
+          Object.keys(this.settings).forEach(key => {
+            const control = this.findControlForSetting(key);
+            if (control) {
+              if (control.type === 'checkbox') {
+                control.checked = this.settings[key];
+              } else {
+                control.value = this.settings[key];
+              }
+            }
+          });
+        },
+        
+        findControlForSetting(settingName) {
+          const controlMap = {
+            theme: 'themeSelect',
+            density: 'densitySelect',
+            animations: 'animationsToggle',
+            particles: 'particlesToggle',
+            language: 'languageSelect',
+            timezone: 'timezoneSelect',
+            pushNotifications: 'pushNotifications',
+            applicationUpdates: 'applicationUpdates',
+            messageNotifications: 'messageNotifications',
+            emailDigest: 'emailDigest',
+            reducedMotion: 'reducedMotion',
+            highContrast: 'highContrast',
+            fontSize: 'fontSizeSelect'
+          };
+          
+          const controlId = controlMap[settingName];
+          return controlId ? document.getElementById(controlId) : null;
+        },
+        
+        saveSettings() {
+          try {
+            // Collect current values from form
+            this.collectFormValues();
+            
+            // Save to localStorage
+            localStorage.setItem('flowSettings', JSON.stringify(this.settings));
+            
+            // Apply all settings
+            this.applySettings();
+            
+            // Show success message
+            this.showToast('Settings saved successfully!', 'success');
+            
+            // Close modal
+            setTimeout(() => {
+              this.closeModal();
+            }, 1000);
+            
+            console.log('Settings saved:', this.settings);
+          } catch (error) {
+            console.error('Failed to save settings:', error);
+            this.showToast('Failed to save settings. Please try again.', 'error');
+          }
+        },
+        
+        collectFormValues() {
+          // Collect values from all form controls
+          const controls = {
+            themeSelect: 'theme',
+            densitySelect: 'density',
+            languageSelect: 'language',
+            timezoneSelect: 'timezone',
+            fontSizeSelect: 'fontSize'
+          };
+          
+          Object.keys(controls).forEach(controlId => {
+            const control = document.getElementById(controlId);
+            if (control) {
+              this.settings[controls[controlId]] = control.value;
+            }
+          });
+          
+          // Collect checkbox values
+          const checkboxes = [
+            'animationsToggle', 'particlesToggle', 'pushNotifications',
+            'applicationUpdates', 'messageNotifications', 'emailDigest',
+            'reducedMotion', 'highContrast'
+          ];
+          
+          checkboxes.forEach(checkboxId => {
+            const checkbox = document.getElementById(checkboxId);
+            if (checkbox) {
+              const settingName = this.getSettingNameFromId(checkboxId);
+              this.settings[settingName] = checkbox.checked;
+            }
+          });
+        },
+        
+        resetSettings() {
+          if (confirm('Are you sure you want to reset all settings to default values? This cannot be undone.')) {
+            // Reset to default values
+            this.settings = {
+              theme: 'auto',
+              density: 'comfortable',
+              animations: true,
+              particles: true,
+              language: 'en',
+              timezone: 'auto',
+              pushNotifications: true,
+              applicationUpdates: true,
+              messageNotifications: true,
+              emailDigest: false,
+              reducedMotion: false,
+              highContrast: false,
+              fontSize: 'medium'
+            };
+            
+            // Update form controls
+            this.updateFormControls();
+            
+            // Apply settings
+            this.applySettings();
+            
+            // Save to localStorage
+            try {
+              localStorage.setItem('flowSettings', JSON.stringify(this.settings));
+            } catch (error) {
+              console.warn('Failed to save reset settings:', error);
+            }
+            
+            this.showToast('Settings reset to defaults', 'success');
+            console.log('Settings reset to defaults');
+          }
+        },
+        
+        applySettings() {
+          this.applyTheme();
+          this.applyDensity();
+          this.applyFontSize();
+          this.applyToggleSetting('animations', this.settings.animations);
+          this.applyToggleSetting('particles', this.settings.particles);
+          this.applyToggleSetting('reducedMotion', this.settings.reducedMotion);
+          this.applyToggleSetting('highContrast', this.settings.highContrast);
+          console.log('All settings applied');
+        },
+        
+        applyTheme() {
+          const theme = this.settings.theme;
+          const html = document.documentElement;
+          
+          html.removeAttribute('data-theme');
+          if (theme !== 'auto') {
+            html.setAttribute('data-theme', theme);
+          }
+          
+          console.log(`Theme applied: ${theme}`);
+        },
+        
+        applyDensity() {
+          const density = this.settings.density;
+          const html = document.documentElement;
+          
+          html.removeAttribute('data-density');
+          if (density !== 'comfortable') {
+            html.setAttribute('data-density', density);
+          }
+          
+          console.log(`Density applied: ${density}`);
+        },
+        
+        applyFontSize() {
+          const fontSize = this.settings.fontSize;
+          const html = document.documentElement;
+          
+          html.removeAttribute('data-font-size');
+          if (fontSize !== 'medium') {
+            html.setAttribute('data-font-size', fontSize);
+          }
+          
+          console.log(`Font size applied: ${fontSize}`);
+        },
+        
+        applyLanguage() {
+          const language = this.settings.language;
+          const html = document.documentElement;
+          
+          if (html.lang !== language) {
+            html.lang = language;
+            console.log(`Language applied: ${language}`);
+            
+            // In a real app, you'd trigger i18n update here
+            this.showToast('Language will be updated on next page reload', 'info');
+          }
+        },
+        
+        applyToggleSetting(settingName, value) {
+          const html = document.documentElement;
+          
+          switch (settingName) {
+            case 'animations':
+              html.setAttribute('data-animations', value ? 'enabled' : 'disabled');
+              break;
+            case 'particles':
+              html.setAttribute('data-particles', value ? 'enabled' : 'disabled');
+              // Control particle canvas if it exists
+              const canvas = document.getElementById('particleCanvas');
+              if (canvas) {
+                canvas.style.opacity = value ? '0.8' : '0.2';
+              }
+              break;
+            case 'reducedMotion':
+              html.setAttribute('data-motion', value ? 'reduced' : 'normal');
+              break;
+            case 'highContrast':
+              html.setAttribute('data-contrast', value ? 'high' : 'normal');
+              break;
+          }
+          
+          console.log(`${settingName} applied: ${value}`);
+        },
+        
+        showToast(message, type = 'info') {
+          // Use the existing toast function
+          if (typeof showToast === 'function') {
+            showToast(message, type);
+          } else {
+            console.log(`Toast: ${message} (${type})`);
+          }
+        }
+      };
+      
+      // Initialize settings system
+      settingsSystem.init();
+      
+      // Make it globally available for debugging
+      window.settingsSystem = settingsSystem;
+    });
+  </script>
+
+  <!-- Support link functions -->
+  <script>
+    // Support link functions
+    function showToast(message, type = 'info') {
+      console.log('showToast called with:', message);
+      
+      // Remove any existing toasts
+      const existingToasts = document.querySelectorAll('.flow-toast');
+      existingToasts.forEach(toast => toast.remove());
+      
+      // Create a simple toast notification
+      const toast = document.createElement('div');
+      toast.className = 'flow-toast';
+      toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: linear-gradient(135deg, #4338ca, #6366f1);
+        color: white;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(67, 56, 202, 0.3);
+        z-index: 1000;
+        max-width: 300px;
+        font-family: inherit;
+        font-size: 0.875rem;
+        line-height: 1.4;
+        transform: translateX(100%);
+        opacity: 0;
+        transition: all 0.3s ease;
+      `;
+      toast.textContent = message;
+      
+      document.body.appendChild(toast);
+      
+      // Trigger animation
+      requestAnimationFrame(() => {
+        toast.style.transform = 'translateX(0)';
+        toast.style.opacity = '1';
+      });
+      
+      // Auto remove after 4 seconds
+      setTimeout(() => {
+        toast.style.transform = 'translateX(100%)';
+        toast.style.opacity = '0';
+        setTimeout(() => {
+          if (toast.parentNode) {
+            toast.remove();
+          }
+        }, 300);
+      }, 4000);
+      
+      console.log('Toast created and displayed');
+    }
+    
+    function showHelpCenter() {
+      console.log('showHelpCenter called');
+      showToast('Help Center - Coming soon! For now, use the settings panel or contact support.');
+    }
+    
+    function showContact() {
+      console.log('showContact called');
+      showToast('Contact Support: support@flow.edu or use the in-app messaging system.');
+    }
+    
+    function showSystemStatus() {
+      console.log('showSystemStatus called');
+      showToast('System Status: All systems operational ✅');
+    }
+    
+    function showAccessibility() {
+      console.log('showAccessibility called');
+      showToast('Accessibility features available in Settings panel. Press Ctrl+/ for shortcuts.');
+    }
+    
+    // Simple Quick Actions Functionality
+    function handleQuickAction(action) {
+      console.log('Quick action clicked:', action);
+      
+      try {
+        switch (action) {
+          case 'search-programs':
+            showToast('🔍 Program Search - Opening advanced search with filters for universities across Africa...');
+            setTimeout(() => {
+              window.location.href = '/students/programs.html';
+            }, 2000);
+            break;
+            
+          case 'upload-document':
+            showToast('📁 Document Upload - Opening file upload for transcripts, certificates, and more...');
+            // Create simple file input
+            const fileInput = document.createElement('input');
+            fileInput.type = 'file';
+            fileInput.multiple = true;
+            fileInput.accept = '.pdf,.jpg,.jpeg,.png';
+            fileInput.onchange = function() {
+              if (this.files.length > 0) {
+                showToast(`✅ Selected ${this.files.length} file(s) for upload. Processing...`);
+                setTimeout(() => {
+                  showToast('📤 Files uploaded successfully! Documents added to your profile.');
+                }, 2000);
+              }
+            };
+            fileInput.click();
+            break;
+            
+          case 'invite-recommender':
+            openAdvancedRecommenderForm();
+            break;
+            
+          case 'schedule-interview':
+            openAdvancedInterviewScheduler();
+            break;
+            
+          default:
+            showToast('Feature coming soon!');
+        }
+      } catch (error) {
+        console.error('Quick action error:', error);
+        showToast('❌ Something went wrong. Please try again.');
+      }
+    }
+    
+    // Advanced Recommender Form
+    function openAdvancedRecommenderForm() {
+      showToast('👥 Opening Advanced Recommender Invitation System...');
+      
+      // Create modal overlay
+      const overlay = document.createElement('div');
+      overlay.style.cssText = `
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
+        z-index: 10000; display: flex; align-items: center; justify-content: center;
+        padding: 1rem; opacity: 0; transition: opacity 0.3s ease;
+      `;
+      
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        background: white; border-radius: 16px; max-width: 700px; width: 100%;
+        max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        transform: scale(0.9) translateY(20px); transition: all 0.3s ease;
+      `;
+      
+      modal.innerHTML = `
+        <div style="padding: 2rem 2rem 1rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="margin: 0; color: #1f2937; font-size: 1.5rem; font-weight: 700;">Invite Recommender</h2>
+          <button class="close-btn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">×</button>
+        </div>
+        
+        <div style="padding: 2rem;">
+          <div class="form-section" style="margin-bottom: 2rem;">
+            <h3 style="color: #374151; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              👤 Recommender Information
+            </h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <div>
+                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Full Name *</label>
+                <input id="recName" type="text" placeholder="Dr. Jane Smith" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem; transition: border-color 0.2s;">
+              </div>
+              <div>
+                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Title/Position *</label>
+                <input id="recTitle" type="text" placeholder="Professor, Dean, Manager, etc." style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem; transition: border-color 0.2s;">
+              </div>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Email Address *</label>
+              <input id="recEmail" type="email" placeholder="jane.smith@university.edu" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem; transition: border-color 0.2s;">
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <div>
+                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Institution/Organization</label>
+                <input id="recInstitution" type="text" placeholder="University of Nairobi" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem;">
+              </div>
+              <div>
+                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Phone (optional)</label>
+                <input id="recPhone" type="tel" placeholder="+254 700 123 456" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem;">
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-section" style="margin-bottom: 2rem;">
+            <h3 style="color: #374151; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              🤝 Relationship & Context
+            </h3>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Your relationship with this person *</label>
+              <select id="recRelationship" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem;">
+                <option value="">Select relationship...</option>
+                <option value="professor">Professor/Lecturer</option>
+                <option value="advisor">Academic Advisor</option>
+                <option value="supervisor">Research Supervisor</option>
+                <option value="employer">Current/Former Employer</option>
+                <option value="manager">Direct Manager</option>
+                <option value="colleague">Professional Colleague</option>
+                <option value="mentor">Mentor</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">How long have you known them?</label>
+              <select id="recDuration" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem;">
+                <option value="">Select duration...</option>
+                <option value="less-than-1">Less than 1 year</option>
+                <option value="1-2">1-2 years</option>
+                <option value="2-5">2-5 years</option>
+                <option value="5-10">5-10 years</option>
+                <option value="more-than-10">More than 10 years</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-section" style="margin-bottom: 2rem;">
+            <h3 style="color: #374151; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              🎓 Programs & Requirements
+            </h3>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Programs to recommend for *</label>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 0.5rem; margin-top: 0.5rem;">
+                <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid #e5e7eb; border-radius: 6px; cursor: pointer;">
+                  <input type="checkbox" value="cs-masters"> Computer Science (Masters) - University of Nairobi
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid #e5e7eb; border-radius: 6px; cursor: pointer;">
+                  <input type="checkbox" value="business-mba"> Business Administration (MBA) - Lagos Business School
+                </label>
+                <label style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; border: 1px solid #e5e7eb; border-radius: 6px; cursor: pointer;">
+                  <input type="checkbox" value="engineering"> Engineering Programs - Various Universities
+                </label>
+              </div>
+            </div>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Recommendation deadline</label>
+              <input id="recDeadline" type="date" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem;">
+            </div>
+          </div>
+          
+          <div class="form-section" style="margin-bottom: 2rem;">
+            <h3 style="color: #374151; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              ✉️ Personal Message
+            </h3>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Custom message to include in invitation</label>
+              <textarea id="recMessage" rows="4" placeholder="Dear Dr. Smith, I hope this message finds you well. I am applying for graduate programs and would be honored if you could provide a recommendation letter. During our time working together on the research project..." style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem; resize: vertical;"></textarea>
+            </div>
+            
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px; border-left: 4px solid #3b82f6;">
+              <h4 style="margin: 0 0 0.5rem 0; color: #1e40af; font-size: 0.875rem;">💡 Pro Tips:</h4>
+              <ul style="margin: 0; padding-left: 1.25rem; color: #475569; font-size: 0.8rem; line-height: 1.5;">
+                <li>Remind them of specific projects or achievements</li>
+                <li>Mention the programs you're applying to and why</li>
+                <li>Include application deadlines</li>
+                <li>Thank them for their time and consideration</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div style="padding: 1rem 2rem 2rem; border-top: 1px solid #e5e7eb; display: flex; gap: 1rem; justify-content: flex-end; flex-wrap: wrap;">
+          <button class="preview-btn" style="padding: 0.75rem 1.5rem; border: 1px solid #d1d5db; background: white; color: #374151; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s;">Preview Email</button>
+          <button class="send-btn" style="padding: 0.75rem 2rem; border: none; background: linear-gradient(135deg, #4338ca, #6366f1); color: white; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; box-shadow: 0 4px 12px rgba(67, 56, 202, 0.3);">Send Invitation</button>
+        </div>
+      `;
+      
+      document.body.appendChild(overlay);
+      overlay.appendChild(modal);
+      
+      // Trigger animation
+      setTimeout(() => {
+        overlay.style.opacity = '1';
+        modal.style.transform = 'scale(1) translateY(0)';
+      }, 10);
+      
+      // Event listeners
+      modal.querySelector('.close-btn').onclick = () => {
+        overlay.style.opacity = '0';
+        modal.style.transform = 'scale(0.9) translateY(20px)';
+        setTimeout(() => overlay.remove(), 300);
+      };
+      
+      modal.querySelector('.preview-btn').onclick = () => {
+        const name = modal.querySelector('#recName').value || '[Recommender Name]';
+        const programs = Array.from(modal.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.nextSibling.textContent.trim()).join(', ');
+        const message = modal.querySelector('#recMessage').value;
+        
+        alert(`📧 Email Preview:\n\nDear ${name},\n\nOumarou has requested a recommendation letter for the following programs:\n${programs || '[Selected Programs]'}\n\n${message || '[Personal message will appear here]'}\n\nPlease click the link below to submit your recommendation.\n\nBest regards,\nFlow Education Platform`);
+      };
+      
+      modal.querySelector('.send-btn').onclick = () => {
+        const name = modal.querySelector('#recName').value;
+        const email = modal.querySelector('#recEmail').value;
+        const relationship = modal.querySelector('#recRelationship').value;
+        const programs = modal.querySelectorAll('input[type="checkbox"]:checked');
+        
+        if (!name || !email || !relationship || programs.length === 0) {
+          showToast('❌ Please fill in all required fields (Name, Email, Relationship, and at least one Program)');
+          return;
+        }
+        
+        if (!email.includes('@')) {
+          showToast('❌ Please enter a valid email address');
+          return;
+        }
+        
+        showToast('📧 Sending invitation...');
+        setTimeout(() => {
+          showToast(`✅ Recommendation invitation sent to ${name} (${email})! They will receive detailed instructions and have access to upload their letter directly to your applications.`);
+          overlay.style.opacity = '0';
+          modal.style.transform = 'scale(0.9) translateY(20px)';
+          setTimeout(() => overlay.remove(), 300);
+        }, 2000);
+      };
+      
+      // Close on overlay click
+      overlay.onclick = (e) => {
+        if (e.target === overlay) {
+          overlay.style.opacity = '0';
+          modal.style.transform = 'scale(0.9) translateY(20px)';
+          setTimeout(() => overlay.remove(), 300);
+        }
+      };
+    }
+    
+    // Advanced Interview Scheduler
+    function openAdvancedInterviewScheduler() {
+      showToast('📅 Opening Advanced Interview Scheduler...');
+      
+      // Create modal overlay
+      const overlay = document.createElement('div');
+      overlay.style.cssText = `
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px);
+        z-index: 10000; display: flex; align-items: center; justify-content: center;
+        padding: 1rem; opacity: 0; transition: opacity 0.3s ease;
+      `;
+      
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        background: white; border-radius: 16px; max-width: 800px; width: 100%;
+        max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        transform: scale(0.9) translateY(20px); transition: all 0.3s ease;
+      `;
+      
+      // Generate available time slots for the next 2 weeks
+      const timeSlots = generateTimeSlots();
+      const interviewers = [
+        { id: 'dr_smith', name: 'Dr. Sarah Smith', title: 'Admissions Director', avatar: '👩‍🏫', expertise: 'Computer Science', availability: 'high' },
+        { id: 'prof_johnson', name: 'Prof. Michael Johnson', title: 'Department Head', avatar: '👨‍💼', expertise: 'Business Administration', availability: 'medium' },
+        { id: 'dr_okonkwo', name: 'Dr. Amina Okonkwo', title: 'Senior Lecturer', avatar: '👩‍🔬', expertise: 'Engineering', availability: 'high' },
+        { id: 'mr_hassan', name: 'Mr. David Hassan', title: 'International Admissions', avatar: '👨‍💻', expertise: 'General Programs', availability: 'low' }
+      ];
+      
+      modal.innerHTML = `
+        <div style="padding: 2rem 2rem 1rem; border-bottom: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
+          <h2 style="margin: 0; color: #1f2937; font-size: 1.5rem; font-weight: 700;">Schedule Interview</h2>
+          <button class="close-btn" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #6b7280; width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center;">×</button>
+        </div>
+        
+        <div style="padding: 2rem;">
+          <div class="form-section" style="margin-bottom: 2rem;">
+            <h3 style="color: #374151; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              🎓 Program & Interview Details
+            </h3>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Select Program *</label>
+              <select id="interviewProgram" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem;">
+                <option value="">Choose your program...</option>
+                <option value="cs-masters">Computer Science (Masters) - University of Nairobi</option>
+                <option value="business-mba">Business Administration (MBA) - Lagos Business School</option>
+                <option value="data-science">Data Science (Masters) - University of Cape Town</option>
+                <option value="engineering">Engineering Programs - Various Universities</option>
+                <option value="medicine">Medicine (MBBS) - Makerere University</option>
+              </select>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+              <div>
+                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Interview Type *</label>
+                <select id="interviewType" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem;">
+                  <option value="">Select type...</option>
+                  <option value="video">Video Call (Zoom/Teams)</option>
+                  <option value="phone">Phone Interview</option>
+                  <option value="in-person">In-Person Meeting</option>
+                </select>
+              </div>
+              <div>
+                <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Duration</label>
+                <select id="interviewDuration" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem;">
+                  <option value="30">30 minutes</option>
+                  <option value="45" selected>45 minutes</option>
+                  <option value="60">1 hour</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-section" style="margin-bottom: 2rem;">
+            <h3 style="color: #374151; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              👥 Select Interviewer
+            </h3>
+            
+            <div class="interviewer-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem;">
+              ${interviewers.map(interviewer => `
+                <label class="interviewer-card" data-interviewer="${interviewer.id}" style="
+                  border: 2px solid #e5e7eb; border-radius: 12px; padding: 1rem; cursor: pointer; 
+                  transition: all 0.2s; text-align: center; position: relative;
+                  ${interviewer.availability === 'low' ? 'opacity: 0.6;' : ''}
+                ">
+                  <input type="radio" name="interviewer" value="${interviewer.id}" style="position: absolute; opacity: 0;">
+                  <div style="font-size: 2rem; margin-bottom: 0.5rem;">${interviewer.avatar}</div>
+                  <div style="font-weight: 600; color: #1f2937; font-size: 0.875rem; margin-bottom: 0.25rem;">${interviewer.name}</div>
+                  <div style="color: #6b7280; font-size: 0.75rem; margin-bottom: 0.25rem;">${interviewer.title}</div>
+                  <div style="color: #3b82f6; font-size: 0.75rem; font-weight: 500;">${interviewer.expertise}</div>
+                  <div style="margin-top: 0.5rem; font-size: 0.7rem;">
+                    <span style="
+                      background: ${interviewer.availability === 'high' ? '#10b981' : interviewer.availability === 'medium' ? '#f59e0b' : '#ef4444'}; 
+                      color: white; padding: 0.2rem 0.5rem; border-radius: 12px;
+                    ">
+                      ${interviewer.availability === 'high' ? '✅ Available' : interviewer.availability === 'medium' ? '⚠️ Limited' : '❌ Busy'}
+                    </span>
+                  </div>
+                </label>
+              `).join('')}
+            </div>
+          </div>
+          
+          <div class="form-section" style="margin-bottom: 2rem;">
+            <h3 style="color: #374151; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              📅 Available Time Slots
+            </h3>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Week Selection</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <button class="week-btn active" data-week="1" style="padding: 0.5rem 1rem; border: 2px solid #4338ca; background: #4338ca; color: white; border-radius: 6px; cursor: pointer; font-size: 0.875rem; transition: all 0.2s;">This Week</button>
+                <button class="week-btn" data-week="2" style="padding: 0.5rem 1rem; border: 2px solid #e5e7eb; background: white; color: #374151; border-radius: 6px; cursor: pointer; font-size: 0.875rem; transition: all 0.2s;">Next Week</button>
+              </div>
+            </div>
+            
+            <div class="time-slots-container" style="
+              display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+              gap: 0.5rem; max-height: 300px; overflow-y: auto; padding: 1rem; 
+              background: #f8fafc; border-radius: 8px;
+            ">
+              ${timeSlots.slice(0, 12).map(slot => `
+                <button class="time-slot" data-slot="${slot.datetime}" style="
+                  padding: 0.75rem; border: 1px solid #d1d5db; background: white; 
+                  border-radius: 6px; cursor: pointer; font-size: 0.75rem; 
+                  transition: all 0.2s; text-align: center;
+                  ${slot.available ? '' : 'opacity: 0.4; cursor: not-allowed;'}
+                " ${slot.available ? '' : 'disabled'}>
+                  <div style="font-weight: 600; color: #1f2937;">${slot.day}</div>
+                  <div style="color: #6b7280;">${slot.date}</div>
+                  <div style="color: #3b82f6; font-weight: 500;">${slot.time}</div>
+                  ${!slot.available ? '<div style="color: #ef4444; font-size: 0.6rem;">Booked</div>' : ''}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+          
+          <div class="form-section" style="margin-bottom: 1rem;">
+            <h3 style="color: #374151; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+              💬 Interview Preparation
+            </h3>
+            
+            <div style="margin-bottom: 1rem;">
+              <label style="display: block; margin-bottom: 0.5rem; color: #374151; font-weight: 500;">Message to interviewer (optional)</label>
+              <textarea id="interviewMessage" rows="3" placeholder="Hi Dr. Smith, I'm excited about this interview opportunity. I'd like to discuss my research background in AI and how it aligns with your program..." style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem; resize: vertical;"></textarea>
+            </div>
+            
+            <div style="background: #f0f9ff; padding: 1rem; border-radius: 8px; border-left: 4px solid #0ea5e9;">
+              <h4 style="margin: 0 0 0.5rem 0; color: #0c4a6e; font-size: 0.875rem;">📋 Interview Preparation Tips:</h4>
+              <ul style="margin: 0; padding-left: 1.25rem; color: #0c4a6e; font-size: 0.8rem; line-height: 1.5;">
+                <li>Review your application materials and personal statement</li>
+                <li>Research the program and faculty members</li>
+                <li>Prepare questions about the curriculum and opportunities</li>
+                <li>Test your technology if it's a video interview</li>
+                <li>Have copies of your documents ready</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div style="padding: 1rem 2rem 2rem; border-top: 1px solid #e5e7eb; display: flex; gap: 1rem; justify-content: flex-end; flex-wrap: wrap;">
+          <button class="calendar-btn" style="padding: 0.75rem 1.5rem; border: 1px solid #d1d5db; background: white; color: #374151; border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.2s;">View My Calendar</button>
+          <button class="schedule-btn" style="padding: 0.75rem 2rem; border: none; background: linear-gradient(135deg, #059669, #10b981); color: white; border-radius: 8px; cursor: pointer; font-weight: 600; transition: all 0.2s; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);">Schedule Interview</button>
+        </div>
+      `;
+      
+      document.body.appendChild(overlay);
+      overlay.appendChild(modal);
+      
+      // Trigger animation
+      setTimeout(() => {
+        overlay.style.opacity = '1';
+        modal.style.transform = 'scale(1) translateY(0)';
+      }, 10);
+      
+      // Event listeners for interviewer selection
+      modal.querySelectorAll('.interviewer-card').forEach(card => {
+        card.addEventListener('click', () => {
+          modal.querySelectorAll('.interviewer-card').forEach(c => c.style.borderColor = '#e5e7eb');
+          card.style.borderColor = '#4338ca';
+          card.style.background = 'rgba(67, 56, 202, 0.02)';
+        });
+      });
+      
+      // Time slot selection
+      modal.querySelectorAll('.time-slot').forEach(slot => {
+        slot.addEventListener('click', (e) => {
+          if (!e.target.disabled) {
+            modal.querySelectorAll('.time-slot').forEach(s => {
+              s.style.borderColor = '#d1d5db';
+              s.style.background = 'white';
+            });
+            slot.style.borderColor = '#059669';
+            slot.style.background = 'rgba(5, 150, 105, 0.1)';
+          }
+        });
+      });
+      
+      // Week selection
+      modal.querySelectorAll('.week-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          modal.querySelectorAll('.week-btn').forEach(b => {
+            b.style.borderColor = '#e5e7eb';
+            b.style.background = 'white';
+            b.style.color = '#374151';
+            b.classList.remove('active');
+          });
+          btn.style.borderColor = '#4338ca';
+          btn.style.background = '#4338ca';
+          btn.style.color = 'white';
+          btn.classList.add('active');
+          
+          // Update time slots based on week selection
+          const week = btn.getAttribute('data-week');
+          const startIndex = week === '1' ? 0 : 12;
+          const weekSlots = timeSlots.slice(startIndex, startIndex + 12);
+          
+          modal.querySelector('.time-slots-container').innerHTML = weekSlots.map(slot => `
+            <button class="time-slot" data-slot="${slot.datetime}" style="
+              padding: 0.75rem; border: 1px solid #d1d5db; background: white; 
+              border-radius: 6px; cursor: pointer; font-size: 0.75rem; 
+              transition: all 0.2s; text-align: center;
+              ${slot.available ? '' : 'opacity: 0.4; cursor: not-allowed;'}
+            " ${slot.available ? '' : 'disabled'}>
+              <div style="font-weight: 600; color: #1f2937;">${slot.day}</div>
+              <div style="color: #6b7280;">${slot.date}</div>
+              <div style="color: #3b82f6; font-weight: 500;">${slot.time}</div>
+              ${!slot.available ? '<div style="color: #ef4444; font-size: 0.6rem;">Booked</div>' : ''}
+            </button>
+          `).join('');
+          
+          // Re-add event listeners to new slots
+          modal.querySelectorAll('.time-slot').forEach(slot => {
+            slot.addEventListener('click', (e) => {
+              if (!e.target.disabled) {
+                modal.querySelectorAll('.time-slot').forEach(s => {
+                  s.style.borderColor = '#d1d5db';
+                  s.style.background = 'white';
+                });
+                slot.style.borderColor = '#059669';
+                slot.style.background = 'rgba(5, 150, 105, 0.1)';
+              }
+            });
+          });
+        });
+      });
+      
+      // Button event listeners
+      modal.querySelector('.close-btn').onclick = () => {
+        overlay.style.opacity = '0';
+        modal.style.transform = 'scale(0.9) translateY(20px)';
+        setTimeout(() => overlay.remove(), 300);
+      };
+      
+      modal.querySelector('.calendar-btn').onclick = () => {
+        showToast('📅 Opening integrated calendar with all your scheduled interviews, application deadlines, and important dates - Coming soon!');
+      };
+      
+      modal.querySelector('.schedule-btn').onclick = () => {
+        const program = modal.querySelector('#interviewProgram').value;
+        const type = modal.querySelector('#interviewType').value;
+        const interviewer = modal.querySelector('input[name="interviewer"]:checked');
+        const selectedSlot = modal.querySelector('.time-slot[style*="border-color: rgb(5, 150, 105)"]');
+        
+        if (!program) {
+          showToast('❌ Please select a program');
+          return;
+        }
+        if (!type) {
+          showToast('❌ Please select interview type');
+          return;
+        }
+        if (!interviewer) {
+          showToast('❌ Please select an interviewer');
+          return;
+        }
+        if (!selectedSlot) {
+          showToast('❌ Please select a time slot');
+          return;
+        }
+        
+        const interviewerData = interviewers.find(i => i.id === interviewer.value);
+        const slotDateTime = selectedSlot.getAttribute('data-slot');
+        const message = modal.querySelector('#interviewMessage').value;
+        
+        showToast('📅 Scheduling your interview...');
+        setTimeout(() => {
+          showToast(`✅ Interview scheduled successfully!\n\n📋 Details:\n• Program: ${program}\n• Interviewer: ${interviewerData.name}\n• Date/Time: ${slotDateTime}\n• Type: ${type}\n\nYou will receive confirmation emails with meeting details shortly.`);
+          overlay.style.opacity = '0';
+          modal.style.transform = 'scale(0.9) translateY(20px)';
+          setTimeout(() => overlay.remove(), 300);
+        }, 2000);
+      };
+      
+      // Close on overlay click
+      overlay.onclick = (e) => {
+        if (e.target === overlay) {
+          overlay.style.opacity = '0';
+          modal.style.transform = 'scale(0.9) translateY(20px)';
+          setTimeout(() => overlay.remove(), 300);
+        }
+      };
+    }
+    
+    // Helper function to generate time slots
+    function generateTimeSlots() {
+      const slots = [];
+      const today = new Date();
+      const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const times = ['9:00 AM', '10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM'];
+      
+      for (let week = 0; week < 2; week++) {
+        for (let day = 1; day <= 7; day++) {
+          if (day === 6 || day === 7) continue; // Skip weekends
+          
+          const date = new Date(today.getTime() + ((week * 7) + day) * 24 * 60 * 60 * 1000);
+          times.forEach((time, timeIndex) => {
+            const available = Math.random() > 0.3; // 70% chance of being available
+            slots.push({
+              datetime: date.toISOString().split('T')[0] + ' ' + time,
+              day: daysOfWeek[date.getDay()],
+              date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+              time: time,
+              available: available
+            });
+          });
+        }
+      }
+      
+      return slots;
+    }
+    
+    // Initialize Quick Actions with simple event listeners
+    function initializeQuickActions() {
+      console.log('Initializing quick actions...');
+      
+      try {
+        const quickActions = document.querySelectorAll('[data-action]');
+        console.log('Found quick action buttons:', quickActions.length);
+        
+        quickActions.forEach((button, index) => {
+          console.log(`Setting up button ${index + 1}:`, button.getAttribute('data-action'));
+          
+          // Remove any existing listeners
+          const newButton = button.cloneNode(true);
+          button.parentNode.replaceChild(newButton, button);
+          
+          // Add simple click handler
+          newButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const action = this.getAttribute('data-action');
+            console.log('Button clicked:', action);
+            handleQuickAction(action);
+          });
+          
+          // Add simple hover effects
+          newButton.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.transition = 'transform 0.2s ease';
+          });
+          
+          newButton.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+          });
+        });
+        
+        console.log('Quick actions initialized successfully');
+      } catch (error) {
+        console.error('Error initializing quick actions:', error);
+      }
+    }
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeQuickActions);
+    } else {
+      initializeQuickActions();
+    }
+    
+    // Make sure these functions are globally available
+    window.showHelpCenter = showHelpCenter;
+    window.showContact = showContact;
+    window.showSystemStatus = showSystemStatus;
+    window.showAccessibility = showAccessibility;
+  </script>
+
+  <!-- Flow Cookie Consent System -->
+  <script src="/assets/js/cookie-consent.js"></script>
+</body>
+</html>

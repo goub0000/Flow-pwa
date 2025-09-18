@@ -1,0 +1,22 @@
+/* /assets/css/get-started.css */
+.cards--grid,
+.cards.cards--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.card h2 { margin-top: 0; }
+
+.card a.btn {
+  margin-top: .5rem;
+  width: max-content;
+}
+
+form.card {
+  display: grid;
+  gap: .75rem;
+  max-width: 560px;
+}
+
+select#role { min-height: 44px; }

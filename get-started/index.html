@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title data-i18n-title="modal.chooseAccountType">Flow — Choose your account type</title>
+  <meta name="description" content="Pick your role to start: Student, Institution, Counselor, Parent, or Recommender." />
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Core styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/get-started.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link" data-i18n="accessibility.skipToContent">Skip to content</a>
+
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <div class="logo-glow">
+          <img src="/assets/img/logo.png" alt="Flow logo" class="brand__logo" />
+        </div>
+        <span class="brand__name">Flow</span>
+      </a>
+
+      <form class="lang-switch" aria-label="Language selector">
+        <label for="lang" class="sr-only" data-i18n="accessibility.selectLanguage">Language</label>
+        <select id="lang" name="lang">
+          <option value="en" selected>English</option>
+          <option value="fr">Français</option>
+          <option value="ar" dir="rtl">العربية</option>
+          <option value="sw">Kiswahili</option>
+          <option value="es">Español</option>
+        </select>
+      </form>
+
+      <nav class="nav" role="navigation" aria-label="Main navigation">
+        <button class="nav__toggle"
+                aria-expanded="false"
+                aria-controls="navMenu"
+                type="button"
+                data-i18n="accessibility.toggleMenu"
+                data-i18n-attrs='{"aria-label":"accessibility.toggleMenu"}'>
+          Menu
+        </button>
+        <ul id="navMenu" class="nav__list">
+          <li><a href="/" data-i18n="nav.home">Home</a></li>
+          <li><a href="/students/" data-i18n="nav.students">Students</a></li>
+          <li><a href="/institutions/" data-i18n="nav.institutions">Institutions</a></li>
+          <li><a href="/counselors/" data-i18n="nav.counselors">Counselors</a></li>
+          <li><a href="/parents/" data-i18n="nav.parents">Parents</a></li>
+          <li><a href="/recommenders/" data-i18n="nav.recommenders">Recommenders</a></li>
+          <li><a class="btn btn--primary nav-login" href="/auth/" data-i18n="auth.signIn">Sign In</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section" aria-labelledby="chooseTitle" style="padding-top:2rem">
+      <div class="container">
+        <nav aria-label="Breadcrumb" style="margin-bottom:1rem">
+          <ol style="list-style:none;display:flex;gap:.35rem;margin:0;padding:0;color:#6b7280">
+            <li><a href="/" data-i18n="nav.home" style="text-decoration:none">Home</a></li>
+            <li aria-hidden="true">/</li>
+            <li><strong data-i18n="nav.getStarted">Get Started</strong></li>
+          </ol>
+        </nav>
+
+        <header class="prose" style="margin-bottom:1rem">
+          <h1 id="chooseTitle" data-i18n="modal.chooseAccountType">Choose account type</h1>
+          <p data-i18n="modal.subtitle">Select the option that best describes you</p>
+        </header>
+
+        <div class="cards cards--grid">
+          <!-- Student -->
+          <article class="card" aria-labelledby="studentTitle">
+            <h2 id="studentTitle" data-i18n="modal.student">Student</h2>
+            <p data-i18n="modal.student.desc">Create a profile, discover programs, apply once, track everywhere.</p>
+            <a class="btn btn--primary" href="/students/onboarding.html" rel="nofollow" data-i18n="btn.continue">Continue</a>
+          </article>
+
+          <!-- Institution -->
+          <article class="card" aria-labelledby="instTitle">
+            <h2 id="instTitle" data-i18n="modal.institution">Institution</h2>
+            <p data-i18n="modal.institution.desc">Review applicants, manage programs, analyze metrics.</p>
+            <a class="btn btn--primary" href="/institutions/onboarding.html" rel="nofollow" data-i18n="btn.continue">Continue</a>
+          </article>
+
+          <!-- Counselor -->
+          <article class="card" aria-labelledby="counTitle">
+            <h2 id="counTitle" data-i18n="modal.counselor">Counselor</h2>
+            <p data-i18n="modal.counselor.desc">Support multiple students and track their progress.</p>
+            <a class="btn btn--primary" href="/counselors/onboarding.html" rel="nofollow" data-i18n="btn.continue">Continue</a>
+          </article>
+
+          <!-- Parent -->
+          <article class="card" aria-labelledby="parentTitle">
+            <h2 id="parentTitle" data-i18n="modal.parent">Parent / Guardian</h2>
+            <p data-i18n="modal.parent.desc">View your child's progress and approve key steps.</p>
+            <a class="btn btn--primary" href="/parents/onboarding.html" rel="nofollow" data-i18n="btn.continue">Continue</a>
+          </article>
+
+          <!-- Recommender -->
+          <article class="card" aria-labelledby="recTitle">
+            <h2 id="recTitle" data-i18n="modal.recommender">Recommender</h2>
+            <p data-i18n="modal.recommender.desc">Securely upload recommendation letters.</p>
+            <a class="btn btn--primary" href="/recommenders/onboarding.html" rel="nofollow" data-i18n="btn.continue">Continue</a>
+          </article>
+        </div>
+
+        <!-- Quick chooser (no extra JS required) -->
+        <form class="card" aria-labelledby="quickTitle" style="margin-top:2rem">
+          <h2 id="quickTitle" data-i18n="modal.chooseAccountType">Choose account type</h2>
+          <label for="role" data-i18n="modal.chooseAccountType">Choose account type</label>
+          <select id="role" name="role">
+            <option value="/students/onboarding.html" data-i18n="modal.student">Student</option>
+            <option value="/institutions/onboarding.html" data-i18n="modal.institution">Institution</option>
+            <option value="/counselors/onboarding.html" data-i18n="modal.counselor">Counselor</option>
+            <option value="/parents/onboarding.html" data-i18n="modal.parent">Parent / Guardian</option>
+            <option value="/recommenders/onboarding.html" data-i18n="modal.recommender">Recommender</option>
+          </select>
+          <button class="btn btn--secondary" type="button"
+                  onclick="try{location.href=document.getElementById('role').value;}catch(e){}"
+                  data-i18n="btn.continue">
+            Continue
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo" aria-label="Site footer">
+    <div class="container footer__grid">
+      <section class="footer__brand">
+        <img src="/assets/img/logo.png" alt="" class="footer__logo" />
+        <p class="footer__tagline" data-i18n="footer.tagline">Connecting learners and institutions across Africa.</p>
+      </section>
+
+      <nav aria-label="Explore" class="footer__nav">
+        <h3 class="footer__title" data-i18n="footer.explore">Explore</h3>
+        <ul>
+          <li><a href="/students/" data-i18n="nav.students">Students</a></li>
+          <li><a href="/institutions/" data-i18n="nav.institutions">Institutions</a></li>
+          <li><a href="/counselors/" data-i18n="nav.counselors">Counselors</a></li>
+          <li><a href="/parents/" data-i18n="nav.parents">Parents</a></li>
+          <li><a href="/recommenders/" data-i18n="nav.recommenders">Recommenders</a></li>
+        </ul>
+      </nav>
+
+      <nav aria-label="Legal" class="footer__nav">
+        <h3 class="footer__title" data-i18n="footer.legal">Legal</h3>
+        <ul>
+          <li><a href="/legal/terms.html" data-i18n="footer.terms">Terms</a></li>
+          <li><a href="/legal/privacy.html" data-i18n="footer.privacy">Privacy</a></li>
+          <li><a href="/legal/cookies.html" data-i18n="footer.cookies">Cookies</a></li>
+        </ul>
+      </nav>
+
+      <section class="footer__cta">
+        <h3 class="footer__title" data-i18n="auth.signIn">Sign In</h3>
+        <a href="/auth/" class="btn btn--primary" data-i18n="auth.signIn">Sign In</a>
+      </section>
+    </div>
+
+    <div class="footer__meta">
+      <div class="container">
+        <small>© <span id="year"></span> Flow</small>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function(){ try { document.getElementById('year').textContent = new Date().getFullYear(); } catch(e){} })();
+  </script>
+
+  <!-- Keep script order consistent with the home page -->
+  <script src="/assets/js/auth.js" defer></script>
+  <script src="/assets/js/i18n.js" defer></script>
+  <script src="/assets/js/main.js" defer></script>
+</body>
+</html>

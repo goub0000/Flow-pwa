@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Flow Community - Connect with educators, students, and institutions in our vibrant educational community." />
+  <meta name="theme-color" content="#373896" />
+  <title>Community — Flow Education Platform</title>
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/institutions.css" />
+  
+  <style>
+    /* Community Page Styles */
+    .community-hero {
+      background: linear-gradient(135deg, #5a5bb8 0%, #6b6ce8 100%);
+      color: white;
+      padding: 4rem 0;
+      text-align: center;
+    }
+    
+    .hero-content h1 {
+      color: white;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero-content p {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 3rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .stat {
+      text-align: center;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      min-width: 150px;
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    
+    /* Quick Actions */
+    .quick-actions {
+      padding: 3rem 0;
+      background: #f8fafc;
+    }
+    
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .action-card {
+      background: white;
+      border: none;
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .action-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+      border-color: #5a5bb8;
+    }
+    
+    .action-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    
+    .action-card h3 {
+      color: #1f2937;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .action-card p {
+      color: #6b7280;
+      margin: 0;
+    }
+    
+    /* Discussions */
+    .discussions-grid {
+      display: grid;
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .discussion-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+    
+    .discussion-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      border-color: #5a5bb8;
+    }
+    
+    .discussion-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .discussion-avatar img {
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+    }
+    
+    .discussion-meta h3 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.25rem;
+    }
+    
+    .discussion-meta h3 a {
+      color: #1f2937;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    
+    .discussion-meta h3 a:hover {
+      color: #5a5bb8;
+    }
+    
+    .discussion-meta p {
+      margin: 0.5rem 0;
+      color: #6b7280;
+      font-size: 0.95rem;
+    }
+    
+    .discussion-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+    
+    .tag {
+      background: #e0e7ff;
+      color: #5a5bb8;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    .discussion-preview {
+      margin: 1rem 0;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+    
+    .discussion-stats {
+      display: flex;
+      gap: 1.5rem;
+      color: #6b7280;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+    
+    /* Events */
+    .events-grid {
+      display: grid;
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .event-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+    
+    .event-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      border-color: #5a5bb8;
+    }
+    
+    .event-date {
+      background: #5a5bb8;
+      color: white;
+      padding: 1rem;
+      border-radius: 12px;
+      text-align: center;
+      min-width: 80px;
+    }
+    
+    .event-month {
+      font-size: 0.85rem;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+    
+    .event-day {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 0.25rem;
+    }
+    
+    .event-content {
+      flex: 1;
+    }
+    
+    .event-content h3 {
+      color: #1f2937;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .event-content p {
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    
+    .event-meta p {
+      margin: 0.25rem 0;
+      font-size: 0.9rem;
+      color: #4b5563;
+    }
+    
+    /* Groups */
+    .groups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .group-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+    
+    .group-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.15);
+      border-color: #5a5bb8;
+    }
+    
+    .group-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    
+    .group-card h3 {
+      color: #1f2937;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .group-card p {
+      color: #6b7280;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    .group-stats {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      color: #4b5563;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+    
+    /* Resources */
+    .resources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .resource-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+    
+    .resource-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      border-color: #5a5bb8;
+    }
+    
+    .resource-type {
+      background: #22c55e;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    
+    .resource-card h3 {
+      color: #1f2937;
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .resource-card p {
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    
+    .resource-meta {
+      display: flex;
+      justify-content: space-between;
+      margin: 1rem 0;
+      color: #4b5563;
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    /* Section Actions */
+    .section-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      
+      .hero-stats {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      
+      .actions-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .event-card {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .groups-grid,
+      .resources-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Skip Link -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Site header -->
+  <header class="header" role="banner">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+      
+      <nav class="nav" role="navigation">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="/students/" class="nav__link">🎓 Students</a></li>
+          <li class="nav__item"><a href="/institutions/" class="nav__link">🏛️ Institutions</a></li>
+          <li class="nav__item"><a href="/counselors/" class="nav__link">💼 Counselors</a></li>
+          <li class="nav__item"><a href="/parents/" class="nav__link">👨‍👩‍👧‍👦 Parents</a></li>
+          <li class="nav__item"><a href="/blog/" class="nav__link">📰 Updates</a></li>
+        </ul>
+      </nav>
+
+      <div class="community-nav">
+        <a href="#discussions" class="community-nav__link">Discussions</a>
+        <a href="#events" class="community-nav__link">Events</a>
+        <a href="#resources" class="community-nav__link">Resources</a>
+        <a href="#groups" class="community-nav__link">Groups</a>
+      </div>
+      
+      <div class="header__actions">
+        <div class="lang-switch">
+          <button class="lang-switch__btn" onclick="toggleLanguage()" aria-label="Switch language">
+            <span class="lang-switch__flag">🇺🇸</span>
+            <span class="lang-switch__text">EN</span>
+          </button>
+        </div>
+        <a href="/auth/" class="btn btn--primary btn--sm">Sign In</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main id="main" role="main">
+    <!-- Community Hero -->
+    <section class="community-hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>🌟 Welcome to the Flow Community</h1>
+          <p>Connect with educators, students, and institutions from around the world. Share knowledge, collaborate on projects, and advance education together.</p>
+          <div class="hero-stats">
+            <div class="stat">
+              <div class="stat-number">12,847</div>
+              <div class="stat-label">Community Members</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">3,492</div>
+              <div class="stat-label">Active Discussions</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">156</div>
+              <div class="stat-label">Educational Institutions</div>
+            </div>
+          </div>
+          <button class="btn btn--primary" onclick="joinCommunity()">🚀 Join the Community</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+      <div class="container">
+        <div class="actions-grid">
+          <button class="action-card" onclick="startDiscussion()">
+            <div class="action-icon">💬</div>
+            <h3>Start Discussion</h3>
+            <p>Share ideas and ask questions</p>
+          </button>
+          <button class="action-card" onclick="findGroups()">
+            <div class="action-icon">👥</div>
+            <h3>Find Groups</h3>
+            <p>Join topic-based communities</p>
+          </button>
+          <button class="action-card" onclick="browseEvents()">
+            <div class="action-icon">📅</div>
+            <h3>Upcoming Events</h3>
+            <p>Attend webinars and workshops</p>
+          </button>
+          <button class="action-card" onclick="shareResource()">
+            <div class="action-icon">📚</div>
+            <h3>Share Resources</h3>
+            <p>Contribute educational materials</p>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Discussions -->
+    <section id="discussions" class="section">
+      <div class="container">
+        <header class="section__header">
+          <h2>🔥 Trending Discussions</h2>
+          <p>Join the conversation on today's most engaging education topics</p>
+        </header>
+
+        <div class="discussions-grid">
+          <article class="discussion-card">
+            <div class="discussion-header">
+              <div class="discussion-avatar">
+                <img src="/assets/img/avatars/educator1.jpg" alt="Dr. Sarah Chen" width="40" height="40">
+              </div>
+              <div class="discussion-meta">
+                <h3><a href="#" onclick="viewDiscussion('ai-education')">The Future of AI in Education: Opportunities and Challenges</a></h3>
+                <p>Started by <strong>Dr. Sarah Chen</strong> • 2 hours ago</p>
+                <div class="discussion-tags">
+                  <span class="tag">AI</span>
+                  <span class="tag">Technology</span>
+                  <span class="tag">Future</span>
+                </div>
+              </div>
+            </div>
+            <div class="discussion-preview">
+              <p>How can we leverage AI tools while maintaining the human element in education? Let's discuss the balance between innovation and traditional teaching methods...</p>
+            </div>
+            <div class="discussion-stats">
+              <span>💬 24 replies</span>
+              <span>❤️ 18 likes</span>
+              <span>👥 12 participants</span>
+            </div>
+          </article>
+
+          <article class="discussion-card">
+            <div class="discussion-header">
+              <div class="discussion-avatar">
+                <img src="/assets/img/avatars/counselor1.jpg" alt="Michael Rodriguez" width="40" height="40">
+              </div>
+              <div class="discussion-meta">
+                <h3><a href="#" onclick="viewDiscussion('student-stress')">Supporting Student Mental Health During Application Season</a></h3>
+                <p>Started by <strong>Michael Rodriguez</strong> • 5 hours ago</p>
+                <div class="discussion-tags">
+                  <span class="tag">Mental Health</span>
+                  <span class="tag">Counseling</span>
+                  <span class="tag">Support</span>
+                </div>
+              </div>
+            </div>
+            <div class="discussion-preview">
+              <p>What strategies have you found effective for helping students manage stress and anxiety during the college application process? Sharing resources and techniques...</p>
+            </div>
+            <div class="discussion-stats">
+              <span>💬 31 replies</span>
+              <span>❤️ 45 likes</span>
+              <span>👥 19 participants</span>
+            </div>
+          </article>
+
+          <article class="discussion-card">
+            <div class="discussion-header">
+              <div class="discussion-avatar">
+                <img src="/assets/img/avatars/admin1.jpg" alt="Jennifer Park" width="40" height="40">
+              </div>
+              <div class="discussion-meta">
+                <h3><a href="#" onclick="viewDiscussion('diversity-admissions')">Best Practices for Inclusive Admissions Processes</a></h3>
+                <p>Started by <strong>Jennifer Park</strong> • 1 day ago</p>
+                <div class="discussion-tags">
+                  <span class="tag">Diversity</span>
+                  <span class="tag">Admissions</span>
+                  <span class="tag">Best Practices</span>
+                </div>
+              </div>
+            </div>
+            <div class="discussion-preview">
+              <p>How can institutions create more inclusive admissions processes that support diversity while maintaining fairness? Looking for practical strategies and success stories...</p>
+            </div>
+            <div class="discussion-stats">
+              <span>💬 67 replies</span>
+              <span>❤️ 92 likes</span>
+              <span>👥 34 participants</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="section-actions">
+          <button class="btn btn--secondary" onclick="viewAllDiscussions()">View All Discussions</button>
+          <button class="btn btn--primary" onclick="startDiscussion()">Start New Discussion</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Upcoming Events -->
+    <section id="events" class="section">
+      <div class="container">
+        <header class="section__header">
+          <h2>📅 Upcoming Events</h2>
+          <p>Join webinars, workshops, and networking events</p>
+        </header>
+
+        <div class="events-grid">
+          <article class="event-card">
+            <div class="event-date">
+              <div class="event-month">FEB</div>
+              <div class="event-day">15</div>
+            </div>
+            <div class="event-content">
+              <h3>🎯 Webinar: Modern Admissions Strategies</h3>
+              <p>Learn about data-driven approaches to student recruitment and selection in the digital age.</p>
+              <div class="event-meta">
+                <p>📅 February 15, 2024 • 🕐 2:00 PM EST • 👥 245 registered</p>
+                <p>🎤 Hosted by Dr. Amanda Wilson, Harvard University</p>
+              </div>
+              <button class="btn btn--primary" onclick="registerEvent('admissions-strategies')">Register Free</button>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="event-date">
+              <div class="event-month">FEB</div>
+              <div class="event-day">22</div>
+            </div>
+            <div class="event-content">
+              <h3>🛠️ Workshop: Building Effective Student Support Systems</h3>
+              <p>Hands-on workshop for counselors and student success professionals.</p>
+              <div class="event-meta">
+                <p>📅 February 22, 2024 • 🕐 11:00 AM EST • 👥 89 registered</p>
+                <p>🎤 Led by the Student Success Coalition</p>
+              </div>
+              <button class="btn btn--primary" onclick="registerEvent('support-systems')">Register Free</button>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="event-date">
+              <div class="event-month">MAR</div>
+              <div class="event-day">05</div>
+            </div>
+            <div class="event-content">
+              <h3>🌐 Virtual Conference: The Future of Higher Education</h3>
+              <p>Two-day virtual conference exploring trends, challenges, and innovations in higher education.</p>
+              <div class="event-meta">
+                <p>📅 March 5-6, 2024 • 🕐 Full Day Event • 👥 1,247 registered</p>
+                <p>🎤 Featuring 20+ speakers from leading institutions</p>
+              </div>
+              <button class="btn btn--primary" onclick="registerEvent('future-conference')">Register $49</button>
+            </div>
+          </article>
+        </div>
+
+        <div class="section-actions">
+          <button class="btn btn--secondary" onclick="viewAllEvents()">View All Events</button>
+          <button class="btn btn--primary" onclick="hostEvent()">Host an Event</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community Groups -->
+    <section id="groups" class="section">
+      <div class="container">
+        <header class="section__header">
+          <h2>👥 Community Groups</h2>
+          <p>Join specialized groups based on your interests and expertise</p>
+        </header>
+
+        <div class="groups-grid">
+          <article class="group-card">
+            <div class="group-icon">🎓</div>
+            <h3>Admissions Professionals</h3>
+            <p>Network and share best practices with admissions officers from institutions worldwide.</p>
+            <div class="group-stats">
+              <span>👥 2,847 members</span>
+              <span>💬 156 discussions</span>
+            </div>
+            <button class="btn btn--primary" onclick="joinGroup('admissions-pros')">Join Group</button>
+          </article>
+
+          <article class="group-card">
+            <div class="group-icon">🧠</div>
+            <h3>Student Counselors</h3>
+            <p>Support network for high school and college counselors helping students navigate their educational journey.</p>
+            <div class="group-stats">
+              <span>👥 1,923 members</span>
+              <span>💬 203 discussions</span>
+            </div>
+            <button class="btn btn--primary" onclick="joinGroup('counselors')">Join Group</button>
+          </article>
+
+          <article class="group-card">
+            <div class="group-icon">🔬</div>
+            <h3>STEM Education</h3>
+            <p>Educators and professionals focused on science, technology, engineering, and mathematics education.</p>
+            <div class="group-stats">
+              <span>👥 3,156 members</span>
+              <span>💬 287 discussions</span>
+            </div>
+            <button class="btn btn--primary" onclick="joinGroup('stem-education')">Join Group</button>
+          </article>
+
+          <article class="group-card">
+            <div class="group-icon">🌍</div>
+            <h3>International Education</h3>
+            <p>Connect with professionals working in international education, study abroad, and global partnerships.</p>
+            <div class="group-stats">
+              <span>👥 1,534 members</span>
+              <span>💬 124 discussions</span>
+            </div>
+            <button class="btn btn--primary" onclick="joinGroup('international-ed')">Join Group</button>
+          </article>
+        </div>
+
+        <div class="section-actions">
+          <button class="btn btn--secondary" onclick="viewAllGroups()">Browse All Groups</button>
+          <button class="btn btn--primary" onclick="createGroup()">Create New Group</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Community Resources -->
+    <section id="resources" class="section">
+      <div class="container">
+        <header class="section__header">
+          <h2>📚 Shared Resources</h2>
+          <p>Access and contribute educational resources shared by the community</p>
+        </header>
+
+        <div class="resources-grid">
+          <article class="resource-card">
+            <div class="resource-type">📊 Template</div>
+            <h3>Student Assessment Rubric</h3>
+            <p>Comprehensive rubric template for evaluating student applications across multiple criteria.</p>
+            <div class="resource-meta">
+              <span>👤 Dr. Maria Santos</span>
+              <span>⭐ 4.8/5 (24 reviews)</span>
+              <span>📥 342 downloads</span>
+            </div>
+            <button class="btn btn--primary" onclick="downloadResource('assessment-rubric')">Download Free</button>
+          </article>
+
+          <article class="resource-card">
+            <div class="resource-type">📖 Guide</div>
+            <h3>First-Generation Student Support Guide</h3>
+            <p>Complete guide for supporting first-generation college students throughout their educational journey.</p>
+            <div class="resource-meta">
+              <span>👤 Student Success Network</span>
+              <span>⭐ 4.9/5 (67 reviews)</span>
+              <span>📥 1,234 downloads</span>
+            </div>
+            <button class="btn btn--primary" onclick="downloadResource('first-gen-guide')">Download Free</button>
+          </article>
+
+          <article class="resource-card">
+            <div class="resource-type">🎥 Video</div>
+            <h3>Inclusive Admissions Training Series</h3>
+            <p>Video training series on creating more inclusive and equitable admissions processes.</p>
+            <div class="resource-meta">
+              <span>👤 Diversity & Inclusion Institute</span>
+              <span>⭐ 4.7/5 (89 reviews)</span>
+              <span>👀 2,456 views</span>
+            </div>
+            <button class="btn btn--primary" onclick="watchResource('inclusive-training')">Watch Free</button>
+          </article>
+        </div>
+
+        <div class="section-actions">
+          <button class="btn btn--secondary" onclick="browseResources()">Browse All Resources</button>
+          <button class="btn btn--primary" onclick="shareResource()">Share Resource</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer__inner">
+      <div class="footer__grid">
+        <div class="footer__section">
+          <h3 class="footer__title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+              <path d="M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5"/>
+            </svg>
+            For Students
+          </h3>
+          <ul class="footer__list">
+            <li><a href="/students/" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+              Dashboard
+            </a></li>
+            <li><a href="/students/applications.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+              </svg>
+              Applications
+            </a></li>
+            <li><a href="/students/programs.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              Programs
+            </a></li>
+            <li><a href="/students/profile.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+              Profile
+            </a></li>
+          </ul>
+        </div>
+        
+        <div class="footer__section">
+          <h3 class="footer__title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+              <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
+            </svg>
+            For Institutions
+          </h3>
+          <ul class="footer__list">
+            <li><a href="/institutions/" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+              Dashboard
+            </a></li>
+            <li><a href="/institutions/programs.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              Programs
+            </a></li>
+            <li><a href="/institutions/admissions.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+              </svg>
+              Admissions
+            </a></li>
+            <li><a href="/institutions/reports.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+              </svg>
+              Reports
+            </a></li>
+            <li><a href="/institutions/messages.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              Messages
+            </a></li>
+          </ul>
+        </div>
+        
+        <div class="footer__section">
+          <h3 class="footer__title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+              <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm2 10a2 2 0 1 1 2-2 2 2 0 0 1-2 2z"/>
+            </svg>
+            Support
+          </h3>
+          <ul class="footer__list">
+            <li><a href="/institutions/help.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
+              </svg>
+              Help Center
+            </a></li>
+            <li><a href="/contact/" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              Contact
+            </a></li>
+            <li><a href="/legal/privacy.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+              </svg>
+              Privacy
+            </a></li>
+            <li><a href="/legal/terms.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+              </svg>
+              Terms
+            </a></li>
+          </ul>
+        </div>
+        
+        <div class="footer__section">
+          <h3 class="footer__title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+              <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H16c-.8 0-1.54.37-2.01.99L10 14v8h2v-8l2.5-2.5V22h2zm-7.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S11 9.17 11 10s.67 1.5 1.5 1.5zM5.5 6c1.11 0 2-.89 2-2s-.89-2-2-2-2 .89-2 2 .89 2 2 2zm1.5 4h-2c-.8 0-1.54.37-2.01.99L.5 15H3v7h2v-7l2.5-2.5V22h2v-8L7 10z"/>
+            </svg>
+            Connect
+          </h3>
+          <ul class="footer__list">
+            <li><a href="/institutions/messages.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              Messages
+            </a></li>
+            <li><a href="/community/" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H16c-.8 0-1.54.37-2.01.99L10 14v8h2v-8l2.5-2.5V22h2zm-7.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S11 9.17 11 10s.67 1.5 1.5 1.5zM5.5 6c1.11 0 2-.89 2-2s-.89-2-2-2-2 .89-2 2 .89 2 2 2zm1.5 4h-2c-.8 0-1.54.37-2.01.99L.5 15H3v7h2v-7l2.5-2.5V22h2v-8L7 10z"/>
+              </svg>
+              Community
+            </a></li>
+            <li><a href="/blog/" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+              Updates
+            </a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer__bottom">
+        <div class="footer__copyright">
+          © 2024 Flow Education Platform. All rights reserved.
+        </div>
+        <button onclick="scrollToTop()" class="footer__logo" aria-label="Scroll to top">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5"/>
+          </svg>
+          <span>Flow</span>
+        </button>
+        <div class="footer__status">
+          <span class="footer__status-dot"></span>
+          <span>All systems operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    console.log('Community page loaded');
+    
+    window.scrollToTop = function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    window.toggleLanguage = function() {
+      alert('🌐 Language Selection\n\nLanguage switching functionality would be implemented here.\n\nSupported languages:\n• English (EN) - Current\n• Spanish (ES)\n• French (FR)\n• German (DE)\n• Mandarin (ZH)');
+    }
+    
+    window.joinCommunity = function() {
+      alert('🚀 Join the Flow Community\n\nWelcome to our vibrant educational community! You now have access to:\n\n• Discussion forums\n• Professional groups\n• Educational events\n• Shared resources\n• Networking opportunities\n\nStart by joining a group that matches your interests!');
+    }
+    
+    window.startDiscussion = function() {
+      const topic = prompt('💬 Start New Discussion\n\nWhat would you like to discuss with the community?');
+      if (topic) {
+        alert('✅ Discussion Created!\n\nTopic: "' + topic + '"\n\nYour discussion has been posted to the community. Members will be able to participate and share their insights.\n\nDiscussion ID: #DISC-' + Math.random().toString(36).substr(2, 6).toUpperCase());
+      }
+    }
+    
+    window.findGroups = function() {
+      alert('👥 Find Groups\n\nExplore our community groups:\n\n🎓 Admissions Professionals (2,847 members)\n🧠 Student Counselors (1,923 members)\n🔬 STEM Education (3,156 members)\n🌍 International Education (1,534 members)\n🎨 Arts & Humanities (892 members)\n📊 Education Technology (2,134 members)\n\nWhich group interests you most?');
+    }
+    
+    window.browseEvents = function() {
+      alert('📅 Upcoming Events\n\nFeb 15: Modern Admissions Strategies Webinar\nFeb 22: Student Support Systems Workshop\nMar 5-6: Future of Higher Education Conference\nMar 12: International Students Panel\nMar 19: Technology in Education Summit\n\nAll events are free unless otherwise noted!');
+    }
+    
+    window.shareResource = function() {
+      const resource = prompt('📚 Share Resource\n\nWhat educational resource would you like to share with the community?\n\n(e.g., Template, Guide, Video, Article, Tool)');
+      if (resource) {
+        alert('📚 Resource Shared!\n\nResource: "' + resource + '"\n\nThank you for contributing to our community resource library! Your resource will be reviewed and published within 24 hours.\n\nResource ID: #RES-' + Math.random().toString(36).substr(2, 6).toUpperCase());
+      }
+    }
+    
+    window.viewDiscussion = function(id) {
+      const discussions = {
+        'ai-education': 'The Future of AI in Education: Opportunities and Challenges\n\nThis discussion explores how AI tools can enhance learning while preserving human connection in education.',
+        'student-stress': 'Supporting Student Mental Health During Application Season\n\nSharing strategies and resources for helping students manage stress during college applications.',
+        'diversity-admissions': 'Best Practices for Inclusive Admissions Processes\n\nDiscussing practical approaches to creating more inclusive and equitable admissions.'
+      };
+      
+      const content = discussions[id] || 'Discussion not found';
+      alert('💬 ' + content);
+    }
+    
+    window.registerEvent = function(event) {
+      const events = {
+        'admissions-strategies': 'Modern Admissions Strategies Webinar',
+        'support-systems': 'Student Support Systems Workshop', 
+        'future-conference': 'The Future of Higher Education Conference'
+      };
+      
+      const eventName = events[event] || 'Event';
+      alert('📅 Event Registration\n\n✅ Successfully registered for: ' + eventName + '\n\nConfirmation email sent!\nYou\'ll receive event details and access link 24 hours before the event.\n\nRegistration ID: #EVT-' + Math.random().toString(36).substr(2, 6).toUpperCase());
+    }
+    
+    window.joinGroup = function(group) {
+      const groups = {
+        'admissions-pros': 'Admissions Professionals',
+        'counselors': 'Student Counselors',
+        'stem-education': 'STEM Education',
+        'international-ed': 'International Education'
+      };
+      
+      const groupName = groups[group] || 'Community Group';
+      alert('👥 Joined Group!\n\nWelcome to the ' + groupName + ' group!\n\nYou now have access to:\n• Group discussions\n• Member directory\n• Exclusive resources\n• Group events\n\nStart participating in discussions to connect with fellow members!');
+    }
+    
+    window.downloadResource = function(resource) {
+      alert('📥 Resource Download\n\nDownloading educational resource...\n\nIn a real implementation, this would download the requested resource file.\n\nThank you for using our community resources!');
+    }
+    
+    window.watchResource = function(resource) {
+      alert('🎥 Video Resource\n\nOpening video resource...\n\nIn a real implementation, this would open the video in a player or redirect to the video platform.');
+    }
+    
+    // Generic handlers for section actions
+    window.viewAllDiscussions = function() { alert('💬 Viewing all community discussions...'); }
+    window.viewAllEvents = function() { alert('📅 Viewing all upcoming events...'); }
+    window.viewAllGroups = function() { alert('👥 Browsing all community groups...'); }
+    window.browseResources = function() { alert('📚 Browsing all shared resources...'); }
+    window.hostEvent = function() { alert('📅 Host an Event\n\nInterested in hosting a community event? Contact us at events@flow.edu'); }
+    window.createGroup = function() { alert('👥 Create New Group\n\nTo create a new community group, please contact our community team at community@flow.edu'); }
+  </script>
+</body>
+</html>

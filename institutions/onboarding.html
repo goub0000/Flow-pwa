@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flow — Institution Onboarding</title>
+  <meta name="description" content="Create your institution account with Flow's advanced onboarding system" />
+  <meta name="theme-color" content="#373896" />
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/institutions-onboarding.css" />
+  
+  <style>
+    /* Complete override to match institution dashboard theme */
+    body {
+      background: #ffffff !important;
+      color: #000000 !important;
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;
+    }
+
+    .cosmic-background {
+      background: #ffffff !important;
+    }
+
+    /* Remove cosmic effects for clean institutional look */
+    .stars,
+    .nebula-1,
+    .nebula-2 {
+      display: none !important;
+    }
+
+    /* Header styling to match institution dashboard */
+    .futuristic-header {
+      background: rgba(255, 255, 255, 0.95) !important;
+      backdrop-filter: blur(10px) !important;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .futuristic-header:hover {
+      background: rgba(255, 255, 255, 0.98) !important;
+    }
+
+    /* Text colors to match dashboard - no bold fonts */
+    .brand-text,
+    .step-indicator,
+    .welcome-title,
+    .welcome-description,
+    .step-title,
+    .step-description,
+    h1, h2, h3, h4, h5, h6,
+    p, span, div {
+      color: #000000 !important;
+      font-weight: normal !important;
+    }
+
+    /* Muted text */
+    .welcome-description,
+    .step-description,
+    .help-btn {
+      color: #6b7280 !important;
+    }
+
+    /* Primary color elements to match dashboard blue */
+    .gradient-text {
+      background: linear-gradient(135deg, #5a5bb8 0%, #4c4db8 100%) !important;
+      -webkit-background-clip: text !important;
+      -webkit-text-fill-color: transparent !important;
+    }
+
+    /* Welcome card styling to match dashboard cards */
+    .welcome-card {
+      background: #ffffff !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+      border-radius: 16px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .welcome-card:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 8px 24px rgba(90, 91, 184, 0.15) !important;
+    }
+
+    .card-glow {
+      display: none !important;
+    }
+
+    /* Steps navigation cards to match dashboard styling */
+    .step-card,
+    .step-item {
+      background: #ffffff !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+      border-radius: 16px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .step-card:hover,
+    .step-item:hover {
+      border-color: #5a5bb8 !important;
+      box-shadow: 0 8px 24px rgba(90, 91, 184, 0.15) !important;
+      transform: translateY(-2px) !important;
+    }
+
+    /* Step status indicators */
+    .step-status {
+      background: #f9fafb !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      color: #6b7280 !important;
+    }
+
+    .step-status.completed {
+      background: #5a5bb8 !important;
+      color: white !important;
+    }
+    
+    .step-status.current {
+      background: #5a5bb8 !important;
+      color: white !important;
+    }
+    
+    /* Progress bar */
+    .progress-bar {
+      background: #f9fafb !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .progress-fill {
+      background: linear-gradient(135deg, #5a5bb8 0%, #f5b942 100%) !important;
+    }
+    
+    .progress-glow {
+      display: none !important;
+    }
+    
+    /* Primary Buttons - matching institution dashboard blue theme */
+    .btn,
+    .primary-btn,
+    .continue-btn,
+    .next-btn,
+    .submit-btn,
+    .start-btn {
+      background: #5a5bb8 !important;
+      color: white !important;
+      border: none !important;
+      border-radius: 8px !important;
+      padding: 0.75rem 1.5rem !important;
+      transition: all 0.3s ease !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    }
+
+    .btn:hover,
+    .primary-btn:hover,
+    .continue-btn:hover,
+    .next-btn:hover,
+    .submit-btn:hover,
+    .start-btn:hover {
+      background: #4c4db8 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 12px rgba(76, 77, 184, 0.3) !important;
+      color: white !important;
+    }
+    
+    /* Secondary Buttons - matching dashboard style */
+    .secondary-btn,
+    .back-btn,
+    .skip-btn {
+      background: #ffffff !important;
+      color: #000000 !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      border-radius: 8px !important;
+      padding: 0.75rem 1.5rem !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .secondary-btn:hover,
+    .back-btn:hover,
+    .skip-btn:hover {
+      border-color: #5a5bb8 !important;
+      color: #5a5bb8 !important;
+      background: #f9fafb !important;
+      transform: translateY(-2px) !important;
+    }
+    
+    /* Form elements - matching dashboard input styling */
+    .form-group input,
+    .form-group select,
+    .form-group textarea,
+    .language-select {
+      background: #ffffff !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      color: #000000 !important;
+      border-radius: 8px !important;
+      padding: 0.75rem !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus,
+    .language-select:focus {
+      border-color: #5a5bb8 !important;
+      box-shadow: 0 0 0 3px rgba(90, 91, 184, 0.1) !important;
+      outline: none !important;
+    }
+    
+    /* Icons */
+    .welcome-icon,
+    .step-icon {
+      color: #5a5bb8 !important;
+    }
+    
+    /* Help button */
+    .help-btn {
+      background: #f9fafb !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      color: #6b7280 !important;
+    }
+    
+    .help-btn:hover {
+      background: #5a5bb8 !important;
+      color: white !important;
+    }
+    
+    /* Form labels and inputs - matching dashboard styling */
+    .form-group label,
+    .form-label,
+    .input-label {
+      color: #374151 !important;
+      font-weight: normal !important;
+      margin-bottom: 0.5rem !important;
+      display: block !important;
+    }
+
+    /* Placeholder text */
+    .form-group input::placeholder,
+    .form-group textarea::placeholder,
+    .form-group select::placeholder {
+      color: #9ca3af !important;
+    }
+
+    /* Option text in selects */
+    .form-group option,
+    .language-select option {
+      color: #000000 !important;
+      background: #ffffff !important;
+    }
+
+    /* Content text - ensure proper contrast */
+    .step-card .step-content,
+    .welcome-card .welcome-content,
+    .card-content,
+    .form-content {
+      color: #000000 !important;
+    }
+    
+    /* Status badges and indicators with light backgrounds */
+    .badge,
+    .tag,
+    .pill {
+      background: #f9fafb !important;
+      color: #374151 !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      border-radius: 6px !important;
+      padding: 0.25rem 0.75rem !important;
+    }
+
+    .badge.active,
+    .tag.active,
+    .pill.active {
+      background: #5a5bb8 !important;
+      color: white !important;
+      border-color: #5a5bb8 !important;
+    }
+
+    /* Progress indicators */
+    .progress-bar {
+      background: #f3f4f6 !important;
+      border-radius: 4px !important;
+    }
+
+    .progress-fill {
+      background: #5a5bb8 !important;
+      border-radius: 4px !important;
+    }
+
+    /* Additional elements to ensure consistency */
+    .notification,
+    .alert {
+      background: #ffffff !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      color: #000000 !important;
+      border-radius: 8px !important;
+    }
+
+    /* Override any bold fonts from external CSS */
+    * {
+      font-weight: normal !important;
+    }
+
+    /* Set base font weight and family */
+    body, html {
+      font-weight: normal !important;
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif !important;
+    }
+
+    /* Ensure all elements inherit the correct font */
+    *, *::before, *::after {
+      font-family: inherit !important;
+    }
+
+    /* Specifically ensure button text is not bold */
+    .btn,
+    .btn span,
+    button,
+    button span {
+      font-weight: normal !important;
+    }
+
+    /* Ensure all text content is not bold */
+    .welcome-title,
+    .step-title,
+    .step-content h3,
+    .review-section h4,
+    .form-actions button,
+    .help-btn {
+      font-weight: normal !important;
+    }
+
+    .notification.success {
+      border-color: #22c55e !important;
+      background: #f0f9ff !important;
+    }
+
+    .notification.error {
+      border-color: #ef4444 !important;
+      background: #fef2f2 !important;
+    }
+
+    .notification.warning {
+      border-color: #f59e0b !important;
+      background: #fffbeb !important;
+    }
+    
+    /* Remove all glowing effects */
+    .logo-glow::before,
+    .logo-glow::after,
+    .card-glow,
+    .step-glow,
+    .neon-border,
+    .cyber-glow {
+      display: none !important;
+    }
+    
+    /* Override any remaining dark backgrounds */
+    .modal,
+    .dropdown,
+    .tooltip,
+    .popup {
+      background: #ffffff !important;
+      border: 1px solid rgba(0, 0, 0, 0.1) !important;
+      color: #0a0a0a !important;
+    }
+    
+    /* Footer Styling - matching dashboard gradient */
+    .footer {
+      background: linear-gradient(135deg, #5a5bb8, #6b6ce8) !important;
+      border-top: none !important;
+      margin-top: 4rem !important;
+      position: relative !important;
+      overflow: hidden !important;
+      color: white !important;
+    }
+
+    .footer::before {
+      display: none !important;
+    }
+
+    .footer__inner {
+      max-width: 1200px !important;
+      margin: 0 auto !important;
+      padding: 3rem 2rem 2rem !important;
+    }
+
+    .footer__grid {
+      display: grid !important;
+      grid-template-columns: 2fr repeat(3, 1fr) !important;
+      gap: 3rem !important;
+      margin-bottom: 3rem !important;
+    }
+
+    .footer__brand {
+      display: flex !important;
+      align-items: flex-start !important;
+      gap: 1rem !important;
+    }
+
+    .footer__logo svg {
+      width: 48px !important;
+      height: 48px !important;
+      flex-shrink: 0 !important;
+    }
+
+    .footer__brand-text {
+      flex: 1 !important;
+    }
+
+    .footer__brand-name {
+      font-size: 1.5rem !important;
+      font-weight: normal !important;
+      color: white !important;
+      margin-bottom: 0.5rem !important;
+    }
+
+    .footer__tagline {
+      color: white !important;
+      font-size: 0.9rem !important;
+      font-weight: normal !important;
+      line-height: 1.4 !important;
+    }
+
+    .footer__section {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+
+    .footer__title {
+      font-size: 1.1rem !important;
+      font-weight: normal !important;
+      color: white !important;
+      margin-bottom: 1.5rem !important;
+      position: relative !important;
+    }
+
+    .footer__title::after {
+      content: '' !important;
+      position: absolute !important;
+      bottom: -0.5rem !important;
+      left: 0 !important;
+      width: 30px !important;
+      height: 2px !important;
+      background: #5a5bb8 !important;
+      border-radius: 1px !important;
+    }
+
+    .footer__links {
+      list-style: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.75rem !important;
+    }
+
+    .footer__links a {
+      color: white !important;
+      text-decoration: none !important;
+      font-weight: normal !important;
+      transition: all 0.2s ease !important;
+      padding: 0.25rem 0 !important;
+      border-radius: 4px !important;
+      display: flex !important;
+      align-items: center !important;
+    }
+
+    .footer__links a:hover {
+      color: rgba(255, 255, 255, 0.8) !important;
+      transform: translateX(4px) !important;
+    }
+
+    .footer__links a:hover svg {
+      transform: scale(1.1) !important;
+      filter: drop-shadow(0 2px 4px rgba(90, 91, 184, 0.2)) !important;
+    }
+
+    .footer__bottom {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding-top: 2rem !important;
+      border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+      flex-wrap: wrap !important;
+      gap: 1rem !important;
+    }
+
+    .footer__copyright {
+      color: white !important;
+      font-size: 0.85rem !important;
+      font-weight: normal !important;
+    }
+
+    .footer__status {
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.5rem !important;
+      color: white !important;
+      font-size: 0.85rem !important;
+      font-weight: normal !important;
+    }
+
+    .footer__status-dot {
+      width: 8px !important;
+      height: 8px !important;
+      border-radius: 50% !important;
+      background: #22c55e !important;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.4) !important;
+      animation: pulse 2s infinite !important;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Footer responsive design */
+    @media (max-width: 768px) {
+      .footer__grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+        text-align: center !important;
+      }
+
+      .footer__brand {
+        justify-content: center !important;
+        text-align: center !important;
+      }
+
+      .footer__bottom {
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 1rem !important;
+      }
+
+      .footer__inner {
+        padding: 2rem 1rem !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Futuristic Background -->
+  <div class="cosmic-background">
+    <div class="stars"></div>
+    <div class="nebula nebula-1"></div>
+    <div class="nebula nebula-2"></div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="futuristic-header">
+      <div class="header-content">
+        <div class="brand">
+          <a href="/" class="logo-link" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit;">
+            <div class="logo-glow">
+              <img src="/assets/img/logo.png" alt="Flow" width="40" height="40" />
+            </div>
+            <span class="brand-text">Flow</span>
+          </a>
+        </div>
+        
+        <div class="progress-display">
+          <div class="progress-info">
+            <span class="step-indicator">Step 1 of 7</span>
+            <div class="progress-bar">
+              <div class="progress-fill" style="--progress: 14%"></div>
+              <div class="progress-glow"></div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="header-controls">
+          <select class="language-select" aria-label="Language">
+            <option value="en">English</option>
+            <option value="fr">Français</option>
+            <option value="ar">العربية</option>
+            <option value="sw">Kiswahili</option>
+            <option value="ha">Hausa</option>
+            <option value="yo">Yoruba</option>
+            <option value="ig">Igbo</option>
+            <option value="zu">Zulu</option>
+            <option value="am">Amharic</option>
+          </select>
+          <button class="help-btn" aria-label="Help">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.1"/>
+              <circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M9 9a3 3 0 0 1 6 0c0 1.5-1.5 2.5-3 3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="12" cy="17" r="1" fill="currentColor"/>
+              <circle cx="15" cy="6" r="1" fill="#22c55e" opacity="0.8"/>
+              <circle cx="9" cy="18" r="0.8" fill="#3b82f6" opacity="0.6"/>
+              <path d="M18 10c0.5-0.5 1-1 1.5-1.5M6 14c-0.5 0.5-1 1-1.5 1.5" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-container">
+        
+        <!-- Welcome Card -->
+        <div class="welcome-card">
+          <div class="card-glow"></div>
+          <div class="welcome-content">
+            <div class="welcome-icon">
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="none">
+                <defs>
+                  <linearGradient id="buildingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#5a5bb8"/>
+                    <stop offset="100%" style="stop-color:#f5b942"/>
+                  </linearGradient>
+                </defs>
+                <!-- Main building structure -->
+                <rect x="2" y="6" width="20" height="16" rx="1" fill="url(#buildingGradient)" stroke="currentColor" stroke-width="1.2"/>
+                <!-- Building floors -->
+                <path d="M2 10h20M2 14h20M2 18h20" stroke="white" stroke-width="0.8" opacity="0.6"/>
+                <!-- Windows -->
+                <rect x="4" y="8" width="1.5" height="1.5" fill="white" opacity="0.9" rx="0.2"/>
+                <rect x="6.5" y="8" width="1.5" height="1.5" fill="white" opacity="0.9" rx="0.2"/>
+                <rect x="9" y="8" width="1.5" height="1.5" fill="white" opacity="0.9" rx="0.2"/>
+                <rect x="13.5" y="8" width="1.5" height="1.5" fill="white" opacity="0.9" rx="0.2"/>
+                <rect x="16" y="8" width="1.5" height="1.5" fill="white" opacity="0.9" rx="0.2"/>
+                <rect x="18.5" y="8" width="1.5" height="1.5" fill="white" opacity="0.9" rx="0.2"/>
+                <!-- Second floor windows -->
+                <rect x="4" y="12" width="1.5" height="1.5" fill="white" opacity="0.9" rx="0.2"/>
+                <rect x="6.5" y="12" width="1.5" height="1.5" fill="white" opacity="0.9" rx="0.2"/>
+                <rect x="13.5" y="12" width="1.5" height="1.5" fill="white" opacity="0.9" rx="0.2"/>
+                <rect x="16" y="12" width="1.5" height="1.5" fill="white" opacity="0.9" rx="0.2"/>
+                <rect x="18.5" y="12" width="1.5" height="1.5" fill="white" opacity="0.9" rx="0.2"/>
+                <!-- Main entrance -->
+                <rect x="9" y="16" width="6" height="6" fill="white" opacity="0.95" rx="0.5"/>
+                <rect x="10" y="17" width="4" height="4" fill="url(#buildingGradient)" opacity="0.8" rx="0.3"/>
+                <!-- Entrance steps -->
+                <rect x="8" y="21" width="8" height="1" fill="#22c55e" opacity="0.8"/>
+                <!-- Roof elements -->
+                <polygon points="2,6 12,2 22,6" fill="#374151" opacity="0.7"/>
+                <!-- Flag pole -->
+                <rect x="11.8" y="1" width="0.4" height="5" fill="#374151"/>
+                <rect x="12.2" y="2" width="2" height="1.2" fill="#22c55e"/>
+                <!-- Campus elements -->
+                <circle cx="1" cy="20" r="1.5" fill="#22c55e" opacity="0.6"/>
+                <circle cx="23" cy="20" r="1.5" fill="#22c55e" opacity="0.6"/>
+                <!-- Excellence badge -->
+                <circle cx="19" cy="5" r="1.5" fill="#f59e0b"/>
+                <path d="M18.3 5l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+              </svg>
+            </div>
+            <h1 class="welcome-title">
+              Complete Your
+              <span class="gradient-text">Institution Setup</span>
+            </h1>
+            <p class="welcome-description">
+              Join Africa's leading educational platform. Our guided setup process will have you managing applications in minutes.
+            </p>
+          </div>
+        </div>
+
+        <!-- Steps Navigation -->
+        <div class="steps-navigation">
+          <div class="steps-grid">
+            
+            <div class="step-card active">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h3 class="step-title">Welcome</h3>
+                <p class="step-description">Get started with Flow</p>
+              </div>
+              <div class="step-status">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                  <defs>
+                    <linearGradient id="welcomeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#5a5bb8"/>
+                      <stop offset="100%" style="stop-color:#f5b942"/>
+                    </linearGradient>
+                  </defs>
+                  <circle cx="12" cy="12" r="10" fill="url(#welcomeGradient)" opacity="0.9"/>
+                  <path d="M12 6v6l4 2" stroke="white" stroke-width="1.5" fill="none"/>
+                  <circle cx="8" cy="9" r="1.5" fill="white" opacity="0.8"/>
+                  <circle cx="16" cy="9" r="1.5" fill="white" opacity="0.8"/>
+                  <path d="M9 15c0.5 1 1.5 2 3 2s2.5-1 3-2" stroke="white" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                  <circle cx="12" cy="4" r="1" fill="#22c55e"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h3 class="step-title">Institution Info</h3>
+                <p class="step-description">Basic details about your institution</p>
+              </div>
+              <div class="step-status">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="#f9fafb" stroke="#5a5bb8" stroke-width="1.5"/>
+                  <rect x="7" y="6" width="10" height="12" rx="1" fill="none" stroke="#5a5bb8" stroke-width="1.2"/>
+                  <path d="M9 9h6M9 11h4M9 13h5" stroke="#5a5bb8" stroke-width="0.8"/>
+                  <circle cx="15" cy="8" r="1.5" fill="#22c55e" opacity="0.8"/>
+                  <path d="M14.3 8l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+                  <rect x="8" y="15" width="8" height="1" fill="#f5b942" opacity="0.6"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h3 class="step-title">Verification</h3>
+                <p class="step-description">Verify your institution</p>
+              </div>
+              <div class="step-status">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="#f9fafb" stroke="#5a5bb8" stroke-width="1.5"/>
+                  <rect x="8" y="7" width="8" height="10" rx="1" fill="none" stroke="#5a5bb8" stroke-width="1.2"/>
+                  <path d="M10 10h4M10 12h3M10 14h4" stroke="#5a5bb8" stroke-width="0.8"/>
+                  <circle cx="12" cy="5" r="1.5" fill="#f59e0b"/>
+                  <path d="M11.3 5l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+                  <rect x="9" y="15" width="6" height="0.8" fill="#ef4444" opacity="0.6"/>
+                  <circle cx="18" cy="8" r="2" fill="#22c55e" opacity="0.8"/>
+                  <path d="M17.2 8l0.5 0.5 0.8-1" stroke="white" stroke-width="0.8" fill="none"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h3 class="step-title">Programs</h3>
+                <p class="step-description">Set up your academic programs</p>
+              </div>
+              <div class="step-status">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="#f9fafb" stroke="#5a5bb8" stroke-width="1.5"/>
+                  <rect x="6" y="7" width="12" height="10" rx="1" fill="none" stroke="#5a5bb8" stroke-width="1.2"/>
+                  <path d="M8 10h8M8 12h6M8 14h7" stroke="#5a5bb8" stroke-width="0.8"/>
+                  <circle cx="16" cy="9" r="1.5" fill="#22c55e" opacity="0.8"/>
+                  <path d="M15.3 9l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+                  <rect x="7" y="15" width="10" height="0.8" fill="#8b5cf6" opacity="0.6"/>
+                  <circle cx="4" cy="10" r="1" fill="#f59e0b"/>
+                  <circle cx="20" cy="14" r="1" fill="#3b82f6"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">5</div>
+              <div class="step-content">
+                <h3 class="step-title">Team</h3>
+                <p class="step-description">Invite your team members</p>
+              </div>
+              <div class="step-status">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="#f9fafb" stroke="#5a5bb8" stroke-width="1.5"/>
+                  <circle cx="8" cy="9" r="2.5" fill="none" stroke="#5a5bb8" stroke-width="1.2"/>
+                  <circle cx="16" cy="9" r="2.5" fill="none" stroke="#5a5bb8" stroke-width="1.2"/>
+                  <circle cx="12" cy="15" r="2.5" fill="none" stroke="#5a5bb8" stroke-width="1.2"/>
+                  <circle cx="8" cy="9" r="1.2" fill="#22c55e"/>
+                  <circle cx="16" cy="9" r="1.2" fill="#3b82f6"/>
+                  <circle cx="12" cy="15" r="1.2" fill="#f59e0b"/>
+                  <path d="M10 11l2 2M14 11l-2 2" stroke="#5a5bb8" stroke-width="0.8"/>
+                  <circle cx="20" cy="6" r="1.5" fill="#ef4444"/>
+                  <text x="20" y="6.5" text-anchor="middle" font-size="2" fill="white" font-weight="normal">3</text>
+                </svg>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">6</div>
+              <div class="step-content">
+                <h3 class="step-title">Settings</h3>
+                <p class="step-description">Configure your preferences</p>
+              </div>
+              <div class="step-status">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="#f9fafb" stroke="#5a5bb8" stroke-width="1.5"/>
+                  <circle cx="12" cy="12" r="3" fill="none" stroke="#5a5bb8" stroke-width="1.2"/>
+                  <path d="M12 1v6m0 8v6m11-7h-6m-8 0H1" stroke="#5a5bb8" stroke-width="1"/>
+                  <circle cx="12" cy="12" r="1.5" fill="#f59e0b"/>
+                  <circle cx="18" cy="8" r="1" fill="#22c55e"/>
+                  <circle cx="6" cy="16" r="1" fill="#3b82f6"/>
+                  <circle cx="16" cy="16" r="1" fill="#ef4444"/>
+                  <path d="M15 9l2-2m-10 8l2-2" stroke="#5a5bb8" stroke-width="0.8"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="step-card">
+              <div class="step-number">7</div>
+              <div class="step-content">
+                <h3 class="step-title">Launch</h3>
+                <p class="step-description">Go live and start managing applications</p>
+              </div>
+              <div class="step-status">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="#f9fafb" stroke="#5a5bb8" stroke-width="1.5"/>
+                  <polygon points="8,6 8,18 18,12" fill="#22c55e"/>
+                  <circle cx="12" cy="12" r="1" fill="white"/>
+                  <path d="M6 4l2 2M6 20l2-2M18 4l-2 2M18 20l-2-2" stroke="#f59e0b" stroke-width="1.2"/>
+                  <circle cx="4" cy="12" r="1.5" fill="#3b82f6"/>
+                  <circle cx="20" cy="12" r="1.5" fill="#ef4444"/>
+                  <path d="M10 8l4 4M14 8l-4 4" stroke="white" stroke-width="0.8"/>
+                  <circle cx="12" cy="4" r="1" fill="#8b5cf6"/>
+                </svg>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="action-section">
+          <button class="btn btn-primary">
+            <span>Begin Setup</span>
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+              <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="18" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+              <path d="M16.5 12l1 0.5 1-0.5-1-0.5z" fill="white"/>
+              <circle cx="8" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+              <circle cx="11" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+              <circle cx="14" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+              <path d="M4 8l2 2M4 16l2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+            </svg>
+          </button>
+          <button class="btn btn-secondary">
+            <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M9 9a3 3 0 0 1 6 0c0 1.5-1.5 2-3 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              <circle cx="12" cy="17" r="1" fill="currentColor"/>
+              <circle cx="12" cy="6" r="1.5" fill="#3b82f6"/>
+              <path d="M4 12l8-8M20 12l-8-8" stroke="#22c55e" stroke-width="0.8" opacity="0.6"/>
+              <circle cx="18" cy="6" r="1" fill="#f59e0b"/>
+              <circle cx="6" cy="18" r="1" fill="#ef4444"/>
+            </svg>
+            <span>Need Help?</span>
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="/assets/js/countries.js" defer></script>
+  <script src="/assets/js/test-auth-bypass.js" defer></script>
+  <script>
+    // Onboarding state management
+    let currentStep = 1;
+    const totalSteps = 7;
+    const formData = {};
+    let institutionId = null;
+
+    // API configuration
+    const API_BASE = 'http://localhost:3001';
+
+    // API utility functions
+    async function makeApiRequest(endpoint, options = {}) {
+      try {
+        const response = await fetch(`${API_BASE}${endpoint}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            ...options.headers
+          },
+          ...options
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || `HTTP ${response.status}`);
+        }
+
+        return { success: true, data };
+      } catch (error) {
+        console.error('API Request failed:', error);
+        return { success: false, error: error.message };
+      }
+    }
+
+    // Show toast notification
+    function showToast(message, type = 'info', duration = 3000) {
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.innerHTML = `
+        <div class="toast-content">
+          <span>${message}</span>
+          <button onclick="this.parentElement.parentElement.remove()">&times;</button>
+        </div>
+      `;
+
+      // Add toast styles
+      toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'error' ? '#ef4444' : type === 'success' ? '#22c55e' : '#3b82f6'};
+        color: white;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        max-width: 300px;
+        animation: slideIn 0.3s ease;
+      `;
+
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        if (toast.parentElement) {
+          toast.remove();
+        }
+      }, duration);
+    }
+
+    // Save institution data to backend
+    async function saveInstitutionData(stepData, stepNumber) {
+      if (!institutionId && stepNumber === 2) {
+        // First time registration
+        const result = await makeApiRequest('/api/institutions/register', {
+          method: 'POST',
+          body: JSON.stringify(stepData)
+        });
+
+        if (result.success) {
+          institutionId = result.data.institution.id;
+          localStorage.setItem('institutionId', institutionId);
+          showToast('Institution registered successfully!', 'success');
+          return true;
+        } else {
+          showToast(`Registration failed: ${result.error}`, 'error');
+          return false;
+        }
+      } else if (institutionId) {
+        // Update onboarding progress
+        const result = await makeApiRequest(`/api/institutions/${institutionId}/onboarding`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            step: stepNumber,
+            data: stepData,
+            completed: stepNumber === totalSteps
+          })
+        });
+
+        if (result.success) {
+          showToast(`Step ${stepNumber} saved successfully!`, 'success');
+          return true;
+        } else {
+          showToast(`Failed to save step ${stepNumber}: ${result.error}`, 'error');
+          return false;
+        }
+      }
+      return true; // Allow step 1 to proceed without backend
+    }
+
+    // Collect form data for current step
+    function collectStepData(step) {
+      switch(step) {
+        case 1:
+          return { welcomed: true };
+
+        case 2:
+          const name = document.getElementById('institutionName')?.value;
+          const email = document.getElementById('email')?.value;
+          const type = document.getElementById('institutionType')?.value;
+          const country = document.getElementById('country')?.options[document.getElementById('country')?.selectedIndex]?.text;
+          const city = document.getElementById('city')?.value;
+          const website = document.getElementById('website')?.value;
+          const phone = document.getElementById('phone')?.value;
+
+          if (!name || !email || !type || !country || !city) {
+            showToast('Please fill in all required fields', 'error');
+            return null;
+          }
+
+          return {
+            name,
+            email,
+            type,
+            country,
+            city,
+            website,
+            phone
+          };
+
+        case 3:
+          const registrationNumber = document.getElementById('registrationNumber')?.value;
+          const establishedYear = document.getElementById('establishedYear')?.value;
+          const accreditation = document.getElementById('accreditation')?.value;
+
+          return {
+            registrationNumber,
+            establishedYear,
+            accreditation
+          };
+
+        case 4:
+          const totalPrograms = document.getElementById('totalPrograms')?.value;
+          const admissionCycle = document.getElementById('admissionCycle')?.value;
+
+          return {
+            totalPrograms: parseInt(totalPrograms) || 0,
+            admissionCycle
+          };
+
+        case 5:
+          // Collect team members data
+          const teamMembers = [];
+          const teamInputs = document.querySelectorAll('#teamMembersList .form-group');
+          teamInputs.forEach(group => {
+            const nameInput = group.querySelector('input[placeholder*="name"]');
+            const emailInput = group.querySelector('input[placeholder*="email"]');
+            const roleSelect = group.querySelector('select');
+
+            if (nameInput?.value && emailInput?.value) {
+              teamMembers.push({
+                name: nameInput.value,
+                email: emailInput.value,
+                role: roleSelect?.value || 'staff'
+              });
+            }
+          });
+
+          return { teamMembers };
+
+        case 6:
+          const timezone = document.getElementById('timezone')?.value;
+          const language = document.getElementById('language')?.value;
+
+          return {
+            settings: {
+              timezone,
+              language
+            }
+          };
+
+        case 7:
+          return { onboardingComplete: true };
+
+        default:
+          return {};
+      }
+    }
+
+    // Initialize onboarding state
+    function initializeOnboarding() {
+      // Check for existing institution ID
+      const savedInstitutionId = localStorage.getItem('institutionId');
+      if (savedInstitutionId) {
+        institutionId = savedInstitutionId;
+        showToast('Continuing previous onboarding session', 'info');
+      }
+
+      // Check if we're in test mode
+      if (window.location.search.includes('test=true')) {
+        showToast('Running in test mode - backend integration active', 'info');
+      }
+    }
+
+    // Step configurations
+    const stepConfigs = {
+      1: {
+        title: 'Complete Your\n<span class="gradient-text">Institution Setup</span>',
+        description: 'Join Africa\'s leading educational platform. Our guided setup process will have you managing applications in minutes.',
+        icon: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9,22 9,12 15,12 15,22"></polyline>',
+        progress: 14
+      },
+      2: {
+        title: 'Tell Us About Your\n<span class="gradient-text">Institution</span>',
+        description: 'Help us understand your institution better so we can provide you with the most relevant features and support.',
+        icon: '<path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"></path><rect x="9" y="9" width="4" height="4"></rect><rect x="9" y="14" width="4" height="4"></rect>',
+        progress: 28
+      },
+      3: {
+        title: 'Verify Your\n<span class="gradient-text">Institution</span>',
+        description: 'Complete the verification process to ensure authenticity and build trust with students.',
+        icon: '<path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path>',
+        progress: 42
+      },
+      4: {
+        title: 'Set Up Your\n<span class="gradient-text">Programs</span>',
+        description: 'Add your academic programs, courses, and admission requirements.',
+        icon: '<path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path>',
+        progress: 57
+      },
+      5: {
+        title: 'Build Your\n<span class="gradient-text">Team</span>',
+        description: 'Invite admissions officers, counselors, and other team members to collaborate.',
+        icon: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>',
+        progress: 71
+      },
+      6: {
+        title: 'Configure Your\n<span class="gradient-text">Settings</span>',
+        description: 'Customize notifications, application workflows, and institutional preferences.',
+        icon: '<circle cx="12" cy="12" r="3"></circle><path d="M12 1v6m0 6v6m4.22-13.22l4.24 4.24m-4.24 4.24l4.24 4.24M20 12h6M6 12H0m3.54-8.46L-.7 8.78m4.24 4.24L-.7 19.26"></path>',
+        progress: 85
+      },
+      7: {
+        title: 'Ready to\n<span class="gradient-text">Launch!</span>',
+        description: 'Review your setup and go live. Start receiving and managing student applications.',
+        icon: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>',
+        progress: 100
+      }
+    };
+
+    // Initialize form styles
+    function initializeFormStyles() {
+      const styleExists = document.getElementById('onboarding-form-styles');
+      if (!styleExists) {
+        const style = document.createElement('style');
+        style.id = 'onboarding-form-styles';
+        style.textContent = `
+          .institution-form {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+          }
+          .form-row {
+            display: flex;
+            gap: 1rem;
+          }
+          .form-group {
+            margin-bottom: 1.5rem;
+            flex: 1;
+          }
+          .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: white;
+            font-size: 0.9rem;
+          }
+          .form-input, 
+          .form-select, 
+          .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(26, 31, 58, 0.8) !important;
+            border: 1px solid rgba(90, 91, 184, 0.3);
+            border-radius: 0.5rem;
+            color: white !important;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+          }
+          .form-select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 12px;
+            padding-right: 2.5rem;
+            background-color: rgba(26, 31, 58, 0.8) !important;
+          }
+          .form-select option {
+            background: #1a1f3a;
+            color: white;
+          }
+          .form-input:focus, 
+          .form-select:focus, 
+          .form-textarea:focus {
+            outline: none;
+            border-color: #5a5bb8;
+            box-shadow: 0 0 0 3px rgba(90, 91, 184, 0.2);
+            background: rgba(26, 31, 58, 0.95) !important;
+          }
+          .form-input::placeholder,
+          .form-textarea::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+          }
+          .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+          }
+          .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+            margin-top: 2rem;
+          }
+          .form-actions .btn {
+            flex: 1;
+            max-width: 200px;
+          }
+          .form-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+          }
+          .form-checkbox input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            accent-color: #5a5bb8;
+          }
+          .form-checkbox label {
+            color: white;
+            font-size: 0.9rem;
+            line-height: 1.5;
+          }
+          .upload-area {
+            border: 2px dashed rgba(90, 91, 184, 0.3);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            background: rgba(26, 31, 58, 0.5);
+            cursor: pointer;
+            transition: all 0.2s ease;
+          }
+          .upload-area:hover {
+            border-color: #5a5bb8;
+            background: rgba(26, 31, 58, 0.7);
+          }
+          .upload-area input[type="file"] {
+            display: none;
+          }
+          .team-member {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(26, 31, 58, 0.5);
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+          }
+          .review-section {
+            background: rgba(26, 31, 58, 0.5);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+          }
+          .review-section h4 {
+            color: #5a5bb8;
+            margin-bottom: 1rem;
+          }
+          .review-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          }
+          .review-item:last-child {
+            border-bottom: none;
+          }
+          .success-message {
+            text-align: center;
+            padding: 2rem;
+          }
+          .success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: rgba(34, 197, 94, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #22c55e;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    }
+
+    // Navigate to a specific step
+    async function navigateToStep(step) {
+      if (step < 1 || step > totalSteps) return;
+
+      // Save current step data before navigating
+      if (step > currentStep) {
+        const stepData = collectStepData(currentStep);
+        if (stepData && !(await saveInstitutionData(stepData, currentStep))) {
+          return; // Don't navigate if save failed
+        }
+      }
+
+      currentStep = step;
+      const config = stepConfigs[step];
+      
+      // Update progress bar
+      const progressFill = document.querySelector('.progress-fill');
+      const stepIndicator = document.querySelector('.step-indicator');
+      if (progressFill && stepIndicator) {
+        progressFill.style.setProperty('--progress', `${config.progress}%`);
+        stepIndicator.textContent = `Step ${step} of ${totalSteps}`;
+      }
+      
+      // Update active step card
+      document.querySelectorAll('.step-card').forEach((card, index) => {
+        if (index + 1 === step) {
+          card.classList.add('active');
+        } else {
+          card.classList.remove('active');
+        }
+      });
+      
+      // Update content
+      const welcomeTitle = document.querySelector('.welcome-title');
+      const welcomeDescription = document.querySelector('.welcome-description');
+      const welcomeIcon = document.querySelector('.welcome-icon svg');
+      
+      if (welcomeTitle) welcomeTitle.innerHTML = config.title;
+      if (welcomeDescription) welcomeDescription.textContent = config.description;
+      if (welcomeIcon) welcomeIcon.innerHTML = config.icon;
+      
+      // Render step content
+      renderStepContent(step);
+    }
+
+    // Render content for each step
+    function renderStepContent(step) {
+      const actionSection = document.querySelector('.action-section');
+      if (!actionSection) return;
+      
+      switch(step) {
+        case 1:
+          actionSection.innerHTML = `
+            <button class="btn btn-primary" onclick="navigateToStep(2)">
+              <span>Begin Setup</span>
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+              </svg>
+            </button>
+            <button class="btn btn-secondary">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>Need Help?</span>
+            </button>
+          `;
+          break;
+          
+        case 2:
+          actionSection.innerHTML = `
+            <form class="institution-form" onsubmit="handleStep2Submit(event)">
+              <div class="form-group">
+                <label for="institutionName" class="form-label">Institution Name *</label>
+                <input type="text" id="institutionName" class="form-input" placeholder="Enter your institution name" required>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="institutionType" class="form-label">Institution Type *</label>
+                  <select id="institutionType" class="form-select" required>
+                    <option value="">Select type</option>
+                    <option value="university">University</option>
+                    <option value="college">College</option>
+                    <option value="polytechnic">Polytechnic</option>
+                    <option value="institute">Institute</option>
+                    <option value="academy">Academy</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="country" class="form-label">Country *</label>
+                  <select id="country" class="form-select" required>
+                    <option value="">Select country</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="city" class="form-label">City *</label>
+                  <input type="text" id="city" class="form-input" placeholder="Enter city" required>
+                </div>
+                <div class="form-group">
+                  <label for="postalCode" class="form-label">Postal Code</label>
+                  <input type="text" id="postalCode" class="form-input" placeholder="Enter postal code">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="website" class="form-label">Website</label>
+                <input type="url" id="website" class="form-input" placeholder="https://www.example.edu">
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="navigateToStep(1)">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M11 17l-5-5m0 0l5-5m-5 5h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="6" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M7.5 12l-1 0.5-1-0.5 1-0.5z" fill="white"/>
+                    <circle cx="16" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="13" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="10" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M20 8l-2 2M20 16l-2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                  <span>Back</span>
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <span>Continue</span>
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="18" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M16.5 12l1 0.5 1-0.5-1-0.5z" fill="white"/>
+                    <circle cx="8" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="11" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="14" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M4 8l2 2M4 16l2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                </button>
+              </div>
+            </form>
+          `;
+          populateCountries();
+          break;
+          
+        case 3:
+          actionSection.innerHTML = `
+            <form class="institution-form" onsubmit="handleStep3Submit(event)">
+              <div class="upload-area" onclick="document.getElementById('verificationDoc').click()">
+                <input type="file" id="verificationDoc" accept=".pdf,.doc,.docx,.jpg,.png">
+                <svg width="40" height="40" fill="none" viewBox="0 0 24 24" style="margin: 0 auto 1rem;">
+                  <defs>
+                    <linearGradient id="uploadGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style="stop-color:#3b82f6"/>
+                      <stop offset="100%" style="stop-color:#22c55e"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="4" y="8" width="16" height="12" rx="2" fill="url(#uploadGradient)" opacity="0.2"/>
+                  <path d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="12" cy="10" r="2" fill="#22c55e" opacity="0.8"/>
+                  <path d="M11 10l0.5 0.5 1-1" stroke="white" stroke-width="1" fill="none"/>
+                  <rect x="8" y="15" width="8" height="1" fill="url(#uploadGradient)" opacity="0.6"/>
+                  <circle cx="6" cy="6" r="1" fill="#f59e0b"/>
+                  <circle cx="18" cy="6" r="1" fill="#3b82f6"/>
+                  <path d="M4 20l4-4M20 20l-4-4" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
+                </svg>
+                <p style="color: white; margin-bottom: 0.5rem;">Upload Verification Documents</p>
+                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem;">Click to browse or drag and drop<br>PDF, DOC, DOCX, JPG, or PNG (Max 10MB)</p>
+              </div>
+              <div class="form-group">
+                <label for="registrationNumber" class="form-label">Registration Number *</label>
+                <input type="text" id="registrationNumber" class="form-input" placeholder="Enter official registration number" required>
+              </div>
+              <div class="form-group">
+                <label for="establishedYear" class="form-label">Year Established *</label>
+                <input type="number" id="establishedYear" class="form-input" placeholder="e.g., 1995" min="1800" max="2024" required>
+              </div>
+              <div class="form-group">
+                <label for="accreditation" class="form-label">Accreditation Body</label>
+                <input type="text" id="accreditation" class="form-input" placeholder="Enter accreditation body name">
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="navigateToStep(2)">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M11 17l-5-5m0 0l5-5m-5 5h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="6" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M7.5 12l-1 0.5-1-0.5 1-0.5z" fill="white"/>
+                    <circle cx="16" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="13" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="10" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M20 8l-2 2M20 16l-2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                  <span>Back</span>
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <span>Continue</span>
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="18" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M16.5 12l1 0.5 1-0.5-1-0.5z" fill="white"/>
+                    <circle cx="8" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="11" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="14" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M4 8l2 2M4 16l2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                </button>
+              </div>
+            </form>
+          `;
+          break;
+          
+        case 4:
+          actionSection.innerHTML = `
+            <form class="institution-form" onsubmit="handleStep4Submit(event)">
+              <div class="form-group">
+                <label class="form-label">Programs Offered *</label>
+                <div class="form-checkbox">
+                  <input type="checkbox" id="undergraduate" value="undergraduate">
+                  <label for="undergraduate">Undergraduate Programs</label>
+                </div>
+                <div class="form-checkbox">
+                  <input type="checkbox" id="postgraduate" value="postgraduate">
+                  <label for="postgraduate">Postgraduate Programs</label>
+                </div>
+                <div class="form-checkbox">
+                  <input type="checkbox" id="diploma" value="diploma">
+                  <label for="diploma">Diploma Programs</label>
+                </div>
+                <div class="form-checkbox">
+                  <input type="checkbox" id="certificate" value="certificate">
+                  <label for="certificate">Certificate Programs</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="totalPrograms" class="form-label">Total Number of Programs *</label>
+                <input type="number" id="totalPrograms" class="form-input" placeholder="e.g., 45" min="1" required>
+              </div>
+              <div class="form-group">
+                <label for="popularPrograms" class="form-label">Most Popular Programs</label>
+                <textarea id="popularPrograms" class="form-textarea" placeholder="List your most popular programs (one per line)"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="admissionCycle" class="form-label">Admission Cycle *</label>
+                <select id="admissionCycle" class="form-select" required>
+                  <option value="">Select admission cycle</option>
+                  <option value="annual">Annual</option>
+                  <option value="biannual">Bi-annual</option>
+                  <option value="quarterly">Quarterly</option>
+                  <option value="rolling">Rolling Admissions</option>
+                </select>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="navigateToStep(3)">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M11 17l-5-5m0 0l5-5m-5 5h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="6" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M7.5 12l-1 0.5-1-0.5 1-0.5z" fill="white"/>
+                    <circle cx="16" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="13" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="10" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M20 8l-2 2M20 16l-2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                  <span>Back</span>
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <span>Continue</span>
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="18" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M16.5 12l1 0.5 1-0.5-1-0.5z" fill="white"/>
+                    <circle cx="8" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="11" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="14" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M4 8l2 2M4 16l2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                </button>
+              </div>
+            </form>
+          `;
+          break;
+          
+        case 5:
+          actionSection.innerHTML = `
+            <form class="institution-form" onsubmit="handleStep5Submit(event)">
+              <div id="teamMembersList">
+                <div class="team-member">
+                  <div style="flex: 1;">
+                    <input type="email" class="form-input" placeholder="team@example.edu" required>
+                  </div>
+                  <select class="form-select" style="max-width: 150px;" required>
+                    <option value="">Select role</option>
+                    <option value="admin">Admin</option>
+                    <option value="admissions">Admissions Officer</option>
+                    <option value="counselor">Counselor</option>
+                    <option value="viewer">Viewer</option>
+                  </select>
+                </div>
+              </div>
+              <button type="button" class="btn btn-secondary" onclick="addTeamMember()" style="width: 100%; margin-bottom: 2rem;">
+                <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.1"/>
+                  <path d="M12 6v6m0 0v6m0-6h6m-6 0H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="12" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                  <path d="M11 12h2M12 11v2" stroke="white" stroke-width="1"/>
+                  <circle cx="6" cy="6" r="1.5" fill="#22c55e" opacity="0.8"/>
+                  <circle cx="18" cy="6" r="1.5" fill="#3b82f6" opacity="0.8"/>
+                  <circle cx="6" cy="18" r="1.5" fill="#f59e0b" opacity="0.8"/>
+                  <circle cx="18" cy="18" r="1.5" fill="#ef4444" opacity="0.8"/>
+                </svg>
+                <span>Add Another Team Member</span>
+              </button>
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="navigateToStep(4)">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M11 17l-5-5m0 0l5-5m-5 5h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="6" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M7.5 12l-1 0.5-1-0.5 1-0.5z" fill="white"/>
+                    <circle cx="16" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="13" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="10" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M20 8l-2 2M20 16l-2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                  <span>Back</span>
+                </button>
+                <button type="button" class="btn btn-ghost" onclick="navigateToStep(6)">
+                  <span>Skip for Now</span>
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <span>Continue</span>
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="18" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M16.5 12l1 0.5 1-0.5-1-0.5z" fill="white"/>
+                    <circle cx="8" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="11" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="14" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M4 8l2 2M4 16l2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                </button>
+              </div>
+            </form>
+          `;
+          break;
+          
+        case 6:
+          actionSection.innerHTML = `
+            <form class="institution-form" onsubmit="handleStep6Submit(event)">
+              <div class="form-group">
+                <label class="form-label">Email Notifications</label>
+                <div class="form-checkbox">
+                  <input type="checkbox" id="newApplications" checked>
+                  <label for="newApplications">New application submissions</label>
+                </div>
+                <div class="form-checkbox">
+                  <input type="checkbox" id="applicationUpdates" checked>
+                  <label for="applicationUpdates">Application status updates</label>
+                </div>
+                <div class="form-checkbox">
+                  <input type="checkbox" id="teamActivity">
+                  <label for="teamActivity">Team member activity</label>
+                </div>
+                <div class="form-checkbox">
+                  <input type="checkbox" id="systemUpdates">
+                  <label for="systemUpdates">System updates and announcements</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="timezone" class="form-label">Timezone *</label>
+                <select id="timezone" class="form-select" required>
+                  <option value="">Select timezone</option>
+                  <option value="UTC">UTC (Coordinated Universal Time)</option>
+                  <option value="WAT">WAT (West Africa Time)</option>
+                  <option value="CAT">CAT (Central Africa Time)</option>
+                  <option value="EAT">EAT (East Africa Time)</option>
+                  <option value="SAST">SAST (South Africa Standard Time)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="language" class="form-label">Preferred Language *</label>
+                <select id="language" class="form-select" required>
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                  <option value="ar">العربية</option>
+                  <option value="sw">Kiswahili</option>
+                  <option value="ha">Hausa</option>
+                  <option value="yo">Yoruba</option>
+                </select>
+              </div>
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="navigateToStep(5)">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M11 17l-5-5m0 0l5-5m-5 5h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="6" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M7.5 12l-1 0.5-1-0.5 1-0.5z" fill="white"/>
+                    <circle cx="16" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="13" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="10" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M20 8l-2 2M20 16l-2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                  <span>Back</span>
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  <span>Continue</span>
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="18" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M16.5 12l1 0.5 1-0.5-1-0.5z" fill="white"/>
+                    <circle cx="8" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="11" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="14" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M4 8l2 2M4 16l2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                </button>
+              </div>
+            </form>
+          `;
+          break;
+          
+        case 7:
+          actionSection.innerHTML = `
+            <div class="institution-form">
+              <div class="success-message">
+                <div class="success-icon">
+                  <svg width="40" height="40" fill="none" viewBox="0 0 24 24">
+                    <defs>
+                      <linearGradient id="successGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#22c55e"/>
+                        <stop offset="100%" style="stop-color:#16a34a"/>
+                      </linearGradient>
+                    </defs>
+                    <circle cx="12" cy="12" r="10" fill="url(#successGradient)" opacity="0.9"/>
+                    <path d="M5 13l4 4L19 7" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="9" cy="17" r="1" fill="white" opacity="0.8"/>
+                    <circle cx="19" cy="7" r="1" fill="white" opacity="0.8"/>
+                    <path d="M3 3l3 3M21 21l-3-3" stroke="#22c55e" stroke-width="1" opacity="0.6"/>
+                    <circle cx="4" cy="4" r="1.5" fill="#f59e0b" opacity="0.7"/>
+                    <circle cx="20" cy="20" r="1.5" fill="#3b82f6" opacity="0.7"/>
+                  </svg>
+                </div>
+                <h3 style="color: white; margin-bottom: 1rem;">Setup Complete!</h3>
+                <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem;">Your institution profile is ready. Review your information below before going live.</p>
+              </div>
+              
+              <div class="review-section">
+                <h4>Institution Details</h4>
+                <div class="review-item">
+                  <span>Name:</span>
+                  <span id="reviewName">-</span>
+                </div>
+                <div class="review-item">
+                  <span>Type:</span>
+                  <span id="reviewType">-</span>
+                </div>
+                <div class="review-item">
+                  <span>Country:</span>
+                  <span id="reviewCountry">-</span>
+                </div>
+              </div>
+              
+              <div class="review-section">
+                <h4>Programs & Admissions</h4>
+                <div class="review-item">
+                  <span>Total Programs:</span>
+                  <span id="reviewPrograms">-</span>
+                </div>
+                <div class="review-item">
+                  <span>Admission Cycle:</span>
+                  <span id="reviewCycle">-</span>
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="navigateToStep(6)">
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M11 17l-5-5m0 0l5-5m-5 5h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="6" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M7.5 12l-1 0.5-1-0.5 1-0.5z" fill="white"/>
+                    <circle cx="16" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="13" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="10" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M20 8l-2 2M20 16l-2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                  <span>Back</span>
+                </button>
+                <button class="btn btn-primary" onclick="completeOnboarding()">
+                  <span>Go to Dashboard</span>
+                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                    <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <circle cx="18" cy="12" r="2" fill="currentColor" opacity="0.8"/>
+                    <path d="M16.5 12l1 0.5 1-0.5-1-0.5z" fill="white"/>
+                    <circle cx="8" cy="12" r="1" fill="currentColor" opacity="0.6"/>
+                    <circle cx="11" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
+                    <circle cx="14" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
+                    <path d="M4 8l2 2M4 16l2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          `;
+          // Populate review data
+          document.getElementById('reviewName').textContent = formData.institutionName || '-';
+          document.getElementById('reviewType').textContent = formData.institutionType || '-';
+          document.getElementById('reviewCountry').textContent = formData.country || '-';
+          document.getElementById('reviewPrograms').textContent = formData.totalPrograms || '-';
+          document.getElementById('reviewCycle').textContent = formData.admissionCycle || '-';
+          break;
+      }
+    }
+
+    // Form submission handlers
+    function handleStep2Submit(event) {
+      event.preventDefault();
+      formData.institutionName = document.getElementById('institutionName').value;
+      formData.institutionType = document.getElementById('institutionType').value;
+      formData.country = document.getElementById('country').options[document.getElementById('country').selectedIndex].text;
+      formData.city = document.getElementById('city').value;
+      formData.postalCode = document.getElementById('postalCode').value;
+      formData.website = document.getElementById('website').value;
+      navigateToStep(3);
+    }
+
+    function handleStep3Submit(event) {
+      event.preventDefault();
+      formData.registrationNumber = document.getElementById('registrationNumber').value;
+      formData.establishedYear = document.getElementById('establishedYear').value;
+      formData.accreditation = document.getElementById('accreditation').value;
+      navigateToStep(4);
+    }
+
+    function handleStep4Submit(event) {
+      event.preventDefault();
+      formData.totalPrograms = document.getElementById('totalPrograms').value;
+      formData.admissionCycle = document.getElementById('admissionCycle').options[document.getElementById('admissionCycle').selectedIndex].text;
+      navigateToStep(5);
+    }
+
+    function handleStep5Submit(event) {
+      event.preventDefault();
+      navigateToStep(6);
+    }
+
+    function handleStep6Submit(event) {
+      event.preventDefault();
+      navigateToStep(7);
+    }
+
+    // Helper functions
+    function addTeamMember() {
+      const teamList = document.getElementById('teamMembersList');
+      const newMember = document.createElement('div');
+      newMember.className = 'team-member';
+      newMember.innerHTML = `
+        <div style="flex: 1;">
+          <input type="email" class="form-input" placeholder="team@example.edu">
+        </div>
+        <select class="form-select" style="max-width: 150px;">
+          <option value="">Select role</option>
+          <option value="admin">Admin</option>
+          <option value="admissions">Admissions Officer</option>
+          <option value="counselor">Counselor</option>
+          <option value="viewer">Viewer</option>
+        </select>
+        <button type="button" class="btn btn-ghost" onclick="this.parentElement.remove()" style="padding: 0.5rem;">
+          <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.1"/>
+            <path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="6" cy="6" r="1.5" fill="#ef4444" opacity="0.8"/>
+            <circle cx="18" cy="18" r="1.5" fill="#ef4444" opacity="0.8"/>
+            <circle cx="6" cy="18" r="1" fill="#f59e0b" opacity="0.6"/>
+            <circle cx="18" cy="6" r="1" fill="#f59e0b" opacity="0.6"/>
+            <path d="M12 8v8M8 12h8" stroke="currentColor" stroke-width="0.5" opacity="0.3"/>
+          </svg>
+        </button>
+      `;
+      teamList.appendChild(newMember);
+    }
+
+    function populateCountries() {
+      const countrySelect = document.getElementById('country');
+      if (countrySelect && window.FlowCountries) {
+        window.FlowCountries.countries.forEach(country => {
+          const option = document.createElement('option');
+          option.value = country.code;
+          option.textContent = country.name;
+          countrySelect.appendChild(option);
+        });
+      }
+    }
+
+    function completeOnboarding() {
+      // Save data and redirect to dashboard
+      localStorage.setItem('institutionOnboarding', JSON.stringify(formData));
+      window.location.href = '/institutions/';
+    }
+
+    // Initialize step 1 button handlers
+    function initializeStep1Buttons() {
+      const beginSetupBtn = document.querySelector('.btn-primary');
+      const needHelpBtn = document.querySelector('.btn-secondary');
+      
+      if (beginSetupBtn) {
+        beginSetupBtn.addEventListener('click', function() {
+          // Add loading state
+          beginSetupBtn.disabled = true;
+          beginSetupBtn.innerHTML = `
+            <div style="width: 16px; height: 16px; border: 2px solid transparent; border-top: 2px solid currentColor; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 0.5rem;"></div>
+            <span>Starting...</span>
+          `;
+          
+          // Navigate to step 2 after short delay
+          setTimeout(() => {
+            navigateToStep(2);
+            beginSetupBtn.disabled = false;
+          }, 800);
+        });
+      }
+      
+      if (needHelpBtn) {
+        needHelpBtn.addEventListener('click', function() {
+          // Show help modal or redirect to help
+          alert('Help: Contact our support team at support@flow.edu or check our documentation for setup guidance.');
+        });
+      }
+    }
+
+    // Initialize on DOM load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize onboarding state
+      initializeOnboarding();
+
+      // Animate progress bar on load
+      setTimeout(() => {
+        const progressFill = document.querySelector('.progress-fill');
+        if (progressFill) {
+          progressFill.style.transform = 'scaleX(1)';
+        }
+      }, 500);
+
+      // Add hover effects to step cards
+      const stepCards = document.querySelectorAll('.step-card');
+      stepCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-8px) scale(1.02)';
+        });
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0) scale(1)';
+        });
+      });
+
+      // Initialize form styles
+      initializeFormStyles();
+
+      // Initialize button handlers for step 1
+      initializeStep1Buttons();
+    });
+
+    // Footer functions
+    function scrollToTop() {
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
+    }
+  </script>
+
+  <!-- Advanced Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer" style="background: linear-gradient(135deg, #5a5bb8, #6b6ce8); position: relative; overflow: hidden; color: white;">
+    <div class="container footer__inner" style="position: relative; z-index: 2; color: white;">
+      <div class="footer__grid">
+        <!-- Brand section -->
+        <div class="footer__brand">
+          <div class="footer__logo" onclick="scrollToTop()" style="cursor: pointer;" title="Back to top">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#5a5bb8"/>
+                  <stop offset="100%" style="stop-color:#f5b942"/>
+                </linearGradient>
+              </defs>
+              <circle cx="20" cy="20" r="18" fill="url(#logoGradient)" stroke="currentColor" stroke-width="2"/>
+              <path d="M15 18l5-5 5 5M20 13v14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="footer__brand-text">
+            <div class="footer__brand-name" style="color: white;">Flow</div>
+            <div class="footer__tagline" style="color: white;">Streamlining Education Access</div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="footer__section">
+          <h3 class="footer__title" style="color: white;">For Institutions</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="12" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M4 6h8M4 8h6M4 10h4"/>
+                <circle cx="11" cy="5" r="2" fill="#22c55e" opacity="0.8"/>
+                <path d="M10 5l0.7 0.7 1.3-1.4" stroke="white" stroke-width="0.8" fill="none"/>
+              </svg>
+              Dashboard</a></li>
+            <li><a href="/institutions/programs.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h4M5 9h5"/>
+                <circle cx="11" cy="6" r="1.5" fill="#22c55e" opacity="0.8"/>
+                <path d="M10.3 6l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.8" fill="none"/>
+              </svg>
+              Manage Programs</a></li>
+            <li><a href="/institutions/admissions.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="8" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <rect x="12" y="3" width="2" height="10" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M4 6h4M4 8h3M4 10h4"/>
+                <circle cx="8" cy="6" r="1" fill="#22c55e"/>
+                <path d="M7.5 6l0.3 0.3 0.5-0.6" stroke="white" stroke-width="0.6" fill="none"/>
+              </svg>
+              Admissions</a></li>
+            <li><a href="/institutions/reports.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="12" height="10" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M2 7h12"/>
+                <rect x="4" y="9" width="1.5" height="2" fill="#3b82f6" opacity="0.8" rx="0.3"/>
+                <rect x="6" y="10" width="1.5" height="1" fill="#22c55e" opacity="0.8" rx="0.3"/>
+                <rect x="8" y="8" width="1.5" height="3" fill="#f59e0b" opacity="0.8" rx="0.3"/>
+                <rect x="10" y="11" width="1.5" height="0.5" fill="#ef4444" opacity="0.8" rx="0.3"/>
+              </svg>
+              Reports</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title" style="color: white;">Support</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/help.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M8 6v2M8 10h.01"/>
+                <circle cx="8" cy="4" r="1" fill="#3b82f6"/>
+                <path d="M4 12l8-8M12 12l-8-8" stroke="#22c55e" stroke-width="0.8" opacity="0.5"/>
+              </svg>
+              Help Center</a></li>
+            <li><a href="/contact/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M2 3h12l-6 5-6-5zM2 3v10h12V3" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="12" cy="4" r="1.5" fill="#22c55e"/>
+                <path d="M11.3 4l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+              </svg>
+              Contact</a></li>
+            <li><a href="/legal/privacy.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="3" y="2" width="10" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M8 6v4M6 8h4"/>
+                <circle cx="8" cy="5" r="1" fill="#f59e0b"/>
+                <rect x="5" y="9" width="6" height="1" fill="#ef4444" opacity="0.6"/>
+              </svg>
+              Privacy</a></li>
+            <li><a href="/legal/terms.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h5M5 9h4M5 11h6"/>
+                <circle cx="12" cy="4" r="1" fill="#8b5cf6"/>
+                <rect x="4" y="6" width="1" height="6" fill="#3b82f6" opacity="0.3"/>
+              </svg>
+              Terms</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title" style="color: white;">Connect</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/messages.html">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="4" width="12" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M2 6l5 3 2-1 5-2"/>
+                <circle cx="12" cy="5" r="1.5" fill="#ef4444"/>
+                <text x="12" y="6" text-anchor="middle" font-size="2.5" fill="white" font-weight="normal">2</text>
+              </svg>
+              Messages</a></li>
+            <li><a href="/community/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <circle cx="5" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="11" cy="6" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="8" cy="11" r="2" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <circle cx="5" cy="6" r="1" fill="#22c55e"/>
+                <circle cx="11" cy="6" r="1" fill="#3b82f6"/>
+                <circle cx="8" cy="11" r="1" fill="#f59e0b"/>
+                <path d="M7 8l2 1M9 8l-2 1" stroke="currentColor" stroke-width="0.8"/>
+              </svg>
+              Community</a></li>
+            <li><a href="/blog/">
+              <svg width="16" height="16" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h4M5 9h5"/>
+                <circle cx="12" cy="4" r="1.5" fill="#22c55e"/>
+                <path d="M11.3 4l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+                <rect x="4" y="11" width="8" height="1" fill="#8b5cf6" opacity="0.6"/>
+              </svg>
+              Updates</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <div class="footer__copyright" style="color: white;">
+          © 2024 Flow Education Platform. All rights reserved.
+        </div>
+        <div class="footer__status">
+          <span class="footer__status-dot"></span>
+          <span style="color: white;">All systems operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Flow Cookie Consent System -->
+  <script src="/assets/js/cookie-consent.js"></script>
+</body>
+</html>

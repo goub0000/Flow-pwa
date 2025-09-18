@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flow | Counselor Settings</title>
+  <meta name="description" content="Manage your counselor account settings, preferences, and security options." />
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+  <!-- Base & counselor styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/counselors.css" />
+  
+  <style>
+    body {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      min-height: 100vh;
+    }
+    
+    /* Header Styling */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 2px solid #e5e7eb;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: #1e293b;
+    }
+    
+    .brand__logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(67, 56, 202, 0.3);
+    }
+    
+    .brand__name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #4338ca, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    
+    .header-nav a {
+      color: #64748b;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .header-nav a:hover {
+      background: #f1f5f9;
+      color: #3b82f6;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    /* Footer Styling */
+    .footer {
+      margin-top: 4rem;
+      border-top: 2px solid #e5e7eb;
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      color: white;
+      padding: 3rem 0 1rem 0;
+    }
+    
+    .footer__grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+    
+    .footer__brand {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .footer__logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    
+    .footer__tagline {
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+    
+    .footer__nav h3 {
+      color: #f1f5f9;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .footer__nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .footer__nav a {
+      color: #cbd5e1;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .footer__nav a:hover {
+      color: white;
+    }
+    
+    /* Advanced SVG Footer Links */
+    .advanced-svg-link {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      transition: all 0.3s ease !important;
+      padding: 8px 0 !important;
+      color: #cbd5e1 !important;
+      text-decoration: none !important;
+    }
+    
+    .advanced-svg-link:hover {
+      color: white !important;
+      transform: translateX(6px) !important;
+    }
+    
+    .svg-icon {
+      width: 20px !important;
+      height: 20px !important;
+      flex-shrink: 0 !important;
+    }
+    
+    .footer__meta {
+      background: rgba(0, 0, 0, 0.2);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+      text-align: center;
+      padding: 1rem 2rem;
+      margin-top: 2rem;
+    }
+    
+    .settings-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .settings-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      border-radius: 16px;
+      color: white;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+    
+    .settings-header h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem 0;
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .settings-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+    
+    .settings-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #f1f5f9;
+    }
+    
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #1e293b;
+      margin: 0;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .form-select {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      background: white;
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+    }
+    
+    .form-select:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+    }
+    
+    .checkbox-item:hover {
+      background: #f8fafc;
+    }
+    
+    .custom-checkbox {
+      position: relative;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #d1d5db;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .custom-checkbox.checked {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      border-color: #3b82f6;
+    }
+    
+    .custom-checkbox.checked::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 0.875rem;
+      font-weight: bold;
+    }
+    
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    }
+    
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+      border: 1px solid #e2e8f0;
+    }
+    
+    .btn-secondary:hover {
+      background: #e2e8f0;
+      transform: translateY(-1px);
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    
+    
+    .advanced-toggle {
+      background: linear-gradient(135deg, #8b5cf6, #a855f7);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 1rem;
+    }
+    
+    .advanced-toggle:hover {
+      background: linear-gradient(135deg, #a855f7, #c084fc);
+      transform: translateY(-1px);
+    }
+    
+    .advanced-section {
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+    
+    .advanced-section.show {
+      display: block;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .notification-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #ef4444;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="header__inner">
+      <a class="brand" href="/counselors/" aria-label="Flow Counselor Dashboard">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" />
+        <span class="brand__name">Flow</span>
+      </a>
+      
+      <nav class="header-nav">
+        <a href="/counselors/">Dashboard</a>
+        <a href="/counselors/#students">Students</a>
+        <a href="/counselors/messages.html">Messages</a>
+        <a href="/counselors/#analytics">Analytics</a>
+      </nav>
+      
+      <div class="user-avatar" title="User Menu">JD</div>
+    </div>
+  </header>
+
+  <div class="settings-container">
+    <!-- Header -->
+    <div class="settings-header">
+      <h1>⚙️ Advanced Settings</h1>
+      <p>Customize your counselor experience with powerful controls</p>
+    </div>
+
+    <!-- Settings Grid -->
+    <div class="settings-grid">
+      <!-- Account Security -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+            🔒
+          </div>
+          <h3 class="card-title">Account Security</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Current Password</label>
+          <input type="password" class="form-input" placeholder="Enter current password" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">New Password</label>
+          <input type="password" class="form-input" placeholder="Enter new password" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Confirm Password</label>
+          <input type="password" class="form-input" placeholder="Confirm new password" />
+        </div>
+        
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <div class="custom-checkbox checked" onclick="toggleCheckbox(this)"></div>
+            <span>Enable two-factor authentication</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>Require password for sensitive actions</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>Log out from all devices</span>
+          </div>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-danger">Change Password</button>
+          <button class="btn btn-secondary">Download Data</button>
+        </div>
+      </div>
+
+      <!-- Notification Preferences -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon" style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); position: relative;">
+            🔔
+            <span class="notification-badge">3</span>
+          </div>
+          <h3 class="card-title">Notifications</h3>
+        </div>
+        
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <div class="custom-checkbox checked" onclick="toggleCheckbox(this)"></div>
+            <span>Email notifications for new messages</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox checked" onclick="toggleCheckbox(this)"></div>
+            <span>Task deadline reminders</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>Student application status updates</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox checked" onclick="toggleCheckbox(this)"></div>
+            <span>Weekly progress reports</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>System maintenance alerts</span>
+          </div>
+        </div>
+        
+        <button class="advanced-toggle" onclick="toggleAdvanced('notifications')">
+          🔧 Advanced Notification Settings
+        </button>
+        
+        <div id="notifications-advanced" class="advanced-section">
+          <div class="form-group">
+            <label class="form-label">Notification Frequency</label>
+            <select class="form-select">
+              <option>Real-time</option>
+              <option>Every 15 minutes</option>
+              <option>Hourly</option>
+              <option>Daily digest</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Quiet Hours (From)</label>
+            <input type="time" class="form-input" value="22:00" />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Quiet Hours (To)</label>
+            <input type="time" class="form-input" value="08:00" />
+          </div>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary">Save Preferences</button>
+        </div>
+      </div>
+
+      <!-- Dashboard Customization -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6, #a855f7);">
+            🎨
+          </div>
+          <h3 class="card-title">Dashboard Customization</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Theme</label>
+          <select class="form-select">
+            <option>Light Mode</option>
+            <option>Dark Mode</option>
+            <option>Auto (System)</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Dashboard Language</label>
+          <select class="form-select">
+            <option>English</option>
+            <option>Français</option>
+            <option>العربية</option>
+            <option>Kiswahili</option>
+            <option>Hausa</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Time Zone</label>
+          <select class="form-select">
+            <option>West Africa Time (WAT)</option>
+            <option>Central Africa Time (CAT)</option>
+            <option>East Africa Time (EAT)</option>
+            <option>UTC</option>
+          </select>
+        </div>
+        
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>Compact interface</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox checked" onclick="toggleCheckbox(this)"></div>
+            <span>Auto-save drafts</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>Show advanced statistics</span>
+          </div>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary">Apply Changes</button>
+          <button class="btn btn-secondary">Reset to Default</button>
+        </div>
+      </div>
+
+      <!-- Privacy Settings -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+            🛡️
+          </div>
+          <h3 class="card-title">Privacy & Data</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Profile Visibility</label>
+          <select class="form-select">
+            <option>Public - Visible to all users</option>
+            <option selected>Institution - Visible to institution members</option>
+            <option>Private - Only visible to assigned students</option>
+          </select>
+        </div>
+        
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>Share anonymized performance statistics</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox checked" onclick="toggleCheckbox(this)"></div>
+            <span>Allow messages from non-assigned students</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>Include in directory listings</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox checked" onclick="toggleCheckbox(this)"></div>
+            <span>Allow feedback collection</span>
+          </div>
+        </div>
+        
+        <button class="advanced-toggle" onclick="toggleAdvanced('privacy')">
+          🔧 Advanced Privacy Controls
+        </button>
+        
+        <div id="privacy-advanced" class="advanced-section">
+          <div class="form-group">
+            <label class="form-label">Data Retention Period</label>
+            <select class="form-select">
+              <option>1 year</option>
+              <option selected>2 years</option>
+              <option>5 years</option>
+              <option>Indefinite</option>
+            </select>
+          </div>
+          
+          <div class="checkbox-group">
+            <div class="checkbox-item">
+              <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+              <span>Encrypt sensitive communications</span>
+            </div>
+            <div class="checkbox-item">
+              <div class="custom-checkbox checked" onclick="toggleCheckbox(this)"></div>
+              <span>Audit log access</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary">Update Privacy</button>
+          <button class="btn btn-danger">Request Data Deletion</button>
+        </div>
+      </div>
+
+      <!-- Integration & API -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+            🔗
+          </div>
+          <h3 class="card-title">Integrations & API</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Calendar Integration</label>
+          <select class="form-select">
+            <option>None</option>
+            <option>Google Calendar</option>
+            <option>Outlook Calendar</option>
+            <option>Apple Calendar</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Email Provider</label>
+          <select class="form-select">
+            <option>Flow Mail</option>
+            <option>Gmail</option>
+            <option>Outlook</option>
+            <option>Custom SMTP</option>
+          </select>
+        </div>
+        
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>Enable API access</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>Webhook notifications</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox checked" onclick="toggleCheckbox(this)"></div>
+            <span>Auto-sync with institution systems</span>
+          </div>
+        </div>
+        
+        <button class="advanced-toggle" onclick="toggleAdvanced('integration')">
+          🔧 API Keys & Webhooks
+        </button>
+        
+        <div id="integration-advanced" class="advanced-section">
+          <div class="form-group">
+            <label class="form-label">API Key</label>
+            <input type="text" class="form-input" value="sk-••••••••••••••••" readonly />
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">Webhook URL</label>
+            <input type="url" class="form-input" placeholder="https://your-app.com/webhook" />
+          </div>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary">Save Integrations</button>
+          <button class="btn btn-secondary">Test Connection</button>
+        </div>
+      </div>
+
+      <!-- Performance & Analytics -->
+      <div class="settings-card">
+        <div class="card-header">
+          <div class="card-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">
+            📈
+          </div>
+          <h3 class="card-title">Performance & Analytics</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Analytics Level</label>
+          <select class="form-select">
+            <option>Basic</option>
+            <option selected>Detailed</option>
+            <option>Advanced</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Report Generation</label>
+          <select class="form-select">
+            <option>Manual</option>
+            <option>Weekly</option>
+            <option selected>Monthly</option>
+            <option>Quarterly</option>
+          </select>
+        </div>
+        
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <div class="custom-checkbox checked" onclick="toggleCheckbox(this)"></div>
+            <span>Track student engagement metrics</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox checked" onclick="toggleCheckbox(this)"></div>
+            <span>Monitor application success rates</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>Enable predictive analytics</span>
+          </div>
+          <div class="checkbox-item">
+            <div class="custom-checkbox" onclick="toggleCheckbox(this)"></div>
+            <span>Share performance benchmarks</span>
+          </div>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary">Update Settings</button>
+          <button class="btn btn-secondary">Export Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer">
+    <div class="footer__grid">
+      <section class="footer__brand">
+        <img src="/assets/img/logo.png" alt="" class="footer__logo" />
+        <p class="footer__tagline">Connecting learners and institutions across Africa.</p>
+      </section>
+      
+      <nav aria-label="Quick Links" class="footer__nav">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="/counselors/" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="dashboardGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#3b82f6"/>
+                  <stop offset="50%" style="stop-color:#6366f1"/>
+                  <stop offset="100%" style="stop-color:#8b5cf6"/>
+                </linearGradient>
+              </defs>
+              <rect x="3" y="3" width="7" height="7" rx="1" fill="url(#dashboardGradient)" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="14" y="3" width="7" height="7" rx="1" fill="url(#dashboardGradient)" opacity="0.7">
+                <animate attributeName="opacity" values="0.5;0.8;0.5" dur="2.5s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="3" y="14" width="7" height="7" rx="1" fill="url(#dashboardGradient)" opacity="0.6">
+                <animate attributeName="opacity" values="0.4;0.7;0.4" dur="3s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="14" y="14" width="7" height="7" rx="1" fill="url(#dashboardGradient)" opacity="0.9">
+                <animate attributeName="opacity" values="0.7;1;0.7" dur="1.5s" repeatCount="indefinite"/>
+              </rect>
+            </svg>
+            <span>Dashboard</span>
+          </a></li>
+          <li><a href="/counselors/#students" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="studentsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#10b981"/>
+                  <stop offset="50%" style="stop-color:#059669"/>
+                  <stop offset="100%" style="stop-color:#047857"/>
+                </linearGradient>
+              </defs>
+              <circle cx="12" cy="8" r="4" fill="url(#studentsGradient)">
+                <animate attributeName="r" values="4;4.5;4" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M12 14c-4 0-7 2-7 4v2h14v-2c0-2-3-4-7-4z" fill="url(#studentsGradient)" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2.5s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="18" cy="6" r="2" fill="#fbbf24" opacity="0.8">
+                <animate attributeName="cy" values="6;8;6" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="6" cy="6" r="2" fill="#f87171" opacity="0.7">
+                <animate attributeName="cy" values="6;8;6" dur="3s" begin="1s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>Students</span>
+          </a></li>
+          <li><a href="/counselors/#tasks" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="tasksGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#f59e0b"/>
+                  <stop offset="50%" style="stop-color:#d97706"/>
+                  <stop offset="100%" style="stop-color:#b45309"/>
+                </linearGradient>
+              </defs>
+              <rect x="4" y="2" width="16" height="20" rx="2" fill="url(#tasksGradient)" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="3s" repeatCount="indefinite"/>
+              </rect>
+              <path d="M8 10l2 2 4-4" stroke="white" stroke-width="2" fill="none" stroke-linecap="round">
+                <animate attributeName="stroke-width" values="2;3;2" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <rect x="7" y="6" width="10" height="1" fill="white" opacity="0.7"/>
+              <rect x="7" y="14" width="8" height="1" fill="white" opacity="0.6"/>
+              <rect x="7" y="16" width="6" height="1" fill="white" opacity="0.5"/>
+            </svg>
+            <span>Tasks</span>
+          </a></li>
+          <li><a href="/counselors/messages.html" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="messagesGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#8b5cf6"/>
+                  <stop offset="50%" style="stop-color:#a855f7"/>
+                  <stop offset="100%" style="stop-color:#c084fc"/>
+                </linearGradient>
+              </defs>
+              <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" fill="url(#messagesGradient)" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="9" cy="10" r="1" fill="white">
+                <animate attributeName="r" values="0.8;1.2;0.8" dur="1.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="12" cy="10" r="1" fill="white">
+                <animate attributeName="r" values="0.8;1.2;0.8" dur="1.5s" begin="0.3s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="15" cy="10" r="1" fill="white">
+                <animate attributeName="r" values="0.8;1.2;0.8" dur="1.5s" begin="0.6s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>Messages</span>
+          </a></li>
+          <li><a href="/counselors/#analytics" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="analyticsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#06b6d4"/>
+                  <stop offset="50%" style="stop-color:#0891b2"/>
+                  <stop offset="100%" style="stop-color:#0e7490"/>
+                </linearGradient>
+              </defs>
+              <rect x="3" y="12" width="4" height="8" fill="url(#analyticsGradient)" opacity="0.7">
+                <animate attributeName="height" values="8;10;8" dur="2s" repeatCount="indefinite"/>
+                <animate attributeName="y" values="12;10;12" dur="2s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="10" y="8" width="4" height="12" fill="url(#analyticsGradient)" opacity="0.8">
+                <animate attributeName="height" values="12;14;12" dur="2.5s" repeatCount="indefinite"/>
+                <animate attributeName="y" values="8;6;8" dur="2.5s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="17" y="4" width="4" height="16" fill="url(#analyticsGradient)" opacity="0.9">
+                <animate attributeName="height" values="16;18;16" dur="3s" repeatCount="indefinite"/>
+                <animate attributeName="y" values="4;2;4" dur="3s" repeatCount="indefinite"/>
+              </rect>
+            </svg>
+            <span>Analytics</span>
+          </a></li>
+        </ul>
+      </nav>
+      
+      <nav aria-label="Resources" class="footer__nav">
+        <h3>Resources</h3>
+        <ul>
+          <li><a href="/help/" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="helpGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#ef4444"/>
+                  <stop offset="50%" style="stop-color:#f97316"/>
+                  <stop offset="100%" style="stop-color:#eab308"/>
+                </linearGradient>
+              </defs>
+              <circle cx="12" cy="12" r="10" fill="url(#helpGradient)" opacity="0.8">
+                <animate attributeName="r" values="9.5;10.5;9.5" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M12 6c-1.7 0-3 1.3-3 3" stroke="white" stroke-width="2" fill="none" stroke-linecap="round">
+                <animate attributeName="stroke-width" values="2;3;2" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="12" cy="17" r="1" fill="white">
+                <animate attributeName="r" values="0.8;1.2;0.8" dur="1.5s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>Help Center</span>
+          </a></li>
+          <li><a href="/docs/" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="docsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#3b82f6"/>
+                  <stop offset="50%" style="stop-color:#1d4ed8"/>
+                  <stop offset="100%" style="stop-color:#1e40af"/>
+                </linearGradient>
+              </defs>
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" fill="url(#docsGradient)" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <polyline points="14,2 14,8 20,8" fill="url(#docsGradient)" opacity="0.6"/>
+              <line x1="16" y1="13" x2="8" y2="13" stroke="white" stroke-width="1" opacity="0.8"/>
+              <line x1="16" y1="17" x2="8" y2="17" stroke="white" stroke-width="1" opacity="0.7"/>
+              <line x1="10" y1="9" x2="8" y2="9" stroke="white" stroke-width="1" opacity="0.6"/>
+            </svg>
+            <span>Documentation</span>
+          </a></li>
+          <li><a href="/support/" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="supportGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#10b981"/>
+                  <stop offset="50%" style="stop-color:#059669"/>
+                  <stop offset="100%" style="stop-color:#047857"/>
+                </linearGradient>
+              </defs>
+              <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.83-.13 2.69-.37.21-.06.44-.06.65 0L19 22l-.69-3.66c.86-1.59 1.37-3.4 1.37-5.34C20 6.5 16.5 2 12 2z" fill="url(#supportGradient)" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2.5s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="12" cy="12" r="3" fill="white" opacity="0.8">
+                <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="12" cy="12" r="1" fill="url(#supportGradient)">
+                <animate attributeName="r" values="0.8;1.2;0.8" dur="1.5s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>Support</span>
+          </a></li>
+          <li><a href="/training/" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="trainingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#8b5cf6"/>
+                  <stop offset="50%" style="stop-color:#a855f7"/>
+                  <stop offset="100%" style="stop-color:#c084fc"/>
+                </linearGradient>
+              </defs>
+              <rect x="4" y="6" width="16" height="12" rx="2" fill="url(#trainingGradient)" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2s" repeatCount="indefinite"/>
+              </rect>
+              <circle cx="12" cy="12" r="3" fill="white" opacity="0.9">
+                <animate attributeName="r" values="2.5;3.5;2.5" dur="2.5s" repeatCount="indefinite"/>
+              </circle>
+              <polygon points="11,10 11,14 14,12" fill="url(#trainingGradient)">
+                <animateTransform attributeName="transform" attributeType="XML" type="scale" values="1;1.1;1" dur="2s" repeatCount="indefinite"/>
+              </polygon>
+            </svg>
+            <span>Training</span>
+          </a></li>
+          <li><a href="/updates/" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="updatesGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#06b6d4"/>
+                  <stop offset="50%" style="stop-color:#0891b2"/>
+                  <stop offset="100%" style="stop-color:#0e7490"/>
+                </linearGradient>
+              </defs>
+              <path d="M23 4v6h-6" fill="none" stroke="url(#updatesGradient)" stroke-width="2" stroke-linecap="round">
+                <animate attributeName="stroke-width" values="2;3;2" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <path d="M1 20v-6h6" fill="none" stroke="url(#updatesGradient)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M20.49 9A9 9 0 005.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 013.51 15" fill="none" stroke="url(#updatesGradient)" stroke-width="2" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="3s" repeatCount="indefinite"/>
+              </path>
+            </svg>
+            <span>Updates</span>
+          </a></li>
+        </ul>
+      </nav>
+      
+      <nav aria-label="Legal" class="footer__nav">
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="/legal/terms.html" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="termsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#ef4444"/>
+                  <stop offset="50%" style="stop-color:#f97316"/>
+                  <stop offset="100%" style="stop-color:#eab308"/>
+                </linearGradient>
+              </defs>
+              <rect x="4" y="2" width="16" height="20" rx="2" fill="url(#termsGradient)" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="6" y="6" width="12" height="1" fill="white" opacity="0.8"/>
+              <rect x="6" y="8" width="10" height="1" fill="white" opacity="0.7"/>
+              <rect x="6" y="10" width="8" height="1" fill="white" opacity="0.6"/>
+              <rect x="6" y="12" width="11" height="1" fill="white" opacity="0.5"/>
+              <rect x="6" y="16" width="6" height="2" fill="#3b82f6" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="1.5s" repeatCount="indefinite"/>
+              </rect>
+            </svg>
+            <span>Terms of Service</span>
+          </a></li>
+          <li><a href="/legal/privacy.html" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="privacyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#10b981"/>
+                  <stop offset="50%" style="stop-color:#059669"/>
+                  <stop offset="100%" style="stop-color:#047857"/>
+                </linearGradient>
+              </defs>
+              <path d="M12 2L3 7v5c0 6 3.6 11.5 9 13 5.4-1.5 9-7 9-13V7l-9-5z" fill="url(#privacyGradient)" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="2.5s" repeatCount="indefinite"/>
+              </path>
+              <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" fill="none" stroke-linecap="round">
+                <animate attributeName="stroke-width" values="2;3;2" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="12" cy="6" r="1" fill="white" opacity="0.8">
+                <animate attributeName="r" values="0.8;1.2;0.8" dur="1.5s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>Privacy Policy</span>
+          </a></li>
+          <li><a href="/legal/cookies.html" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="cookiesGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#f59e0b"/>
+                  <stop offset="50%" style="stop-color:#d97706"/>
+                  <stop offset="100%" style="stop-color:#b45309"/>
+                </linearGradient>
+              </defs>
+              <circle cx="12" cy="12" r="10" fill="url(#cookiesGradient)" opacity="0.8">
+                <animate attributeName="r" values="9.5;10.5;9.5" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="8" cy="9" r="1" fill="#8b5cf6">
+                <animate attributeName="r" values="0.8;1.2;0.8" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="14" cy="8" r="1" fill="#ef4444">
+                <animate attributeName="r" values="0.8;1.2;0.8" dur="2s" begin="0.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="10" cy="14" r="1" fill="#10b981">
+                <animate attributeName="r" values="0.8;1.2;0.8" dur="2s" begin="1s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="16" cy="15" r="1" fill="#3b82f6">
+                <animate attributeName="r" values="0.8;1.2;0.8" dur="2s" begin="1.5s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>Cookie Policy</span>
+          </a></li>
+          <li><a href="/accessibility/" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="accessibilityGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#8b5cf6"/>
+                  <stop offset="50%" style="stop-color:#a855f7"/>
+                  <stop offset="100%" style="stop-color:#c084fc"/>
+                </linearGradient>
+              </defs>
+              <circle cx="12" cy="12" r="10" fill="url(#accessibilityGradient)" opacity="0.8">
+                <animate attributeName="opacity" values="0.6;0.9;0.6" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="12" cy="8" r="2" fill="white">
+                <animate attributeName="r" values="1.8;2.2;1.8" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M8 13h8m-4 0v6" stroke="white" stroke-width="2" stroke-linecap="round">
+                <animate attributeName="stroke-width" values="2;3;2" dur="2s" repeatCount="indefinite"/>
+              </path>
+              <circle cx="10" cy="19" r="1" fill="white" opacity="0.8"/>
+              <circle cx="14" cy="19" r="1" fill="white" opacity="0.8"/>
+            </svg>
+            <span>Accessibility</span>
+          </a></li>
+        </ul>
+      </nav>
+    </div>
+    
+    <div class="footer__meta">
+      <small>© <span id="year"></span> Flow. Built with ❤️ for Africa.</small>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    function toggleCheckbox(element) {
+      element.classList.toggle('checked');
+    }
+
+    function toggleAdvanced(section) {
+      const advancedSection = document.getElementById(section + '-advanced');
+      const button = event.target;
+      
+      if (advancedSection.classList.contains('show')) {
+        advancedSection.classList.remove('show');
+        button.textContent = button.textContent.replace('Hide', 'Show');
+      } else {
+        advancedSection.classList.add('show');
+        button.textContent = button.textContent.replace('Show', 'Hide');
+      }
+    }
+
+    // Initialize page and add interactivity
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize year in footer
+      const yearSpan = document.getElementById('year');
+      if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+      }
+      
+      // Add interactivity to all buttons
+      const buttons = document.querySelectorAll('.btn');
+      buttons.forEach(button => {
+        button.addEventListener('click', function() {
+          // Add click animation
+          this.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            this.style.transform = '';
+          }, 150);
+          
+          // Show success message for demo
+          if (this.textContent.includes('Save') || this.textContent.includes('Apply') || this.textContent.includes('Update')) {
+            showNotification('Settings saved successfully!', 'success');
+          }
+        });
+      });
+    });
+
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed; top: 2rem; right: 2rem; z-index: 9999;
+        background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #ef4444, #dc2626)'};
+        color: white; padding: 1rem 1.5rem; border-radius: 8px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        transform: translateX(100%); transition: transform 0.3s ease;
+      `;
+      notification.textContent = message;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+      }, 100);
+      
+      setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

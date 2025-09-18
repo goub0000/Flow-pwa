@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Contact Flow Education Platform - Get in touch with our team for support, inquiries, and partnerships." />
+  <meta name="theme-color" content="#373896" />
+  <title>Contact Us — Flow Education Platform</title>
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/institutions.css" />
+  
+  <style>
+    /* Contact Page Specific Styles */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .contact-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.15);
+      border-color: #5a5bb8;
+    }
+    
+    .contact-card__icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+    
+    .contact-card h2 {
+      color: #1f2937;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .contact-card p {
+      color: #6b7280;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    .contact-info {
+      background: #f8fafc;
+      padding: 1.5rem;
+      border-radius: 12px;
+      margin: 1.5rem 0;
+      text-align: left;
+    }
+    
+    .contact-info p {
+      margin: 0.75rem 0;
+      font-size: 0.95rem;
+    }
+    
+    .contact-info strong {
+      color: #374151;
+    }
+    
+    .status-online {
+      color: #10b981;
+      font-weight: 600;
+    }
+    
+    .btn--danger {
+      background: #ef4444;
+      color: white;
+      border: none;
+    }
+    
+    .btn--danger:hover {
+      background: #dc2626;
+      transform: translateY(-2px);
+    }
+    
+    /* Contact Form Styles */
+    .contact-form-section {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      padding: 4rem 0;
+      margin: 3rem 0;
+      border-radius: 20px;
+    }
+    
+    .contact-form-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 3rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .contact-form-container h2 {
+      text-align: center;
+      color: #1f2937;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .contact-form {
+      display: grid;
+      gap: 1.5rem;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .form-group label {
+      color: #374151;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #5a5bb8;
+      box-shadow: 0 0 0 3px rgba(90, 91, 184, 0.1);
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+      margin-top: 1rem;
+    }
+    
+    /* Office Info Styles */
+    .office-info {
+      margin: 4rem 0;
+    }
+    
+    .office-info h2 {
+      text-align: center;
+      color: #1f2937;
+      font-size: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .office-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .office-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #5a5bb8;
+      transition: transform 0.2s ease;
+    }
+    
+    .office-card:hover {
+      transform: translateY(-4px);
+    }
+    
+    .office-card h3 {
+      color: #5a5bb8;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    
+    .office-address {
+      margin-bottom: 1.5rem;
+    }
+    
+    .office-address p {
+      margin: 0.25rem 0;
+      color: #6b7280;
+    }
+    
+    .office-contact p {
+      margin: 0.5rem 0;
+      color: #374151;
+    }
+    
+    /* FAQ Styles */
+    .contact-faq {
+      background: #f9fafb;
+      padding: 4rem 0;
+      margin: 3rem 0;
+      border-radius: 20px;
+    }
+    
+    .contact-faq h2 {
+      text-align: center;
+      color: #1f2937;
+      font-size: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .faq-grid {
+      display: grid;
+      gap: 1.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .faq-item {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .faq-item h3 {
+      background: #5a5bb8;
+      color: white;
+      margin: 0;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      font-weight: 600;
+    }
+    
+    .faq-item h3:hover {
+      background: #4c4db8;
+    }
+    
+    .faq-answer {
+      padding: 1.5rem;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .form-actions {
+        flex-direction: column;
+      }
+      
+      .office-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .contact-form-container {
+        padding: 2rem 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Skip Link -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Site header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+
+      <!-- Header Tools -->
+      <div class="header-tools">
+        <!-- Navigation -->
+        <nav class="header-nav">
+          <a href="/" class="header-nav__link">Home</a>
+          <a href="/students/" class="header-nav__link">Students</a>
+          <a href="/institutions/" class="header-nav__link">Institutions</a>
+          <a href="/counselors/" class="header-nav__link">Counselors</a>
+          <a href="/contact/" class="header-nav__link header-nav__link--active">Contact</a>
+        </nav>
+
+        <!-- Language switcher -->
+        <form class="lang-switch" aria-label="Language selector">
+          <label for="lang" class="sr-only">Language</label>
+          <select id="lang" name="lang">
+            <option value="en" selected>🇺🇸 EN</option>
+            <option value="fr">🇫🇷 FR</option>
+            <option value="ar" dir="rtl">🇸🇦 AR</option>
+            <option value="es">🇪🇸 ES</option>
+            <option value="de">🇩🇪 DE</option>
+          </select>
+        </form>
+      </div>
+
+      <!-- Mobile navigation toggle -->
+      <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu" id="mobileMenuToggle">
+        <span class="nav__toggle-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+        <span class="nav__toggle-text">Menu</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main id="main" role="main">
+    <section class="section">
+      <div class="container">
+        <header class="section__header">
+          <h1>📧 Contact Us</h1>
+          <p class="section__description">Get in touch with our team for support, inquiries, and partnerships</p>
+        </header>
+
+        <!-- Contact Options -->
+        <div class="contact-grid">
+          <!-- General Support -->
+          <div class="contact-card">
+            <div class="contact-card__icon">🎯</div>
+            <h2>General Support</h2>
+            <p>Questions about using Flow or need technical assistance?</p>
+            <div class="contact-info">
+              <p><strong>📧 Email:</strong> support@flow.edu</p>
+              <p><strong>🕒 Hours:</strong> Mon-Fri, 8 AM - 8 PM EST</p>
+              <p><strong>📱 Response:</strong> Within 4 hours</p>
+            </div>
+            <button class="btn btn--primary" onclick="contactSupport('general')">Send Support Request</button>
+          </div>
+
+          <!-- Sales & Partnerships -->
+          <div class="contact-card">
+            <div class="contact-card__icon">🤝</div>
+            <h2>Sales & Partnerships</h2>
+            <p>Interested in Flow for your institution or partnership opportunities?</p>
+            <div class="contact-info">
+              <p><strong>📧 Email:</strong> sales@flow.edu</p>
+              <p><strong>📞 Phone:</strong> +1 (555) 123-FLOW</p>
+              <p><strong>🕒 Hours:</strong> Mon-Fri, 9 AM - 6 PM EST</p>
+            </div>
+            <button class="btn btn--primary" onclick="contactSupport('sales')">Contact Sales</button>
+          </div>
+
+          <!-- Live Chat -->
+          <div class="contact-card">
+            <div class="contact-card__icon">💬</div>
+            <h2>Live Chat</h2>
+            <p>Need immediate help? Chat with our support team in real-time.</p>
+            <div class="contact-info">
+              <p><strong>🟢 Status:</strong> <span class="status-online">Online</span></p>
+              <p><strong>⚡ Response:</strong> ~2 minutes</p>
+              <p><strong>🕒 Available:</strong> Mon-Fri, 8 AM - 8 PM EST</p>
+            </div>
+            <button class="btn btn--primary" onclick="startLiveChat()">Start Chat</button>
+          </div>
+
+          <!-- Emergency Support -->
+          <div class="contact-card">
+            <div class="contact-card__icon">🚨</div>
+            <h2>Emergency Support</h2>
+            <p>Critical system issues affecting admissions deadlines?</p>
+            <div class="contact-info">
+              <p><strong>📞 Emergency:</strong> +1 (555) 999-HELP</p>
+              <p><strong>🕒 Available:</strong> 24/7/365</p>
+              <p><strong>⚡ Response:</strong> Within 15 minutes</p>
+            </div>
+            <button class="btn btn--danger" onclick="emergencySupport()">Emergency Contact</button>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <section class="contact-form-section">
+          <div class="contact-form-container">
+            <h2>📝 Send Us a Message</h2>
+            <form class="contact-form" onsubmit="submitContactForm(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contactName">Full Name *</label>
+                  <input type="text" id="contactName" name="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="contactEmail">Email Address *</label>
+                  <input type="email" id="contactEmail" name="email" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contactType">Contact Type</label>
+                  <select id="contactType" name="type">
+                    <option value="general">General Support</option>
+                    <option value="technical">Technical Issue</option>
+                    <option value="sales">Sales Inquiry</option>
+                    <option value="partnership">Partnership</option>
+                    <option value="feedback">Feedback</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="contactPriority">Priority Level</label>
+                  <select id="contactPriority" name="priority">
+                    <option value="low">Low - General inquiry</option>
+                    <option value="medium" selected>Medium - Standard</option>
+                    <option value="high">High - Urgent</option>
+                    <option value="critical">Critical - Emergency</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contactSubject">Subject *</label>
+                <input type="text" id="contactSubject" name="subject" required placeholder="Brief description of your inquiry">
+              </div>
+
+              <div class="form-group">
+                <label for="contactMessage">Message *</label>
+                <textarea id="contactMessage" name="message" rows="6" required placeholder="Please provide detailed information about your inquiry or issue..."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="contactInstitution">Institution (Optional)</label>
+                <input type="text" id="contactInstitution" name="institution" placeholder="Your institution name">
+              </div>
+
+              <div class="form-actions">
+                <button type="button" class="btn btn--secondary" onclick="clearForm()">Clear Form</button>
+                <button type="submit" class="btn btn--primary">📧 Send Message</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Office Information -->
+        <section class="office-info">
+          <h2>🏢 Our Offices</h2>
+          <div class="office-grid">
+            <div class="office-card">
+              <h3>🇺🇸 Headquarters</h3>
+              <div class="office-address">
+                <p>Flow Education Platform</p>
+                <p>123 Innovation Drive, Suite 400</p>
+                <p>San Francisco, CA 94107</p>
+                <p>United States</p>
+              </div>
+              <div class="office-contact">
+                <p><strong>📞 Phone:</strong> +1 (555) 123-FLOW</p>
+                <p><strong>📧 Email:</strong> headquarters@flow.edu</p>
+              </div>
+            </div>
+
+            <div class="office-card">
+              <h3>🇪🇺 European Office</h3>
+              <div class="office-address">
+                <p>Flow Education Europe</p>
+                <p>45 Tech Park Boulevard</p>
+                <p>London EC2A 3LT</p>
+                <p>United Kingdom</p>
+              </div>
+              <div class="office-contact">
+                <p><strong>📞 Phone:</strong> +44 20 7123 4567</p>
+                <p><strong>📧 Email:</strong> europe@flow.edu</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="contact-faq">
+          <h2>❓ Before You Contact Us</h2>
+          <div class="faq-grid">
+            <div class="faq-item">
+              <h3 onclick="toggleFAQ(this)">What information should I include in my support request?</h3>
+              <div class="faq-answer">
+                <p>Please include: your institution name, user email, detailed description of the issue, steps to reproduce the problem, browser/device information, and any error messages you're seeing.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <h3 onclick="toggleFAQ(this)">How quickly will I receive a response?</h3>
+              <div class="faq-answer">
+                <p>Response times vary by priority: General inquiries within 4 hours, Technical issues within 2 hours, Sales inquiries within 1 business day, Emergency issues within 15 minutes.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <h3 onclick="toggleFAQ(this)">Do you offer phone support?</h3>
+              <div class="faq-answer">
+                <p>Yes! Phone support is available for sales inquiries and emergency technical issues. For general support, we recommend email or live chat for faster resolution.</p>
+              </div>
+            </div>
+            
+            <div class="faq-item">
+              <h3 onclick="toggleFAQ(this)">Can I schedule a demo of Flow?</h3>
+              <div class="faq-answer">
+                <p>Absolutely! Contact our sales team at sales@flow.edu or use the "Contact Sales" button above to schedule a personalized demo of Flow for your institution.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer">
+    <div class="container footer__inner">
+      <div class="footer__grid">
+        <!-- Brand section -->
+        <div class="footer__brand">
+          <div class="footer__logo" onclick="scrollToTop()" style="cursor: pointer;" title="Back to top">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#373896"/>
+                  <stop offset="100%" style="stop-color:#6b6ce8"/>
+                </linearGradient>
+              </defs>
+              <circle cx="20" cy="20" r="18" fill="url(#logoGradient)" stroke="currentColor" stroke-width="2"/>
+              <path d="M15 18l5-5 5 5M20 13v14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="footer__brand-text">
+            <div class="footer__brand-name">Flow</div>
+            <div class="footer__tagline">Streamlining Education Access</div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="footer__section">
+          <h3 class="footer__title">For Students</h3>
+          <ul class="footer__links">
+            <li><a href="/students/">Dashboard</a></li>
+            <li><a href="/students/applications.html">Applications</a></li>
+            <li><a href="/students/profile.html">Profile</a></li>
+            <li><a href="/students/help.html">Help Center</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title">For Institutions</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/">Dashboard</a></li>
+            <li><a href="/institutions/programs.html">Programs</a></li>
+            <li><a href="/institutions/admissions.html">Admissions</a></li>
+            <li><a href="/institutions/reports.html">Reports</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title">Support</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/help.html">Help Center</a></li>
+            <li><a href="/contact/">Contact</a></li>
+            <li><a href="/legal/privacy.html">Privacy</a></li>
+            <li><a href="/legal/terms.html">Terms</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title">Connect</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/messages.html">Messages</a></li>
+            <li><a href="/community/">Community</a></li>
+            <li><a href="/blog/">Updates</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <div class="footer__copyright">
+          © 2024 Flow Education Platform. All rights reserved.
+        </div>
+        <div class="footer__status">
+          <span class="footer__status-dot"></span>
+          <span>All systems operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    console.log('Contact page loaded');
+    
+    window.contactSupport = function(type) {
+      const types = {
+        'general': {
+          email: 'support@flow.edu',
+          subject: 'General Support Request'
+        },
+        'sales': {
+          email: 'sales@flow.edu', 
+          subject: 'Sales Inquiry'
+        }
+      };
+      
+      const contact = types[type] || types.general;
+      alert(`📧 Contact ${type} Support\n\nEmail: ${contact.email}\nSubject: ${contact.subject}\n\nIn a real implementation, this would open your email client or a contact form.`);
+    }
+    
+    window.startLiveChat = function() {
+      alert('💬 Live Chat\n\nConnecting you to our support team...\n\n🕒 Support Hours: Monday-Friday, 8 AM - 8 PM EST\n📱 Response time: ~2 minutes\n\nIn a real implementation, this would open a live chat window.');
+    }
+    
+    window.emergencySupport = function() {
+      if (confirm('🚨 Emergency Support\n\nThis is for critical system issues only.\n\nFor non-emergency issues, please use general support.\n\nContinue to emergency contact?')) {
+        alert('📞 Emergency Support\n\nPhone: +1 (555) 999-HELP\nAvailable: 24/7/365\nResponse: Within 15 minutes\n\nPlease call immediately for critical issues.');
+      }
+    }
+    
+    window.submitContactForm = function(event) {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const data = Object.fromEntries(formData);
+      
+      alert(`📧 Message Sent Successfully!\n\nTicket ID: #CONT-${Math.random().toString(36).substr(2, 6).toUpperCase()}\n\nThank you ${data.name}! We'll respond to ${data.email} within 4 hours.\n\nPriority: ${data.priority}\nSubject: ${data.subject}`);
+      
+      event.target.reset();
+    }
+    
+    window.clearForm = function() {
+      if (confirm('Clear all form data?')) {
+        document.querySelector('.contact-form').reset();
+      }
+    }
+    
+    window.toggleFAQ = function(element) {
+      const answer = element.nextElementSibling;
+      const isOpen = answer.style.display === 'block';
+      answer.style.display = isOpen ? 'none' : 'block';
+      element.style.cursor = 'pointer';
+    }
+    
+    // Initialize FAQ functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const faqItems = document.querySelectorAll('.faq-item h3');
+      faqItems.forEach(item => {
+        item.style.cursor = 'pointer';
+        item.nextElementSibling.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#373896" />
+  <title>Flow — Profile</title>
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/students.css" />
+  
+  <!-- Circular Logo Styles -->
+  <style>
+    .brand__logo,
+    .footer__logo {
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    .brand__logo:hover,
+    .footer__logo:hover {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+      animation-duration: 1.5s;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { 
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        filter: brightness(1);
+      }
+      50% { 
+        box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+        filter: brightness(1.1);
+      }
+    }
+
+    /* White fonts for specific profile page elements */
+    #profileTitle {
+      color: #ffffff !important;
+    }
+
+    .footer__nav a {
+      color: #ffffff !important;
+    }
+
+    .footer__nav a:hover {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    /* Advanced SVG styles */
+    .advanced-svg-link {
+      display: flex !important;
+      align-items: center !important;
+      gap: 0.75rem !important;
+      padding: 0.5rem !important;
+      border-radius: 8px !important;
+      transition: all 0.3s ease !important;
+      position: relative !important;
+      overflow: hidden !important;
+    }
+
+    .advanced-svg-link:hover {
+      background: rgba(255, 255, 255, 0.1) !important;
+      transform: translateX(4px) !important;
+    }
+
+    .advanced-svg-link:hover .svg-icon {
+      transform: scale(1.1) rotate(3deg) !important;
+    }
+
+    .svg-icon {
+      width: 24px !important;
+      height: 24px !important;
+      transition: all 0.3s ease !important;
+      filter: drop-shadow(0 2px 4px rgba(67, 56, 202, 0.3)) !important;
+    }
+
+    .advanced-svg-link::before {
+      content: '' !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: -100% !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent) !important;
+      transition: left 0.6s ease !important;
+    }
+
+    .advanced-svg-link:hover::before {
+      left: 100% !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Futuristic background -->
+  <div class="bg-animation" aria-hidden="true">
+    <canvas id="particleCanvas"></canvas>
+  </div>
+
+  <!-- Toasts -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+
+      <!-- Connection status (optional; wired by script) -->
+      <div class="connection-status" id="connectionStatus" aria-live="polite">
+        <span class="connection-status__indicator"></span>
+        <span class="connection-status__text">Online</span>
+      </div>
+
+      <!-- Language -->
+      <form class="lang-switch" aria-label="Language selector">
+        <label for="lang" class="sr-only">Language</label>
+        <select id="lang" name="lang">
+          <option value="en" selected>English</option>
+          <option value="fr">Français</option>
+          <option value="ar" dir="rtl">العربية</option>
+          <option value="sw">Kiswahili</option>
+        </select>
+      </form>
+
+      <!-- Main nav -->
+      <nav class="nav" role="navigation" aria-label="Main navigation">
+        <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu">
+          <span class="nav__toggle-icon"><span></span><span></span><span></span></span>
+          <span class="nav__toggle-text">Menu</span>
+        </button>
+        <ul id="navMenu" class="nav__list" data-open="false">
+          <li><a href="/">Home</a></li>
+          <li><a href="/students/">Students</a></li>
+          <li><a href="/institutions/">Institutions</a></li>
+          <li><a href="/counselors/">Counselors</a></li>
+          <li><a href="/parents/">Parents</a></li>
+          <li><a href="/recommenders/">Recommenders</a></li>
+          <li><a class="btn btn--ghost" href="/students/onboarding.html">Get Started</a></li>
+          <li><a class="btn btn--primary" href="/auth/">Sign In</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Students subnav -->
+  <nav class="subnav" role="navigation" aria-label="Student sections">
+    <div class="container">
+      <div class="subnav__inner">
+        <a href="/students/onboarding.html" class="badge badge--primary">+ <span>Start Onboarding</span></a>
+        <a href="/students/" class="subnav__link">Dashboard</a>
+        <a href="/students/profile.html" class="subnav__link subnav__link--active">Profile</a>
+        <a href="/students/programs.html" class="subnav__link">Programs</a>
+        <a href="/students/applications.html" class="subnav__link">Applications</a>
+        <a href="/students/#messages" class="subnav__link">
+          Messages <span id="messagesBadge" class="pill-badge" hidden>0</span>
+        </a>
+        <a href="/students/finance.html" class="subnav__link">Finance</a>
+        <a href="/students/help.html" class="subnav__link">Help</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <div class="container">
+        <ol class="breadcrumb__list">
+          <li class="breadcrumb__item"><a href="/" class="breadcrumb__link">Home</a></li>
+          <li class="breadcrumb__separator" aria-hidden="true">/</li>
+          <li class="breadcrumb__item"><a href="/students/" class="breadcrumb__link">Student Portal</a></li>
+          <li class="breadcrumb__separator" aria-hidden="true">/</li>
+          <li class="breadcrumb__item"><span class="breadcrumb__current">Profile</span></li>
+        </ol>
+      </div>
+    </nav>
+
+    <!-- Profile layout -->
+    <section class="section" aria-labelledby="profileTitle">
+      <div class="container">
+        <header class="section__header">
+          <h1 id="profileTitle">Profile & Settings</h1>
+          <p class="section__description">Manage your personal info, academics, and documents.</p>
+        </header>
+
+        <div class="profile-grid">
+          <!-- Left: avatar + quick info -->
+          <aside class="profile-aside">
+            <div class="card profile-card">
+              <div class="profile-card__avatar">
+                <div id="avatarCrop" class="avatar-crop" aria-label="Avatar crop preview"></div>
+              </div>
+              <div class="profile-card__controls">
+                <label class="btn btn--ghost btn--sm">
+                  <input id="avatarInput" type="file" accept="image/*" hidden />
+                  Change photo
+                </label>
+                <div class="avatar-tools">
+                  <label>Zoom</label>
+                  <input id="avatarZoom" type="range" min="1" max="3" step="0.01" value="1" />
+                  <button id="avatarSave" class="btn btn--primary btn--sm" type="button">Save Avatar</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3 class="card__title">Account</h3>
+              <ul class="list list--compact">
+                <li><strong>Email:</strong> student@example.com</li>
+                <li><strong>Status:</strong> Verified</li>
+              </ul>
+              <div class="card__actions">
+                <a href="/auth/" class="btn btn--ghost btn--sm">Manage sign-in</a>
+              </div>
+            </div>
+          </aside>
+
+          <!-- Right: forms -->
+          <div class="profile-content">
+            <article class="dashboard-card" aria-labelledby="detailsTitle">
+              <header class="dashboard-card__header">
+                <h2 id="detailsTitle">Personal details</h2>
+              </header>
+              <div class="form-grid">
+                <label>
+                  <span>Full name</span>
+                  <input id="pfName" class="form-input" type="text" placeholder="Your full name" />
+                </label>
+                <label>
+                  <span>Date of birth</span>
+                  <input id="pfDob" class="form-input" type="date"/>
+                </label>
+                <label>
+                  <span>Phone</span>
+                  <input id="pfPhone" class="form-input" type="tel" placeholder="+254 700 000 000" />
+                </label>
+                <label>
+                  <span>Country</span>
+                  <input id="pfCountry" class="form-input" type="text" placeholder="Kenya" />
+                </label>
+              </div>
+              <div class="dashboard-card__footer">
+                <button id="savePersonal" class="btn btn--primary" type="button">Save</button>
+              </div>
+            </article>
+
+            <article class="dashboard-card" aria-labelledby="acadTitle">
+              <header class="dashboard-card__header">
+                <h2 id="acadTitle">Academics</h2>
+              </header>
+              <div class="form-grid">
+                <label>
+                  <span>Preferred field</span>
+                  <input id="pfInterest" class="form-input" type="text" placeholder="Computer Science" />
+                </label>
+                <label>
+                  <span>GPA</span>
+                  <input id="pfGpa" class="form-input" type="number" step="0.01" min="0" max="4" placeholder="3.80" />
+                </label>
+                <label>
+                  <span>Graduation year</span>
+                  <input id="pfGrad" class="form-input" type="number" min="1990" max="2099" placeholder="2026" />
+                </label>
+                <label>
+                  <span>Test scores (optional)</span>
+                  <input id="pfScores" class="form-input" type="text" placeholder="e.g., SAT 1450" />
+                </label>
+              </div>
+              <div class="dashboard-card__footer">
+                <button id="saveAcademic" class="btn btn--ghost" type="button">Save</button>
+              </div>
+            </article>
+
+            <article class="dashboard-card" aria-labelledby="docsTitle">
+              <header class="dashboard-card__header">
+                <h2 id="docsTitle">Documents</h2>
+              </header>
+
+              <div id="docUploadArea" class="upload-area">
+                <input id="docUploadInput" type="file" multiple hidden accept=".pdf,.png,.jpg,.jpeg" />
+                <p><strong>Drag & drop</strong> PDFs or images here, or</p>
+                <button id="docUploadBtn" class="btn btn--ghost btn--sm" type="button">Choose files</button>
+                <p class="upload-hint">Up to 10 files • Max 5MB each</p>
+              </div>
+
+              <ul id="docUploadList" class="file-list" role="list"></ul>
+              <div class="dashboard-card__footer">
+                <span class="muted"><span id="docUploadCount">0</span>/10 uploaded</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer">
+    <div class="container footer__grid">
+      <section class="footer__brand">
+        <img src="/assets/img/logo.png" alt="" class="footer__logo" width="40" height="40" />
+        <h3 class="footer__title">Flow</h3>
+        <p class="footer__tagline">Connecting learners and institutions across Africa.</p>
+      </section>
+      <nav aria-label="Quick links" class="footer__nav">
+        <h3 class="footer__nav-title">Student Resources</h3>
+        <ul>
+          <li><a href="/students/programs.html" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="programsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#4338ca"/>
+                  <stop offset="50%" style="stop-color:#6366f1"/>
+                  <stop offset="100%" style="stop-color:#8b5cf6"/>
+                </linearGradient>
+                <filter id="programsGlow">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <!-- University building with modern design -->
+              <rect x="2" y="16" width="20" height="6" rx="1" fill="url(#programsGradient)" opacity="0.8"/>
+              <!-- Main building structure -->
+              <rect x="4" y="8" width="16" height="8" rx="1" fill="url(#programsGradient)" filter="url(#programsGlow)"/>
+              <!-- Tower/spire -->
+              <rect x="10" y="4" width="4" height="4" rx="0.5" fill="url(#programsGradient)" opacity="0.9"/>
+              <!-- Windows with animation -->
+              <rect x="6" y="10" width="2" height="2" rx="0.3" fill="white" opacity="0.7">
+                <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="9" y="10" width="2" height="2" rx="0.3" fill="white" opacity="0.8">
+                <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.5s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="13" y="10" width="2" height="2" rx="0.3" fill="white" opacity="0.6">
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="4s" repeatCount="indefinite"/>
+              </rect>
+              <rect x="16" y="10" width="2" height="2" rx="0.3" fill="white" opacity="0.9">
+                <animate attributeName="opacity" values="0.9;0.5;0.9" dur="3.5s" repeatCount="indefinite"/>
+              </rect>
+              <!-- Door -->
+              <rect x="11" y="13" width="2" height="3" rx="0.3" fill="white" opacity="0.8"/>
+              <!-- Flag on top -->
+              <rect x="12" y="2" width="3" height="2" fill="#10b981" opacity="0.8">
+                <animateTransform attributeName="transform" type="rotate" values="0 12 3;5 12 3;-5 12 3;0 12 3" dur="2s" repeatCount="indefinite"/>
+              </rect>
+              <!-- Steps -->
+              <rect x="3" y="15" width="18" height="1" fill="url(#programsGradient)" opacity="0.6"/>
+              <!-- Decorative elements -->
+              <circle cx="6" cy="6" r="1" fill="#f59e0b" opacity="0.7">
+                <animate attributeName="r" values="0.8;1.2;0.8" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="18" cy="6" r="1" fill="#f59e0b" opacity="0.7">
+                <animate attributeName="r" values="1.2;0.8;1.2" dur="2s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+            <span>Browse Programs</span>
+          </a></li>
+          <li><a href="/students/applications.html" class="advanced-svg-link">
+            <svg class="svg-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="applicationsGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#059669"/>
+                  <stop offset="50%" style="stop-color:#10b981"/>
+                  <stop offset="100%" style="stop-color:#34d399"/>
+                </linearGradient>
+                <filter id="applicationsGlow">
+                  <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+              <!-- Multiple stacked documents -->
+              <rect x="3" y="5" width="14" height="16" rx="2" fill="url(#applicationsGradient)" opacity="0.6" transform="rotate(-3 10 13)"/>
+              <rect x="4" y="4" width="14" height="16" rx="2" fill="url(#applicationsGradient)" opacity="0.8" transform="rotate(1 11 12)"/>
+              <rect x="5" y="3" width="14" height="16" rx="2" fill="url(#applicationsGradient)" filter="url(#applicationsGlow)"/>
+              
+              <!-- Document content lines -->
+              <rect x="7" y="6" width="8" height="1" rx="0.5" fill="white" opacity="0.8"/>
+              <rect x="7" y="8" width="6" height="1" rx="0.5" fill="white" opacity="0.6"/>
+              <rect x="7" y="10" width="7" height="1" rx="0.5" fill="white" opacity="0.7"/>
+              
+              <!-- Status indicators with animations -->
+              <circle cx="16" cy="7" r="2" fill="#10b981">
+                <animate attributeName="r" values="1.5;2.5;1.5" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M15 7 L16 8 L17.5 6" stroke="white" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              
+              <!-- Progress indicator -->
+              <rect x="7" y="14" width="8" height="2" rx="1" fill="rgba(255,255,255,0.3)"/>
+              <rect x="7" y="14" width="6" height="2" rx="1" fill="#34d399">
+                <animate attributeName="width" values="3;6;3" dur="3s" repeatCount="indefinite"/>
+              </rect>
+              
+              <!-- Floating elements for activity -->
+              <circle cx="20" cy="4" r="1.5" fill="#f59e0b" opacity="0.8">
+                <animateTransform attributeName="transform" type="translate" values="0 0;2 -1;0 0" dur="4s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.8;0.4;0.8" dur="4s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="2" cy="20" r="1" fill="#8b5cf6" opacity="0.6">
+                <animateTransform attributeName="transform" type="translate" values="0 0;-1 -2;0 0" dur="5s" repeatCount="indefinite"/>
+              </circle>
+              
+              <!-- Corner fold effect -->
+              <path d="M16 3 L19 3 L19 6 Z" fill="rgba(255,255,255,0.2)"/>
+            </svg>
+            <span>My Applications</span>
+          </a></li>
+        </ul>
+      </nav>
+      <section class="footer__cta">
+        <h3 class="footer__cta-title">Need help?</h3>
+        <a href="/contact/" class="btn btn--primary">Get Support</a>
+      </section>
+    </div>
+    <div class="footer__meta">
+      <div class="container footer__meta-inner">
+        <small class="footer__copyright">© <span id="year"></span> Flow.</small>
+        <div class="footer__links">
+          <a href="/legal/terms.html">Terms</a>
+          <a href="/legal/privacy.html">Privacy</a>
+          <a href="/legal/cookies.html">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Advanced Settings Button (matching dashboard design) -->
+  <button id="settingsToggle" class="settings-fab" type="button" aria-label="Open settings">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id="settingsGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#4338ca"/>
+          <stop offset="50%" style="stop-color:#6366f1"/>
+          <stop offset="100%" style="stop-color:#8b5cf6"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <g transform-origin="12 12">
+        <path d="M12 1l2.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 1z" fill="url(#settingsGradient1)" opacity="0.2"/>
+        <circle cx="12" cy="12" r="10" stroke="url(#settingsGradient1)" stroke-width="1.5" fill="none" opacity="0.6">
+          <animate attributeName="stroke-dasharray" values="0 63;31 31;0 63" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <g stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          <path d="m19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </g>
+        <animateTransform attributeName="transform" type="rotate" values="0;360" dur="20s" repeatCount="indefinite"/>
+      </g>
+    </svg>
+  </button>
+
+  <!-- Advanced Settings Modal -->
+  <div id="settingsModal" class="settings-modal" aria-hidden="true" aria-labelledby="settingsModalTitle">
+    <div class="settings-modal__backdrop"></div>
+    <div class="settings-modal__container">
+      <div class="settings-modal__header">
+        <div class="settings-modal__title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="modalHeaderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#4338ca"/>
+                <stop offset="100%" style="stop-color:#8b5cf6"/>
+              </linearGradient>
+            </defs>
+            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" fill="url(#modalHeaderGradient)"/>
+            <path d="m19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="url(#modalHeaderGradient)" stroke-width="1" fill="none"/>
+          </svg>
+          <h2 id="settingsModalTitle">Advanced Settings</h2>
+        </div>
+        <button id="settingsClose" class="settings-modal__close" type="button" aria-label="Close settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-modal__body">
+        <div class="settings-tabs">
+          <button class="settings-tab settings-tab--active" data-tab="appearance" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            Appearance
+          </button>
+          <button class="settings-tab" data-tab="language" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Language
+          </button>
+          <button class="settings-tab" data-tab="notifications" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            Notifications
+          </button>
+          <button class="settings-tab" data-tab="accessibility" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="10" r="3"/>
+              <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>
+            </svg>
+            Accessibility
+          </button>
+        </div>
+
+        <div class="settings-content">
+          <!-- Appearance Tab -->
+          <div class="settings-panel settings-panel--active" data-panel="appearance">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Theme</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="themeSelect">Color theme</label>
+                  <p>Choose your preferred color scheme</p>
+                </div>
+                <select id="themeSelect" class="settings-select">
+                  <option value="auto">Auto (System)</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="densitySelect">Layout density</label>
+                  <p>Adjust spacing and component sizes</p>
+                </div>
+                <select id="densitySelect" class="settings-select">
+                  <option value="comfortable">Comfortable</option>
+                  <option value="compact">Compact</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Visual Effects</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="animationsToggle">Animations</label>
+                  <p>Enable smooth transitions and animations</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="animationsToggle" checked>
+                  <label for="animationsToggle" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="particlesToggle">Background effects</label>
+                  <p>Show animated background particles</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="particlesToggle" checked>
+                  <label for="particlesToggle" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Language Tab -->
+          <div class="settings-panel" data-panel="language">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Interface Language</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="languageSelect">Display language</label>
+                  <p>Change the language of the interface</p>
+                </div>
+                <select id="languageSelect" class="settings-select">
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                  <option value="ar">العربية</option>
+                  <option value="sw">Kiswahili</option>
+                  <option value="ha">Hausa</option>
+                  <option value="yo">Yoruba</option>
+                  <option value="ig">Igbo</option>
+                  <option value="zu">Zulu</option>
+                  <option value="am">Amharic</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Regional Settings</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="timezoneSelect">Timezone</label>
+                  <p>Set your local timezone for dates and times</p>
+                </div>
+                <select id="timezoneSelect" class="settings-select">
+                  <option value="auto">Auto-detect</option>
+                  <option value="Africa/Lagos">West Africa Time (WAT)</option>
+                  <option value="Africa/Cairo">Eastern European Time (EET)</option>
+                  <option value="Africa/Johannesburg">South Africa Standard Time (SAST)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications Tab -->
+          <div class="settings-panel" data-panel="notifications">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Push Notifications</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="pushNotifications">Enable push notifications</label>
+                  <p>Receive notifications even when the app is closed</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="pushNotifications" checked>
+                  <label for="pushNotifications" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="applicationUpdates">Application updates</label>
+                  <p>Get notified about application status changes</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="applicationUpdates" checked>
+                  <label for="applicationUpdates" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="messageNotifications">Messages</label>
+                  <p>Notifications for new messages and replies</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="messageNotifications" checked>
+                  <label for="messageNotifications" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Email Notifications</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="emailDigest">Daily digest</label>
+                  <p>Receive a daily summary of your activity</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="emailDigest">
+                  <label for="emailDigest" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accessibility Tab -->
+          <div class="settings-panel" data-panel="accessibility">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Motion & Animation</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="reducedMotion">Reduce motion</label>
+                  <p>Minimize animations for better accessibility</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="reducedMotion">
+                  <label for="reducedMotion" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Display</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="highContrast">High contrast</label>
+                  <p>Increase contrast for better readability</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="highContrast">
+                  <label for="highContrast" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="fontSizeSelect">Font size</label>
+                  <p>Adjust text size for better readability</p>
+                </div>
+                <select id="fontSizeSelect" class="settings-select">
+                  <option value="small">Small</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="large">Large</option>
+                  <option value="extra-large">Extra Large</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-modal__footer">
+        <div class="settings-actions">
+          <button id="resetSettings" class="btn btn--ghost" type="button">Reset to Defaults</button>
+          <button id="saveSettings" class="btn btn--primary" type="button">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Settings Styles -->
+  <style>
+    .settings-fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 64px;
+      height: 64px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4338ca, #6366f1, #8b5cf6);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      will-change: transform;
+    }
+
+    .settings-fab::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(#4338ca, #6366f1, #8b5cf6, #4338ca);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+      animation: rotate 3s linear infinite;
+    }
+
+    .settings-fab:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 40px rgba(99, 102, 241, 0.4), 0 0 30px rgba(99, 102, 241, 0.2);
+    }
+
+    .settings-fab:hover::before {
+      opacity: 1;
+    }
+
+    .settings-fab:active {
+      transform: scale(0.95);
+    }
+
+    .settings-fab svg {
+      width: 28px;
+      height: 28px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Advanced Settings Modal */
+    .settings-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .settings-modal[aria-hidden="false"] {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .settings-modal__backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+    }
+
+    .settings-modal__container {
+      position: relative;
+      max-width: 800px;
+      width: 90vw;
+      max-height: 90vh;
+      margin: 5vh auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .settings-modal[aria-hidden="false"] .settings-modal__container {
+      transform: scale(1);
+    }
+
+    .settings-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 32px;
+      background: linear-gradient(135deg, #4338ca 0%, #8b5cf6 100%);
+      color: white;
+    }
+
+    .settings-modal__title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .settings-modal__title-group h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .settings-modal__close {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .settings-modal__close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .settings-modal__body {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .settings-tabs {
+      display: flex;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0 32px;
+    }
+
+    .settings-tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 20px;
+      background: none;
+      border: none;
+      color: #64748b;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+      border-radius: 0;
+    }
+
+    .settings-tab:hover {
+      color: #475569;
+      background: rgba(67, 56, 202, 0.05);
+    }
+
+    .settings-tab--active {
+      color: #4338ca;
+      font-weight: 600;
+    }
+
+    .settings-tab--active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #4338ca 0%, #8b5cf6 100%);
+      border-radius: 2px 2px 0 0;
+    }
+
+    .settings-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px;
+    }
+
+    .settings-panel {
+      display: none;
+    }
+
+    .settings-panel--active {
+      display: block;
+    }
+
+    .settings-group {
+      margin-bottom: 32px;
+    }
+
+    .settings-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-group__title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0 0 20px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .settings-option {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .settings-option:last-child {
+      border-bottom: none;
+    }
+
+    .settings-option__info {
+      flex: 1;
+      margin-right: 20px;
+    }
+
+    .settings-option__info label {
+      display: block;
+      font-weight: 500;
+      color: #374151;
+      margin: 0 0 4px 0;
+    }
+
+    .settings-option__info p {
+      margin: 0;
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.4;
+    }
+
+    .settings-select {
+      min-width: 160px;
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+      color: #374151;
+      transition: all 0.2s ease;
+    }
+
+    .settings-select:focus {
+      outline: none;
+      border-color: #4338ca;
+      box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.1);
+    }
+
+    .settings-toggle {
+      position: relative;
+      width: 48px;
+      height: 24px;
+    }
+
+    .settings-toggle input[type="checkbox"] {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #d1d5db;
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    input:checked + .toggle-slider {
+      background: linear-gradient(135deg, #4338ca, #8b5cf6);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+
+    .settings-modal__footer {
+      padding: 24px 32px;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .settings-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .settings-actions .btn {
+      padding: 10px 20px;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .settings-actions .btn--primary {
+      background: linear-gradient(135deg, #4338ca 0%, #8b5cf6 100%);
+      color: white;
+      border: none;
+    }
+
+    .settings-actions .btn--primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(67, 56, 202, 0.3);
+    }
+
+    .settings-actions .btn--ghost {
+      background: transparent;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+    }
+
+    .settings-actions .btn--ghost:hover {
+      background: #f9fafb;
+      color: #374151;
+      border-color: #9ca3af;
+    }
+
+    @media (max-width: 768px) {
+      .settings-modal__container {
+        width: 95vw;
+        margin: 2.5vh auto;
+        max-height: 95vh;
+      }
+
+      .settings-modal__header,
+      .settings-content,
+      .settings-modal__footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .settings-tabs {
+        padding: 0 20px;
+        overflow-x: auto;
+      }
+
+      .settings-option {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .settings-option__info {
+        margin-right: 0;
+      }
+    }
+  </style>
+
+  <!-- JS -->
+  <script src="/assets/js/auth.js" defer></script>
+  <script src="/assets/js/i18n.js" defer></script>
+  <script src="/assets/js/main.js" defer></script>
+  <script src="/assets/js/students_profile.js" defer></script>
+  
+  <script>
+    // Advanced Settings System
+    document.addEventListener('DOMContentLoaded', function() {
+      const settingsSystem = {
+        modal: null,
+        isOpen: false,
+        activeTab: 'appearance',
+        
+        settings: {
+          theme: 'auto',
+          density: 'comfortable',
+          animations: true,
+          particles: true,
+          language: 'en',
+          timezone: 'auto',
+          pushNotifications: true,
+          applicationUpdates: true,
+          messageNotifications: true,
+          emailDigest: false,
+          reducedMotion: false,
+          highContrast: false,
+          fontSize: 'medium'
+        },
+        
+        init() {
+          this.modal = document.getElementById('settingsModal');
+          this.setupEventListeners();
+          this.loadSettings();
+          this.applySettings();
+        },
+        
+        setupEventListeners() {
+          const toggleBtn = document.getElementById('settingsToggle');
+          if (toggleBtn) {
+            toggleBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.openModal();
+            });
+          }
+          
+          const closeBtn = document.getElementById('settingsClose');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.closeModal();
+            });
+          }
+          
+          if (this.modal) {
+            const backdrop = this.modal.querySelector('.settings-modal__backdrop');
+            if (backdrop) {
+              backdrop.addEventListener('click', () => {
+                this.closeModal();
+              });
+            }
+          }
+          
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen) {
+              this.closeModal();
+            }
+          });
+          
+          const tabs = document.querySelectorAll('.settings-tab');
+          tabs.forEach(tab => {
+            tab.addEventListener('click', (e) => {
+              e.preventDefault();
+              const tabName = tab.dataset.tab;
+              this.switchTab(tabName);
+            });
+          });
+          
+          this.setupSettingsControls();
+          
+          const saveBtn = document.getElementById('saveSettings');
+          const resetBtn = document.getElementById('resetSettings');
+          
+          if (saveBtn) {
+            saveBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.saveSettings();
+            });
+          }
+          
+          if (resetBtn) {
+            resetBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.resetSettings();
+            });
+          }
+        },
+        
+        setupSettingsControls() {
+          const themeSelect = document.getElementById('themeSelect');
+          if (themeSelect) {
+            themeSelect.addEventListener('change', (e) => {
+              this.settings.theme = e.target.value;
+              this.applyTheme();
+            });
+          }
+          
+          const densitySelect = document.getElementById('densitySelect');
+          if (densitySelect) {
+            densitySelect.addEventListener('change', (e) => {
+              this.settings.density = e.target.value;
+              this.applyDensity();
+            });
+          }
+          
+          const languageSelect = document.getElementById('languageSelect');
+          if (languageSelect) {
+            languageSelect.addEventListener('change', (e) => {
+              this.settings.language = e.target.value;
+            });
+          }
+          
+          const toggles = ['animationsToggle', 'particlesToggle', 'pushNotifications', 'applicationUpdates', 'messageNotifications', 'emailDigest', 'reducedMotion', 'highContrast'];
+          toggles.forEach(toggleId => {
+            const toggle = document.getElementById(toggleId);
+            if (toggle) {
+              toggle.addEventListener('change', (e) => {
+                const settingKey = toggleId.replace('Toggle', '');
+                this.settings[settingKey] = e.target.checked;
+                this.applyToggleSetting(settingKey);
+              });
+            }
+          });
+        },
+        
+        openModal() {
+          if (this.modal) {
+            this.modal.setAttribute('aria-hidden', 'false');
+            this.isOpen = true;
+            document.body.style.overflow = 'hidden';
+            
+            const firstFocusable = this.modal.querySelector('button, input, select');
+            if (firstFocusable) {
+              setTimeout(() => firstFocusable.focus(), 100);
+            }
+          }
+        },
+        
+        closeModal() {
+          if (this.modal) {
+            this.modal.setAttribute('aria-hidden', 'true');
+            this.isOpen = false;
+            document.body.style.overflow = '';
+          }
+        },
+        
+        switchTab(tabName) {
+          this.activeTab = tabName;
+          
+          const tabs = document.querySelectorAll('.settings-tab');
+          const panels = document.querySelectorAll('.settings-panel');
+          
+          tabs.forEach(tab => {
+            tab.classList.remove('settings-tab--active');
+          });
+          panels.forEach(panel => {
+            panel.classList.remove('settings-panel--active');
+          });
+          
+          const activeTab = document.querySelector(`[data-tab="${tabName}"]`);
+          const activePanel = document.querySelector(`[data-panel="${tabName}"]`);
+          
+          if (activeTab) activeTab.classList.add('settings-tab--active');
+          if (activePanel) activePanel.classList.add('settings-panel--active');
+        },
+        
+        loadSettings() {
+          try {
+            const saved = localStorage.getItem('flowSettings');
+            if (saved) {
+              this.settings = { ...this.settings, ...JSON.parse(saved) };
+            }
+          } catch (e) {
+            console.log('Settings load error:', e);
+          }
+          this.updateUI();
+        },
+        
+        saveSettings() {
+          try {
+            localStorage.setItem('flowSettings', JSON.stringify(this.settings));
+            this.showToast('Settings saved successfully!', 'success');
+            this.closeModal();
+          } catch (e) {
+            this.showToast('Failed to save settings', 'error');
+          }
+        },
+        
+        resetSettings() {
+          if (confirm('Are you sure you want to reset all settings to default?')) {
+            this.settings = {
+              theme: 'auto',
+              density: 'comfortable',
+              animations: true,
+              particles: true,
+              language: 'en',
+              timezone: 'auto',
+              pushNotifications: true,
+              applicationUpdates: true,
+              messageNotifications: true,
+              emailDigest: false,
+              reducedMotion: false,
+              highContrast: false,
+              fontSize: 'medium'
+            };
+            this.updateUI();
+            this.applySettings();
+            this.showToast('Settings reset to defaults', 'info');
+          }
+        },
+        
+        updateUI() {
+          Object.keys(this.settings).forEach(key => {
+            const element = document.getElementById(`${key}Select`) || document.getElementById(`${key}Toggle`);
+            if (element) {
+              if (element.type === 'checkbox') {
+                element.checked = this.settings[key];
+              } else {
+                element.value = this.settings[key];
+              }
+            }
+          });
+        },
+        
+        applySettings() {
+          this.applyTheme();
+          this.applyDensity();
+          Object.keys(this.settings).forEach(key => {
+            if (typeof this.settings[key] === 'boolean') {
+              this.applyToggleSetting(key);
+            }
+          });
+        },
+        
+        applyTheme() {
+          const theme = this.settings.theme;
+          document.documentElement.setAttribute('data-theme', theme);
+        },
+        
+        applyDensity() {
+          const density = this.settings.density;
+          document.documentElement.setAttribute('data-density', density);
+        },
+        
+        applyToggleSetting(key) {
+          const value = this.settings[key];
+          document.documentElement.setAttribute(`data-${key.toLowerCase()}`, value);
+        },
+        
+        showToast(message, type = 'info') {
+          console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+      };
+      
+      settingsSystem.init();
+    });
+  </script>
+</body>
+</html>

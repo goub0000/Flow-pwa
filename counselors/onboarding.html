@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Flow — Counselor Onboarding</title>
+  <meta name="description" content="Set up your counselor account, organization, students, messaging templates, and preferences." />
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <!-- Page‑specific styles -->
+  <link rel="stylesheet" href="/assets/css/counselors-onboarding.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <!-- Enhanced Header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+
+      <div class="onboarding-controls">
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+          <div class="progress-circle active">1</div>
+          <div class="progress-line"></div>
+          <div class="progress-circle">2</div>
+          <div class="progress-line"></div>
+          <div class="progress-circle">3</div>
+          <div class="progress-line"></div>
+          <div class="progress-circle">4</div>
+          <div class="progress-line"></div>
+          <div class="progress-circle">5</div>
+          <div class="progress-line"></div>
+          <div class="progress-circle">6</div>
+        </div>
+        
+        <!-- Help Button -->
+        <button class="help-button" title="Get Help" aria-label="Get Help">
+          <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </button>
+        
+        <!-- Language Switch -->
+        <form class="lang-switch" aria-label="Language selector">
+          <select id="lang" name="lang">
+            <option value="en" selected>EN</option>
+            <option value="fr">FR</option>
+            <option value="ar">AR</option>
+            <option value="sw">SW</option>
+          </select>
+        </form>
+        
+        <!-- Save & Exit -->
+        <button class="save-exit-btn" title="Save & Exit" aria-label="Save & Exit">
+          Save & Exit
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- Local subnav / breadcrumb -->
+  <div class="subnav" role="navigation" aria-label="Counselor onboarding">
+    <div class="container wrap" style="gap:.5rem; flex-wrap:wrap;">
+      <a href="/get-started/" class="badge">← Back to role chooser</a>
+      <a href="/counselors/" class="badge">Counselor Portal</a>
+    </div>
+  </div>
+  <main id="main" class="onboarding">
+    <div class="container onboarding__container">
+      <!-- Left: Progress rail -->
+      <aside class="steps-nav" aria-label="Onboarding progress">
+        <h2 class="steps-nav__title">Setup checklist</h2>
+        <ol class="steps" role="list">
+          <li class="step step--current">
+            <span class="step__bullet">1</span>
+            <div>
+              <a class="step__label" href="#step-account">Account</a>
+              <p class="step__desc">Profile &amp; contact</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__bullet">2</span>
+            <div>
+              <a class="step__label" href="#step-org">Organization</a>
+              <p class="step__desc">School/agency details</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__bullet">3</span>
+            <div>
+              <a class="step__label" href="#step-students">Students</a>
+              <p class="step__desc">Link/import students</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__bullet">4</span>
+            <div>
+              <a class="step__label" href="#step-team">Team &amp; permissions</a>
+              <p class="step__desc">Invite colleagues</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__bullet">5</span>
+            <div>
+              <a class="step__label" href="#step-messages">Messaging templates</a>
+              <p class="step__desc">Save common notes</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__bullet">6</span>
+            <div>
+              <a class="step__label" href="#step-consent">Compliance &amp; consent</a>
+              <p class="step__desc">Parent/guardian</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__bullet">7</span>
+            <div>
+              <a class="step__label" href="#step-preferences">Notifications</a>
+              <p class="step__desc">Alerts &amp; language</p>
+            </div>
+          </li>
+          <li class="step">
+            <span class="step__bullet">8</span>
+            <div>
+              <a class="step__label" href="#step-review">Review &amp; finish</a>
+              <p class="step__desc">Confirm &amp; launch</p>
+            </div>
+          </li>
+        </ol>
+      </aside>
+      <!-- Right: Content -->
+      <div class="section">
+        <!-- Intro notice -->
+        <div class="onboarding__intro card notice">
+          <h1 class="u-mb-0">Counselor Onboarding</h1>
+          <p class="u-mt-2 u-mb-0">Complete these steps to support your cohort across multiple institutions. You can save a draft at any time and return later.</p>
+        </div>
+        <!-- Step 1: Account -->
+        <section id="step-account" class="card" aria-labelledby="accountTitle">
+          <div class="section__header">
+            <h2 id="accountTitle">1. Account</h2>
+            <div class="header-actions">
+              <span class="pill pill--ok">Required</span>
+            </div>
+          </div>
+          <form class="form">
+            <div class="grid grid--2">
+              <label>First name
+                <input type="text" placeholder="Amina" />
+              </label>
+              <label>Last name
+                <input type="text" placeholder="Diallo" />
+              </label>
+              <label>Email
+                <input type="email" placeholder="amina@example.com" />
+              </label>
+              <label>Phone
+                <input type="tel" placeholder="+233 20 555 1234" />
+              </label>
+            </div>
+            <div class="grid grid--2">
+              <label>Country
+                <select data-country-selector>
+                  <!-- Options will be populated by countries.js -->
+                </select>
+              </label>
+              <label>Preferred language
+                <select>
+                  <option>English</option>
+                  <option>Français</option>
+                  <option>العربية</option>
+                  <option>Kiswahili</option>
+                </select>
+              </label>
+            </div>
+            <div class="section__actions">
+              <a class="btn btn--ghost" href="#step-org">Next: Organization</a>
+              <a class="btn" href="#" aria-disabled="true">Save draft</a>
+            </div>
+          </form>
+        </section>
+        <!-- Step 2: Organization -->
+        <section id="step-org" class="card" aria-labelledby="orgTitle">
+          <div class="section__header">
+            <h2 id="orgTitle">2. Organization (School/Agency)</h2>
+            <div class="header-actions">
+              <span class="pill">Optional</span>
+            </div>
+          </div>
+          <form class="form">
+            <div class="grid grid--2">
+              <label>Organization name
+                <input type="text" placeholder="BrightFuture Academy" />
+              </label>
+              <label>Type
+                <select>
+                  <option>Secondary School</option>
+                  <option>Private Counseling Agency</option>
+                  <option>Nonprofit / NGO</option>
+                  <option>Other</option>
+                </select>
+              </label>
+              <label>Website
+                <input type="url" placeholder="https://example.org" />
+              </label>
+              <label>Region / City
+                <input type="text" placeholder="Accra" />
+              </label>
+              <label>Logo (PNG/JPG)
+                <input type="file" />
+              </label>
+              <div class="hint">Logo appears on messages sent to students.</div>
+            </div>
+            <div class="section__actions">
+              <a class="btn btn--ghost" href="#step-students">Next: Students</a>
+              <a class="btn" href="#" aria-disabled="true">Save draft</a>
+            </div>
+          </form>
+        </section>
+        <!-- Step 3: Students -->
+        <section id="step-students" class="card" aria-labelledby="studentsTitle">
+          <div class="section__header">
+            <h2 id="studentsTitle">3. Students (Link or Import)</h2>
+            <div class="header-actions">
+              <span class="pill pill--ok">Required</span>
+            </div>
+          </div>
+          <form class="form">
+            <div class="grid grid--2">
+              <label>Add student by email
+                <input type="email" placeholder="student@example.com" />
+                <p class="field-msg">We’ll send them an invite to connect their account.</p>
+              </label>
+              <label>Student ID (optional)
+                <input type="text" placeholder="Internal ID" />
+              </label>
+            </div>
+            <div>
+              <label class="dropzone focus-ring" tabindex="0">
+                <strong>Bulk import (CSV)</strong>
+                <input type="file" accept=".csv" style="display:none" />
+                <p class="hint u-mt-2">Columns: first_name, last_name, email, phone (optional)</p>
+              </label>
+            </div>
+            <div class="u-mt-4 tableish">
+              <div class="tableish__row">
+                <div>Student</div><div class="hide-sm">Email</div><div>Status</div><div>Action</div>
+              </div>
+              <div class="tableish__row">
+                <div>Oumarou Gouba</div><div class="hide-sm">oumarou@example.com</div><div><span class="badge">Invited</span></div><div><a class="btn btn--ghost" href="#" aria-disabled="true">Resend</a></div>
+              </div>
+              <div class="tableish__row">
+                <div>Adjoa Mensah</div><div class="hide-sm">adjoa@example.com</div><div><span class="badge">Linked</span></div><div><a class="btn btn--ghost" href="#" aria-disabled="true">Remove</a></div>
+              </div>
+            </div>
+            <div class="section__actions">
+              <a class="btn btn--ghost" href="#step-team">Next: Team</a>
+              <a class="btn" href="#" aria-disabled="true">Save draft</a>
+            </div>
+          </form>
+        </section>
+        <!-- Step 4: Team & Permissions -->
+        <section id="step-team" class="card" aria-labelledby="teamTitle">
+          <div class="section__header">
+            <h2 id="teamTitle">4. Team &amp; Permissions</h2>
+            <div class="header-actions">
+              <span class="pill">Optional</span>
+            </div>
+          </div>
+          <form class="form">
+            <div class="grid grid--3">
+              <label>Add counselor (email)
+                <input type="email" placeholder="colleague@school.edu" />
+              </label>
+              <label>Role
+                <select>
+                  <option>Advisor</option>
+                  <option>Lead Counselor</option>
+                  <option>Read‑only</option>
+                </select>
+              </label>
+              <label>Scope
+                <select>
+                  <option>All students</option>
+                  <option>Only assigned students</option>
+                </select>
+              </label>
+            </div>
+            <div class="section__actions">
+              <a class="btn btn--ghost" href="#step-messages">Next: Messaging</a>
+              <a class="btn" href="#" aria-disabled="true">Invite</a>
+            </div>
+          </form>
+        </section>
+        <!-- Step 5: Messaging Templates -->
+        <section id="step-messages" class="card" aria-labelledby="msgTitle">
+          <div class="section__header">
+            <h2 id="msgTitle">5. Messaging Templates</h2>
+            <div class="header-actions">
+              <span class="pill">Optional</span>
+            </div>
+          </div>
+          <form class="form">
+            <label>Template name
+              <input type="text" placeholder="Scholarship reminder" />
+            </label>
+            <label class="u-mt-2">Message
+              <textarea rows="6" placeholder="Hi {{first_name}}, don’t forget to submit your scholarship essay by {{deadline}}."></textarea>
+              <p class="hint">You can use placeholders like <code>{{first_name}}</code> and <code>{{deadline}}</code>.</p>
+            </label>
+            <div class="section__actions">
+              <a class="btn btn--ghost" href="#step-consent">Next: Compliance</a>
+              <a class="btn" href="#" aria-disabled="true">Save template</a>
+            </div>
+          </form>
+        </section>
+        <!-- Step 6: Compliance & Consent -->
+        <section id="step-consent" class="card" aria-labelledby="consentTitle">
+          <div class="section__header">
+            <h2 id="consentTitle">6. Compliance &amp; Consent</h2>
+            <div class="header-actions">
+              <span class="pill pill--ok">Required</span>
+            </div>
+          </div>
+          <form class="form">
+            <label>
+              <input type="checkbox" /> I confirm I have consent to support minors (where applicable) and to process application data in Flow.
+            </label>
+            <label class="u-mt-2">
+              <input type="checkbox" /> I agree to Flow’s <a href="/legal/privacy.html">Privacy</a> and <a href="/legal/terms.html">Terms</a>.
+            </label>
+            <div class="section__actions">
+              <a class="btn btn--ghost" href="#step-preferences">Next: Notifications</a>
+              <a class="btn" href="#" aria-disabled="true">Save</a>
+            </div>
+          </form>
+        </section>
+        <!-- Step 7: Preferences -->
+        <section id="step-preferences" class="card" aria-labelledby="prefTitle">
+          <div class="section__header">
+            <h2 id="prefTitle">7. Notifications &amp; Preferences</h2>
+            <div class="header-actions">
+              <span class="pill">Optional</span>
+            </div>
+          </div>
+          <form class="form">
+            <div class="grid grid--3">
+              <label>Notifications
+                <select>
+                  <option>All</option>
+                  <option>Only critical</option>
+                  <option>None</option>
+                </select>
+              </label>
+              <label>Weekly summary
+                <select>
+                  <option>Enabled</option>
+                  <option>Disabled</option>
+                </select>
+              </label>
+              <label>Language
+                <select>
+                  <option>English</option>
+                  <option>Français</option>
+                  <option>العربية</option>
+                  <option>Kiswahili</option>
+                </select>
+              </label>
+            </div>
+            <div class="section__actions">
+              <a class="btn btn--ghost" href="#step-review">Next: Review</a>
+              <a class="btn" href="#" aria-disabled="true">Save</a>
+            </div>
+          </form>
+        </section>
+        <!-- Step 8: Review & Finish -->
+        <section id="step-review" class="card complete" aria-labelledby="reviewTitle">
+          <div class="section__header">
+            <h2 id="reviewTitle">8. Review &amp; Finish</h2>
+            <div class="header-actions">
+              <span class="pill pill--ok">Ready</span>
+            </div>
+          </div>
+          <div class="grid grid--2">
+            <div>
+              <h3 class="u-mt-0">Summary</h3>
+              <ul class="checklist">
+                <li>Account: <strong>Complete</strong></li>
+                <li>Organization: <strong>Optional</strong></li>
+                <li>Students: <strong>1 linked, 1 invited</strong></li>
+                <li>Team: <strong>0 invited</strong></li>
+                <li>Templates: <strong>1 saved</strong></li>
+                <li>Consent: <strong>Confirmed</strong></li>
+                <li>Preferences: <strong>Set</strong></li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="u-mt-0">Next steps</h3>
+              <p>After finishing, you’ll land on the Counselor dashboard where you can track your cohort, send messages, and manage tasks.</p>
+            </div>
+          </div>
+          <div class="wizard-ctrls">
+            <a class="btn btn--ghost" href="#step-preferences">← Back</a>
+            <a class="btn btn--secondary" href="/counselors/">Finish &amp; Go to Portal</a>
+          </div>
+        </section>
+        <!-- Toast (hidden by default; visible when JS arrives) -->
+        <div class="toast toast--ok" id="toast">
+          <div class="toast__title">Saved</div>
+          <div>Your onboarding draft has been saved.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <!-- Global Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer">
+    <div class="container footer__grid">
+      <section class="footer__brand">
+        <img src="/assets/img/logo.png" alt="" class="footer__logo" />
+        <p class="footer__tagline">Connecting learners and institutions across Africa.</p>
+      </section>
+      <nav aria-label="Explore" class="footer__nav">
+        <h3 class="footer__title">Explore</h3>
+        <ul>
+          <li><a href="/students/">Students</a></li>
+          <li><a href="/institutions/">Institutions</a></li>
+          <li><a href="/counselors/">Counselors</a></li>
+          <li><a href="/parents/">Parents</a></li>
+          <li><a href="/recommenders/">Recommenders</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Legal" class="footer__nav">
+        <h3 class="footer__title">Legal</h3>
+        <ul>
+          <li><a href="/legal/terms.html">Terms</a></li>
+          <li><a href="/legal/privacy.html">Privacy</a></li>
+          <li><a href="/legal/cookies.html">Cookies</a></li>
+        </ul>
+      </nav>
+      <section class="footer__cta">
+        <h3 class="footer__title">Need help?</h3>
+        <a href="/counselors/" class="btn btn--primary">Open Counselor Portal</a>
+      </section>
+    </div>
+    <div class="footer__meta">
+      <div class="container">
+        <small>© <span id="year"></span> Flow</small>
+      </div>
+    </div>
+  </footer>
+  <!-- Counselor Onboarding JS -->
+  <script src="/assets/js/countries.js" defer></script>
+  <script src="/assets/js/counselors-onboarding.js" defer></script>
+</body>
+</html>

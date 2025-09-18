@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flow | Counselor Profile</title>
+  <meta name="description" content="Manage your counselor profile, credentials, expertise areas, and professional information." />
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+  <!-- Base & counselor styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/counselors.css" />
+  
+  <style>
+    /* Student-like futuristic background */
+    body {
+      background: var(--flow-bg, #0a0b1e);
+      color: var(--flow-fg-light, #e2e8f0);
+      min-height: 100vh;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    /* Futuristic background animation */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(135deg, #0a0b1e 0%, #0f1429 50%, #1a1f3a 100%);
+    }
+    
+    .bg-animation canvas {
+      width: 100%;
+      height: 100%;
+    }
+    
+    /* Header Styling */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10, 11, 30, 0.9);
+      backdrop-filter: var(--flow-blur, saturate(140%) blur(12px));
+      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: white;
+    }
+    
+    .brand__logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes logoPulse {
+      0%, 100% { 
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        filter: brightness(1);
+      }
+      50% { 
+        box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+        filter: brightness(1.1);
+      }
+    }
+    
+    .brand__name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: var(--flow-gradient-primary, linear-gradient(135deg, #4338ca, #6366f1));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    
+    .header-nav a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .header-nav a:hover, .header-nav a.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      background: var(--flow-gradient-primary, linear-gradient(135deg, #3b82f6, #1d4ed8));
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    /* Profile Container */
+    .profile-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Profile Header */
+    .profile-header {
+      background: var(--flow-card, rgba(255, 255, 255, 0.85));
+      backdrop-filter: var(--flow-blur, saturate(140%) blur(12px));
+      border-radius: var(--flow-radius-xl, 36px);
+      padding: 3rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--flow-shadow-strong, 0 25px 60px rgba(99, 102, 241, .15));
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .profile-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--flow-gradient-primary, linear-gradient(135deg, #4338ca, #6366f1));
+      opacity: 0.05;
+      z-index: -1;
+    }
+    
+    .profile-avatar-large {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: var(--flow-gradient-primary, linear-gradient(135deg, #4338ca, #6366f1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      font-weight: bold;
+      margin: 0 auto 1.5rem;
+      box-shadow: var(--flow-shadow-glow, 0 0 40px rgba(99, 102, 241, .3));
+      transition: all 0.4s ease;
+    }
+    
+    .profile-avatar-large:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 50px rgba(99, 102, 241, .5);
+    }
+    
+    .profile-name {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      color: var(--flow-fg, #1e293b);
+      background: var(--flow-gradient-primary, linear-gradient(135deg, #4338ca, #6366f1));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .profile-title {
+      font-size: 1.25rem;
+      color: var(--flow-muted, #64748b);
+      margin: 0 0 1rem 0;
+    }
+    
+    .profile-stats {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    
+    .stat-item {
+      text-align: center;
+    }
+    
+    .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--flow-primary, #4338ca);
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 0.875rem;
+      color: var(--flow-muted, #64748b);
+      margin-top: 0.25rem;
+    }
+    
+    /* Profile Grid */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    /* Profile Cards */
+    .profile-card {
+      background: var(--flow-card, rgba(255, 255, 255, 0.85));
+      backdrop-filter: var(--flow-blur, saturate(140%) blur(12px));
+      border-radius: var(--flow-radius-lg, 28px);
+      padding: 2rem;
+      box-shadow: var(--flow-shadow, 0 10px 35px rgba(99, 102, 241, .08));
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .profile-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--flow-gradient-primary, linear-gradient(135deg, #4338ca, #6366f1));
+    }
+    
+    .profile-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--flow-shadow-strong, 0 25px 60px rgba(99, 102, 241, .15));
+    }
+    
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    }
+    
+    .card-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: white;
+      background: var(--flow-gradient-primary, linear-gradient(135deg, #4338ca, #6366f1));
+      box-shadow: 0 4px 15px rgba(67, 56, 202, 0.3);
+    }
+    
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--flow-fg, #1e293b);
+      margin: 0;
+    }
+    
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+      display: block;
+      font-weight: 600;
+      color: var(--flow-fg-light, #374151);
+      margin-bottom: 0.5rem;
+    }
+    
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid rgba(148, 163, 184, 0.2);
+      border-radius: var(--flow-radius-sm, 12px);
+      background: rgba(255, 255, 255, 0.8);
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+      color: var(--flow-fg, #1e293b);
+    }
+    
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--flow-primary, #4338ca);
+      box-shadow: 0 0 0 4px rgba(67, 56, 202, 0.1);
+      background: white;
+    }
+    
+    .form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+    
+    /* Skills & Tags */
+    .skills-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    
+    .skill-tag {
+      padding: 0.5rem 1rem;
+      background: var(--flow-gradient-primary, linear-gradient(135deg, #4338ca, #6366f1));
+      color: white;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .skill-tag:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(67, 56, 202, 0.3);
+    }
+    
+    .remove-skill {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.75rem;
+    }
+    
+    /* Buttons */
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: var(--flow-radius-sm, 12px);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+    
+    .btn-primary {
+      background: var(--flow-gradient-primary, linear-gradient(135deg, #4338ca, #6366f1));
+      color: white;
+      box-shadow: 0 4px 15px rgba(67, 56, 202, 0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(67, 56, 202, 0.4);
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.8);
+      color: var(--flow-fg, #1e293b);
+      border: 2px solid rgba(148, 163, 184, 0.2);
+    }
+    
+    .btn-secondary:hover {
+      background: white;
+      transform: translateY(-1px);
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.5rem;
+    }
+    
+    /* Achievement Cards */
+    .achievement-item {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: var(--flow-radius, 20px);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--flow-primary, #4338ca);
+      transition: all 0.3s ease;
+    }
+    
+    .achievement-item:hover {
+      background: rgba(255, 255, 255, 0.8);
+      transform: translateX(4px);
+    }
+    
+    .achievement-title {
+      font-weight: 600;
+      color: var(--flow-fg, #1e293b);
+      margin: 0 0 0.5rem 0;
+    }
+    
+    .achievement-details {
+      color: var(--flow-muted, #64748b);
+      font-size: 0.875rem;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .profile-container {
+        padding: 1rem;
+      }
+      
+      .profile-header {
+        padding: 2rem;
+      }
+      
+      .profile-name {
+        font-size: 2rem;
+      }
+      
+      .profile-stats {
+        gap: 1rem;
+      }
+      
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header__inner {
+        padding: 1rem;
+      }
+      
+      .header-nav {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Futuristic background -->
+  <div class="bg-animation" aria-hidden="true">
+    <canvas id="particleCanvas"></canvas>
+  </div>
+
+  <!-- Header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="header__inner">
+      <a class="brand" href="/counselors/" aria-label="Flow Counselor Dashboard">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" />
+        <span class="brand__name">Flow</span>
+      </a>
+      
+      <nav class="header-nav">
+        <a href="/counselors/">Dashboard</a>
+        <a href="/counselors/#students">Students</a>
+        <a href="/counselors/messages.html">Messages</a>
+        <a href="/counselors/profile.html" class="active">Profile</a>
+        <a href="/counselors/settings.html">Settings</a>
+      </nav>
+      
+      <div class="user-avatar" title="User Menu">JD</div>
+    </div>
+  </header>
+
+  <div class="profile-container">
+    <!-- Profile Header -->
+    <div class="profile-header">
+      <div class="profile-avatar-large">JD</div>
+      <h1 class="profile-name">Dr. Jane Doe</h1>
+      <p class="profile-title">Senior Academic Counselor • University of Ghana</p>
+      
+      <div class="profile-stats">
+        <div class="stat-item">
+          <span class="stat-number">156</span>
+          <div class="stat-label">Students Helped</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">89%</span>
+          <div class="stat-label">Success Rate</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">12</span>
+          <div class="stat-label">Active Students</div>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">5.2</span>
+          <div class="stat-label">Years Experience</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Grid -->
+    <div class="profile-grid">
+      <!-- Personal Information -->
+      <div class="profile-card">
+        <div class="card-header">
+          <div class="card-icon">
+            👤
+          </div>
+          <h3 class="card-title">Personal Information</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-input" value="Dr. Jane Doe" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" value="jane.doe@university.edu.gh" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Phone Number</label>
+          <input type="tel" class="form-input" value="+233 24 123 4567" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Institution</label>
+          <select class="form-select">
+            <option value="university-ghana" selected>University of Ghana</option>
+            <option value="knust">Kwame Nkrumah University</option>
+            <option value="university-cape-coast">University of Cape Coast</option>
+          </select>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary">Update Information</button>
+        </div>
+      </div>
+
+      <!-- Professional Profile -->
+      <div class="profile-card">
+        <div class="card-header">
+          <div class="card-icon">
+            🎓
+          </div>
+          <h3 class="card-title">Professional Profile</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Position/Title</label>
+          <input type="text" class="form-input" value="Senior Academic Counselor" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Department</label>
+          <input type="text" class="form-input" value="Student Affairs & Academic Support" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Years of Experience</label>
+          <input type="number" class="form-input" value="5" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Employee ID</label>
+          <input type="text" class="form-input" value="UC-2019-001523" readonly />
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary">Save Changes</button>
+        </div>
+      </div>
+
+      <!-- Bio & Expertise -->
+      <div class="profile-card">
+        <div class="card-header">
+          <div class="card-icon">
+            📝
+          </div>
+          <h3 class="card-title">Bio & Expertise</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Professional Bio</label>
+          <textarea class="form-textarea" rows="4" placeholder="Share your experience and approach to student counseling...">Experienced academic counselor with a passion for helping students achieve their educational goals. Specialized in STEM programs and international applications with over 5 years of dedicated service in higher education.</textarea>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Areas of Expertise</label>
+          <div class="skills-container">
+            <div class="skill-tag">
+              Computer Science
+              <button class="remove-skill" onclick="removeSkill(this)">×</button>
+            </div>
+            <div class="skill-tag">
+              Engineering Programs
+              <button class="remove-skill" onclick="removeSkill(this)">×</button>
+            </div>
+            <div class="skill-tag">
+              International Applications
+              <button class="remove-skill" onclick="removeSkill(this)">×</button>
+            </div>
+            <div class="skill-tag">
+              Scholarship Guidance
+              <button class="remove-skill" onclick="removeSkill(this)">×</button>
+            </div>
+          </div>
+          <input type="text" class="form-input" placeholder="Add new expertise area..." onkeypress="addSkill(event)" style="margin-top: 1rem;" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Languages Spoken</label>
+          <input type="text" class="form-input" value="English, French, Twi, Ga" />
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary">Update Bio</button>
+        </div>
+      </div>
+
+      <!-- Qualifications & Certifications -->
+      <div class="profile-card">
+        <div class="card-header">
+          <div class="card-icon">
+            🏆
+          </div>
+          <h3 class="card-title">Qualifications & Certifications</h3>
+        </div>
+        
+        <div class="achievement-item">
+          <h4 class="achievement-title">Ph.D in Educational Psychology</h4>
+          <p class="achievement-details">University of Ghana • 2018 • Dissertation: "Impact of Academic Counseling on Student Success"</p>
+        </div>
+        
+        <div class="achievement-item">
+          <h4 class="achievement-title">Certified Academic Advisor (CAA)</h4>
+          <p class="achievement-details">National Academic Advising Association • 2020 • Professional certification in academic advising</p>
+        </div>
+        
+        <div class="achievement-item">
+          <h4 class="achievement-title">International Student Services Certificate</h4>
+          <p class="achievement-details">NAFSA Association • 2021 • Specialized training for international student support</p>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-secondary">Add Qualification</button>
+          <button class="btn btn-primary">Verify Credentials</button>
+        </div>
+      </div>
+
+      <!-- Contact & Availability -->
+      <div class="profile-card">
+        <div class="card-header">
+          <div class="card-icon">
+            📅
+          </div>
+          <h3 class="card-title">Contact & Availability</h3>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Office Location</label>
+          <input type="text" class="form-input" value="Student Affairs Building, Room 204" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Office Hours</label>
+          <input type="text" class="form-input" value="Monday-Friday: 9:00 AM - 5:00 PM" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Preferred Contact Method</label>
+          <select class="form-select">
+            <option value="email" selected>Email</option>
+            <option value="phone">Phone</option>
+            <option value="flow-messages">Flow Messages</option>
+            <option value="in-person">In-Person</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Response Time</label>
+          <select class="form-select">
+            <option value="within-24h" selected>Within 24 hours</option>
+            <option value="within-48h">Within 48 hours</option>
+            <option value="within-week">Within 1 week</option>
+          </select>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-primary">Update Availability</button>
+        </div>
+      </div>
+
+      <!-- Performance Metrics -->
+      <div class="profile-card">
+        <div class="card-header">
+          <div class="card-icon">
+            📊
+          </div>
+          <h3 class="card-title">Performance Metrics</h3>
+        </div>
+        
+        <div class="achievement-item">
+          <h4 class="achievement-title">Student Success Rate</h4>
+          <p class="achievement-details">89% of students successfully gained admission to their preferred programs</p>
+        </div>
+        
+        <div class="achievement-item">
+          <h4 class="achievement-title">Student Satisfaction</h4>
+          <p class="achievement-details">4.8/5.0 average rating from student feedback surveys</p>
+        </div>
+        
+        <div class="achievement-item">
+          <h4 class="achievement-title">Application Completion Rate</h4>
+          <p class="achievement-details">94% of students completed their applications on time</p>
+        </div>
+        
+        <div class="achievement-item">
+          <h4 class="achievement-title">Scholarship Success</h4>
+          <p class="achievement-details">67% of guided students received scholarship offers</p>
+        </div>
+        
+        <div class="button-group">
+          <button class="btn btn-secondary">View Detailed Report</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Particle animation (similar to student dashboard)
+    function initParticles() {
+      const canvas = document.getElementById('particleCanvas');
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext('2d');
+      let animationId;
+      
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      
+      const particles = [];
+      const particleCount = 50;
+      
+      // Create particles
+      for (let i = 0; i < particleCount; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.5,
+          vy: (Math.random() - 0.5) * 0.5,
+          size: Math.random() * 2 + 1,
+          opacity: Math.random() * 0.5 + 0.1
+        });
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(particle => {
+          particle.x += particle.vx;
+          particle.y += particle.vy;
+          
+          if (particle.x < 0 || particle.x > canvas.width) particle.vx *= -1;
+          if (particle.y < 0 || particle.y > canvas.height) particle.vy *= -1;
+          
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(99, 102, 241, ${particle.opacity})`;
+          ctx.fill();
+        });
+        
+        animationId = requestAnimationFrame(animate);
+      }
+      
+      animate();
+      
+      return () => {
+        cancelAnimationFrame(animationId);
+        window.removeEventListener('resize', resizeCanvas);
+      };
+    }
+    
+    // Skill management
+    function addSkill(event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        const input = event.target;
+        const skillText = input.value.trim();
+        
+        if (skillText) {
+          const skillTag = document.createElement('div');
+          skillTag.className = 'skill-tag';
+          skillTag.innerHTML = `
+            ${skillText}
+            <button class="remove-skill" onclick="removeSkill(this)">×</button>
+          `;
+          
+          input.parentNode.querySelector('.skills-container').appendChild(skillTag);
+          input.value = '';
+          
+          showNotification('Skill added successfully!', 'success');
+        }
+      }
+    }
+    
+    function removeSkill(button) {
+      button.parentNode.remove();
+      showNotification('Skill removed', 'info');
+    }
+    
+    // Notification system
+    function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.style.cssText = `
+        position: fixed; top: 2rem; right: 2rem; z-index: 9999;
+        background: ${getNotificationColor(type)};
+        color: white; padding: 1rem 1.5rem; border-radius: 12px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        transform: translateX(100%); transition: transform 0.3s ease;
+        max-width: 300px;
+      `;
+      notification.textContent = message;
+      
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+      }, 100);
+      
+      setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => notification.remove(), 300);
+      }, 3000);
+    }
+    
+    function getNotificationColor(type) {
+      switch(type) {
+        case 'success': return 'linear-gradient(135deg, #10b981, #059669)';
+        case 'error': return 'linear-gradient(135deg, #ef4444, #dc2626)';
+        case 'info': return 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
+        default: return 'linear-gradient(135deg, #6b7280, #4b5563)';
+      }
+    }
+    
+    // Form interactions
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize particles
+      initParticles();
+      
+      // Add form submit handlers
+      document.querySelectorAll('.btn-primary').forEach(btn => {
+        btn.addEventListener('click', function() {
+          if (this.textContent.includes('Update') || this.textContent.includes('Save')) {
+            showNotification('Profile updated successfully!', 'success');
+          }
+        });
+      });
+      
+      // Add avatar upload functionality
+      const avatar = document.querySelector('.profile-avatar-large');
+      avatar.addEventListener('click', function() {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = function(e) {
+          if (e.target.files.length > 0) {
+            showNotification('Avatar updated successfully!', 'success');
+          }
+        };
+        input.click();
+      });
+      
+      avatar.style.cursor = 'pointer';
+      avatar.title = 'Click to change profile picture';
+    });
+  </script>
+</body>
+</html>

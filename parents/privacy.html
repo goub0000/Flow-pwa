@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy | Flow Parent Portal</title>
+  <meta name="description" content="Flow Privacy Policy - How we protect and handle your data">
+  <meta name="theme-color" content="#667eea">
+  <link rel="icon" href="/assets/img/logo.png" type="image/png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f8fafc;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Same header styles */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="20" fill="url(%23smallGrid)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 30px 30px;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(30px, -30px) rotate(120deg); }
+      66% { transform: translate(-20px, 20px) rotate(240deg); }
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .header-brand::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .brand-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .header-logo {
+      position: relative;
+      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+    }
+
+    .logo-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      padding: 8px;
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .logo-container {
+      position: relative;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      color: white;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .brand-subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .back-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* Main Content */
+    .main {
+      padding: 4rem 0;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .page-title {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .page-subtitle {
+      font-size: 1.2rem;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .last-updated {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      display: inline-block;
+      font-weight: 500;
+    }
+
+    .privacy-content {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      padding: 3rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .toc {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .toc h3 {
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .toc ul {
+      list-style: none;
+    }
+
+    .toc li {
+      margin-bottom: 0.5rem;
+    }
+
+    .toc a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .toc a:hover {
+      color: #5a6fd8;
+    }
+
+    .section {
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #e1e5e9;
+    }
+
+    .section:last-child {
+      border-bottom: none;
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 1.5rem;
+      scroll-margin-top: 100px;
+    }
+
+    .section-content {
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .section-content h4 {
+      color: #333;
+      margin: 1.5rem 0 1rem;
+      font-weight: 600;
+    }
+
+    .section-content ul {
+      margin: 1rem 0;
+      padding-left: 2rem;
+    }
+
+    .section-content li {
+      margin-bottom: 0.5rem;
+    }
+
+    .highlight-box {
+      background: #e8f5e8;
+      border-left: 4px solid #388e3c;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .contact-section {
+      background: #667eea;
+      color: white;
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .contact-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .contact-info {
+      font-size: 1.1rem;
+    }
+
+    /* Same footer styles */
+    .footer {
+      background: #2d3748;
+      color: white;
+      margin-top: 4rem;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 3rem 0;
+    }
+
+    .footer-section {
+      padding: 0 1rem;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .footer-logo-img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+      padding: 6px;
+      background: rgba(102, 126, 234, 0.1);
+      border: 2px solid rgba(102, 126, 234, 0.3);
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+    }
+
+    .footer-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: #667eea;
+    }
+
+    .footer-heading {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #e2e8f0;
+    }
+
+    .footer-description {
+      color: #a0aec0;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .social-link {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background: #4a5568;
+      color: white;
+      text-align: center;
+      line-height: 40px;
+      border-radius: 50%;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+
+    .social-link:hover {
+      background: #667eea;
+      transform: translateY(-2px);
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links a {
+      color: #a0aec0;
+      text-decoration: none;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+    }
+
+    .footer-links a:hover {
+      color: #667eea;
+    }
+
+    .link-icon {
+      width: 16px;
+      height: 16px;
+      margin-right: 0.5rem;
+      transition: transform 0.2s;
+    }
+
+    .footer-links a:hover .link-icon {
+      transform: translateX(3px);
+    }
+
+    .social-link svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #4a5568;
+      padding: 2rem 0;
+      text-align: center;
+      color: #a0aec0;
+    }
+
+    .footer-bottom p {
+      margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .page-title {
+        font-size: 2rem;
+      }
+      
+      .privacy-content {
+        padding: 2rem;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="header-brand">
+          <div class="brand-content">
+            <div class="header-logo">
+              <img src="/assets/img/logo.PNG" alt="Flow Logo" class="logo-img">
+            </div>
+            <div class="logo-container">
+              <div class="logo">Flow</div>
+              <div class="brand-subtitle">Privacy Policy</div>
+            </div>
+          </div>
+        </div>
+        <a href="index.html" class="back-btn">
+          ← Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="container">
+      <div class="page-header">
+        <h1 class="page-title">Privacy Policy</h1>
+        <p class="page-subtitle">Your privacy is important to us. This policy explains how we collect, use, and protect your information.</p>
+        <div class="last-updated">Last Updated: September 10, 2024</div>
+      </div>
+
+      <div class="privacy-content">
+        <!-- Table of Contents -->
+        <div class="toc">
+          <h3>Table of Contents</h3>
+          <ul>
+            <li><a href="#information-collection">1. Information We Collect</a></li>
+            <li><a href="#information-use">2. How We Use Your Information</a></li>
+            <li><a href="#information-sharing">3. Information Sharing and Disclosure</a></li>
+            <li><a href="#data-security">4. Data Security</a></li>
+            <li><a href="#data-retention">5. Data Retention</a></li>
+            <li><a href="#your-rights">6. Your Rights and Choices</a></li>
+            <li><a href="#cookies">7. Cookies and Tracking Technologies</a></li>
+            <li><a href="#children-privacy">8. Children's Privacy</a></li>
+            <li><a href="#international-transfers">9. International Data Transfers</a></li>
+            <li><a href="#policy-changes">10. Changes to This Policy</a></li>
+            <li><a href="#contact-us">11. Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Sections -->
+        <div class="section">
+          <h2 class="section-title" id="information-collection">1. Information We Collect</h2>
+          <div class="section-content">
+            <h4>Personal Information</h4>
+            <p>We collect information that you provide directly to us, including:</p>
+            <ul>
+              <li>Account registration information (name, email address, phone number)</li>
+              <li>Student information (academic records, test scores, application materials)</li>
+              <li>Financial information (payment details, billing information)</li>
+              <li>Communication preferences and contact information</li>
+              <li>Messages and communications with counselors and institutions</li>
+            </ul>
+
+            <h4>Automatically Collected Information</h4>
+            <p>When you use our platform, we automatically collect:</p>
+            <ul>
+              <li>Device information (IP address, browser type, operating system)</li>
+              <li>Usage data (pages visited, time spent, click patterns)</li>
+              <li>Log files and performance metrics</li>
+              <li>Location information (if you enable location services)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" id="information-use">2. How We Use Your Information</h2>
+          <div class="section-content">
+            <p>We use your information to:</p>
+            <ul>
+              <li>Provide and maintain our educational services</li>
+              <li>Process applications and manage student records</li>
+              <li>Facilitate communication between families, counselors, and institutions</li>
+              <li>Process payments and financial transactions</li>
+              <li>Send important notifications and updates</li>
+              <li>Improve our platform and develop new features</li>
+              <li>Provide customer support and respond to inquiries</li>
+              <li>Comply with legal obligations and protect our rights</li>
+            </ul>
+
+            <div class="highlight-box">
+              <strong>Important:</strong> We never sell your personal information to third parties. Your data is used solely to provide our educational services and support your college application journey.
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" id="information-sharing">3. Information Sharing and Disclosure</h2>
+          <div class="section-content">
+            <p>We may share your information in the following circumstances:</p>
+            <ul>
+              <li><strong>Educational Institutions:</strong> With colleges and universities for application purposes</li>
+              <li><strong>Service Providers:</strong> With trusted third-party vendors who assist in providing our services</li>
+              <li><strong>Legal Requirements:</strong> When required by law or to protect our rights and safety</li>
+              <li><strong>Business Transfers:</strong> In connection with mergers, acquisitions, or asset sales</li>
+              <li><strong>With Your Consent:</strong> When you explicitly authorize sharing</li>
+            </ul>
+            <p>All third parties are bound by confidentiality agreements and data protection requirements.</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" id="data-security">4. Data Security</h2>
+          <div class="section-content">
+            <p>We implement comprehensive security measures to protect your information:</p>
+            <ul>
+              <li>End-to-end encryption for data transmission</li>
+              <li>Advanced encryption at rest for stored data</li>
+              <li>Multi-factor authentication for account access</li>
+              <li>Regular security audits and penetration testing</li>
+              <li>Employee training on data protection best practices</li>
+              <li>Compliance with industry security standards (SOC 2, ISO 27001)</li>
+            </ul>
+            <p>While we strive to protect your information, no method of transmission over the internet is 100% secure. We continuously update our security practices to address emerging threats.</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" id="data-retention">5. Data Retention</h2>
+          <div class="section-content">
+            <p>We retain your information for as long as necessary to:</p>
+            <ul>
+              <li>Provide our services and maintain your account</li>
+              <li>Comply with legal and regulatory requirements</li>
+              <li>Resolve disputes and enforce our agreements</li>
+              <li>Support ongoing educational relationships</li>
+            </ul>
+            <p>Student records are typically retained for 7 years after graduation or account closure. You may request deletion of your data at any time, subject to legal and operational requirements.</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" id="your-rights">6. Your Rights and Choices</h2>
+          <div class="section-content">
+            <p>You have the following rights regarding your personal information:</p>
+            <ul>
+              <li><strong>Access:</strong> Request a copy of your personal data</li>
+              <li><strong>Correction:</strong> Update or correct inaccurate information</li>
+              <li><strong>Deletion:</strong> Request deletion of your personal data</li>
+              <li><strong>Portability:</strong> Receive your data in a portable format</li>
+              <li><strong>Restriction:</strong> Limit how we process your information</li>
+              <li><strong>Objection:</strong> Object to certain types of processing</li>
+            </ul>
+            <p>To exercise these rights, please contact us using the information provided below. We will respond to your request within 30 days.</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" id="cookies">7. Cookies and Tracking Technologies</h2>
+          <div class="section-content">
+            <p>We use cookies and similar technologies to:</p>
+            <ul>
+              <li>Remember your preferences and settings</li>
+              <li>Analyze platform usage and performance</li>
+              <li>Provide personalized content and recommendations</li>
+              <li>Ensure security and prevent fraud</li>
+            </ul>
+            <p>You can control cookie settings through your browser preferences. Disabling cookies may affect platform functionality.</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" id="children-privacy">8. Children's Privacy</h2>
+          <div class="section-content">
+            <p>Our platform is designed for students aged 13 and older. We comply with COPPA (Children's Online Privacy Protection Act) and:</p>
+            <ul>
+              <li>Require parental consent for users under 18</li>
+              <li>Provide enhanced privacy protections for minors</li>
+              <li>Allow parents to review and delete their child's information</li>
+              <li>Limit data collection to what's necessary for educational services</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" id="international-transfers">9. International Data Transfers</h2>
+          <div class="section-content">
+            <p>If you are located outside the United States, your information may be transferred to and processed in the U.S. We ensure adequate protection through:</p>
+            <ul>
+              <li>Standard Contractual Clauses approved by regulatory authorities</li>
+              <li>Adequacy decisions where applicable</li>
+              <li>Binding Corporate Rules for internal transfers</li>
+              <li>Your explicit consent when required</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" id="policy-changes">10. Changes to This Policy</h2>
+          <div class="section-content">
+            <p>We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements. When we make significant changes, we will:</p>
+            <ul>
+              <li>Notify you via email or platform notification</li>
+              <li>Post the updated policy with the revision date</li>
+              <li>Provide a summary of key changes</li>
+              <li>Allow time for you to review before changes take effect</li>
+            </ul>
+            <p>Your continued use of our platform after policy changes constitutes acceptance of the updated terms.</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2 class="section-title" id="contact-us">11. Contact Us</h2>
+          <div class="section-content">
+            <p>If you have questions about this Privacy Policy or our data practices, please contact us:</p>
+            <ul>
+              <li><strong>Email:</strong> privacy@flow.edu</li>
+              <li><strong>Phone:</strong> +1 (555) 123-4567</li>
+              <li><strong>Mail:</strong> Flow Education Platform, Privacy Office, 123 Education Ave, Learning City, LC 12345</li>
+            </ul>
+            <p>For urgent privacy concerns, please mark your communication as "URGENT PRIVACY MATTER" for expedited handling.</p>
+          </div>
+        </div>
+
+        <div class="contact-section">
+          <h3 class="contact-title">Questions About Your Privacy?</h3>
+          <p class="contact-info">Our Privacy Team is here to help. Contact us at privacy@flow.edu or call +1 (555) 123-4567</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer (same as other pages) -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <div class="footer-logo">
+            <img src="/assets/img/logo.PNG" alt="Flow Logo" class="footer-logo-img">
+            <h3 class="footer-title">Flow</h3>
+          </div>
+          <p class="footer-description">Empowering students and families through their university journey with comprehensive support and guidance.</p>
+          <div class="footer-social">
+            <a href="#" class="social-link">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M23 3A10.9 10.9 0 0 1 20.1 4.1C19.2 3.4 18 3 16.8 3C14.4 3 12.4 5 12.4 7.3C12.4 7.6 12.4 7.9 12.5 8.2C8.3 8 4.7 6.1 2.4 3.1C2 3.8 1.8 4.6 1.8 5.4C1.8 7 2.7 8.4 4 9.2C3.3 9.2 2.7 9 2.1 8.7V8.8C2.1 10.8 3.7 12.4 5.7 12.8C5.3 12.9 4.9 13 4.5 13C4.2 13 3.9 13 3.6 12.9C4.2 14.5 5.9 15.7 7.9 15.7C6.3 16.9 4.3 17.6 2.1 17.6H1.5C3.4 18.9 5.7 19.6 8.1 19.6C16.8 19.6 21.6 13.1 21.6 7.6V7C22.4 6.4 23.1 5.7 23.7 4.8L23 3Z" fill="currentColor"/>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke="currentColor" stroke-width="2"/>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M17.5 6.5H17.51" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <a href="#" class="social-link">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 8A6 6 0 0 1 6 18C6 18 6 18 6 18H18A4 4 0 0 0 18 10A4 4 0 0 0 14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20.2 7.8L16 12L11.8 7.8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4 class="footer-heading">Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="index.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+                <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Dashboard
+            </a></li>
+            <li><a href="contact.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M22 16.92V19A2 2 0 0 1 20 21A19 19 0 0 1 2 3A2 2 0 0 1 4 1H7.08A2 2 0 0 1 9 2.92L9 6A2 2 0 0 1 7.92 8L6 8.5A16 16 0 0 0 15.5 18L16 16.08A2 2 0 0 1 18 15H21.08A2 2 0 0 1 23 16.92Z" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Contact
+            </a></li>
+            <li><a href="help-center.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <path d="M9.09 9A3 3 0 0 1 12 6C14.21 6 16 7.79 16 10S14.21 14 12 14V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 20H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+              Help Center
+            </a></li>
+            <li><a href="faq.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 11H15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M9 15H12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                <path d="M16 3H5A2 2 0 0 0 3 5V19A2 2 0 0 0 5 21H19A2 2 0 0 0 21 19V8L16 3Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M16 3V8H21" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              FAQ
+            </a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4 class="footer-heading">Support</h4>
+          <ul class="footer-links">
+            <li><a href="tutorials.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <polygon points="10,8 16,12 10,16 10,8" fill="currentColor"/>
+              </svg>
+              Tutorials
+            </a></li>
+            <li><a href="updates.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 16V8A2 2 0 0 0 19 6H5A2 2 0 0 0 3 8V16A2 2 0 0 0 5 18H19A2 2 0 0 0 21 16Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 2V6" stroke="currentColor" stroke-width="2"/>
+                <path d="M17 2V6" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 10H17" stroke="currentColor" stroke-width="2"/>
+                <path d="M7 14H12" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Updates
+            </a></li>
+            <li><a href="community.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17 21V19A4 4 0 0 0 13 15H5A4 4 0 0 0 1 19V21" stroke="currentColor" stroke-width="2"/>
+                <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+                <path d="M23 21V19A4 4 0 0 0 16 15.13" stroke="currentColor" stroke-width="2"/>
+                <path d="M16 3.13A4 4 0 0 1 16 11" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Community
+            </a></li>
+            <li><a href="security.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7V10C2 16 6 20.5 12 22C18 20.5 22 16 22 10V7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9 12L11 14L15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Security
+            </a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4 class="footer-heading">Resources</h4>
+          <ul class="footer-links">
+            <li><a href="tutorials.html">
+              <svg class="link-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                <polygon points="10,8 16,12 10,16 10,8" fill="currentColor"/>
+              </svg>
+              Video Tutorials
+            </a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Flow Education Platform. All rights reserved.</p>
+        <p>Built with ❤️ for students and families</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

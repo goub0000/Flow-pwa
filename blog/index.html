@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Flow Updates - Latest news, insights, and developments from Flow Education Platform." />
+  <meta name="theme-color" content="#373896" />
+  <title>Updates & News — Flow Education Platform</title>
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/institutions.css" />
+  
+  <style>
+    /* Blog/Updates Page Styles */
+    .blog-hero {
+      background: linear-gradient(135deg, #5a5bb8 0%, #6b6ce8 100%);
+      color: white;
+      padding: 4rem 0;
+      text-align: center;
+    }
+    
+    .hero-content h1 {
+      color: white;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    
+    .hero-content p {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      margin-bottom: 2rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+    
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .hero-actions .btn {
+      background: white;
+      color: #5a5bb8;
+      border: none;
+    }
+    
+    .hero-actions .btn:hover {
+      background: #f3f4f6;
+      transform: translateY(-2px);
+    }
+    
+    .hero-actions .btn--secondary {
+      background: transparent;
+      color: white;
+      border: 2px solid white;
+    }
+    
+    .hero-actions .btn--secondary:hover {
+      background: white;
+      color: #5a5bb8;
+    }
+    
+    /* Featured Article */
+    .featured-article {
+      padding: 4rem 0;
+      background: #f8fafc;
+    }
+    
+    .article-card--featured {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 3rem;
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .article-badge {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      background: #f59e0b;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    .article-image {
+      background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+    }
+    
+    .article-placeholder {
+      font-size: 4rem;
+      opacity: 0.8;
+    }
+    
+    .article-content h2 {
+      color: #1f2937;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 1.5rem 0 1rem 0;
+    }
+    
+    .article-content h2 a {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    .article-content h2 a:hover {
+      color: #5a5bb8;
+    }
+    
+    .article-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .article-category {
+      background: #5a5bb8;
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+    
+    .article-date,
+    .article-read-time {
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+    
+    .article-content p {
+      color: #4b5563;
+      line-height: 1.7;
+      margin: 1.5rem 0;
+      font-size: 1.05rem;
+    }
+    
+    .article-tags {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .tag {
+      background: #e0e7ff;
+      color: #5a5bb8;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+    
+    /* Section Filters */
+    .section-filters {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      background: white;
+      color: #6b7280;
+      border: 2px solid #e5e7eb;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .filter-btn:hover {
+      border-color: #5a5bb8;
+      color: #5a5bb8;
+    }
+    
+    .filter-btn--active {
+      background: #5a5bb8;
+      color: white;
+      border-color: #5a5bb8;
+    }
+    
+    /* Articles Grid */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .article-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+      transition: all 0.3s ease;
+    }
+    
+    .article-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.15);
+      border-color: #5a5bb8;
+    }
+    
+    .article-card .article-image {
+      height: 160px;
+      margin: 0;
+    }
+    
+    .article-card .article-content {
+      padding: 2rem;
+    }
+    
+    .article-card h3 {
+      color: #1f2937;
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    
+    .article-card h3 a {
+      color: inherit;
+      text-decoration: none;
+    }
+    
+    .article-card h3 a:hover {
+      color: #5a5bb8;
+    }
+    
+    .article-card p {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+    
+    .article-stats {
+      display: flex;
+      gap: 1rem;
+      color: #6b7280;
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+    }
+    
+    /* Newsletter Section */
+    .newsletter-section {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      padding: 4rem 0;
+      margin: 4rem 0;
+    }
+    
+    .newsletter-card {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 3rem;
+      background: white;
+      border-radius: 20px;
+      padding: 3rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .newsletter-content h2 {
+      color: #1f2937;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .newsletter-content p {
+      color: #6b7280;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    
+    .newsletter-form {
+      margin-bottom: 1rem;
+    }
+    
+    .form-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .form-group input {
+      flex: 1;
+      padding: 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: #5a5bb8;
+      box-shadow: 0 0 0 3px rgba(90, 91, 184, 0.1);
+    }
+    
+    .newsletter-disclaimer {
+      color: #9ca3af;
+      font-size: 0.85rem;
+      margin: 0;
+    }
+    
+    .newsletter-benefits h3 {
+      color: #1f2937;
+      font-size: 1.125rem;
+      margin-bottom: 1rem;
+    }
+    
+    .newsletter-benefits ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .newsletter-benefits li {
+      color: #4b5563;
+      margin: 0.75rem 0;
+      font-size: 0.95rem;
+    }
+    
+    /* Archive Section */
+    .archive-section {
+      background: #f8fafc;
+      padding: 4rem 0;
+      margin: 3rem 0;
+      border-radius: 20px;
+    }
+    
+    .archive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 0 auto;
+      max-width: 900px;
+    }
+    
+    .archive-card {
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+    
+    .archive-card h3 {
+      color: #5a5bb8;
+      font-size: 1.125rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .archive-list,
+    .category-list,
+    .popular-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .archive-list li,
+    .category-list li,
+    .popular-list li {
+      margin: 0.75rem 0;
+    }
+    
+    .archive-list a,
+    .category-list a,
+    .popular-list a {
+      color: #4b5563;
+      text-decoration: none;
+      font-size: 0.95rem;
+    }
+    
+    .archive-list a:hover,
+    .category-list a:hover,
+    .popular-list a:hover {
+      color: #5a5bb8;
+      text-decoration: underline;
+    }
+    
+    .section-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+    
+    @media (max-width: 768px) {
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+      
+      .article-card--featured {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem;
+      }
+      
+      .articles-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .newsletter-card {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 2rem;
+      }
+      
+      .form-group {
+        flex-direction: column;
+      }
+      
+      .archive-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .section-filters {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding: 0 1rem;
+      }
+      
+      .section-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Skip Link -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Site header -->
+  <header class="header" role="banner">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+      
+      <nav class="nav" role="navigation">
+        <ul class="nav__list">
+          <li class="nav__item"><a href="/students/" class="nav__link">🎓 Students</a></li>
+          <li class="nav__item"><a href="/institutions/" class="nav__link">🏛️ Institutions</a></li>
+          <li class="nav__item"><a href="/counselors/" class="nav__link">💼 Counselors</a></li>
+          <li class="nav__item"><a href="/parents/" class="nav__link">👨‍👩‍👧‍👦 Parents</a></li>
+          <li class="nav__item"><a href="/blog/" class="nav__link">📰 Updates</a></li>
+        </ul>
+      </nav>
+
+      <div class="blog-nav">
+        <a href="#latest" class="blog-nav__link">Latest</a>
+        <a href="#features" class="blog-nav__link">Features</a>
+        <a href="#insights" class="blog-nav__link">Insights</a>
+        <a href="#announcements" class="blog-nav__link">Announcements</a>
+      </div>
+      
+      <div class="header__actions">
+        <div class="lang-switch">
+          <button class="lang-switch__btn" onclick="toggleLanguage()" aria-label="Switch language">
+            <span class="lang-switch__flag">🇺🇸</span>
+            <span class="lang-switch__text">EN</span>
+          </button>
+        </div>
+        <a href="/auth/" class="btn btn--primary btn--sm">Sign In</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main id="main" role="main">
+    <!-- Blog Hero -->
+    <section class="blog-hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1>📰 Flow Updates</h1>
+          <p>Stay informed with the latest news, feature updates, educational insights, and platform developments from Flow Education Platform.</p>
+          <div class="hero-actions">
+            <button class="btn btn--primary" onclick="subscribeUpdates()">📧 Subscribe to Updates</button>
+            <button class="btn btn--secondary" onclick="shareUpdates()">🔗 Share</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Article -->
+    <section class="featured-article">
+      <div class="container">
+        <article class="article-card article-card--featured">
+          <div class="article-badge">⭐ Featured</div>
+          <div class="article-image">
+            <div class="article-placeholder">🚀</div>
+          </div>
+          <div class="article-content">
+            <div class="article-meta">
+              <span class="article-category">Platform Update</span>
+              <span class="article-date">February 8, 2024</span>
+              <span class="article-read-time">5 min read</span>
+            </div>
+            <h2><a href="#" onclick="readArticle('ai-recommendations')">Introducing AI-Powered Program Recommendations</a></h2>
+            <p>We're excited to announce our latest feature that uses advanced machine learning to help students discover programs that perfectly match their interests, academic background, and career goals. This game-changing technology analyzes thousands of data points to provide personalized recommendations.</p>
+            <div class="article-tags">
+              <span class="tag">AI</span>
+              <span class="tag">Machine Learning</span>
+              <span class="tag">Personalization</span>
+              <span class="tag">Innovation</span>
+            </div>
+            <button class="btn btn--primary" onclick="readArticle('ai-recommendations')">Read Full Article</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Latest Updates -->
+    <section id="latest" class="section">
+      <div class="container">
+        <header class="section__header">
+          <h2>📈 Latest Updates</h2>
+          <div class="section-filters">
+            <button class="filter-btn filter-btn--active" onclick="filterPosts('all')">All</button>
+            <button class="filter-btn" onclick="filterPosts('features')">Features</button>
+            <button class="filter-btn" onclick="filterPosts('insights')">Insights</button>
+            <button class="filter-btn" onclick="filterPosts('announcements')">Announcements</button>
+          </div>
+        </header>
+
+        <div class="articles-grid">
+          <!-- Feature Update -->
+          <article class="article-card" data-category="features">
+            <div class="article-image">
+              <div class="article-placeholder">🛠️</div>
+            </div>
+            <div class="article-content">
+              <div class="article-meta">
+                <span class="article-category">Feature Update</span>
+                <span class="article-date">February 5, 2024</span>
+                <span class="article-read-time">3 min read</span>
+              </div>
+              <h3><a href="#" onclick="readArticle('bulk-actions')">Enhanced Bulk Actions for Admissions Teams</a></h3>
+              <p>Streamline your admissions workflow with our new bulk action capabilities. Process hundreds of applications simultaneously with advanced filtering and batch operations.</p>
+              <div class="article-stats">
+                <span>👀 1,247 views</span>
+                <span>💬 23 comments</span>
+                <span>❤️ 89 likes</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Educational Insight -->
+          <article class="article-card" data-category="insights">
+            <div class="article-image">
+              <div class="article-placeholder">📊</div>
+            </div>
+            <div class="article-content">
+              <div class="article-meta">
+                <span class="article-category">Educational Insights</span>
+                <span class="article-date">February 1, 2024</span>
+                <span class="article-read-time">7 min read</span>
+              </div>
+              <h3><a href="#" onclick="readArticle('enrollment-trends')">2024 Higher Education Enrollment Trends Report</a></h3>
+              <p>Comprehensive analysis of enrollment patterns, student preferences, and emerging trends shaping the future of higher education based on data from over 500 institutions.</p>
+              <div class="article-stats">
+                <span>👀 3,456 views</span>
+                <span>💬 67 comments</span>
+                <span>❤️ 234 likes</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Product Announcement -->
+          <article class="article-card" data-category="announcements">
+            <div class="article-image">
+              <div class="article-placeholder">📢</div>
+            </div>
+            <div class="article-content">
+              <div class="article-meta">
+                <span class="article-category">Announcement</span>
+                <span class="article-date">January 28, 2024</span>
+                <span class="article-read-time">4 min read</span>
+              </div>
+              <h3><a href="#" onclick="readArticle('mobile-app')">Flow Mobile App Now Available on iOS and Android</a></h3>
+              <p>Take Flow with you anywhere! Our new mobile app brings full platform functionality to your smartphone, allowing students and educators to stay connected on the go.</p>
+              <div class="article-stats">
+                <span>👀 2,891 views</span>
+                <span>💬 45 comments</span>
+                <span>❤️ 178 likes</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Educational Insight -->
+          <article class="article-card" data-category="insights">
+            <div class="article-image">
+              <div class="article-placeholder">🎯</div>
+            </div>
+            <div class="article-content">
+              <div class="article-meta">
+                <span class="article-category">Best Practices</span>
+                <span class="article-date">January 25, 2024</span>
+                <span class="article-read-time">6 min read</span>
+              </div>
+              <h3><a href="#" onclick="readArticle('inclusive-admissions')">Building More Inclusive Admissions Processes</a></h3>
+              <p>Learn from leading institutions about creating admissions processes that promote diversity, equity, and inclusion while maintaining academic excellence and fairness.</p>
+              <div class="article-stats">
+                <span>👀 1,892 views</span>
+                <span>💬 34 comments</span>
+                <span>❤️ 156 likes</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Feature Update -->
+          <article class="article-card" data-category="features">
+            <div class="article-image">
+              <div class="article-placeholder">🔒</div>
+            </div>
+            <div class="article-content">
+              <div class="article-meta">
+                <span class="article-category">Security Update</span>
+                <span class="article-date">January 22, 2024</span>
+                <span class="article-read-time">2 min read</span>
+              </div>
+              <h3><a href="#" onclick="readArticle('security-enhancements')">Enhanced Security Features and FERPA Compliance</a></h3>
+              <p>New security measures including advanced encryption, multi-factor authentication, and improved FERPA compliance to protect sensitive student information.</p>
+              <div class="article-stats">
+                <span>👀 856 views</span>
+                <span>💬 12 comments</span>
+                <span>❤️ 67 likes</span>
+              </div>
+            </div>
+          </article>
+
+          <!-- Educational Insight -->
+          <article class="article-card" data-category="insights">
+            <div class="article-image">
+              <div class="article-placeholder">🌍</div>
+            </div>
+            <div class="article-content">
+              <div class="article-meta">
+                <span class="article-category">Global Perspectives</span>
+                <span class="article-date">January 18, 2024</span>
+                <span class="article-read-time">8 min read</span>
+              </div>
+              <h3><a href="#" onclick="readArticle('international-education')">The Future of International Education Post-Pandemic</a></h3>
+              <p>Exploring how international education has evolved, new opportunities for global collaboration, and strategies for supporting international students in a changed world.</p>
+              <div class="article-stats">
+                <span>👀 2,134 views</span>
+                <span>💬 78 comments</span>
+                <span>❤️ 189 likes</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="section-actions">
+          <button class="btn btn--secondary" onclick="loadMorePosts()">Load More Articles</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Newsletter Signup -->
+    <section class="newsletter-section">
+      <div class="container">
+        <div class="newsletter-card">
+          <div class="newsletter-content">
+            <h2>📧 Stay Updated</h2>
+            <p>Get the latest Flow updates, educational insights, and platform news delivered directly to your inbox.</p>
+            <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+              <div class="form-group">
+                <input type="email" placeholder="Enter your email address" required>
+                <button type="submit" class="btn btn--primary">Subscribe</button>
+              </div>
+            </form>
+            <p class="newsletter-disclaimer">Join 12,000+ educators who trust Flow for the latest education insights.</p>
+          </div>
+          <div class="newsletter-benefits">
+            <h3>What you'll get:</h3>
+            <ul>
+              <li>✅ Weekly platform updates</li>
+              <li>✅ Educational best practices</li>
+              <li>✅ Industry trends and analysis</li>
+              <li>✅ Feature announcements</li>
+              <li>✅ Community highlights</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Archive & Categories -->
+    <section class="archive-section">
+      <div class="container">
+        <div class="archive-grid">
+          <div class="archive-card">
+            <h3>📅 Browse by Date</h3>
+            <ul class="archive-list">
+              <li><a href="#" onclick="browseArchive('2024-02')">February 2024 (8 posts)</a></li>
+              <li><a href="#" onclick="browseArchive('2024-01')">January 2024 (12 posts)</a></li>
+              <li><a href="#" onclick="browseArchive('2023-12')">December 2023 (15 posts)</a></li>
+              <li><a href="#" onclick="browseArchive('2023-11')">November 2023 (11 posts)</a></li>
+            </ul>
+          </div>
+
+          <div class="archive-card">
+            <h3>🏷️ Popular Categories</h3>
+            <ul class="category-list">
+              <li><a href="#" onclick="filterPosts('features')">Feature Updates (24)</a></li>
+              <li><a href="#" onclick="filterPosts('insights')">Educational Insights (18)</a></li>
+              <li><a href="#" onclick="filterPosts('announcements')">Announcements (15)</a></li>
+              <li><a href="#" onclick="filterPosts('best-practices')">Best Practices (12)</a></li>
+            </ul>
+          </div>
+
+          <div class="archive-card">
+            <h3>🔥 Most Popular</h3>
+            <ul class="popular-list">
+              <li><a href="#" onclick="readArticle('ai-recommendations')">AI-Powered Program Recommendations</a></li>
+              <li><a href="#" onclick="readArticle('enrollment-trends')">2024 Enrollment Trends Report</a></li>
+              <li><a href="#" onclick="readArticle('mobile-app')">Flow Mobile App Launch</a></li>
+              <li><a href="#" onclick="readArticle('international-education')">Future of International Education</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer__inner">
+      <div class="footer__grid">
+        <div class="footer__section">
+          <h3 class="footer__title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+              <path d="M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5"/>
+            </svg>
+            For Students
+          </h3>
+          <ul class="footer__list">
+            <li><a href="/students/" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+              Dashboard
+            </a></li>
+            <li><a href="/students/applications.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+              </svg>
+              Applications
+            </a></li>
+            <li><a href="/students/programs.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              Programs
+            </a></li>
+            <li><a href="/students/profile.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+              Profile
+            </a></li>
+          </ul>
+        </div>
+        
+        <div class="footer__section">
+          <h3 class="footer__title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+              <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
+            </svg>
+            For Institutions
+          </h3>
+          <ul class="footer__list">
+            <li><a href="/institutions/" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+              Dashboard
+            </a></li>
+            <li><a href="/institutions/programs.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+              </svg>
+              Programs
+            </a></li>
+            <li><a href="/institutions/admissions.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+              </svg>
+              Admissions
+            </a></li>
+            <li><a href="/institutions/reports.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+              </svg>
+              Reports
+            </a></li>
+            <li><a href="/institutions/messages.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              Messages
+            </a></li>
+          </ul>
+        </div>
+        
+        <div class="footer__section">
+          <h3 class="footer__title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+              <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zM10 6a2 2 0 0 1 4 0v1h-4V6zm2 10a2 2 0 1 1 2-2 2 2 0 0 1-2 2z"/>
+            </svg>
+            Support
+          </h3>
+          <ul class="footer__list">
+            <li><a href="/institutions/help.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M11 18h2v-2h-2v2zm1-16C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-2.21 0-4 1.79-4 4h2c0-1.1.9-2 2-2s2 .9 2 2c0 2-3 1.75-3 5h2c0-2.25 3-2.5 3-5 0-2.21-1.79-4-4-4z"/>
+              </svg>
+              Help Center
+            </a></li>
+            <li><a href="/contact/" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              Contact
+            </a></li>
+            <li><a href="/legal/privacy.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+              </svg>
+              Privacy
+            </a></li>
+            <li><a href="/legal/terms.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 2 2h8c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+              </svg>
+              Terms
+            </a></li>
+          </ul>
+        </div>
+        
+        <div class="footer__section">
+          <h3 class="footer__title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+              <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H16c-.8 0-1.54.37-2.01.99L10 14v8h2v-8l2.5-2.5V22h2zm-7.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S11 9.17 11 10s.67 1.5 1.5 1.5zM5.5 6c1.11 0 2-.89 2-2s-.89-2-2-2-2 .89-2 2 .89 2 2 2zm1.5 4h-2c-.8 0-1.54.37-2.01.99L.5 15H3v7h2v-7l2.5-2.5V22h2v-8L7 10z"/>
+            </svg>
+            Connect
+          </h3>
+          <ul class="footer__list">
+            <li><a href="/institutions/messages.html" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+              Messages
+            </a></li>
+            <li><a href="/community/" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 8H16c-.8 0-1.54.37-2.01.99L10 14v8h2v-8l2.5-2.5V22h2zm-7.5-10.5c.83 0 1.5-.67 1.5-1.5s-.67-1.5-1.5-1.5S11 9.17 11 10s.67 1.5 1.5 1.5zM5.5 6c1.11 0 2-.89 2-2s-.89-2-2-2-2 .89-2 2 .89 2 2 2zm1.5 4h-2c-.8 0-1.54.37-2.01.99L.5 15H3v7h2v-7l2.5-2.5V22h2v-8L7 10z"/>
+              </svg>
+              Community
+            </a></li>
+            <li><a href="/blog/" class="footer__link">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+              Updates
+            </a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer__bottom">
+        <div class="footer__copyright">
+          © 2024 Flow Education Platform. All rights reserved.
+        </div>
+        <button onclick="scrollToTop()" class="footer__logo" aria-label="Scroll to top">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L3 7l9 5 9-5-9-5zM3 17l9 5 9-5M3 12l9 5 9-5"/>
+          </svg>
+          <span>Flow</span>
+        </button>
+        <div class="footer__status">
+          <span class="footer__status-dot"></span>
+          <span>All systems operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    console.log('Blog/Updates page loaded');
+    
+    window.scrollToTop = function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    window.toggleLanguage = function() {
+      alert('🌐 Language Selection\n\nLanguage switching functionality would be implemented here.\n\nSupported languages:\n• English (EN) - Current\n• Spanish (ES)\n• French (FR)\n• German (DE)\n• Mandarin (ZH)');
+    }
+    
+    window.subscribeUpdates = function() {
+      const email = prompt('📧 Subscribe to Updates\n\nEnter your email address to receive weekly updates from Flow:');
+      if (email) {
+        alert('✅ Subscription Successful!\n\nThank you for subscribing to Flow Updates!\n\nYou\'ll receive:\n• Weekly platform updates\n• Educational insights\n• Feature announcements\n• Industry trends\n\nConfirmation sent to: ' + email);
+      }
+    }
+    
+    window.shareUpdates = function() {
+      alert('🔗 Share Flow Updates\n\nIn a real implementation, this would open sharing options for social media, email, and direct links.\n\nHelp others stay informed about the latest in educational technology!');
+    }
+    
+    window.readArticle = function(articleId) {
+      const articles = {
+        'ai-recommendations': 'Introducing AI-Powered Program Recommendations\n\nOur new AI system analyzes student profiles, academic history, and career interests to suggest the most suitable academic programs. This personalized approach helps students discover opportunities they might never have considered.',
+        'bulk-actions': 'Enhanced Bulk Actions for Admissions Teams\n\nProcess hundreds of applications efficiently with our new bulk operations. Filter, sort, and take action on multiple applications simultaneously, saving hours of administrative work.',
+        'enrollment-trends': '2024 Higher Education Enrollment Trends Report\n\nComprehensive analysis of student preferences, program popularity, and demographic shifts shaping higher education. Based on data from 500+ institutions worldwide.',
+        'mobile-app': 'Flow Mobile App Now Available\n\nAccess all Flow features on your mobile device. Available for iOS and Android with full functionality including messaging, applications, and real-time notifications.',
+        'inclusive-admissions': 'Building More Inclusive Admissions Processes\n\nBest practices from leading institutions on creating fair, diverse, and equitable admissions processes while maintaining academic standards.',
+        'security-enhancements': 'Enhanced Security Features and FERPA Compliance\n\nNew security measures including advanced encryption, multi-factor authentication, and improved compliance with educational privacy regulations.',
+        'international-education': 'The Future of International Education Post-Pandemic\n\nHow global education has evolved and new opportunities for international collaboration in a post-pandemic world.'
+      };
+      
+      const content = articles[articleId] || 'Article content not available.';
+      alert('📰 ' + content + '\n\nIn a real implementation, this would open the full article page.');
+    }
+    
+    window.filterPosts = function(category) {
+      // Update filter buttons
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('filter-btn--active'));
+      event.target.classList.add('filter-btn--active');
+      
+      // Filter articles (in a real implementation, this would filter the visible articles)
+      const categoryNames = {
+        'all': 'All Posts',
+        'features': 'Feature Updates',
+        'insights': 'Educational Insights', 
+        'announcements': 'Announcements'
+      };
+      
+      alert('🔍 Filtering posts by: ' + (categoryNames[category] || category) + '\n\nIn a real implementation, this would filter the visible articles on the page.');
+    }
+    
+    window.subscribeNewsletter = function(event) {
+      event.preventDefault();
+      const email = event.target.querySelector('input[type="email"]').value;
+      alert('📧 Newsletter Subscription\n\nThank you for subscribing to Flow Updates!\n\nEmail: ' + email + '\n\nYou\'ll receive our weekly newsletter with the latest educational insights and platform updates.\n\nSubscription ID: #NEWS-' + Math.random().toString(36).substr(2, 6).toUpperCase());
+      event.target.reset();
+    }
+    
+    window.loadMorePosts = function() {
+      alert('📄 Loading More Articles\n\nIn a real implementation, this would load additional blog posts via AJAX or pagination.');
+    }
+    
+    window.browseArchive = function(period) {
+      alert('📅 Archive: ' + period + '\n\nIn a real implementation, this would show all posts from the selected time period.');
+    }
+    
+    // Initialize filter functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          filterButtons.forEach(b => b.classList.remove('filter-btn--active'));
+          this.classList.add('filter-btn--active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>

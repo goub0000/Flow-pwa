@@ -1,0 +1,2276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages - Institution Portal | Flow</title>
+  <meta name="description" content="Manage communications with students, applicants, and staff through the institution messaging portal.">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/base.css">
+  <link rel="stylesheet" href="/assets/css/institutions.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+  
+  <!-- Enhanced Navigation and Footer Styling -->
+  <style>
+    /* Header Smaller Size and Blue Buttons */
+    .header {
+      padding: 0.8rem 0 !important;
+    }
+
+    .header:hover {
+      padding: 1rem 0 !important;
+    }
+
+    /* Header Buttons - Blue Background with White Icons */
+    .header-search__trigger,
+    .header-notifications__trigger,
+    .header-messages__trigger {
+      background: #5a5bb8 !important;
+      border-radius: 50% !important;
+      padding: 0.75rem !important;
+      border: none !important;
+      transition: all 0.3s ease !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+
+    .header-search__trigger svg,
+    .header-notifications__trigger svg,
+    .header-messages__trigger svg {
+      fill: white !important;
+      stroke: white !important;
+    }
+
+    .header-search__trigger:hover,
+    .header-notifications__trigger:hover,
+    .header-messages__trigger:hover {
+      background: #4c4db8 !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 12px rgba(76, 77, 184, 0.3) !important;
+    }
+
+    .header-profile__trigger,
+    .header-mobile-toggle {
+      color: #5a5bb8 !important;
+    }
+
+    .header-profile__trigger:hover,
+    .header-mobile-toggle:hover {
+      color: #4c4db8 !important;
+    }
+
+    /* Enhanced Navigation Styling */
+    .nav-hover-item:hover {
+      background: rgba(255, 255, 255, 0.15) !important;
+      color: white !important;
+      transform: translateY(-2px) !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    /* Enhanced Content Padding */
+    .messages-feature-card {
+      padding: 2rem !important;
+      margin: 1rem 0 !important;
+      border-radius: 16px !important;
+      transition: all 0.3s ease !important;
+    }
+
+    .messages-feature-card:hover {
+      transform: translateY(-4px) !important;
+      box-shadow: 0 8px 24px rgba(90, 91, 184, 0.15) !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .subnav {
+        padding: 1.5rem 0 !important;
+      }
+
+      .subnav__inner {
+        padding: 1rem 1.5rem !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+      }
+
+      .subnav__link {
+        text-align: center !important;
+        margin: 0 !important;
+        padding: 1rem 1.5rem !important;
+      }
+
+      .container {
+        padding: 0 1.5rem !important;
+      }
+
+      .section__header {
+        padding: 1.5rem 0 2rem 0 !important;
+        margin-bottom: 2rem !important;
+      }
+    }
+
+    /* Ensure all footer text is white */
+    .footer * {
+      color: white !important;
+    }
+
+    .footer a {
+      color: white !important;
+    }
+
+    .footer a:hover {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+
+    .footer .footer__brand-name,
+    .footer .footer__tagline,
+    .footer .footer__title,
+    .footer .footer__links a,
+    .footer .footer__copyright,
+    .footer .footer__status,
+    .footer h1,
+    .footer h2, 
+    .footer h3,
+    .footer h4,
+    .footer h5,
+    .footer h6,
+    .footer p,
+    .footer span,
+    .footer li {
+      color: white !important;
+    }
+
+    /* Make sure SVG icons are visible */
+    .footer svg {
+      color: white !important;
+    }
+
+    /* Smaller Header Styling */
+    .header {
+      transition: all 0.3s ease;
+      padding: 1rem 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(229, 231, 235, 0.3);
+    }
+
+    .header:hover {
+      padding: 1.25rem 0;
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .header__inner {
+      transition: all 0.3s ease;
+      padding: 0 1.5rem;
+    }
+
+    .header:hover .header__inner {
+      padding: 0 2rem;
+    }
+
+    /* Enhanced Sub-navigation with Blue Gradient */
+    .subnav {
+      transition: all 0.3s ease;
+      padding: 1.5rem 0;
+      background: linear-gradient(135deg, rgba(55, 56, 150, 0.95), rgba(107, 108, 232, 0.95));
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 20px rgba(55, 56, 150, 0.2);
+    }
+
+    .subnav:hover {
+      padding: 2rem 0;
+      background: linear-gradient(135deg, rgba(55, 56, 150, 0.98), rgba(107, 108, 232, 0.98));
+      box-shadow: 0 8px 32px rgba(55, 56, 150, 0.3);
+    }
+
+    .subnav__inner {
+      transition: all 0.3s ease;
+      padding: 0 2rem;
+      gap: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .subnav:hover .subnav__inner {
+      padding: 0 2.5rem;
+      gap: 2.5rem;
+    }
+
+    .subnav__link, .badge {
+      transition: all 0.3s ease;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      color: white !important;
+      text-decoration: none;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .subnav__link--active {
+      background: rgba(255, 255, 255, 0.9) !important;
+      color: #4338ca !important;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .subnav__link:hover, .badge:hover {
+      padding: 1rem 2rem;
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+      color: white !important;
+    }
+
+    .subnav__link--active:hover {
+      background: rgba(255, 255, 255, 0.95) !important;
+      color: #4338ca !important;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Badge Enhancement */
+    .badge {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+    }
+
+    .badge:hover {
+      background: linear-gradient(135deg, #d97706, #b45309);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Advanced Interactive Padding for Message Sections */
+    .messages-container {
+      transition: all 0.3s ease;
+      padding: 2.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.95);
+      margin: 2rem 0;
+      border: 1px solid rgba(229, 231, 235, 0.6);
+    }
+
+    .messages-container:hover {
+      padding: 3rem;
+      background: rgba(255, 255, 255, 0.98);
+      transform: translateY(-2px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      border-left: 6px solid #4338ca;
+    }
+
+    .message-thread {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2rem 2.5rem;
+      border-radius: 16px;
+      margin: 1rem 0;
+      background: rgba(248, 250, 252, 0.8);
+      border: 1px solid rgba(229, 231, 235, 0.4);
+    }
+
+    .message-thread:hover {
+      padding: 2.5rem 3rem;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+      border-left: 6px solid #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .message-thread:hover .message-sender {
+      color: #3b82f6;
+      text-shadow: 0 1px 2px rgba(59, 130, 246, 0.1);
+    }
+
+    .message-thread:hover .message-avatar {
+      transform: scale(1.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .message-item {
+      transition: all 0.3s ease;
+      padding: 1.5rem 2rem;
+      border-radius: 12px;
+      margin: 0.75rem 0;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .message-item:hover {
+      padding: 2rem 2.5rem;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(16, 185, 129, 0.08));
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #22c55e;
+    }
+
+    .message-item:hover .message-time {
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    /* Compose Message Section Enhanced Padding */
+    .compose-section {
+      transition: all 0.3s ease;
+      padding: 2.5rem 3rem;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(251, 191, 36, 0.05));
+      margin: 2rem 0;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .compose-section:hover {
+      padding: 3rem 3.5rem;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.08));
+      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(245, 158, 11, 0.2);
+      border-left: 6px solid #f59e0b;
+    }
+
+    .compose-section:hover .compose-title {
+      color: #f59e0b;
+      text-shadow: 0 1px 2px rgba(245, 158, 11, 0.1);
+    }
+
+    /* Message Filters Enhanced Padding */
+    .message-filters {
+      transition: all 0.3s ease;
+      padding: 2rem 2.5rem;
+      border-radius: 20px;
+      background: rgba(249, 250, 251, 0.8);
+      margin: 2rem 0;
+    }
+
+    .message-filters:hover {
+      padding: 2.5rem 3rem;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(168, 85, 247, 0.05));
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      border-left: 6px solid #8b5cf6;
+    }
+
+    .filter-group {
+      transition: all 0.3s ease;
+    }
+
+    .message-filters:hover .filter-group {
+      transform: translateY(-1px);
+    }
+
+    .filter-select, .filter-input {
+      transition: all 0.3s ease;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+    }
+
+    .filter-select:hover, .filter-input:hover, .filter-select:focus, .filter-input:focus {
+      padding: 1.25rem 1.75rem;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border-color: #8b5cf6;
+    }
+
+    /* Page Header Enhanced Padding */
+    .page-header {
+      transition: all 0.3s ease;
+      padding: 3rem 0 2rem;
+      background: linear-gradient(135deg, rgba(67, 56, 202, 0.03), rgba(139, 92, 246, 0.03));
+    }
+
+    .page-header:hover {
+      padding: 3.5rem 0 2.5rem;
+      background: linear-gradient(135deg, rgba(67, 56, 202, 0.05), rgba(139, 92, 246, 0.05));
+    }
+
+    .page-header__content {
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .page-header:hover .page-header__content {
+      transform: translateY(-2px);
+    }
+
+    .page-header h1 {
+      transition: all 0.3s ease;
+      color: #1f2937;
+      margin-bottom: 1rem;
+    }
+
+    .page-header:hover h1 {
+      color: #4338ca;
+      text-shadow: 0 2px 4px rgba(67, 56, 202, 0.1);
+    }
+
+    /* Action Buttons Enhanced */
+    .btn {
+      transition: all 0.3s ease;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+    }
+
+    .btn:hover {
+      padding: 1rem 2rem;
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .btn--primary:hover {
+      box-shadow: 0 8px 25px rgba(67, 56, 202, 0.3);
+      background: linear-gradient(135deg, #3730a3, #4338ca);
+    }
+
+    .btn--secondary:hover {
+      box-shadow: 0 8px 25px rgba(107, 114, 128, 0.2);
+      background: linear-gradient(135deg, #4b5563, #6b7280);
+    }
+
+    /* Statistics Cards Enhanced Padding */
+    .stats-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2rem 2.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(229, 231, 235, 0.6);
+      text-align: center;
+    }
+
+    .stats-card:hover {
+      padding: 2.5rem 3rem;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.08));
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      border-left: 6px solid #6366f1;
+    }
+
+    .stats-card:nth-child(2):hover {
+      border-left-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.08));
+    }
+
+    .stats-card:nth-child(3):hover {
+      border-left-color: #22c55e;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(16, 185, 129, 0.08));
+    }
+
+    /* Advanced Institutional Features Styling */
+    .advanced-features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .feature-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2.5rem 2rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(229, 231, 235, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:hover {
+      padding: 3rem 2.5rem;
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .feature-card--schedule:hover {
+      border-left: 6px solid #8b5cf6;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.05), rgba(168, 85, 247, 0.05));
+    }
+
+    .feature-card--internal:hover {
+      border-left: 6px solid #22c55e;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(16, 185, 129, 0.05));
+    }
+
+    .feature-card--forward:hover {
+      border-left: 6px solid #f59e0b;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(251, 191, 36, 0.05));
+    }
+
+    .feature-card--video:hover {
+      border-left: 6px solid #ef4444;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), rgba(248, 113, 113, 0.05));
+    }
+
+    .feature-card__icon {
+      transition: all 0.3s ease;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      font-size: 2rem;
+    }
+
+    .feature-card:hover .feature-card__icon {
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-card--schedule .feature-card__icon {
+      background: linear-gradient(135deg, #8b5cf6, #a855f7);
+    }
+
+    .feature-card--internal .feature-card__icon {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .feature-card--forward .feature-card__icon {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
+    .feature-card--video .feature-card__icon {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+
+    .feature-card__title {
+      transition: all 0.3s ease;
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #1f2937;
+    }
+
+    .feature-card:hover .feature-card__title {
+      color: #4338ca;
+      text-shadow: 0 1px 2px rgba(67, 56, 202, 0.1);
+    }
+
+    .feature-card__description {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Schedule Message Modal */
+    .schedule-modal {
+      transition: all 0.3s ease;
+      padding: 2.5rem;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      margin: 2rem 0;
+    }
+
+    .schedule-modal:hover {
+      padding: 3rem;
+      background: rgba(255, 255, 255, 0.98);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(139, 92, 246, 0.2);
+      border-left: 6px solid #8b5cf6;
+    }
+
+    .schedule-inputs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .schedule-input {
+      transition: all 0.3s ease;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(209, 213, 219, 0.8);
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .schedule-input:hover, .schedule-input:focus {
+      padding: 1.25rem 1.75rem;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
+      border-color: #8b5cf6;
+    }
+
+    /* Internal Communication Panel */
+    .internal-comm-panel {
+      transition: all 0.3s ease;
+      padding: 2.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      margin: 2rem 0;
+    }
+
+    .internal-comm-panel:hover {
+      padding: 3rem;
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(34, 197, 94, 0.2);
+      border-left: 6px solid #22c55e;
+    }
+
+    .member-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .member-card {
+      transition: all 0.3s ease;
+      padding: 1.5rem 2rem;
+      border-radius: 16px;
+      background: rgba(248, 250, 252, 0.8);
+      border: 1px solid rgba(229, 231, 235, 0.6);
+    }
+
+    .member-card:hover {
+      padding: 2rem 2.5rem;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(16, 185, 129, 0.08));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #22c55e;
+    }
+
+    .member-avatar {
+      transition: all 0.3s ease;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+    }
+
+    .member-card:hover .member-avatar {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+    }
+
+    /* File Forward System */
+    .file-forward-container {
+      transition: all 0.3s ease;
+      padding: 2.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      margin: 2rem 0;
+    }
+
+    .file-forward-container:hover {
+      padding: 3rem;
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(245, 158, 11, 0.2);
+      border-left: 6px solid #f59e0b;
+    }
+
+    .student-file-card {
+      transition: all 0.3s ease;
+      padding: 1.5rem 2rem;
+      border-radius: 16px;
+      background: rgba(254, 243, 199, 0.5);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      margin: 1rem 0;
+    }
+
+    .student-file-card:hover {
+      padding: 2rem 2.5rem;
+      background: rgba(254, 243, 199, 0.8);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+      border-left: 4px solid #f59e0b;
+    }
+
+    .forward-options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .forward-option {
+      transition: all 0.3s ease;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(229, 231, 235, 0.6);
+      cursor: pointer;
+    }
+
+    .forward-option:hover {
+      padding: 1.25rem 1.75rem;
+      background: rgba(245, 158, 11, 0.1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+      border-color: #f59e0b;
+    }
+
+    /* Video Call Interface */
+    .video-call-container {
+      transition: all 0.3s ease;
+      padding: 2.5rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      margin: 2rem 0;
+    }
+
+    .video-call-container:hover {
+      padding: 3rem;
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 48px rgba(239, 68, 68, 0.2);
+      border-left: 6px solid #ef4444;
+    }
+
+    .interview-scheduler {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 1.5rem 0;
+    }
+
+    .interview-time-slot {
+      transition: all 0.3s ease;
+      padding: 1.5rem;
+      border-radius: 12px;
+      background: rgba(254, 226, 226, 0.5);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      cursor: pointer;
+    }
+
+    .interview-time-slot:hover {
+      padding: 1.75rem;
+      background: rgba(254, 226, 226, 0.8);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+      border-color: #ef4444;
+    }
+
+    .interview-time-slot.selected {
+      background: rgba(239, 68, 68, 0.1);
+      border-color: #ef4444;
+      border-width: 2px;
+    }
+
+    /* Action Buttons Enhanced */
+    .advanced-btn {
+      transition: all 0.3s ease;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0.5rem;
+    }
+
+    .advanced-btn:hover {
+      padding: 1.25rem 2.5rem;
+      transform: translateY(-2px) scale(1.02);
+    }
+
+    .advanced-btn--primary {
+      background: linear-gradient(135deg, #4338ca, #6366f1);
+      color: white;
+    }
+
+    .advanced-btn--primary:hover {
+      box-shadow: 0 8px 25px rgba(67, 56, 202, 0.3);
+      background: linear-gradient(135deg, #3730a3, #4338ca);
+    }
+
+    .advanced-btn--schedule {
+      background: linear-gradient(135deg, #8b5cf6, #a855f7);
+      color: white;
+    }
+
+    .advanced-btn--schedule:hover {
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+      background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+    }
+
+    .advanced-btn--success {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white;
+    }
+
+    .advanced-btn--success:hover {
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+      background: linear-gradient(135deg, #16a34a, #15803d);
+    }
+
+    .advanced-btn--warning {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+    }
+
+    .advanced-btn--warning:hover {
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+      background: linear-gradient(135deg, #d97706, #b45309);
+    }
+
+    .advanced-btn--danger {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+    }
+
+    .advanced-btn--danger:hover {
+      box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
+      background: linear-gradient(135deg, #dc2626, #b91c1c);
+    }
+
+    /* Communication Status Indicators */
+    .status-indicator {
+      transition: all 0.3s ease;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-indicator:hover {
+      padding: 0.75rem 1.25rem;
+      transform: scale(1.05);
+    }
+
+    .status-indicator--online {
+      background: rgba(34, 197, 94, 0.1);
+      color: #16a34a;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .status-indicator--busy {
+      background: rgba(239, 68, 68, 0.1);
+      color: #dc2626;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .status-indicator--away {
+      background: rgba(245, 158, 11, 0.1);
+      color: #d97706;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .status-indicator--offline {
+      background: rgba(107, 114, 128, 0.1);
+      color: #6b7280;
+      border: 1px solid rgba(107, 114, 128, 0.3);
+    }
+
+    /* Mobile Responsive Adjustments */
+    @media (max-width: 768px) {
+      .header:hover {
+        padding: 1.25rem 0;
+      }
+
+      .header:hover .header__inner {
+        padding: 0 1.5rem;
+      }
+
+      .messages-container:hover {
+        padding: 2rem 1.5rem;
+      }
+
+      .message-thread:hover {
+        padding: 2rem 2.5rem;
+        transform: translateY(-2px) scale(1.01);
+      }
+
+      .compose-section:hover {
+        padding: 2.5rem 3rem;
+      }
+
+      .message-filters:hover {
+        padding: 2rem 1.5rem;
+      }
+
+      .advanced-features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .interview-scheduler {
+        grid-template-columns: 1fr;
+      }
+
+      .schedule-inputs {
+        grid-template-columns: 1fr;
+      }
+
+      .forward-options {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card:hover {
+        padding: 2.5rem 2rem;
+        transform: translateY(-2px) scale(1.01);
+      }
+    }
+
+    /* Black font and icons for Send Message button */
+    .btn--primary {
+      color: #000000 !important;
+    }
+
+    .btn--primary:hover {
+      color: #000000 !important;
+    }
+
+    .btn--primary svg {
+      fill: #000000 !important;
+      stroke: #000000 !important;
+    }
+
+    .btn--primary:hover svg {
+      fill: #000000 !important;
+      stroke: #000000 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Skip link for accessibility -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Toast notifications container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Site header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+
+      <!-- Header Tools -->
+      <div class="header-tools">
+        <!-- Search -->
+        <div class="header-search" id="headerSearch">
+          <button class="header-search__trigger" id="searchTrigger" aria-label="Search">
+            <svg width="20" height="20" fill="white">
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="header-search__dropdown" id="searchDropdown" aria-hidden="true">
+            <div class="search-box">
+              <input type="search" id="globalSearch" placeholder="Search messages, students, templates..." aria-label="Global search">
+            </div>
+            <div class="search-suggestions" id="searchSuggestions"></div>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="header-notifications" id="headerNotifications">
+          <button class="header-notifications__trigger" id="notificationsTrigger" aria-label="Notifications">
+            <svg width="20" height="20" fill="white">
+              <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+            </svg>
+            <span class="header-notifications__badge" id="notificationsBadge">4</span>
+          </button>
+          <div class="header-notifications__dropdown" id="notificationsDropdown" aria-hidden="true">
+            <div class="notifications-header">
+              <h3>Notifications</h3>
+              <button class="btn btn--sm btn--ghost" onclick="markAllNotificationsRead()">Mark all read</button>
+            </div>
+            <div class="notifications-list">
+              <div class="notification-item notification-item--unread" data-id="1">
+                <div class="notification-icon notification-icon--new">🆕</div>
+                <div class="notification-content">
+                  <div class="notification-title">New Message Received</div>
+                  <div class="notification-message">Sarah Johnson sent a message regarding document clarification</div>
+                  <div class="notification-time">5 minutes ago</div>
+                </div>
+                <button class="notification-dismiss" onclick="dismissNotification('1')" aria-label="Dismiss">×</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Messages -->
+        <div class="header-messages" id="headerMessages">
+          <button class="header-messages__trigger" id="messagesTrigger" aria-label="Messages">
+            <svg width="20" height="20" fill="white">
+              <path d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span class="header-messages__badge" id="messagesBadge">2</span>
+          </button>
+          <div class="header-messages__dropdown" id="messagesDropdown" aria-hidden="true">
+            <div class="messages-header">
+              <h3>Recent Messages</h3>
+              <button class="btn btn--sm btn--primary" onclick="composeMessage()">Compose</button>
+            </div>
+            <div class="messages-list" id="messagesList">
+              <div class="message-item message-item--unread" data-id="1" onclick="markMessageRead('1')">
+                <div class="message-avatar">
+                  <img src="/assets/img/avatars/student1.jpg" alt="Sarah Johnson" width="32" height="32">
+                </div>
+                <div class="message-content">
+                  <div class="message-sender">Sarah Johnson</div>
+                  <div class="message-preview">Hello, I have a question about the required documents for...</div>
+                  <div class="message-time">5 min ago</div>
+                </div>
+                <div class="message-status message-status--unread"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Profile -->
+        <div class="header-profile" id="headerProfile">
+          <button class="header-profile__trigger" id="profileTrigger" aria-label="User menu" aria-expanded="false">
+            <div class="profile-avatar">
+              <img src="/assets/img/avatars/institution.jpg" alt="University of Excellence" width="32" height="32">
+            </div>
+            <div class="profile-info">
+              <span class="profile-name">University of Excellence</span>
+              <span class="profile-role">Institution Admin</span>
+            </div>
+            <svg width="16" height="16" fill="white" class="profile-chevron">
+              <path d="M4.646 4.646a.5.5 0 01.708 0L8 7.293l2.646-2.647a.5.5 0 01.708.708L8.707 8l2.647 2.646a.5.5 0 01-.708.708L8 8.707l-2.646 2.647a.5.5 0 01-.708-.708L7.293 8 4.646 5.354a.5.5 0 010-.708z"/>
+            </svg>
+          </button>
+          <div class="header-profile__dropdown" id="profileDropdown" aria-hidden="true">
+            <div class="profile-menu">
+              <a href="/institutions/profile.html" class="profile-menu__item">
+                <svg width="16" height="16" fill="white">
+                  <path d="M8 8a3 3 0 100-6 3 3 0 000 6zM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 00-11.215 0c-.22.578.254 1.139.872 1.139h9.47z"/>
+                </svg>
+                Institution Profile
+              </a>
+              <a href="/institutions/settings.html" class="profile-menu__item">
+                <svg width="16" height="16" fill="white">
+                  <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 01-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 01.872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 012.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 012.105-.872l.31.17c1.283.698 2.686-.705 1.987-1.987l-.169-.311a1.464 1.464 0 01.872-2.105l.34-.1c1.4-.413 1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 01-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311.169a1.464 1.464 0 01-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 100-5.86 2.929 2.929 0 000 5.858z"/>
+                </svg>
+                Settings
+              </a>
+              <div class="profile-menu__divider"></div>
+              <button class="profile-menu__item profile-menu__item--danger" onclick="signOut()">
+                <svg width="16" height="16" fill="white">
+                  <path d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 11-2 0V4H5v8h10V9a1 1 0 112 0v3a1 1 0 01-1 1H4a1 1 0 01-1-1V3z"/>
+                  <path d="M6 10a1 1 0 011-1h4a1 1 0 110 2H7a1 1 0 01-1-1z"/>
+                </svg>
+                Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="header-mobile-toggle" id="mobileMenuToggle" aria-label="Toggle menu" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="nav-overlay" id="navOverlay" aria-hidden="true">
+      <div class="nav-overlay__content">
+        <nav class="nav-overlay__menu">
+          <a href="/institutions/" class="nav-overlay__link">Dashboard</a>
+          <a href="/institutions/messages.html" class="nav-overlay__link nav-overlay__link--active">Messages</a>
+          <a href="/institutions/programs.html" class="nav-overlay__link">Programs</a>
+          <a href="/institutions/admissions.html" class="nav-overlay__link">Admissions</a>
+          <a href="/institutions/reports.html" class="nav-overlay__link">Reports</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sub-navigation -->
+  <nav class="subnav" role="navigation" aria-label="Institution sections" style="background: #5a5bb8; padding: 2rem 0;">
+    <div class="container">
+      <div class="subnav__inner" style="padding: 1.5rem 3rem; border-radius: 16px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);">
+        <a href="/institutions/" class="subnav__link nav-hover-item" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; color: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;">Dashboard</a>
+        <a href="/institutions/messages.html" class="subnav__link subnav__link--active" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; background: rgba(255, 255, 255, 0.2); color: white; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); font-weight: 600;">Messages</a>
+        <a href="/institutions/programs.html" class="subnav__link nav-hover-item" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; color: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;">Programs</a>
+        <a href="/institutions/admissions.html" class="subnav__link nav-hover-item" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; color: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;">Admissions</a>
+        <a href="/institutions/reports.html" class="subnav__link nav-hover-item" style="padding: 1.25rem 2rem; margin: 0 0.5rem; border-radius: 12px; color: rgba(255, 255, 255, 0.9); transition: all 0.3s ease;">Reports</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main id="main" role="main" style="padding: 4rem 0;">
+    <section class="section" aria-labelledby="messagesTitle" style="padding: 3rem 0;">
+      <div class="container" style="padding: 0 3rem;">
+        <header class="section__header" style="padding: 2rem 0 3rem 0; margin-bottom: 4rem;">
+          <h1 id="messagesTitle" style="padding: 1rem 2rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, rgba(90, 91, 184, 0.05), rgba(90, 91, 184, 0.1)); border-radius: 16px; border-left: 6px solid #5a5bb8;">Communication Center</h1>
+          <p class="section__description" style="padding: 1.5rem 2rem; background: rgba(90, 91, 184, 0.03); border-radius: 12px; font-size: 1.2rem; line-height: 1.7;">Manage conversations with students, applicants, and staff</p>
+        </header>
+
+        <!-- Messaging dashboard -->
+        <div class="messaging-grid">
+          <!-- Message compose card -->
+          <article class="messaging-card messaging-card--compose" aria-labelledby="composeTitle">
+            <header class="messaging-card__header">
+              <h2 id="composeTitle">📝 Compose Message</h2>
+            </header>
+            <form class="compose-form">
+              <div class="compose-form__field">
+                <label for="messageRecipient">To:</label>
+                <select id="messageRecipient" class="compose-form__select">
+                  <option value="">Select recipient...</option>
+                  <option value="all-applicants">All Applicants</option>
+                  <option value="accepted-students">Accepted Students</option>
+                  <option value="pending-review">Pending Review</option>
+                  <option value="individual">Individual Student</option>
+                </select>
+              </div>
+              <div class="compose-form__field" id="individualRecipientField" style="display: none;">
+                <label for="individualRecipient">Student Name/Email:</label>
+                <input type="text" id="individualRecipient" class="compose-form__input" placeholder="Enter name or email">
+              </div>
+              <div class="compose-form__field">
+                <label for="messageSubject">Subject:</label>
+                <input type="text" id="messageSubject" class="compose-form__input" placeholder="Message subject">
+              </div>
+              <div class="compose-form__field">
+                <label for="messageContent">Message:</label>
+                <textarea id="messageContent" class="compose-form__textarea" rows="6" placeholder="Type your message here..."></textarea>
+              </div>
+              <div class="compose-form__actions">
+                <button type="button" class="btn btn--primary" onclick="sendMessage()">
+                  <svg width="16" height="16" fill="white">
+                    <path d="M2 12l3-3 3 3 8-8"/>
+                  </svg>
+                  Send Message
+                </button>
+                <button type="button" class="btn btn--ghost" onclick="saveDraft()">Save Draft</button>
+              </div>
+            </form>
+          </article>
+
+          <!-- Recent conversations -->
+          <article class="messaging-card messaging-card--conversations" aria-labelledby="conversationsTitle">
+            <header class="messaging-card__header">
+              <h2 id="conversationsTitle">💬 Recent Conversations</h2>
+              <div class="messaging-card__actions">
+                <button class="btn btn--sm btn--ghost" onclick="refreshConversations()">
+                  <svg width="16" height="16" fill="white">
+                    <path d="M4 12a8 8 0 0 1 8-8V2.5L16 6l-4 3.5V8a6 6 0 0 0-6 6z"/>
+                  </svg>
+                  Refresh
+                </button>
+              </div>
+            </header>
+            <div class="conversations-list" id="conversationsList">
+              <div class="conversation-item conversation-item--unread" onclick="openConversation('conv-1')">
+                <div class="conversation-avatar">
+                  <img src="/assets/img/avatars/student1.jpg" alt="Sarah Johnson" width="40" height="40">
+                </div>
+                <div class="conversation-content">
+                  <div class="conversation-header">
+                    <span class="conversation-name">Sarah Johnson</span>
+                    <span class="conversation-time">2 min ago</span>
+                  </div>
+                  <div class="conversation-preview">Thank you for reviewing my application. I have a question about...</div>
+                  <div class="conversation-meta">
+                    <span class="conversation-badge conversation-badge--urgent">Urgent</span>
+                    <span class="conversation-count">3 unread</span>
+                  </div>
+                </div>
+                <div class="conversation-status conversation-status--unread"></div>
+              </div>
+
+              <div class="conversation-item" onclick="openConversation('conv-2')">
+                <div class="conversation-avatar">
+                  <img src="/assets/img/avatars/student2.jpg" alt="Michael Chen" width="40" height="40">
+                </div>
+                <div class="conversation-content">
+                  <div class="conversation-header">
+                    <span class="conversation-name">Michael Chen</span>
+                    <span class="conversation-time">1 hour ago</span>
+                  </div>
+                  <div class="conversation-preview">I wanted to follow up on the document requirements for...</div>
+                  <div class="conversation-meta">
+                    <span class="conversation-badge conversation-badge--application">Application</span>
+                  </div>
+                </div>
+                <div class="conversation-status"></div>
+              </div>
+
+              <div class="conversation-item" onclick="openConversation('conv-3')">
+                <div class="conversation-avatar">
+                  <div class="conversation-avatar-placeholder">ER</div>
+                </div>
+                <div class="conversation-content">
+                  <div class="conversation-header">
+                    <span class="conversation-name">Emily Rodriguez</span>
+                    <span class="conversation-time">2 days ago</span>
+                  </div>
+                  <div class="conversation-preview">Hello, I would like to schedule my interview for...</div>
+                  <div class="conversation-meta">
+                    <span class="conversation-badge conversation-badge--interview">Interview</span>
+                  </div>
+                </div>
+                <div class="conversation-status"></div>
+              </div>
+
+              <div class="conversation-item" onclick="openConversation('conv-4')">
+                <div class="conversation-avatar">
+                  <div class="conversation-avatar-placeholder">JW</div>
+                </div>
+                <div class="conversation-content">
+                  <div class="conversation-header">
+                    <span class="conversation-name">James Wilson</span>
+                    <span class="conversation-time">3 days ago</span>
+                  </div>
+                  <div class="conversation-preview">Great news about my acceptance! I have some questions...</div>
+                  <div class="conversation-meta">
+                    <span class="conversation-badge conversation-badge--accepted">Accepted</span>
+                  </div>
+                </div>
+                <div class="conversation-status"></div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Message templates -->
+          <article class="messaging-card messaging-card--templates" aria-labelledby="templatesTitle">
+            <header class="messaging-card__header">
+              <h2 id="templatesTitle">📋 Message Templates</h2>
+              <button class="btn btn--sm btn--ghost" onclick="createTemplate()">
+                <svg width="16" height="16" fill="white">
+                  <path d="M8 2v6m0 0v6m0-6h6m-6 0H2"/>
+                </svg>
+                Create Template
+              </button>
+            </header>
+            <div class="templates-list">
+              <div class="template-item" onclick="useTemplate('welcome')">
+                <div class="template-icon">👋</div>
+                <div class="template-content">
+                  <div class="template-name">Welcome Message</div>
+                  <div class="template-preview">Welcome to University of Excellence! We're excited to...</div>
+                </div>
+                <button class="template-action" onclick="editTemplate('welcome', event)">
+                  <svg width="16" height="16" fill="white">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9l-3-3z"/>
+                    <path d="M13.5 1a1.5 1.5 0 0 1 0 3l-7 7-3 1 1-3 7-7a1.5 1.5 0 0 1 3 0z"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="template-item" onclick="useTemplate('interview')">
+                <div class="template-icon">📅</div>
+                <div class="template-content">
+                  <div class="template-name">Interview Invitation</div>
+                  <div class="template-preview">We would like to invite you for an interview...</div>
+                </div>
+                <button class="template-action" onclick="editTemplate('interview', event)">
+                  <svg width="16" height="16" fill="white">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9l-3-3z"/>
+                    <path d="M13.5 1a1.5 1.5 0 0 1 0 3l-7 7-3 1 1-3 7-7a1.5 1.5 0 0 1 3 0z"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="template-item" onclick="useTemplate('acceptance')">
+                <div class="template-icon">🎉</div>
+                <div class="template-content">
+                  <div class="template-name">Acceptance Letter</div>
+                  <div class="template-preview">Congratulations! We are pleased to offer you...</div>
+                </div>
+                <button class="template-action" onclick="editTemplate('acceptance', event)">
+                  <svg width="16" height="16" fill="white">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9l-3-3z"/>
+                    <path d="M13.5 1a1.5 1.5 0 0 1 0 3l-7 7-3 1 1-3 7-7a1.5 1.5 0 0 1 3 0z"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div class="template-item" onclick="useTemplate('followup')">
+                <div class="template-icon">🔄</div>
+                <div class="template-content">
+                  <div class="template-name">Follow-up Request</div>
+                  <div class="template-preview">We need additional information for your application...</div>
+                </div>
+                <button class="template-action" onclick="editTemplate('followup', event)">
+                  <svg width="16" height="16" fill="white">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V9l-3-3z"/>
+                    <path d="M13.5 1a1.5 1.5 0 0 1 0 3l-7 7-3 1 1-3 7-7a1.5 1.5 0 0 1 3 0z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Message analytics -->
+          <article class="messaging-card messaging-card--analytics" aria-labelledby="analyticsTitle">
+            <header class="messaging-card__header">
+              <h2 id="analyticsTitle">📊 Message Analytics</h2>
+            </header>
+            <div class="analytics-grid">
+              <div class="analytics-stat">
+                <div class="analytics-stat__number">127</div>
+                <div class="analytics-stat__label">Messages Sent (This Month)</div>
+                <div class="analytics-stat__change analytics-stat__change--positive">+15%</div>
+              </div>
+              <div class="analytics-stat">
+                <div class="analytics-stat__number">94.2%</div>
+                <div class="analytics-stat__label">Response Rate</div>
+                <div class="analytics-stat__change analytics-stat__change--positive">+2.1%</div>
+              </div>
+              <div class="analytics-stat">
+                <div class="analytics-stat__number">12</div>
+                <div class="analytics-stat__label">Unread Messages</div>
+                <div class="analytics-stat__change analytics-stat__change--neutral">0</div>
+              </div>
+              <div class="analytics-stat">
+                <div class="analytics-stat__number">2.5h</div>
+                <div class="analytics-stat__label">Avg. Response Time</div>
+                <div class="analytics-stat__change analytics-stat__change--negative">-30min</div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Advanced Institutional Features -->
+        <section class="advanced-features-section" aria-labelledby="advancedFeaturesTitle">
+          <header class="section__header" style="text-align: center; margin: 3rem 0 2rem;">
+            <h2 id="advancedFeaturesTitle" style="font-size: 2rem; color: #1f2937; margin-bottom: 1rem;">Advanced Communication Tools</h2>
+            <p style="color: #6b7280; font-size: 1.125rem;">Professional institutional messaging capabilities</p>
+          </header>
+
+          <div class="advanced-features-grid">
+            <!-- Scheduled Messages Feature -->
+            <article class="feature-card feature-card--schedule" aria-labelledby="scheduleTitle">
+              <div class="feature-card__icon">
+                <svg width="32" height="32" fill="white" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+              </div>
+              <h3 class="feature-card__title" id="scheduleTitle">Schedule Messages</h3>
+              <p class="feature-card__description">
+                Schedule messages to be sent at optimal times for better engagement and response rates.
+              </p>
+              <button class="advanced-btn advanced-btn--schedule" onclick="toggleScheduleModal()">
+                <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                  <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                </svg>
+                Schedule Message
+              </button>
+            </article>
+
+            <!-- Internal Communication Feature -->
+            <article class="feature-card feature-card--internal" aria-labelledby="internalTitle">
+              <div class="feature-card__icon">
+                <svg width="32" height="32" fill="white" viewBox="0 0 24 24">
+                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-1c0-1.1.9-2 2-2h3l-2-4h2l1.5 3h2.5c.83 0 1.5-.67 1.5-1.5S13.83 11 13 11H8.5L7 7H5.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5H8c1.1 0 2-.9 2-2H4c-.55 0-1 .45-1 1v13z"/>
+                </svg>
+              </div>
+              <h3 class="feature-card__title" id="internalTitle">Internal Communication</h3>
+              <p class="feature-card__description">
+                Coordinate with admission officers, counselors, and staff members involved in student recruitment.
+              </p>
+              <button class="advanced-btn advanced-btn--success" onclick="toggleInternalComm()">
+                <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                Open Panel
+              </button>
+            </article>
+
+            <!-- File Forwarding Feature -->
+            <article class="feature-card feature-card--forward" aria-labelledby="forwardTitle">
+              <div class="feature-card__icon">
+                <svg width="32" height="32" fill="white" viewBox="0 0 24 24">
+                  <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                </svg>
+              </div>
+              <h3 class="feature-card__title" id="forwardTitle">Forward Student Files</h3>
+              <p class="feature-card__description">
+                Efficiently forward student applications, transcripts, and documents between departments.
+              </p>
+              <button class="advanced-btn advanced-btn--warning" onclick="toggleFileForward()">
+                <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                  <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                </svg>
+                Forward Files
+              </button>
+            </article>
+
+            <!-- Video Call Feature -->
+            <article class="feature-card feature-card--video" aria-labelledby="videoTitle">
+              <div class="feature-card__icon">
+                <svg width="32" height="32" fill="white" viewBox="0 0 24 24">
+                  <path d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16A1,1 0 0,0 17,17V13.5L21,17.5V6.5L17,10.5Z"/>
+                </svg>
+              </div>
+              <h3 class="feature-card__title" id="videoTitle">Video Call Interviews</h3>
+              <p class="feature-card__description">
+                Schedule and conduct video interviews with prospective students directly through the platform.
+              </p>
+              <button class="advanced-btn advanced-btn--danger" onclick="toggleVideoCall()">
+                <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                  <path d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16A1,1 0 0,0 17,17V13.5L21,17.5V6.5L17,10.5Z"/>
+                </svg>
+                Schedule Interview
+              </button>
+            </article>
+          </div>
+
+          <!-- Schedule Message Modal -->
+          <div class="schedule-modal" id="scheduleModal" style="display: none;">
+            <header style="margin-bottom: 2rem;">
+              <h3 style="font-size: 1.5rem; color: #8b5cf6; margin-bottom: 0.5rem;">Schedule Message</h3>
+              <p style="color: #6b7280;">Set up automated message delivery for optimal timing</p>
+            </header>
+            
+            <div class="schedule-inputs">
+              <input type="datetime-local" class="schedule-input" placeholder="Select date and time" id="scheduleDateTime">
+              <select class="schedule-input" id="scheduleRecipient">
+                <option value="">Select recipient group...</option>
+                <option value="all-applicants">All Applicants</option>
+                <option value="pending-review">Pending Review</option>
+                <option value="accepted-students">Accepted Students</option>
+                <option value="interview-scheduled">Interview Scheduled</option>
+              </select>
+              <select class="schedule-input" id="scheduleTemplate">
+                <option value="">Select template...</option>
+                <option value="welcome">Welcome Message</option>
+                <option value="reminder">Document Reminder</option>
+                <option value="interview">Interview Invitation</option>
+                <option value="follow-up">Follow-up Request</option>
+              </select>
+              <select class="schedule-input" id="schedulePriority">
+                <option value="normal">Normal Priority</option>
+                <option value="high">High Priority</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+
+            <div style="margin: 2rem 0;">
+              <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">Message Preview:</label>
+              <textarea class="schedule-input" rows="4" style="width: 100%; resize: vertical;" placeholder="Message content will appear here when template is selected..."></textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+              <button class="advanced-btn advanced-btn--primary" onclick="saveScheduledMessage()">
+                <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                  <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                </svg>
+                Schedule Message
+              </button>
+              <button class="advanced-btn" style="background: #6b7280;" onclick="toggleScheduleModal()">Cancel</button>
+            </div>
+          </div>
+
+          <!-- Internal Communication Panel -->
+          <div class="internal-comm-panel" id="internalCommPanel" style="display: none;">
+            <header style="margin-bottom: 2rem;">
+              <h3 style="font-size: 1.5rem; color: #22c55e; margin-bottom: 0.5rem;">Internal Team Communication</h3>
+              <p style="color: #6b7280;">Coordinate with team members on student recruitment</p>
+            </header>
+
+            <div class="member-list">
+              <div class="member-card">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                  <img src="/assets/img/avatars/admin1.jpg" alt="Dr. Sarah Williams" class="member-avatar" width="48" height="48" style="object-fit: cover;">
+                  <div>
+                    <div style="font-weight: 600; color: #1f2937;">Dr. Sarah Williams</div>
+                    <div style="font-size: 0.875rem; color: #6b7280;">Admissions Director</div>
+                  </div>
+                  <div class="status-indicator status-indicator--online">
+                    <div style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%;"></div>
+                    Online
+                  </div>
+                </div>
+                <button class="advanced-btn advanced-btn--success" style="width: 100%;" onclick="startDirectMessage('sarah')">
+                  <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  Message
+                </button>
+              </div>
+
+              <div class="member-card">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                  <img src="/assets/img/avatars/admin2.jpg" alt="Mark Johnson" class="member-avatar" width="48" height="48" style="object-fit: cover;">
+                  <div>
+                    <div style="font-weight: 600; color: #1f2937;">Mark Johnson</div>
+                    <div style="font-size: 0.875rem; color: #6b7280;">Senior Counselor</div>
+                  </div>
+                  <div class="status-indicator status-indicator--busy">
+                    <div style="width: 8px; height: 8px; background: #ef4444; border-radius: 50%;"></div>
+                    Busy
+                  </div>
+                </div>
+                <button class="advanced-btn advanced-btn--success" style="width: 100%;" onclick="startDirectMessage('mark')">
+                  <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  Message
+                </button>
+              </div>
+
+              <div class="member-card">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                  <img src="/assets/img/avatars/admin3.jpg" alt="Lisa Chen" class="member-avatar" width="48" height="48" style="object-fit: cover;">
+                  <div>
+                    <div style="font-weight: 600; color: #1f2937;">Lisa Chen</div>
+                    <div style="font-size: 0.875rem; color: #6b7280;">International Coordinator</div>
+                  </div>
+                  <div class="status-indicator status-indicator--away">
+                    <div style="width: 8px; height: 8px; background: #f59e0b; border-radius: 50%;"></div>
+                    Away
+                  </div>
+                </div>
+                <button class="advanced-btn advanced-btn--success" style="width: 100%;" onclick="startDirectMessage('lisa')">
+                  <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  Message
+                </button>
+              </div>
+
+              <div class="member-card">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                  <img src="/assets/img/avatars/admin4.jpg" alt="Robert Davis" class="member-avatar" width="48" height="48" style="object-fit: cover;">
+                  <div>
+                    <div style="font-weight: 600; color: #1f2937;">Robert Davis</div>
+                    <div style="font-size: 0.875rem; color: #6b7280;">Financial Aid Officer</div>
+                  </div>
+                  <div class="status-indicator status-indicator--offline">
+                    <div style="width: 8px; height: 8px; background: #6b7280; border-radius: 50%;"></div>
+                    Offline
+                  </div>
+                </div>
+                <button class="advanced-btn advanced-btn--success" style="width: 100%;" onclick="startDirectMessage('robert')">
+                  <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  Message
+                </button>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+              <button class="advanced-btn advanced-btn--success" onclick="createGroupDiscussion()">
+                <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                  <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-1c0-1.1.9-2 2-2h3l-2-4h2l1.5 3h2.5c.83 0 1.5-.67 1.5-1.5S13.83 11 13 11H8.5L7 7H5.5c-.28 0-.5-.22-.5-.5s.22-.5.5-.5H8c1.1 0 2-.9 2-2H4c-.55 0-1 .45-1 1v13z"/>
+                </svg>
+                Create Group Discussion
+              </button>
+              <button class="advanced-btn" style="background: #6b7280;" onclick="toggleInternalComm()">Close Panel</button>
+            </div>
+          </div>
+
+          <!-- File Forward Container -->
+          <div class="file-forward-container" id="fileForwardContainer" style="display: none;">
+            <header style="margin-bottom: 2rem;">
+              <h3 style="font-size: 1.5rem; color: #f59e0b; margin-bottom: 0.5rem;">Forward Student Files</h3>
+              <p style="color: #6b7280;">Send student documents to relevant departments and team members</p>
+            </header>
+
+            <div style="margin-bottom: 2rem;">
+              <label style="display: block; margin-bottom: 1rem; font-weight: 600; color: #374151;">Select Student:</label>
+              <select style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid #d1d5db; background: rgba(255,255,255,0.9);">
+                <option value="">Choose a student...</option>
+                <option value="sarah-johnson">Sarah Johnson - Application #2024001</option>
+                <option value="michael-chen">Michael Chen - Application #2024002</option>
+                <option value="emily-rodriguez">Emily Rodriguez - Application #2024003</option>
+                <option value="james-wilson">James Wilson - Application #2024004</option>
+              </select>
+            </div>
+
+            <div class="student-file-card">
+              <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+                <div>
+                  <h4 style="font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">Sarah Johnson - Complete Application Package</h4>
+                  <p style="color: #6b7280; font-size: 0.875rem;">Application submitted: March 15, 2024</p>
+                </div>
+                <div class="status-indicator status-indicator--online">
+                  <div style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%;"></div>
+                  Complete
+                </div>
+              </div>
+              
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: rgba(255,255,255,0.8); border-radius: 8px;">
+                  <input type="checkbox" id="transcript" checked>
+                  <label for="transcript" style="color: #374151;">📄 Official Transcript</label>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: rgba(255,255,255,0.8); border-radius: 8px;">
+                  <input type="checkbox" id="essays" checked>
+                  <label for="essays" style="color: #374151;">📝 Personal Essays</label>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: rgba(255,255,255,0.8); border-radius: 8px;">
+                  <input type="checkbox" id="recommendations">
+                  <label for="recommendations" style="color: #374151;">✉️ Recommendation Letters</label>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem; background: rgba(255,255,255,0.8); border-radius: 8px;">
+                  <input type="checkbox" id="portfolio">
+                  <label for="portfolio" style="color: #374151;">🎨 Portfolio</label>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin: 2rem 0;">
+              <label style="display: block; margin-bottom: 1rem; font-weight: 600; color: #374151;">Forward to:</label>
+              <div class="forward-options">
+                <div class="forward-option" onclick="selectForwardOption(this, 'academic')">
+                  <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <svg width="20" height="20" fill="#f59e0b" viewBox="0 0 24 24">
+                      <path d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M13,13V7H11V13H13M13,17V15H11V17H13Z"/>
+                    </svg>
+                    <strong>Academic Review</strong>
+                  </div>
+                  <p style="color: #6b7280; font-size: 0.875rem;">Send to academic department for transcript evaluation</p>
+                </div>
+                
+                <div class="forward-option" onclick="selectForwardOption(this, 'admissions')">
+                  <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <svg width="20" height="20" fill="#f59e0b" viewBox="0 0 24 24">
+                      <path d="M12,3L2,12H5V20H19V12H22L12,3M12,8.75A2.25,2.25 0 0,1 14.25,11A2.25,2.25 0 0,1 12,13.25A2.25,2.25 0 0,1 9.75,11A2.25,2.25 0 0,1 12,8.75Z"/>
+                    </svg>
+                    <strong>Admissions Committee</strong>
+                  </div>
+                  <p style="color: #6b7280; font-size: 0.875rem;">Forward to admissions committee for final review</p>
+                </div>
+
+                <div class="forward-option" onclick="selectForwardOption(this, 'financial')">
+                  <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <svg width="20" height="20" fill="#f59e0b" viewBox="0 0 24 24">
+                      <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z"/>
+                    </svg>
+                    <strong>Financial Aid</strong>
+                  </div>
+                  <p style="color: #6b7280; font-size: 0.875rem;">Send to financial aid office for aid evaluation</p>
+                </div>
+
+                <div class="forward-option" onclick="selectForwardOption(this, 'housing')">
+                  <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                    <svg width="20" height="20" fill="#f59e0b" viewBox="0 0 24 24">
+                      <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z"/>
+                    </svg>
+                    <strong>Housing Services</strong>
+                  </div>
+                  <p style="color: #6b7280; font-size: 0.875rem;">Forward to housing for accommodation planning</p>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+              <button class="advanced-btn advanced-btn--warning" onclick="forwardSelectedFiles()">
+                <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                  <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/>
+                </svg>
+                Forward Files
+              </button>
+              <button class="advanced-btn" style="background: #6b7280;" onclick="toggleFileForward()">Cancel</button>
+            </div>
+          </div>
+
+          <!-- Video Call Container -->
+          <div class="video-call-container" id="videoCallContainer" style="display: none;">
+            <header style="margin-bottom: 2rem;">
+              <h3 style="font-size: 1.5rem; color: #ef4444; margin-bottom: 0.5rem;">Schedule Video Interview</h3>
+              <p style="color: #6b7280;">Set up video call interviews with prospective students</p>
+            </header>
+
+            <div style="margin-bottom: 2rem;">
+              <label style="display: block; margin-bottom: 1rem; font-weight: 600; color: #374151;">Select Student for Interview:</label>
+              <select style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid #d1d5db; background: rgba(255,255,255,0.9);">
+                <option value="">Choose a student...</option>
+                <option value="sarah-johnson">Sarah Johnson - Engineering Program</option>
+                <option value="michael-chen">Michael Chen - Business Administration</option>
+                <option value="emily-rodriguez">Emily Rodriguez - Computer Science</option>
+                <option value="james-wilson">James Wilson - Pre-Med Track</option>
+              </select>
+            </div>
+
+            <div class="interview-scheduler">
+              <div>
+                <h4 style="font-weight: 600; color: #1f2937; margin-bottom: 1rem;">Available Time Slots</h4>
+                <div style="display: grid; gap: 1rem;">
+                  <div class="interview-time-slot" onclick="selectTimeSlot(this, 'mon-10')">
+                    <div style="font-weight: 600; color: #1f2937;">Monday, March 25</div>
+                    <div style="color: #6b7280; font-size: 0.875rem;">10:00 AM - 11:00 AM EST</div>
+                    <div style="color: #22c55e; font-size: 0.75rem; margin-top: 0.5rem;">✓ Available</div>
+                  </div>
+                  
+                  <div class="interview-time-slot" onclick="selectTimeSlot(this, 'tue-14')">
+                    <div style="font-weight: 600; color: #1f2937;">Tuesday, March 26</div>
+                    <div style="color: #6b7280; font-size: 0.875rem;">2:00 PM - 3:00 PM EST</div>
+                    <div style="color: #22c55e; font-size: 0.75rem; margin-top: 0.5rem;">✓ Available</div>
+                  </div>
+                  
+                  <div class="interview-time-slot" onclick="selectTimeSlot(this, 'wed-09')">
+                    <div style="font-weight: 600; color: #1f2937;">Wednesday, March 27</div>
+                    <div style="color: #6b7280; font-size: 0.875rem;">9:00 AM - 10:00 AM EST</div>
+                    <div style="color: #22c55e; font-size: 0.75rem; margin-top: 0.5rem;">✓ Available</div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 style="font-weight: 600; color: #1f2937; margin-bottom: 1rem;">Interview Details</h4>
+                <div style="display: grid; gap: 1rem;">
+                  <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Interviewer:</label>
+                    <select style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #d1d5db;">
+                      <option value="">Select interviewer...</option>
+                      <option value="dr-williams">Dr. Sarah Williams</option>
+                      <option value="prof-johnson">Prof. Mark Johnson</option>
+                      <option value="dr-chen">Dr. Lisa Chen</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Interview Type:</label>
+                    <select style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #d1d5db;">
+                      <option value="general">General Admission</option>
+                      <option value="program">Program-Specific</option>
+                      <option value="scholarship">Scholarship Review</option>
+                      <option value="appeal">Appeal Process</option>
+                    </select>
+                  </div>
+                  
+                  <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Duration:</label>
+                    <select style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #d1d5db;">
+                      <option value="30">30 minutes</option>
+                      <option value="45">45 minutes</option>
+                      <option value="60" selected>60 minutes</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #374151;">Additional Notes:</label>
+                    <textarea style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid #d1d5db; resize: vertical;" rows="3" placeholder="Any special instructions or preparation notes..."></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+              <button class="advanced-btn advanced-btn--danger" onclick="scheduleInterview()">
+                <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                  <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
+                </svg>
+                Schedule Interview
+              </button>
+              <button class="advanced-btn" style="background: #6b7280;" onclick="toggleVideoCall()">Cancel</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer" style="background: linear-gradient(135deg, #5a5bb8, #6b6ce8); position: relative; overflow: hidden; color: white;">
+    <div class="container footer__inner" style="position: relative; z-index: 2; color: white;">
+      <div class="footer__grid">
+        <!-- Brand section -->
+        <div class="footer__brand">
+          <div class="footer__logo" onclick="scrollToTop()" style="cursor: pointer;" title="Back to top">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+              <defs>
+                <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#373896"/>
+                  <stop offset="100%" style="stop-color:#6b6ce8"/>
+                </linearGradient>
+              </defs>
+              <circle cx="20" cy="20" r="18" fill="url(#logoGradient)" stroke="white" stroke-width="2"/>
+              <path d="M15 18l5-5 5 5M20 13v14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="footer__brand-text">
+            <div class="footer__brand-name">Flow</div>
+            <div class="footer__tagline">Streamlining Education Access</div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="footer__section">
+          <h3 class="footer__title" style="color: black;">For Institutions</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="12" height="10" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M4 6h8M4 8h6M4 10h4"/>
+                <circle cx="11" cy="5" r="2" fill="#22c55e" opacity="0.8"/>
+                <path d="M10 5l0.7 0.7 1.3-1.4" stroke="white" stroke-width="0.8" fill="none"/>
+              </svg>
+              Dashboard</a></li>
+            <li><a href="/institutions/programs.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h4M5 9h5"/>
+                <circle cx="11" cy="6" r="1.5" fill="#22c55e" opacity="0.8"/>
+                <path d="M10.3 6l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.8" fill="none"/>
+              </svg>
+              Manage Programs</a></li>
+            <li><a href="/institutions/admissions.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="8" height="10" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <rect x="12" y="3" width="2" height="10" rx="0.5" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M4 6h4M4 8h3M4 10h4"/>
+                <circle cx="8" cy="6" r="1" fill="#22c55e"/>
+                <path d="M7.5 6l0.3 0.3 0.5-0.6" stroke="white" stroke-width="0.6" fill="none"/>
+              </svg>
+              Admissions</a></li>
+            <li><a href="/institutions/reports.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="3" width="12" height="10" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M2 7h12"/>
+                <rect x="4" y="9" width="1.5" height="2" fill="#3b82f6" opacity="0.8" rx="0.3"/>
+                <rect x="6" y="10" width="1.5" height="1" fill="#22c55e" opacity="0.8" rx="0.3"/>
+                <rect x="8" y="8" width="1.5" height="3" fill="#f59e0b" opacity="0.8" rx="0.3"/>
+                <rect x="10" y="11" width="1.5" height="0.5" fill="#ef4444" opacity="0.8" rx="0.3"/>
+              </svg>
+              Reports</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title" style="color: black;">Support</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/help.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <circle cx="8" cy="8" r="6" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M8 6v2M8 10h.01"/>
+                <circle cx="8" cy="4" r="1" fill="#3b82f6"/>
+                <path d="M4 12l8-8M12 12l-8-8" stroke="#22c55e" stroke-width="0.8" opacity="0.5"/>
+              </svg>
+              Help Center</a></li>
+            <li><a href="/contact/">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <path d="M2 3h12l-6 5-6-5zM2 3v10h12V3" fill="none" stroke="white" stroke-width="1.2"/>
+                <circle cx="12" cy="4" r="1.5" fill="#22c55e"/>
+                <path d="M11.3 4l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+              </svg>
+              Contact</a></li>
+            <li><a href="/legal/privacy.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="3" y="2" width="10" height="12" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M8 6v4M6 8h4"/>
+                <circle cx="8" cy="5" r="1" fill="#f59e0b"/>
+                <rect x="5" y="9" width="6" height="1" fill="#ef4444" opacity="0.6"/>
+              </svg>
+              Privacy</a></li>
+            <li><a href="/legal/terms.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h5M5 9h4M5 11h6"/>
+                <circle cx="12" cy="4" r="1" fill="#8b5cf6"/>
+                <rect x="4" y="6" width="1" height="6" fill="#3b82f6" opacity="0.3"/>
+              </svg>
+              Terms</a></li>
+          </ul>
+        </div>
+
+        <div class="footer__section">
+          <h3 class="footer__title" style="color: black;">Connect</h3>
+          <ul class="footer__links">
+            <li><a href="/institutions/messages.html">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="4" width="12" height="8" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M2 6l5 3 2-1 5-2"/>
+                <circle cx="12" cy="5" r="1.5" fill="#ef4444"/>
+                <text x="12" y="6" text-anchor="middle" font-size="2.5" fill="white" font-weight="bold">2</text>
+              </svg>
+              Messages</a></li>
+            <li><a href="/community/">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <circle cx="5" cy="6" r="2" fill="none" stroke="white" stroke-width="1.2"/>
+                <circle cx="11" cy="6" r="2" fill="none" stroke="white" stroke-width="1.2"/>
+                <circle cx="8" cy="11" r="2" fill="none" stroke="white" stroke-width="1.2"/>
+                <circle cx="5" cy="6" r="1" fill="#22c55e"/>
+                <circle cx="11" cy="6" r="1" fill="#3b82f6"/>
+                <circle cx="8" cy="11" r="1" fill="#f59e0b"/>
+                <path d="M7 8l2 1M9 8l-2 1" stroke="white" stroke-width="0.8"/>
+              </svg>
+              Community</a></li>
+            <li><a href="/blog/">
+              <svg width="16" height="16" fill="white" style="display: inline-block; margin-right: 8px; vertical-align: middle;">
+                <rect x="2" y="2" width="12" height="12" rx="1" fill="none" stroke="white" stroke-width="1.2"/>
+                <path d="M5 5h6M5 7h4M5 9h5"/>
+                <circle cx="12" cy="4" r="1.5" fill="#22c55e"/>
+                <path d="M11.3 4l0.4 0.4 0.6-0.8" stroke="white" stroke-width="0.6" fill="none"/>
+                <rect x="4" y="11" width="8" height="1" fill="#8b5cf6" opacity="0.6"/>
+              </svg>
+              Updates</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <div class="footer__copyright">
+          © 2024 Flow Education Platform. All rights reserved.
+        </div>
+        <div class="footer__status">
+          <span class="footer__status-dot"></span>
+          <span>All systems operational</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="/assets/js/auth.js"></script>
+  <script src="/assets/js/auth-guards.js"></script>
+  <script src="/assets/js/institutions.js"></script>
+  
+  <script>
+    // Header Button JavaScript Functionality
+
+    // Toggle Dropdown Function
+    function toggleDropdown(dropdownId, triggerId) {
+      const dropdown = document.getElementById(dropdownId);
+      const trigger = document.getElementById(triggerId);
+      const isOpen = dropdown.getAttribute('aria-hidden') === 'false';
+
+      // Close all dropdowns first
+      closeAllDropdowns();
+
+      if (!isOpen) {
+        dropdown.setAttribute('aria-hidden', 'false');
+        dropdown.style.display = 'block';
+        trigger.setAttribute('aria-expanded', 'true');
+      }
+    }
+
+    // Close all dropdowns
+    function closeAllDropdowns() {
+      const dropdowns = ['searchDropdown', 'notificationsDropdown', 'messagesDropdown', 'profileDropdown'];
+      const triggers = ['searchTrigger', 'notificationsTrigger', 'messagesTrigger', 'profileTrigger'];
+
+      dropdowns.forEach((id, index) => {
+        const dropdown = document.getElementById(id);
+        const trigger = document.getElementById(triggers[index]);
+        if (dropdown && trigger) {
+          dropdown.setAttribute('aria-hidden', 'true');
+          dropdown.style.display = 'none';
+          trigger.setAttribute('aria-expanded', 'false');
+        }
+      });
+    }
+
+    // Search functionality
+    function handleSearch(query) {
+      console.log('Searching for:', query);
+      const suggestions = document.getElementById('searchSuggestions');
+
+      if (query.length > 0) {
+        const mockResults = [
+          'Inbox Messages',
+          'Sent Messages',
+          'Message Templates',
+          'Group Messages',
+          'Message Archive'
+        ].filter(item => item.toLowerCase().includes(query.toLowerCase()));
+
+        suggestions.innerHTML = mockResults.map(result =>
+          `<div class="suggestion-item" onclick="selectSuggestion('${result}')">${result}</div>`
+        ).join('');
+      } else {
+        suggestions.innerHTML = '';
+      }
+    }
+
+    function selectSuggestion(suggestion) {
+      document.getElementById('globalSearch').value = suggestion;
+      closeAllDropdowns();
+      showToast(`Searching for: ${suggestion}`, 'info', 3000);
+    }
+
+    // Notification functions
+    function markAllNotificationsRead() {
+      const notifications = document.querySelectorAll('.notification-item--unread');
+      notifications.forEach(notification => {
+        notification.classList.remove('notification-item--unread');
+      });
+      document.getElementById('notificationsBadge').textContent = '0';
+      showToast('All notifications marked as read', 'success', 3000);
+    }
+
+    function dismissNotification(notificationId) {
+      const notification = document.querySelector(`[data-id="${notificationId}"]`);
+      if (notification) {
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 300);
+      }
+    }
+
+    function openNotificationSettings() {
+      showToast('Notification settings would open here', 'info', 3000);
+    }
+
+    // Message functions
+    function composeMessage() {
+      const modal = `
+        <div style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; z-index: 1000;" onclick="if(event.target === this) closeComposeModal()">
+          <div style="background: white; padding: 2rem; border-radius: 12px; max-width: 500px; width: 90%;">
+            <h3 style="margin: 0 0 1rem 0;">Compose Message</h3>
+            <form onsubmit="sendMessage(event)">
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem;">To:</label>
+                <input type="text" name="recipient" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" placeholder="Enter recipient">
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem;">Subject:</label>
+                <input type="text" name="subject" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" placeholder="Enter subject">
+              </div>
+              <div style="margin-bottom: 1rem;">
+                <label style="display: block; margin-bottom: 0.5rem;">Message:</label>
+                <textarea name="message" required style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;" rows="4" placeholder="Enter your message"></textarea>
+              </div>
+              <div style="display: flex; gap: 1rem;">
+                <button type="submit" style="flex: 1; background: #5a5bb8; color: white; border: none; padding: 0.75rem; border-radius: 4px; cursor: pointer;">Send</button>
+                <button type="button" onclick="closeComposeModal()" style="flex: 1; background: #6b7280; color: white; border: none; padding: 0.75rem; border-radius: 4px; cursor: pointer;">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', modal);
+    }
+
+    function closeComposeModal() {
+      const modal = document.querySelector('div[style*="position: fixed"]');
+      if (modal) modal.remove();
+    }
+
+    function sendMessage(event) {
+      event.preventDefault();
+      showToast('Message sent successfully!', 'success', 3000);
+      closeComposeModal();
+    }
+
+    function markMessageRead(messageId) {
+      showToast(`Opening message ${messageId}`, 'info', 3000);
+      closeAllDropdowns();
+    }
+
+    // Profile functions
+    function viewFullProfile() {
+      showToast('Opening full profile...', 'info', 3000);
+    }
+
+    function editProfile() {
+      showToast('Opening profile editor...', 'info', 3000);
+    }
+
+    function logout() {
+      if (confirm('Are you sure you want to log out?')) {
+        showToast('Logging out...', 'info', 3000);
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 1000);
+      }
+    }
+
+    // Sign out function (for compatibility)
+    function signOut() {
+      logout();
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', function() {
+      // Search trigger
+      const searchTrigger = document.getElementById('searchTrigger');
+      if (searchTrigger) {
+        searchTrigger.addEventListener('click', () => toggleDropdown('searchDropdown', 'searchTrigger'));
+      }
+
+      // Notifications trigger
+      const notificationsTrigger = document.getElementById('notificationsTrigger');
+      if (notificationsTrigger) {
+        notificationsTrigger.addEventListener('click', () => toggleDropdown('notificationsDropdown', 'notificationsTrigger'));
+      }
+
+      // Messages trigger
+      const messagesTrigger = document.getElementById('messagesTrigger');
+      if (messagesTrigger) {
+        messagesTrigger.addEventListener('click', () => toggleDropdown('messagesDropdown', 'messagesTrigger'));
+      }
+
+      // Profile trigger
+      const profileTrigger = document.getElementById('profileTrigger');
+      if (profileTrigger) {
+        profileTrigger.addEventListener('click', () => toggleDropdown('profileDropdown', 'profileTrigger'));
+      }
+
+      // Search input
+      const globalSearch = document.getElementById('globalSearch');
+      if (globalSearch) {
+        globalSearch.addEventListener('input', (e) => handleSearch(e.target.value));
+      }
+
+      // Mobile menu toggle
+      const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+      const navOverlay = document.getElementById('navOverlay');
+      if (mobileMenuToggle && navOverlay) {
+        mobileMenuToggle.addEventListener('click', () => {
+          const isOpen = navOverlay.getAttribute('aria-hidden') === 'false';
+          navOverlay.setAttribute('aria-hidden', !isOpen);
+          navOverlay.style.display = isOpen ? 'none' : 'block';
+          mobileMenuToggle.setAttribute('aria-expanded', !isOpen);
+        });
+      }
+
+      // Click outside to close dropdowns
+      document.addEventListener('click', function(event) {
+        const isDropdownTrigger = event.target.closest('.header-search__trigger, .header-notifications__trigger, .header-messages__trigger, .header-profile__trigger');
+        const isDropdownContent = event.target.closest('.header-search__dropdown, .header-notifications__dropdown, .header-messages__dropdown, .header-profile__dropdown');
+
+        if (!isDropdownTrigger && !isDropdownContent) {
+          closeAllDropdowns();
+        }
+      });
+    });
+
+    // Messages specific functions
+    // Scroll to top function
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Advanced Features JavaScript
+    
+    // Schedule Message Functions
+    function toggleScheduleModal() {
+      const modal = document.getElementById('scheduleModal');
+      if (modal.style.display === 'none' || modal.style.display === '') {
+        modal.style.display = 'block';
+        modal.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        modal.style.display = 'none';
+      }
+    }
+
+    function saveScheduledMessage() {
+      const dateTime = document.getElementById('scheduleDateTime').value;
+      const recipient = document.getElementById('scheduleRecipient').value;
+      const template = document.getElementById('scheduleTemplate').value;
+      const priority = document.getElementById('schedulePriority').value;
+      
+      if (!dateTime || !recipient || !template) {
+        alert('Please fill in all required fields');
+        return;
+      }
+      
+      // Simulate saving the scheduled message
+      alert('Message scheduled successfully for ' + new Date(dateTime).toLocaleString());
+      toggleScheduleModal();
+    }
+
+    // Internal Communication Functions
+    function toggleInternalComm() {
+      const panel = document.getElementById('internalCommPanel');
+      if (panel.style.display === 'none' || panel.style.display === '') {
+        panel.style.display = 'block';
+        panel.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        panel.style.display = 'none';
+      }
+    }
+
+    function startDirectMessage(member) {
+      alert('Opening direct message with ' + member + '...');
+      // In a real application, this would open a chat interface
+    }
+
+    function createGroupDiscussion() {
+      alert('Creating group discussion thread...');
+      // In a real application, this would create a new group chat
+    }
+
+    // File Forward Functions
+    function toggleFileForward() {
+      const container = document.getElementById('fileForwardContainer');
+      if (container.style.display === 'none' || container.style.display === '') {
+        container.style.display = 'block';
+        container.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        container.style.display = 'none';
+      }
+    }
+
+    let selectedForwardOption = null;
+
+    function selectForwardOption(element, option) {
+      // Remove previous selection
+      const options = document.querySelectorAll('.forward-option');
+      options.forEach(opt => opt.style.borderColor = '');
+      
+      // Add selection styling
+      element.style.borderColor = '#f59e0b';
+      element.style.borderWidth = '2px';
+      selectedForwardOption = option;
+    }
+
+    function forwardSelectedFiles() {
+      if (!selectedForwardOption) {
+        alert('Please select a department to forward files to');
+        return;
+      }
+      
+      const checkedFiles = document.querySelectorAll('#fileForwardContainer input[type="checkbox"]:checked');
+      if (checkedFiles.length === 0) {
+        alert('Please select at least one file to forward');
+        return;
+      }
+      
+      const fileList = Array.from(checkedFiles).map(cb => cb.nextElementSibling.textContent).join(', ');
+      alert('Successfully forwarded ' + fileList + ' to ' + selectedForwardOption + ' department');
+      toggleFileForward();
+    }
+
+    // Video Call Functions
+    function toggleVideoCall() {
+      const container = document.getElementById('videoCallContainer');
+      if (container.style.display === 'none' || container.style.display === '') {
+        container.style.display = 'block';
+        container.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        container.style.display = 'none';
+      }
+    }
+
+    let selectedTimeSlot = null;
+
+    function selectTimeSlot(element, slotId) {
+      // Remove previous selection
+      const slots = document.querySelectorAll('.interview-time-slot');
+      slots.forEach(slot => slot.classList.remove('selected'));
+      
+      // Add selection to clicked slot
+      element.classList.add('selected');
+      selectedTimeSlot = slotId;
+    }
+
+    function scheduleInterview() {
+      if (!selectedTimeSlot) {
+        alert('Please select a time slot for the interview');
+        return;
+      }
+      
+      const interviewer = document.querySelector('#videoCallContainer select').value;
+      if (!interviewer) {
+        alert('Please select an interviewer');
+        return;
+      }
+      
+      alert('Video interview scheduled successfully! Calendar invitation will be sent to all participants.');
+      toggleVideoCall();
+    }
+  </script>
+
+  <!-- Flow Cookie Consent System -->
+  <script src="/assets/js/cookie-consent.js"></script>
+</body>
+</html>

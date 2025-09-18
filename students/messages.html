@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#373896" />
+  <title>Flow — Messages</title>
+
+  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/students.css" />
+  <style>
+    /* Dashboard background variables */
+    :root {
+      --flow-bg: #0a0b1e;
+      --flow-bg-secondary: #0f1429;
+      --flow-bg-tertiary: #1a1f3a;
+    }
+
+    /* Set body to dark background like dashboard */
+    body {
+      background: var(--flow-bg) !important;
+    }
+
+    /* Dashboard background animation - exact match */
+    .bg-animation {
+      position: fixed; 
+      inset: 0; 
+      z-index: -1; 
+      pointer-events: none;
+      background: radial-gradient(1200px 800px at 80% -10%, rgba(99, 102, 241, .25), transparent 50%),
+                  radial-gradient(1000px 600px at 10% -10%, rgba(168, 85, 247, .20), transparent 60%),
+                  linear-gradient(180deg, var(--flow-bg), var(--flow-bg-secondary) 50%, var(--flow-bg-tertiary) 100%);
+      animation: backgroundShift 20s ease-in-out infinite alternate;
+    }
+    
+    @keyframes backgroundShift {
+      0% { 
+        background: radial-gradient(circle at 30% 20%, rgba(99, 102, 241, 0.2) 0%, transparent 50%),
+                    radial-gradient(circle at 70% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                    linear-gradient(180deg, var(--flow-bg) 0%, var(--flow-bg-secondary) 100%);
+      }
+      100% { 
+        background: radial-gradient(circle at 70% 30%, rgba(99, 102, 241, 0.25) 0%, transparent 50%),
+                    radial-gradient(circle at 30% 70%, rgba(168, 85, 247, 0.18) 0%, transparent 50%),
+                    linear-gradient(180deg, var(--flow-bg-secondary) 0%, var(--flow-bg-tertiary) 100%);
+      }
+    }
+
+    /* Circular Logo Styles */
+    .brand__logo,
+    .footer__logo {
+      border-radius: 50%;
+      box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: logoPulse 3s ease-in-out infinite;
+    }
+
+    .brand__logo:hover,
+    .footer__logo:hover {
+      transform: scale(1.05) rotate(5deg);
+      box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+      animation-duration: 1.5s;
+    }
+
+    @keyframes logoPulse {
+      0%, 100% { 
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        filter: brightness(1);
+      }
+      50% { 
+        box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+        filter: brightness(1.1);
+      }
+    }
+
+    /* Custom title colors - Updated for dark theme */
+    #messagesTitle {
+      color: #ffffff !important;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff, #e5e7eb);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .section__description {
+      color: #e2e8f0 !important;
+      font-weight: 500;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    
+    .footer__nav a[href="/students/programs.html"],
+    .footer__nav a[href="/students/applications.html"] {
+      color: #ffffff !important;
+    }
+    
+    .footer__copyright {
+      color: #ffffff !important;
+    }
+    
+    .footer__copyright #year {
+      color: #ffffff !important;
+    }
+
+    /* Simplified message composer */
+    .composer--simple {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e5e7eb;
+    }\n    \n    .composer__recipients {\n      margin-bottom: 16px;\n    }\n    \n    .composer__recipients label {\n      display: block;\n      font-weight: 600;\n      color: #374151;\n      margin-bottom: 8px;\n    }\n    \n    .composer__recipients select {\n      width: 100%;\n      padding: 12px;\n      border: 2px solid #e5e7eb;\n      border-radius: 8px;\n      background: white;\n      font-size: 14px;\n      min-height: 100px;\n      margin-bottom: 8px;\n    }\n    \n    .composer__recipients select:focus {\n      outline: none;\n      border-color: #6366f1;\n      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);\n    }\n    \n    .recipients-tags {\n      display: flex;\n      flex-wrap: wrap;\n      gap: 8px;\n      min-height: 32px;\n    }\n    \n    .recipient-tag {\n      background: linear-gradient(135deg, #6366f1, #8b5cf6);\n      color: white;\n      padding: 6px 12px;\n      border-radius: 16px;\n      font-size: 12px;\n      font-weight: 500;\n      display: flex;\n      align-items: center;\n      gap: 6px;\n      animation: tagSlideIn 0.3s ease-out;\n    }\n    \n    @keyframes tagSlideIn {\n      from {\n        opacity: 0;\n        transform: scale(0.8) translateY(-4px);\n      }\n      to {\n        opacity: 1;\n        transform: scale(1) translateY(0);\n      }\n    }\n    \n    .composer__content {\n      margin-bottom: 20px;\n    }\n    \n    .composer__content input,\n    .composer__content textarea {\n      width: 100%;\n      padding: 12px;\n      border: 2px solid #e5e7eb;\n      border-radius: 8px;\n      font-size: 16px;\n      font-family: inherit;\n      margin-bottom: 12px;\n      transition: all 0.3s ease;\n    }\n    \n    .composer__content input:focus,\n    .composer__content textarea:focus {\n      outline: none;\n      border-color: #6366f1;\n      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);\n    }\n    \n    .composer__content textarea {\n      resize: vertical;\n      min-height: 120px;\n      line-height: 1.5;\n    }\n    \n    .composer__send-options {\n      margin-bottom: 20px;\n      padding: 16px;\n      background: #f8fafc;\n      border-radius: 8px;\n      border: 1px solid #e5e7eb;\n    }\n    \n    .send-timing-options {\n      display: flex;\n      gap: 20px;\n      margin-bottom: 16px;\n    }\n    \n    .timing-option {\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      cursor: pointer;\n      font-weight: 500;\n      color: #374151;\n      padding: 8px 12px;\n      border-radius: 6px;\n      transition: all 0.2s ease;\n    }\n    \n    .timing-option:hover {\n      background: rgba(99, 102, 241, 0.1);\n    }\n    \n    .timing-option input[type=\"radio\"] {\n      margin: 0;\n    }\n    \n    .timing-option input[type=\"radio\"]:checked + span {\n      color: #6366f1;\n      font-weight: 600;\n    }\n    \n    .schedule-calendar {\n      background: white;\n      border-radius: 8px;\n      padding: 20px;\n      border: 2px solid #6366f1;\n      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);\n      margin-top: 16px;\n      animation: slideDown 0.3s ease-out;\n    }\n    \n    .schedule-calendar h4 {\n      margin: 0 0 16px 0;\n      color: #6366f1;\n      font-weight: 600;\n      font-size: 16px;\n    }\n    \n    .show-calendar {\n      display: block !important;\n      visibility: visible !important;\n      opacity: 1 !important;\n      height: auto !important;\n      background: red !important;\n      border: 5px solid blue !important;\n      min-height: 200px !important;\n    }\n    \n    @keyframes slideDown {\n      from {\n        opacity: 0;\n        transform: translateY(-8px);\n      }\n      to {\n        opacity: 1;\n        transform: translateY(0);\n      }\n    }\n    \n    .calendar-controls {\n      display: grid;\n      grid-template-columns: 1fr 1fr 1fr;\n      gap: 12px;\n      margin-bottom: 16px;\n    }\n    \n    .calendar-controls input,\n    .calendar-controls select {\n      padding: 10px;\n      border: 2px solid #e5e7eb;\n      border-radius: 6px;\n      font-size: 14px;\n      background: white;\n    }\n    \n    .calendar-controls input:focus,\n    .calendar-controls select:focus {\n      outline: none;\n      border-color: #6366f1;\n      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);\n    }\n    \n    .calendar-preview {\n      padding: 12px;\n      background: linear-gradient(135deg, #6366f1, #8b5cf6);\n      color: white;\n      border-radius: 8px;\n      text-align: center;\n      font-weight: 500;\n    }\n    \n    .composer__actions {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      gap: 12px;\n    }\n    \n    .composer__actions .btn {\n      padding: 12px 24px;\n      border-radius: 8px;\n      font-weight: 600;\n      font-size: 16px;\n      border: none;\n      cursor: pointer;\n      transition: all 0.3s ease;\n    }\n    \n    .composer__actions .btn--ghost {\n      background: #f3f4f6;\n      color: #374151;\n      border: 2px solid #e5e7eb;\n    }\n    \n    .composer__actions .btn--ghost:hover {\n      background: #e5e7eb;\n      transform: translateY(-1px);\n    }\n    \n    .composer__actions .btn--primary {\n      background: linear-gradient(135deg, #10b981, #059669);\n      color: white;\n      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);\n    }\n    \n    .composer__actions .btn--primary:hover {\n      transform: translateY(-2px);\n      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);\n    }\n    \n    /* Enhanced message design */\n    .composer--enhanced {\n      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);\n      border-radius: 16px;\n      padding: 24px;\n      margin: 16px;\n      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);\n      border: 1px solid rgba(255, 255, 255, 0.2);\n    }\n    \n    .composer__toolbar {\n      display: grid;\n      grid-template-columns: 1fr auto;\n      gap: 20px;\n      margin-bottom: 20px;\n      padding-bottom: 16px;\n      border-bottom: 1px solid rgba(148, 163, 184, 0.2);\n    }\n    \n    .composer__recipients {\n      display: flex;\n      flex-direction: column;\n      gap: 8px;\n    }\n    \n    .composer__label {\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      font-weight: 600;\n      color: #374151;\n      font-size: 14px;\n    }\n    \n    .composer__icon {\n      width: 16px;\n      height: 16px;\n      color: #6366f1;\n    }\n    \n    .recipients-selector {\n      display: flex;\n      flex-direction: column;\n      gap: 12px;\n    }\n    \n    .recipients-select {\n      padding: 12px;\n      border: 2px solid #e5e7eb;\n      border-radius: 8px;\n      background: white;\n      font-size: 14px;\n      min-height: 80px;\n      transition: all 0.3s ease;\n    }\n    \n    .recipients-select:focus {\n      outline: none;\n      border-color: #6366f1;\n      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);\n    }\n    \n    .recipients-tags {\n      display: flex;\n      flex-wrap: wrap;\n      gap: 8px;\n      min-height: 32px;\n    }\n    \n    .recipient-tag {\n      background: linear-gradient(135deg, #6366f1, #8b5cf6);\n      color: white;\n      padding: 6px 12px;\n      border-radius: 16px;\n      font-size: 12px;\n      font-weight: 500;\n      display: flex;\n      align-items: center;\n      gap: 6px;\n      animation: tagSlideIn 0.3s ease-out;\n    }\n    \n    @keyframes tagSlideIn {\n      from {\n        opacity: 0;\n        transform: scale(0.8) translateY(-4px);\n      }\n      to {\n        opacity: 1;\n        transform: scale(1) translateY(0);\n      }\n    }\n    \n    .composer__scheduling {\n      display: flex;\n      flex-direction: column;\n      align-items: flex-end;\n      gap: 12px;\n    }\n    \n    .composer__schedule-toggle {\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      cursor: pointer;\n    }\n    \n    .composer__schedule-label {\n      display: flex;\n      align-items: center;\n      gap: 6px;\n      font-size: 14px;\n      color: #374151;\n      font-weight: 500;\n    }\n    \n    .schedule-controls {\n      display: grid;\n      grid-template-columns: 1fr auto;\n      gap: 8px;\n      animation: slideDown 0.3s ease-out;\n    }\n    \n    @keyframes slideDown {\n      from {\n        opacity: 0;\n        transform: translateY(-8px);\n      }\n      to {\n        opacity: 1;\n        transform: translateY(0);\n      }\n    }\n    \n    .schedule-input,\n    .schedule-select {\n      padding: 8px 12px;\n      border: 2px solid #e5e7eb;\n      border-radius: 6px;\n      font-size: 13px;\n      background: white;\n    }\n    \n    .composer__main {\n      display: flex;\n      flex-direction: column;\n      gap: 16px;\n    }\n    \n    .composer__priority {\n      display: flex;\n      justify-content: flex-start;\n    }\n    \n    .priority-select {\n      padding: 8px 12px;\n      border: 2px solid #e5e7eb;\n      border-radius: 8px;\n      background: white;\n      font-size: 14px;\n      font-weight: 500;\n    }\n    \n    .composer__input-group {\n      display: flex;\n      gap: 16px;\n      align-items: flex-start;\n    }\n    \n    .composer__actions {\n      display: flex;\n      flex-direction: column;\n      gap: 8px;\n    }\n    \n    .composer__btn {\n      width: 44px;\n      height: 44px;\n      border-radius: 12px;\n      background: linear-gradient(135deg, #6366f1, #8b5cf6);\n      border: none;\n      color: white;\n      transition: all 0.3s ease;\n      display: flex;\n      align-items: center;\n      justify-content: center;\n    }\n    \n    .composer__btn:hover {\n      transform: translateY(-2px);\n      box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);\n    }\n    \n    .composer__btn svg {\n      width: 20px;\n      height: 20px;\n    }\n    \n    .composer__text-container {\n      flex: 1;\n      display: flex;\n      flex-direction: column;\n      gap: 12px;\n    }\n    \n    .composer__subject {\n      padding: 12px 16px;\n      border: 2px solid #e5e7eb;\n      border-radius: 8px;\n      background: white;\n      font-size: 16px;\n      font-weight: 500;\n      transition: all 0.3s ease;\n    }\n    \n    .composer__subject:focus {\n      outline: none;\n      border-color: #6366f1;\n      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);\n    }\n    \n    .composer__textarea {\n      padding: 16px;\n      border: 2px solid #e5e7eb;\n      border-radius: 12px;\n      background: white;\n      font-size: 16px;\n      line-height: 1.6;\n      resize: vertical;\n      min-height: 120px;\n      font-family: inherit;\n      transition: all 0.3s ease;\n    }\n    \n    .composer__textarea:focus {\n      outline: none;\n      border-color: #6366f1;\n      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);\n    }\n    \n    .composer__formatting {\n      display: flex;\n      gap: 4px;\n      padding: 8px 12px;\n      background: #f8fafc;\n      border-radius: 8px;\n      border: 1px solid #e5e7eb;\n    }\n    \n    .format-btn {\n      width: 32px;\n      height: 32px;\n      border: none;\n      background: transparent;\n      border-radius: 6px;\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      cursor: pointer;\n      transition: all 0.2s ease;\n      color: #6b7280;\n    }\n    \n    .format-btn:hover {\n      background: #e5e7eb;\n      color: #374151;\n    }\n    \n    .format-btn svg {\n      width: 16px;\n      height: 16px;\n    }\n    \n    .composer__send-group {\n      display: flex;\n      justify-content: space-between;\n      align-items: flex-end;\n      gap: 20px;\n      padding-top: 16px;\n      border-top: 1px solid rgba(148, 163, 184, 0.2);\n    }\n    \n    .composer__send-options {\n      display: flex;\n      flex-direction: column;\n      gap: 8px;\n    }\n    \n    .composer__option {\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      font-size: 14px;\n      color: #6b7280;\n      cursor: pointer;\n    }\n    \n    .composer__actions-send {\n      display: flex;\n      gap: 12px;\n      align-items: center;\n    }\n    \n    .composer__send {\n      background: linear-gradient(135deg, #10b981, #059669);\n      color: white;\n      padding: 12px 24px;\n      border-radius: 12px;\n      font-weight: 600;\n      font-size: 16px;\n      border: none;\n      cursor: pointer;\n      display: flex;\n      align-items: center;\n      gap: 8px;\n      transition: all 0.3s ease;\n      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);\n    }\n    \n    .composer__send:hover {\n      transform: translateY(-2px);\n      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);\n    }\n    \n    .composer__send svg {\n      width: 18px;\n      height: 18px;\n    }\n    \n    .btn__icon {\n      width: 16px;\n      height: 16px;\n    }\n    \n    #scheduleToggle:checked + .composer__schedule-label .composer__icon {\n      color: #10b981;\n      animation: pulse 1s ease-in-out infinite;\n    }\n    \n    @keyframes pulse {\n      0%, 100% { transform: scale(1); }\n      50% { transform: scale(1.1); }\n    }
+    .composer {
+      padding: 1.5rem;
+      background: var(--surface, #f8fafc);
+      border-top: 1px solid var(--border, #e5e7eb);
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+    }
+    .composer textarea:focus {
+      border-color: var(--brand, #373896);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(55,56,150,0.1);
+    }
+    .composer .btn--icon {
+      padding: 0.5rem 0.75rem;
+      height: auto;
+      align-self: stretch;
+    }
+
+    /* Enhanced layout with dark theme background */
+    .messages-page {
+      padding: 1rem;
+      gap: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      min-height: calc(100vh - 200px);
+      background: transparent; /* Background handled by .bg-animation */
+    }
+    
+    .messages-panel {
+      padding: 0;
+      border: none;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .messages-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24);
+    }
+    
+    .messages-panel--threads::before {
+      background: linear-gradient(90deg, #4ecdc4, #26d0ce);
+    }
+    
+    .messages-panel--conversation::before {
+      background: linear-gradient(90deg, #45b7d1, #4299e1);
+    }
+    
+    .messages-panel-content {
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      margin: 1rem;
+      border-radius: 12px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+    
+    .composer--simple {
+      padding: 0;
+      margin: 1.5rem 1rem;
+      border: none;
+      border-radius: 16px;
+      background: white;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .composer--simple::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #f9ca24, #f39c12);
+    }
+    
+    .composer-content {
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.95);
+      margin: 1rem;
+      border-radius: 12px;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+    
+    .composer__content input,
+    .composer__content textarea {
+      padding: 18px 20px;
+      border-radius: 8px;
+    }
+    
+    .conversation__header {
+      padding: 0;
+      border: none;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      position: relative;
+    }
+    
+    .conversation__header-content {
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+    
+    .conversation__messages {
+      padding: 0;
+      min-height: 400px;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6b7280;
+      font-size: 1.1rem;
+      background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+    }
+    
+    .conversation__messages-content {
+      padding: 2rem;
+      background: white;
+      margin: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+      border: 1px solid rgba(0,0,0,0.04);
+      width: 100%;
+    }
+    
+    .messages-tabs {
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: linear-gradient(135deg, #4ecdc4 0%, #26d0ce 100%);
+    }
+    
+    .messages-tabs-content {
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+    }
+    
+    .messages-toolbar {
+      padding: 0;
+      margin: 0;
+    }
+    
+    .messages-toolbar-content {
+      padding: 1.5rem;
+      background: white;
+      margin: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+    
+    .messages-tab {
+      padding: 12px 24px;
+      margin: 0 8px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+    
+    .messages-tab:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .messages-tab--active {
+      background: white;
+      color: #4ecdc4;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .form-input {
+      padding: 16px 20px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .form-input:focus {
+      box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.3);
+      border-color: #4ecdc4;
+    }
+    
+    /* Message card styles */
+    .threads__list li {
+      margin: 0.75rem 0;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.04);
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+    
+    .threads__list li:hover {
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+      transform: translateY(-2px);
+    }
+    
+    /* Body background */
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+      background-attachment: fixed !important;
+    }
+    
+    /* Main content background */
+    #main {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 24px 24px 0 0;
+      margin-top: 1rem;
+    }
+    
+    /* Multi-directional Expand/Collapse Controls */
+    .card-controls {
+      position: absolute;
+      z-index: 10;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .messages-panel--conversation:hover .card-controls,
+    .composer--simple:hover .card-controls,
+    .threads__list li:hover .card-controls {
+      opacity: 1;
+      pointer-events: all;
+    }
+    
+    /* Disable expansion controls on sidebar */
+    .messages-panel--threads .card-controls {
+      display: none !important;
+    }
+    
+    .control-group {
+      position: absolute;
+      display: flex;
+      gap: 4px;
+    }
+    
+    .control-group.top {
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      flex-direction: row;
+    }
+    
+    .control-group.bottom {
+      bottom: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      flex-direction: row;
+    }
+    
+    .control-group.left {
+      left: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      flex-direction: column;
+    }
+    
+    .control-group.right {
+      right: -20px;
+      top: 50%;
+      transform: translateY(-50%);
+      flex-direction: column;
+    }
+    
+    .expand-btn {
+      width: 28px;
+      height: 28px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .expand-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+    }
+    
+    .expand-btn.active {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+      50% { box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4); }
+    }
+    
+    /* Legacy panel controls for backward compatibility */
+    .panel-controls {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      gap: 8px;
+    }
+    
+    .control-btn {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.9);
+      color: #666;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      transition: all 0.2s ease;
+    }
+    
+    .control-btn:hover {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .panel-collapsed .messages-panel-content {
+      padding: 1rem !important;
+      margin: 0.5rem !important;
+    }
+    
+    .panel-collapsed .messages-tabs,
+    .panel-collapsed .messages-toolbar,
+    .panel-collapsed .threads__list {
+      display: none;
+    }
+    
+    .panel-expanded .messages-panel-content {
+      padding: 3rem !important;
+      margin: 1.5rem !important;
+    }
+    
+    .composer-collapsed .composer-content {
+      padding: 1rem !important;
+      margin: 0.5rem !important;
+    }
+    
+    .composer-collapsed .composer__send-options,
+    .composer-collapsed .composer__recipients {
+      display: none;
+    }
+    
+    .composer-expanded .composer-content {
+      padding: 3rem !important;
+      margin: 1.5rem !important;
+    }
+
+    /* Directional expansion classes */
+    .expand-up {
+      transform: scaleY(1.5);
+      transform-origin: bottom;
+      margin-bottom: 2rem;
+    }
+    
+    .expand-down {
+      transform: scaleY(1.5);
+      transform-origin: top;
+      margin-top: 2rem;
+    }
+    
+    .expand-left {
+      transform: scaleX(1.3);
+      transform-origin: right;
+      margin-right: 2rem;
+    }
+    
+    .expand-right {
+      transform: scaleX(1.3);
+      transform-origin: left;
+      margin-left: 2rem;
+    }
+    
+    .expand-all {
+      transform: scale(1.4);
+      margin: 2rem;
+      z-index: 20;
+      position: relative;
+    }
+    
+    /* Card expansion states */
+    .card-expanded {
+      transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2) !important;
+      z-index: 15;
+      position: relative;
+    }
+    
+    .card-expanded .messages-panel-content,
+    .card-expanded .composer-content,
+    .card-expanded .conversation__messages-content {
+      padding: 3rem !important;
+    }
+    
+    /* Thread/message card expansions */
+    .threads__list li.expand-up {
+      transform: translateY(-1rem) scaleY(1.3);
+    }
+    
+    .threads__list li.expand-down {
+      transform: translateY(1rem) scaleY(1.3);
+    }
+    
+    .threads__list li.expand-left {
+      transform: translateX(-1rem) scaleX(1.2);
+    }
+    
+    .threads__list li.expand-right {
+      transform: translateX(1rem) scaleX(1.2);
+    }
+    
+    .threads__list li.expand-all {
+      transform: scale(1.3);
+      z-index: 10;
+    }
+  </style>
+</head>
+
+<body data-user-id="u-student-001">
+  <!-- Futuristic background (matching dashboard) -->
+  <div class="bg-animation" aria-hidden="true">
+    <canvas id="particleCanvas"></canvas>
+  </div>
+
+  <!-- Toasts -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Header -->
+  <header class="header" role="banner" aria-label="Site header">
+    <div class="container header__inner">
+      <a class="brand" href="/" aria-label="Flow home">
+        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <span class="brand__name">Flow</span>
+      </a>
+
+      <div class="connection-status" id="connectionStatus" aria-live="polite">
+        <span class="connection-status__indicator"></span>
+        <span class="connection-status__text">Online</span>
+      </div>
+
+      <form class="lang-switch" aria-label="Language selector">
+        <label for="lang" class="sr-only">Language</label>
+        <select id="lang" name="lang">
+          <option value="en" selected>English</option>
+          <option value="fr">Français</option>
+          <option value="ar" dir="rtl">العربية</option>
+          <option value="sw">Kiswahili</option>
+        </select>
+      </form>
+
+      <nav class="nav" role="navigation" aria-label="Main navigation">
+        <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu">
+          <span class="nav__toggle-icon"><span></span><span></span><span></span></span>
+          <span class="nav__toggle-text">Menu</span>
+        </button>
+        <ul id="navMenu" class="nav__list" data-open="false">
+          <li><a href="/">Home</a></li>
+          <li><a href="/students/">Students</a></li>
+          <li><a href="/institutions/">Institutions</a></li>
+          <li><a href="/counselors/">Counselors</a></li>
+          <li><a href="/parents/">Parents</a></li>
+          <li><a href="/recommenders/">Recommenders</a></li>
+          <li><a class="btn btn--ghost" href="/students/onboarding.html">Get Started</a></li>
+          <li><a class="btn btn--primary" href="/auth/">Sign In</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Students subnav -->
+  <nav class="subnav" role="navigation" aria-label="Student sections">
+    <div class="container">
+      <div class="subnav__inner">
+        <a href="/students/onboarding.html" class="badge badge--primary">+ <span>Start Onboarding</span></a>
+        <a href="/students/" class="subnav__link">Dashboard</a>
+        <a href="/students/profile.html" class="subnav__link">Profile</a>
+        <a href="/students/programs.html" class="subnav__link">Programs</a>
+        <a href="/students/applications.html" class="subnav__link">Applications</a>
+        <a href="/students/messages.html" class="subnav__link subnav__link--active">
+          Messages <span id="messagesBadge" class="pill-badge" hidden>0</span>
+        </a>
+        <a href="/students/finance.html" class="subnav__link">Finance</a>
+        <a href="/students/help.html" class="subnav__link">Help</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="main">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <div class="container">
+        <ol class="breadcrumb__list">
+          <li class="breadcrumb__item"><a href="/" class="breadcrumb__link">Home</a></li>
+          <li class="breadcrumb__separator" aria-hidden="true">/</li>
+          <li class="breadcrumb__item"><a href="/students/" class="breadcrumb__link">Student Portal</a></li>
+          <li class="breadcrumb__separator" aria-hidden="true">/</li>
+          <li class="breadcrumb__item"><span class="breadcrumb__current">Messages</span></li>
+        </ol>
+      </div>
+    </nav>
+
+    <!-- Messaging page -->
+    <section class="section" aria-labelledby="messagesTitle">
+      <div class="container">
+        <header class="section__header">
+          <h1 id="messagesTitle">Messages</h1>
+          <p class="section__description">Conversations and notifications in one place.</p>
+        </header>
+
+        <div class="messages-page">
+          <!-- Left column -->
+          <aside class="card messages-panel messages-panel--threads" aria-label="Sidebar">
+            <div class="panel-controls">
+              <button class="control-btn" onclick="togglePanel(this, 'collapse')" title="Collapse panel">−</button>
+              <button class="control-btn" onclick="togglePanel(this, 'expand')" title="Expand panel">+</button>
+            </div>
+            <!-- Tabs -->
+            <div class="messages-tabs" role="tablist" aria-label="Messaging tabs">
+              <div class="messages-tabs-content" style="display:flex;gap:1rem;align-items:center;">
+                <button class="btn btn--ghost btn--sm messages-tab messages-tab--active" data-tab="conversations" role="tab" aria-selected="true">Conversations</button>
+                <button class="btn btn--ghost btn--sm messages-tab" data-tab="notifications" role="tab" aria-selected="false">
+                  Notifications <span id="notifBadge" class="pill-badge" hidden>0</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Conversations toolbar -->
+            <div id="convToolbar" class="messages-toolbar">
+              <div class="messages-toolbar-content" style="display:flex;gap:1rem;align-items:center;">
+                <input id="msgSearch" type="search" class="form-input" placeholder="🔍 Search conversations..." style="flex:1;" />
+                <button id="msgNew" class="btn btn--ghost btn--sm" type="button">✨ New</button>
+              </div>
+            </div>
+
+            <!-- Notifications toolbar -->
+            <div id="notifToolbar" class="messages-toolbar" style="margin-top:.5rem;" hidden>
+              <div style="display:flex;gap:.25rem;flex-wrap:wrap;">
+                <button class="btn btn--ghost btn--sm notif-filter notif-filter--active" data-filter="all" type="button">All</button>
+                <button class="btn btn--ghost btn--sm notif-filter" data-filter="unread" type="button">Unread</button>
+              </div>
+              <div style="flex:1"></div>
+              <button id="notifMarkAll" class="btn btn--ghost btn--sm" type="button">Mark all read</button>
+              <button id="notifClear" class="btn btn--ghost btn--sm" type="button">Clear</button>
+            </div>
+
+            <!-- Lists -->
+            <div class="messages-panel-content">
+              <ul id="msgThreads" class="threads__list" role="list" aria-label="Threads"></ul>
+              <ul id="notifList" class="threads__list" role="list" aria-label="Notifications" hidden></ul>
+            </div>
+          </aside>
+
+          <!-- Right column: conversation -->
+          <section id="convPanel" class="card messages-panel messages-panel--conversation" aria-label="Conversation">
+            <div class="panel-controls">
+              <button class="control-btn" onclick="togglePanel(this, 'collapse')" title="Collapse panel">−</button>
+              <button class="control-btn" onclick="togglePanel(this, 'expand')" title="Expand panel">+</button>
+            </div>
+            <div class="card-controls">
+              <div class="control-group top">
+                <button class="expand-btn" onclick="expandCard(this, 'up')" title="Expand Up">↑</button>
+                <button class="expand-btn" onclick="expandCard(this, 'all')" title="Expand All">✦</button>
+              </div>
+              <div class="control-group bottom">
+                <button class="expand-btn" onclick="expandCard(this, 'down')" title="Expand Down">↓</button>
+                <button class="expand-btn" onclick="resetCard(this)" title="Reset">⟲</button>
+              </div>
+              <div class="control-group left">
+                <button class="expand-btn" onclick="expandCard(this, 'left')" title="Expand Left">←</button>
+              </div>
+              <div class="control-group right">
+                <button class="expand-btn" onclick="expandCard(this, 'right')" title="Expand Right">→</button>
+              </div>
+            </div>
+            <header class="conversation__header">
+              <div class="conversation__header-content">
+                <div class="conversation__title" id="convTitle">Select a conversation</div>
+              </div>
+            </header>
+            <div id="convMessages" class="conversation__messages" aria-live="polite">
+              <div class="conversation__messages-content">
+                💬 Select a conversation to start messaging
+              </div>
+            </div>
+            <form id="msgComposer" class="composer composer--simple" autocomplete="off">
+              <div class="panel-controls">
+                <button type="button" class="control-btn" onclick="toggleComposer(this, 'collapse')" title="Collapse composer">−</button>
+                <button type="button" class="control-btn" onclick="toggleComposer(this, 'expand')" title="Expand composer">+</button>
+              </div>
+              <div class="card-controls">
+                <div class="control-group top">
+                  <button class="expand-btn" onclick="expandCard(this, 'up')" title="Expand Up">↑</button>
+                  <button class="expand-btn" onclick="expandCard(this, 'all')" title="Expand All">✦</button>
+                </div>
+                <div class="control-group bottom">
+                  <button class="expand-btn" onclick="expandCard(this, 'down')" title="Expand Down">↓</button>
+                  <button class="expand-btn" onclick="resetCard(this)" title="Reset">⟲</button>
+                </div>
+                <div class="control-group left">
+                  <button class="expand-btn" onclick="expandCard(this, 'left')" title="Expand Left">←</button>
+                </div>
+                <div class="control-group right">
+                  <button class="expand-btn" onclick="expandCard(this, 'right')" title="Expand Right">→</button>
+                </div>
+              </div>
+              <div class="composer-content">
+              <div class="composer__recipients">
+                <label for="msgRecipients">To:</label>
+                <select id="msgRecipients" multiple>
+                  <option value="admissions@university.edu">📚 Admissions Office</option>
+                  <option value="counselor@flow.edu">👨‍🏫 Academic Counselor</option>
+                  <option value="support@flow.edu">🛟 Student Support</option>
+                  <option value="financial@university.edu">💰 Financial Aid</option>
+                  <option value="registrar@university.edu">📋 Registrar</option>
+                  <option value="housing@university.edu">🏠 Housing Office</option>
+                  <option value="international@university.edu">🌍 International Office</option>
+                </select>
+                <div class="recipients-tags" id="recipientsTags"></div>
+              </div>
+              
+              <div class="composer__content">
+                <input id="msgSubject" type="text" placeholder="Subject" />
+                <textarea id="msgText" rows="6" placeholder="Type your message…"></textarea>
+              </div>
+              
+              <div class="composer__send-options">
+                <div class="send-timing-options">
+                  <label class="timing-option">
+                    <input type="radio" name="sendTiming" value="now" checked />
+                    <span>📤 Send Now</span>
+                  </label>
+                  <label class="timing-option">
+                    <input type="radio" name="sendTiming" value="schedule" />
+                    <span>🗓️ Schedule for Later</span>
+                  </label>
+                </div>
+                
+                <div id="scheduleCalendar" class="schedule-calendar" style="display: none !important; background: red !important; min-height: 200px !important; border: 5px solid blue !important;">
+                  <h4>📅 Schedule Message</h4>\n                  <div class="calendar-controls">
+                    <input type="date" id="scheduleDate" />
+                    <input type="time" id="scheduleTime" />
+                    <select id="scheduleTimezone">
+                      <option value="Africa/Lagos">🇳🇬 Lagos (WAT)</option>
+                      <option value="Africa/Cairo">🇪🇬 Cairo (EET)</option>
+                      <option value="Africa/Johannesburg">🇿🇦 Johannesburg (SAST)</option>
+                      <option value="Africa/Nairobi">🇰🇪 Nairobi (EAT)</option>
+                      <option value="Africa/Casablanca">🇲🇦 Casablanca (WET)</option>
+                    </select>
+                  </div>
+                  <div class="calendar-preview">
+                    <span id="schedulePreview">Select date and time to schedule message</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="composer__actions">
+                <input id="msgAttachInput" type="file" hidden multiple />
+                <button id="msgAttachBtn" class="btn btn--ghost" type="button">📎 Attach</button>
+                <button id="msgSend" class="btn btn--primary" type="submit">
+                  <span id="sendButtonText">Send Now</span>
+                </button>
+              </div>
+              </div>
+            </form>
+          </section>
+
+          <!-- Right column: notification detail -->
+          <section id="notifDetail" class="card messages-panel" aria-label="Notification detail" hidden>
+            <header class="dashboard-card__header">
+              <h2 id="notifTitle">Notification</h2>
+            </header>
+            <div class="notification-detail" style="padding:1rem;">
+              <p id="notifBody" class="section__description">Select a notification to see details.</p>
+              <div class="notification-meta" style="display:flex;gap:.5rem;align-items:center;margin-top:.5rem;">
+                <span id="notifType" class="status-badge">Info</span>
+                <time id="notifTime" class="application-item__date"></time>
+              </div>
+              <div class="dashboard-card__footer" style="margin-top:1rem;">
+                <a id="notifCTA" class="btn btn--primary" href="#" hidden>Open</a>
+                <button id="notifMarkUnread" class="btn btn--ghost btn--sm" type="button" hidden>Mark unread</button>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo" aria-label="Site footer">
+    <div class="container footer__grid">
+      <section class="footer__brand">
+        <img src="/assets/img/logo.png" alt="" class="footer__logo" width="40" height="40" />
+        <h3 class="footer__title">Flow</h3>
+        <p class="footer__tagline">Connecting learners and institutions across Africa.</p>
+      </section>
+      <nav aria-label="Quick links" class="footer__nav">
+        <h3 class="footer__nav-title">Student Resources</h3>
+        <ul>
+          <li><a href="/students/programs.html">Browse Programs</a></li>
+          <li><a href="/students/applications.html">My Applications</a></li>
+        </ul>
+      </nav>
+      <section class="footer__cta">
+        <h3 class="footer__cta-title">Need help?</h3>
+        <a href="/contact/" class="btn btn--primary">Get Support</a>
+      </section>
+    </div>
+    <div class="footer__meta">
+      <div class="container footer__meta-inner">
+        <small class="footer__copyright">© <span id="year"></span> Flow.</small>
+        <div class="footer__links">
+          <a href="/legal/terms.html">Terms</a>
+          <a href="/legal/privacy.html">Privacy</a>
+          <a href="/legal/cookies.html">Cookies</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Advanced Settings System -->
+  <!-- Floating settings button -->
+  <button id="settingsToggle" class="settings-fab" type="button" aria-label="Open settings">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <defs>
+        <linearGradient id="settingsGradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#4338ca"/>
+          <stop offset="50%" style="stop-color:#6366f1"/>
+          <stop offset="100%" style="stop-color:#8b5cf6"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge>
+            <feMergeNode in="coloredBlur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <g transform-origin="12 12">
+        <path d="M12 1l2.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 1z" fill="url(#settingsGradient1)" opacity="0.2"/>
+        <circle cx="12" cy="12" r="10" stroke="url(#settingsGradient1)" stroke-width="1.5" fill="none" opacity="0.6">
+          <animate attributeName="stroke-dasharray" values="0 63;31 31;0 63" dur="3s" repeatCount="indefinite"/>
+        </circle>
+        <g stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+          <path d="m19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </g>
+        <animateTransform attributeName="transform" type="rotate" values="0;360" dur="20s" repeatCount="indefinite"/>
+      </g>
+    </svg>
+  </button>
+
+  <!-- Advanced Settings Modal -->
+  <div id="settingsModal" class="settings-modal" aria-hidden="true" aria-labelledby="settingsModalTitle">
+    <div class="settings-modal__backdrop"></div>
+    <div class="settings-modal__container">
+      <div class="settings-modal__header">
+        <div class="settings-modal__title-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <defs>
+              <linearGradient id="modalHeaderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#4338ca"/>
+                <stop offset="100%" style="stop-color:#8b5cf6"/>
+              </linearGradient>
+            </defs>
+            <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" fill="url(#modalHeaderGradient)"/>
+            <path d="m19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" stroke="url(#modalHeaderGradient)" stroke-width="1" fill="none"/>
+          </svg>
+          <h2 id="settingsModalTitle">Advanced Settings</h2>
+        </div>
+        <button id="settingsClose" class="settings-modal__close" type="button" aria-label="Close settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="settings-modal__body">
+        <div class="settings-tabs">
+          <button class="settings-tab settings-tab--active" data-tab="appearance" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/>
+              <line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/>
+              <line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            Appearance
+          </button>
+          <button class="settings-tab" data-tab="language" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="2" y1="12" x2="22" y2="12"/>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Language
+          </button>
+          <button class="settings-tab" data-tab="notifications" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            Notifications
+          </button>
+          <button class="settings-tab" data-tab="accessibility" type="button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="10" r="3"/>
+              <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>
+            </svg>
+            Accessibility
+          </button>
+        </div>
+
+        <div class="settings-content">
+          <!-- Appearance Tab -->
+          <div class="settings-panel settings-panel--active" data-panel="appearance">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Theme</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="themeSelect">Color theme</label>
+                  <p>Choose your preferred color scheme</p>
+                </div>
+                <select id="themeSelect" class="settings-select">
+                  <option value="auto">Auto (System)</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="densitySelect">Layout density</label>
+                  <p>Adjust spacing and component sizes</p>
+                </div>
+                <select id="densitySelect" class="settings-select">
+                  <option value="comfortable">Comfortable</option>
+                  <option value="compact">Compact</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Visual Effects</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="animationsToggle">Animations</label>
+                  <p>Enable smooth transitions and animations</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="animationsToggle" checked>
+                  <label for="animationsToggle" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="particlesToggle">Background effects</label>
+                  <p>Show animated background particles</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="particlesToggle" checked>
+                  <label for="particlesToggle" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Language Tab -->
+          <div class="settings-panel" data-panel="language">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Interface Language</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="languageSelect">Display language</label>
+                  <p>Change the language of the interface</p>
+                </div>
+                <select id="languageSelect" class="settings-select">
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                  <option value="ar">العربية</option>
+                  <option value="sw">Kiswahili</option>
+                  <option value="ha">Hausa</option>
+                  <option value="yo">Yoruba</option>
+                  <option value="ig">Igbo</option>
+                  <option value="zu">Zulu</option>
+                  <option value="am">Amharic</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Regional Settings</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="timezoneSelect">Timezone</label>
+                  <p>Set your local timezone for dates and times</p>
+                </div>
+                <select id="timezoneSelect" class="settings-select">
+                  <option value="auto">Auto-detect</option>
+                  <option value="Africa/Lagos">West Africa Time (WAT)</option>
+                  <option value="Africa/Cairo">Eastern European Time (EET)</option>
+                  <option value="Africa/Johannesburg">South Africa Standard Time (SAST)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Notifications Tab -->
+          <div class="settings-panel" data-panel="notifications">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Push Notifications</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="pushNotifications">Enable push notifications</label>
+                  <p>Receive notifications even when the app is closed</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="pushNotifications" checked>
+                  <label for="pushNotifications" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="applicationUpdates">Application updates</label>
+                  <p>Get notified about application status changes</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="applicationUpdates" checked>
+                  <label for="applicationUpdates" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="messageNotifications">Messages</label>
+                  <p>Notifications for new messages and replies</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="messageNotifications" checked>
+                  <label for="messageNotifications" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Email Notifications</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="emailDigest">Daily digest</label>
+                  <p>Receive a daily summary of your activity</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="emailDigest">
+                  <label for="emailDigest" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Accessibility Tab -->
+          <div class="settings-panel" data-panel="accessibility">
+            <div class="settings-group">
+              <h3 class="settings-group__title">Motion & Animation</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="reducedMotion">Reduce motion</label>
+                  <p>Minimize animations for better accessibility</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="reducedMotion">
+                  <label for="reducedMotion" class="toggle-slider"></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group">
+              <h3 class="settings-group__title">Display</h3>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="highContrast">High contrast</label>
+                  <p>Increase contrast for better readability</p>
+                </div>
+                <div class="settings-toggle">
+                  <input type="checkbox" id="highContrast">
+                  <label for="highContrast" class="toggle-slider"></label>
+                </div>
+              </div>
+              <div class="settings-option">
+                <div class="settings-option__info">
+                  <label for="fontSizeSelect">Font size</label>
+                  <p>Adjust text size for better readability</p>
+                </div>
+                <select id="fontSizeSelect" class="settings-select">
+                  <option value="small">Small</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="large">Large</option>
+                  <option value="extra-large">Extra Large</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-modal__footer">
+        <div class="settings-actions">
+          <button id="resetSettings" class="btn btn--ghost" type="button">Reset to Defaults</button>
+          <button id="saveSettings" class="btn btn--primary" type="button">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard Settings Styles -->
+  <style>
+    .settings-fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 64px;
+      height: 64px;
+      border: none;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #4338ca, #6366f1, #8b5cf6);
+      color: white;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3), 0 0 20px rgba(99, 102, 241, 0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      will-change: transform;
+    }
+
+    .settings-fab::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(#4338ca, #6366f1, #8b5cf6, #4338ca);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+      animation: rotate 3s linear infinite;
+    }
+
+    .settings-fab:hover {
+      transform: scale(1.1) rotate(5deg);
+      box-shadow: 0 12px 40px rgba(99, 102, 241, 0.4), 0 0 30px rgba(99, 102, 241, 0.2);
+    }
+
+    .settings-fab:hover::before {
+      opacity: 1;
+    }
+
+    .settings-fab:active {
+      transform: scale(0.95);
+    }
+
+    .settings-fab svg {
+      width: 28px;
+      height: 28px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    }
+
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Advanced Settings Modal */
+    .settings-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .settings-modal[aria-hidden="false"] {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .settings-modal__backdrop {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+    }
+
+    .settings-modal__container {
+      position: relative;
+      max-width: 800px;
+      width: 90vw;
+      max-height: 90vh;
+      margin: 5vh auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .settings-modal[aria-hidden="false"] .settings-modal__container {
+      transform: scale(1);
+    }
+
+    .settings-modal__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 32px;
+      background: linear-gradient(135deg, #4338ca 0%, #8b5cf6 100%);
+      color: white;
+    }
+
+    .settings-modal__title-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .settings-modal__title-group h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .settings-modal__close {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      border-radius: 8px;
+      padding: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .settings-modal__close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .settings-modal__body {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .settings-tabs {
+      display: flex;
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0 32px;
+    }
+
+    .settings-tab {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 20px;
+      background: none;
+      border: none;
+      color: #64748b;
+      font-weight: 500;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+      border-radius: 0;
+    }
+
+    .settings-tab:hover {
+      color: #475569;
+      background: rgba(67, 56, 202, 0.05);
+    }
+
+    .settings-tab--active {
+      color: #4338ca;
+      font-weight: 600;
+    }
+
+    .settings-tab--active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #4338ca 0%, #8b5cf6 100%);
+      border-radius: 2px 2px 0 0;
+    }
+
+    .settings-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 32px;
+    }
+
+    .settings-panel {
+      display: none;
+    }
+
+    .settings-panel--active {
+      display: block;
+    }
+
+    .settings-group {
+      margin-bottom: 32px;
+    }
+
+    .settings-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .settings-group__title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0 0 20px 0;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #e5e7eb;
+    }
+
+    .settings-option {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .settings-option:last-child {
+      border-bottom: none;
+    }
+
+    .settings-option__info {
+      flex: 1;
+      margin-right: 20px;
+    }
+
+    .settings-option__info label {
+      display: block;
+      font-weight: 500;
+      color: #374151;
+      margin: 0 0 4px 0;
+    }
+
+    .settings-option__info p {
+      margin: 0;
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.4;
+    }
+
+    .settings-select {
+      min-width: 160px;
+      padding: 8px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 14px;
+      background: white;
+      color: #374151;
+      transition: all 0.2s ease;
+    }
+
+    .settings-select:focus {
+      outline: none;
+      border-color: #4338ca;
+      box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.1);
+    }
+
+    .settings-toggle {
+      position: relative;
+      width: 48px;
+      height: 24px;
+    }
+
+    .settings-toggle input[type="checkbox"] {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #d1d5db;
+      transition: 0.3s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    input:checked + .toggle-slider {
+      background: linear-gradient(135deg, #4338ca, #8b5cf6);
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(24px);
+    }
+
+    .settings-modal__footer {
+      padding: 24px 32px;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .settings-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .settings-actions .btn {
+      padding: 10px 20px;
+      font-weight: 500;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .settings-actions .btn--primary {
+      background: linear-gradient(135deg, #4338ca 0%, #8b5cf6 100%);
+      color: white;
+      border: none;
+    }
+
+    .settings-actions .btn--primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(67, 56, 202, 0.3);
+    }
+
+    .settings-actions .btn--ghost {
+      background: transparent;
+      color: #6b7280;
+      border: 1px solid #d1d5db;
+    }
+
+    .settings-actions .btn--ghost:hover {
+      background: #f9fafb;
+      color: #374151;
+      border-color: #9ca3af;
+    }
+
+    @media (max-width: 768px) {
+      .settings-modal__container {
+        width: 95vw;
+        margin: 2.5vh auto;
+        max-height: 95vh;
+      }
+
+      .settings-modal__header,
+      .settings-content,
+      .settings-modal__footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .settings-tabs {
+        padding: 0 20px;
+        overflow-x: auto;
+      }
+
+      .settings-option {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+
+      .settings-option__info {
+        margin-right: 0;
+      }
+    }
+  </style>
+
+  <!-- JS -->
+  <script src="/assets/js/auth.js" defer></script>
+  <script src="/assets/js/i18n.js" defer></script>
+  <script src="/assets/js/main.js" defer></script>
+  <script src="/assets/js/students_messages.js" defer></script>
+  
+  <script>
+    // Advanced Settings System
+    document.addEventListener('DOMContentLoaded', function() {
+      const settingsSystem = {
+        modal: null,
+        isOpen: false,
+        activeTab: 'appearance',
+        
+        settings: {
+          theme: 'auto',
+          density: 'comfortable',
+          animations: true,
+          particles: true,
+          language: 'en',
+          timezone: 'auto',
+          pushNotifications: true,
+          applicationUpdates: true,
+          messageNotifications: true,
+          emailDigest: false,
+          reducedMotion: false,
+          highContrast: false,
+          fontSize: 'medium'
+        },
+        
+        init() {
+          this.modal = document.getElementById('settingsModal');
+          this.setupEventListeners();
+          this.loadSettings();
+          this.applySettings();
+        },
+        
+        setupEventListeners() {
+          const toggleBtn = document.getElementById('settingsToggle');
+          if (toggleBtn) {
+            toggleBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.openModal();
+            });
+          }
+          
+          const closeBtn = document.getElementById('settingsClose');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.closeModal();
+            });
+          }
+          
+          if (this.modal) {
+            const backdrop = this.modal.querySelector('.settings-modal__backdrop');
+            if (backdrop) {
+              backdrop.addEventListener('click', () => {
+                this.closeModal();
+              });
+            }
+          }
+          
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen) {
+              this.closeModal();
+            }
+          });
+          
+          const tabs = document.querySelectorAll('.settings-tab');
+          tabs.forEach(tab => {
+            tab.addEventListener('click', (e) => {
+              e.preventDefault();
+              const tabName = tab.dataset.tab;
+              this.switchTab(tabName);
+            });
+          });
+          
+          this.setupSettingsControls();
+          
+          const saveBtn = document.getElementById('saveSettings');
+          const resetBtn = document.getElementById('resetSettings');
+          
+          if (saveBtn) {
+            saveBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.saveSettings();
+            });
+          }
+          
+          if (resetBtn) {
+            resetBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              this.resetSettings();
+            });
+          }
+        },
+        
+        setupSettingsControls() {
+          const themeSelect = document.getElementById('themeSelect');
+          if (themeSelect) {
+            themeSelect.addEventListener('change', (e) => {
+              this.settings.theme = e.target.value;
+              this.applyTheme();
+            });
+          }
+          
+          const densitySelect = document.getElementById('densitySelect');
+          if (densitySelect) {
+            densitySelect.addEventListener('change', (e) => {
+              this.settings.density = e.target.value;
+              this.applyDensity();
+            });
+          }
+          
+          const languageSelect = document.getElementById('languageSelect');
+          if (languageSelect) {
+            languageSelect.addEventListener('change', (e) => {
+              this.settings.language = e.target.value;
+            });
+          }
+          
+          const toggles = ['animationsToggle', 'particlesToggle', 'pushNotifications', 'applicationUpdates', 'messageNotifications', 'emailDigest', 'reducedMotion', 'highContrast'];
+          toggles.forEach(toggleId => {
+            const toggle = document.getElementById(toggleId);
+            if (toggle) {
+              toggle.addEventListener('change', (e) => {
+                const settingKey = toggleId.replace('Toggle', '');
+                this.settings[settingKey] = e.target.checked;
+                this.applyToggleSetting(settingKey);
+              });
+            }
+          });
+        },
+        
+        openModal() {
+          if (this.modal) {
+            this.modal.setAttribute('aria-hidden', 'false');
+            this.isOpen = true;
+            document.body.style.overflow = 'hidden';
+            
+            const firstFocusable = this.modal.querySelector('button, input, select');
+            if (firstFocusable) {
+              setTimeout(() => firstFocusable.focus(), 100);
+            }
+          }
+        },
+        
+        closeModal() {
+          if (this.modal) {
+            this.modal.setAttribute('aria-hidden', 'true');
+            this.isOpen = false;
+            document.body.style.overflow = '';
+          }
+        },
+        
+        switchTab(tabName) {
+          this.activeTab = tabName;
+          
+          const tabs = document.querySelectorAll('.settings-tab');
+          const panels = document.querySelectorAll('.settings-panel');
+          
+          tabs.forEach(tab => {
+            tab.classList.remove('settings-tab--active');
+          });
+          panels.forEach(panel => {
+            panel.classList.remove('settings-panel--active');
+          });
+          
+          const activeTab = document.querySelector(`[data-tab="${tabName}"]`);
+          const activePanel = document.querySelector(`[data-panel="${tabName}"]`);
+          
+          if (activeTab) activeTab.classList.add('settings-tab--active');
+          if (activePanel) activePanel.classList.add('settings-panel--active');
+        },
+        
+        loadSettings() {
+          try {
+            const saved = localStorage.getItem('flowSettings');
+            if (saved) {
+              this.settings = { ...this.settings, ...JSON.parse(saved) };
+            }
+          } catch (e) {
+            console.log('Settings load error:', e);
+          }
+          this.updateUI();
+        },
+        
+        saveSettings() {
+          try {
+            localStorage.setItem('flowSettings', JSON.stringify(this.settings));
+            this.showToast('Settings saved successfully!', 'success');
+            this.closeModal();
+          } catch (e) {
+            this.showToast('Failed to save settings', 'error');
+          }
+        },
+        
+        resetSettings() {
+          if (confirm('Are you sure you want to reset all settings to default?')) {
+            this.settings = {
+              theme: 'auto',
+              density: 'comfortable',
+              animations: true,
+              particles: true,
+              language: 'en',
+              timezone: 'auto',
+              pushNotifications: true,
+              applicationUpdates: true,
+              messageNotifications: true,
+              emailDigest: false,
+              reducedMotion: false,
+              highContrast: false,
+              fontSize: 'medium'
+            };
+            this.updateUI();
+            this.applySettings();
+            this.showToast('Settings reset to defaults', 'info');
+          }
+        },
+        
+        updateUI() {
+          Object.keys(this.settings).forEach(key => {
+            const element = document.getElementById(`${key}Select`) || document.getElementById(`${key}Toggle`);
+            if (element) {
+              if (element.type === 'checkbox') {
+                element.checked = this.settings[key];
+              } else {
+                element.value = this.settings[key];
+              }
+            }
+          });
+        },
+        
+        applySettings() {
+          this.applyTheme();
+          this.applyDensity();
+          Object.keys(this.settings).forEach(key => {
+            if (typeof this.settings[key] === 'boolean') {
+              this.applyToggleSetting(key);
+            }
+          });
+        },
+        
+        applyTheme() {
+          const theme = this.settings.theme;
+          document.documentElement.setAttribute('data-theme', theme);
+        },
+        
+        applyDensity() {
+          const density = this.settings.density;
+          document.documentElement.setAttribute('data-density', density);
+        },
+        
+        applyToggleSetting(key) {
+          const value = this.settings[key];
+          document.documentElement.setAttribute(`data-${key.toLowerCase()}`, value);
+        },
+        
+        showToast(message, type = 'info') {
+          console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+      };
+      
+      settingsSystem.init();
+    });
+  </script>\n  \n  <script>\n    // Simplified message composer functionality\n    document.addEventListener('DOMContentLoaded', function() {\n      const recipientsSelect = document.getElementById('msgRecipients');\n      const recipientsTags = document.getElementById('recipientsTags');\n      const msgSubject = document.getElementById('msgSubject');\n      const msgText = document.getElementById('msgText');\n      const sendButtonText = document.getElementById('sendButtonText');\n      const scheduleCalendar = document.getElementById('scheduleCalendar');\n      const scheduleDate = document.getElementById('scheduleDate');\n      const scheduleTime = document.getElementById('scheduleTime');\n      const schedulePreview = document.getElementById('schedulePreview');\n      const sendTimingRadios = document.querySelectorAll('input[name=\"sendTiming\"]');\n      \n      // Initialize date/time to 1 hour from now\n      const now = new Date();\n      now.setHours(now.getHours() + 1);\n      if (scheduleDate) scheduleDate.value = now.toISOString().split('T')[0];\n      if (scheduleTime) scheduleTime.value = now.toTimeString().slice(0, 5);\n      \n      // Debug: Check if calendar element exists\n      console.log('Schedule calendar found:', scheduleCalendar);\n      console.log('Send timing radios found:', sendTimingRadios.length);\n      \n      // Handle send timing radio buttons\n      sendTimingRadios.forEach(radio => {\n        radio.addEventListener('change', function() {\n          const isSchedule = this.value === 'schedule';\n          console.log('Schedule option selected:', isSchedule);\n          if (scheduleCalendar) {\n            if (isSchedule) {\n              scheduleCalendar.style.setProperty('display', 'block', 'important');\n              scheduleCalendar.style.setProperty('visibility', 'visible', 'important');\n              scheduleCalendar.style.setProperty('opacity', '1', 'important');\n              scheduleCalendar.style.setProperty('height', 'auto', 'important');\n              scheduleCalendar.style.setProperty('background', 'red', 'important');\n              scheduleCalendar.style.setProperty('border', '5px solid blue', 'important');\n              scheduleCalendar.style.setProperty('min-height', '200px', 'important');\n              scheduleCalendar.classList.add('show-calendar');\n            } else {\n              scheduleCalendar.style.setProperty('display', 'none', 'important');\n              scheduleCalendar.classList.remove('show-calendar');\n            }\n            console.log('Calendar display set to:', scheduleCalendar.style.display);\n          } else {\n            console.log('Schedule calendar element not found');\n          }\n          if (sendButtonText) {\n            sendButtonText.textContent = isSchedule ? 'Schedule Message' : 'Send Now';\n          }\n          if (isSchedule) updateSchedulePreview();\n        });\n      });\n      \n      // Update schedule preview\n      function updateSchedulePreview() {\n        if (scheduleDate?.value && scheduleTime?.value) {\n          const dateTime = new Date(`${scheduleDate.value}T${scheduleTime.value}`);\n          const timezone = document.getElementById('scheduleTimezone')?.value || 'Africa/Lagos';\n          schedulePreview.textContent = `Message will be sent on ${dateTime.toLocaleString()} (${timezone.split('/')[1]})`;\n        } else {\n          schedulePreview.textContent = 'Select date and time to schedule message';\n        }\n      }\n      \n      // Update preview when date/time changes\n      [scheduleDate, scheduleTime, document.getElementById('scheduleTimezone')].forEach(element => {\n        element?.addEventListener('change', updateSchedulePreview);\n      });\n      \n      // Handle recipient selection with visual tags\n      recipientsSelect?.addEventListener('change', updateRecipientTags);\n      \n      function updateRecipientTags() {\n        if (!recipientsTags || !recipientsSelect) return;\n        recipientsTags.innerHTML = '';\n        Array.from(recipientsSelect.selectedOptions).forEach(option => {\n          const tag = document.createElement('div');\n          tag.className = 'recipient-tag';\n          tag.innerHTML = `${option.textContent} <button type=\"button\" onclick=\"removeRecipient('${option.value}')\" style=\"background:none;border:none;color:white;cursor:pointer;margin-left:4px\">\u00d7</button>`;\n          recipientsTags.appendChild(tag);\n        });\n      }\n      \n      window.removeRecipient = function(value) {\n        const option = recipientsSelect?.querySelector(`option[value=\"${value}\"]`);\n        if (option) {\n          option.selected = false;\n          updateRecipientTags();\n        }\n      };\n      \n      // File attachment\n      document.getElementById('msgAttachBtn')?.addEventListener('click', function() {\n        document.getElementById('msgAttachInput')?.click();\n      });\n      \n      document.getElementById('msgAttachInput')?.addEventListener('change', function() {\n        const files = Array.from(this.files);\n        if (files.length > 0) {\n          const fileNames = files.map(f => f.name).join(', ');\n          alert(`Attached: ${fileNames}`);\n        }\n      });\n      \n      // Form submission\n      document.getElementById('msgComposer')?.addEventListener('submit', function(e) {\n        e.preventDefault();\n        \n        const recipients = Array.from(recipientsSelect?.selectedOptions || []);\n        if (recipients.length === 0) {\n          alert('Please select at least one recipient.');\n          return;\n        }\n        \n        if (!msgText?.value.trim()) {\n          alert('Please enter a message.');\n          return;\n        }\n        \n        const isScheduled = document.querySelector('input[name=\"sendTiming\"]:checked')?.value === 'schedule';\n        \n        if (isScheduled && (!scheduleDate?.value || !scheduleTime?.value)) {\n          alert('Please select a date and time for scheduling.');\n          return;\n        }\n        \n        if (sendButtonText) sendButtonText.textContent = 'Sending...';\n        \n        setTimeout(() => {\n          if (isScheduled) {\n            const dateTime = new Date(`${scheduleDate.value}T${scheduleTime.value}`);\n            alert(`Message scheduled successfully for ${dateTime.toLocaleString()}!`);\n          } else {\n            alert('Message sent successfully!');\n          }\n          \n          // Clear form\n          [msgSubject, msgText].forEach(el => { if (el) el.value = ''; });\n          if (recipientsSelect) {\n            Array.from(recipientsSelect.options).forEach(opt => opt.selected = false);\n            updateRecipientTags();\n          }\n          \n          // Reset to send now\n          const sendNowRadio = document.querySelector('input[name=\"sendTiming\"][value=\"now\"]');\n          if (sendNowRadio) sendNowRadio.checked = true;\n          scheduleCalendar.style.display = 'none';\n          sendButtonText.textContent = 'Send Now';\n        }, 1500);\n      });\n    });\n  </script>
+  
+  <script>
+    // Panel expand/collapse functionality
+    function togglePanel(button, action) {
+      const panel = button.closest('.messages-panel');
+      
+      if (action === 'collapse') {
+        panel.classList.remove('panel-expanded');
+        panel.classList.add('panel-collapsed');
+      } else if (action === 'expand') {
+        panel.classList.remove('panel-collapsed');
+        panel.classList.add('panel-expanded');
+      }
+    }
+    
+    function toggleComposer(button, action) {
+      const composer = button.closest('.composer');
+      
+      if (action === 'collapse') {
+        composer.classList.remove('composer-expanded');
+        composer.classList.add('composer-collapsed');
+      } else if (action === 'expand') {
+        composer.classList.remove('composer-collapsed');
+        composer.classList.add('composer-expanded');
+      }
+    }
+    
+    // Directional card expansion functionality
+    function expandCard(button, direction) {
+      const card = button.closest('.messages-panel--conversation, .composer, .threads__list li');
+      if (!card) return;
+      
+      // Reset all expansion states
+      resetCard(button);
+      
+      // Add the new expansion class
+      setTimeout(() => {
+        card.classList.add('card-expanded');
+        card.classList.add(`expand-${direction}`);
+        
+        // Mark the button as active
+        const allButtons = card.querySelectorAll('.expand-btn');
+        allButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        
+        // Auto-reset after 10 seconds
+        setTimeout(() => {
+          resetCard(button);
+        }, 10000);
+      }, 50);
+    }
+    
+    function resetCard(button) {
+      const card = button.closest('.messages-panel--conversation, .composer, .threads__list li');
+      if (!card) return;
+      
+      // Remove all expansion classes
+      const expansionClasses = ['card-expanded', 'expand-up', 'expand-down', 'expand-left', 'expand-right', 'expand-all'];
+      card.classList.remove(...expansionClasses);
+      
+      // Remove active state from all buttons
+      const allButtons = card.querySelectorAll('.expand-btn');
+      allButtons.forEach(btn => btn.classList.remove('active'));
+    }
+    
+    // Add expansion controls to dynamically created thread items
+    function addCardControls(element) {
+      if (element.querySelector('.card-controls')) return; // Already has controls
+      
+      const controls = document.createElement('div');
+      controls.className = 'card-controls';
+      controls.innerHTML = `
+        <div class="control-group top">
+          <button class="expand-btn" onclick="expandCard(this, 'up')" title="Expand Up">↑</button>
+          <button class="expand-btn" onclick="expandCard(this, 'all')" title="Expand All">✦</button>
+        </div>
+        <div class="control-group bottom">
+          <button class="expand-btn" onclick="expandCard(this, 'down')" title="Expand Down">↓</button>
+          <button class="expand-btn" onclick="resetCard(this)" title="Reset">⟲</button>
+        </div>
+        <div class="control-group left">
+          <button class="expand-btn" onclick="expandCard(this, 'left')" title="Expand Left">←</button>
+        </div>
+        <div class="control-group right">
+          <button class="expand-btn" onclick="expandCard(this, 'right')" title="Expand Right">→</button>
+        </div>
+      `;
+      
+      element.appendChild(controls);
+    }
+    
+    // Initialize controls for existing thread items
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        const threadItems = document.querySelectorAll('.threads__list li');
+        threadItems.forEach(item => {
+          addCardControls(item);
+        });
+      }, 1000);
+    });
+    
+    // Observer to add controls to new thread items
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        mutation.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1 && node.tagName === 'LI' && node.closest('.threads__list')) {
+            addCardControls(node);
+          }
+        });
+      });
+    });
+    
+    // Start observing
+    document.addEventListener('DOMContentLoaded', function() {
+      const threadLists = document.querySelectorAll('.threads__list');
+      threadLists.forEach(list => {
+        observer.observe(list, { childList: true });
+      });
+    });
+  </script>
+</body>
+</html>
