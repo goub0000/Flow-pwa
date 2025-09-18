@@ -6,15 +6,17 @@
 (function() {
   'use strict';
 
-  // Firebase configuration - Replace with your actual Firebase config
+  // Firebase configuration - Flow PWA Project
   const firebaseConfig = {
-    apiKey: "your-api-key-here",
-    authDomain: "your-project.firebaseapp.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:123456789:web:abcdef123456",
-    measurementId: "G-ABCDEFGHIJ"
+    apiKey: "AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", // Replace with your actual API key
+    authDomain: "flow-pwa-project.firebaseapp.com", // Replace with your project domain
+    projectId: "flow-pwa-project", // Replace with your actual project ID
+    storageBucket: "flow-pwa-project.appspot.com", // Replace with your storage bucket
+    messagingSenderId: "123456789012", // Replace with your sender ID
+    appId: "1:123456789012:web:abcdef123456789012", // Replace with your app ID
+    measurementId: "G-ABCDEFGHIJ", // Replace with your measurement ID (optional)
+    // For local development, you can use emulator settings
+    useEmulators: window.location.hostname === 'localhost'
   };
 
   // Initialize Firebase app
@@ -53,6 +55,25 @@
       } else {
         app = firebase.app();
         console.log('✅ Firebase app already initialized');
+      }
+
+      // Connect to emulators in development
+      if (firebaseConfig.useEmulators && window.location.hostname === 'localhost') {
+        console.log('🔧 Connecting to Firebase emulators...');
+
+        // Connect to Authentication emulator
+        firebase.auth().useEmulator('http://localhost:9099');
+
+        // Connect to Firestore emulator
+        firebase.firestore().useEmulator('localhost', 8080);
+
+        // Connect to Functions emulator
+        firebase.functions().useEmulator('localhost', 5001);
+
+        // Connect to Storage emulator
+        firebase.storage().useEmulator('localhost', 9199);
+
+        console.log('✅ Connected to Firebase emulators');
       }
 
       // Initialize Authentication
