@@ -72,41 +72,68 @@
   // Check if current route requires authentication
   function checkAuthentication() {
     const currentPath = window.location.pathname;
-    
+
     // Skip check for public routes
     if (isPublicRoute(currentPath)) {
       console.log('🌍 Public route, no auth required:', currentPath);
       return;
     }
-    
-    // STRICT: Check if user is authenticated - NO FALLBACK
+
+    // Check if FlowAuth is available
     if (!window.FlowAuth) {
-      console.log('❌ FlowAuth system not available, redirecting to home');
-      redirectToAuth(currentPath);
+      console.log('⏳ FlowAuth system not yet available, waiting...');
+      // Give it more time to load, then redirect if still not available
+      setTimeout(() => {
+        if (!window.FlowAuth) {
+          console.log('❌ FlowAuth system not available after wait, redirecting to home');
+          redirectToAuth(currentPath);
+        } else {
+          checkAuthentication(); // Retry the check
+        }
+      }, 1000);
       return;
     }
-    
+
     if (!window.FlowAuth.isAuthenticated()) {
       console.log('🔒 Authentication required for:', currentPath);
       redirectToAuth(currentPath);
       return;
     }
-    
+
     // Check account type permissions
     const user = window.FlowAuth.getCurrentUser();
-    if (!checkAccountTypePermission(currentPath, user)) {
-      console.log('🚫 Access denied for account type:', user.accountType, 'to path:', currentPath);
-      redirectToAuthorizedArea(user);
+    const profile = window.FlowAuth.getUserProfile();
+
+    // Use profile data if available, fallback to user data
+    const userForCheck = profile || user;
+
+    if (!checkAccountTypePermission(currentPath, userForCheck)) {
+      console.log('🚫 Access denied for account type:', userForCheck?.accountType, 'to path:', currentPath);
+
+      // If user profile is still loading, wait a bit longer before redirecting
+      if (!userForCheck?.accountType) {
+        console.log('⏳ User profile still loading, waiting before redirect...');
+        setTimeout(() => {
+          const updatedProfile = window.FlowAuth.getUserProfile();
+          const updatedUser = updatedProfile || window.FlowAuth.getCurrentUser();
+          if (!checkAccountTypePermission(currentPath, updatedUser)) {
+            redirectToAuthorizedArea(updatedUser);
+          }
+        }, 2000);
+        return;
+      }
+
+      redirectToAuthorizedArea(userForCheck);
       return;
     }
-    
+
     // Check admin permissions
     if (isAdminRoute(currentPath) && !window.FlowAuth.hasRole('admin')) {
       console.log('🚫 Admin access required for:', currentPath);
-      redirectToAuthorizedArea(user);
+      redirectToAuthorizedArea(userForCheck);
       return;
     }
-    
+
     console.log('✅ Access granted to:', currentPath);
   }
 
@@ -142,13 +169,25 @@
 
   // Check account type permission for path
   function checkAccountTypePermission(path, user) {
-    if (!user || !user.accountType) return false;
-    
+    if (!user) return false;
+
+    // If user profile is still loading, allow access temporarily
+    // The auth system will re-check once profile loads
+    if (!user.accountType) {
+      console.log('⏳ User profile loading, temporarily allowing access to:', path);
+      return true;
+    }
+
     const userConfig = ROUTE_CONFIG[user.accountType];
-    if (!userConfig) return false;
-    
+    if (!userConfig) {
+      console.log('❌ No route config for account type:', user.accountType);
+      return false;
+    }
+
     // Check if path is in user's allowed paths
-    return userConfig.allowedPaths.some(allowedPath => path.startsWith(allowedPath));
+    const hasAccess = userConfig.allowedPaths.some(allowedPath => path.startsWith(allowedPath));
+    console.log('🔍 Access check for', user.accountType, 'to', path, ':', hasAccess);
+    return hasAccess;
   }
 
   // Redirect to authentication

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us - Flow</title>
+  <link rel="icon" href="/assets/img/logo.PNG" type="image/png" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1f2937; }
+    .container { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+    .header { text-align: center; margin-bottom: 3rem; }
+    .header h1 { font-size: 2.5rem; font-weight: 800; color: #4338CA; margin-bottom: 0.5rem; }
+    .header p { color: #6b7280; font-size: 1.1rem; }
+    .content h2 { font-size: 1.5rem; font-weight: 700; margin: 2rem 0 1rem; color: #1f2937; }
+    .content p { margin-bottom: 1rem; }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin: 3rem 0; }
+    .contact-card { padding: 2rem; background: #f9fafb; border-radius: 1rem; }
+    .contact-card h3 { color: #4338CA; margin-bottom: 1rem; }
+    .back-link { display: inline-block; margin-bottom: 2rem; color: #4338CA; text-decoration: none; }
+    .back-link:hover { text-decoration: underline; }
+    .form { background: #f9fafb; padding: 2rem; border-radius: 1rem; margin-top: 2rem; }
+    .form-group { margin-bottom: 1.5rem; }
+    .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+    .form-group input, .form-group textarea, .form-group select {
+      width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.5rem; font-size: 1rem;
+    }
+    .btn { background: #4338CA; color: white; padding: 0.75rem 2rem; border: none; border-radius: 0.5rem; font-weight: 600; cursor: pointer; }
+    .btn:hover { background: #3730A3; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="/" class="back-link">← Back to Home</a>
+
+    <div class="header">
+      <h1>Contact Us</h1>
+      <p>We're here to help you succeed</p>
+    </div>
+
+    <div class="content">
+      <p>Have questions about Flow? Need help with your application? Want to partner with us? We'd love to hear from you.</p>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h3>🎓 For Students</h3>
+          <p><strong>Email:</strong> students@flow-app.com</p>
+          <p><strong>Hours:</strong> Monday-Friday, 9 AM - 6 PM WAT</p>
+          <p>Get help with applications, account issues, or technical support.</p>
+        </div>
+
+        <div class="contact-card">
+          <h3>🏛️ For Institutions</h3>
+          <p><strong>Email:</strong> institutions@flow-app.com</p>
+          <p><strong>Phone:</strong> +234 (0) 123 456 7890</p>
+          <p>Partner with us to reach more prospective students.</p>
+        </div>
+
+        <div class="contact-card">
+          <h3>💼 Business Inquiries</h3>
+          <p><strong>Email:</strong> business@flow-app.com</p>
+          <p><strong>Response Time:</strong> Within 24 hours</p>
+          <p>Press, partnerships, and general business inquiries.</p>
+        </div>
+
+        <div class="contact-card">
+          <h3>🔧 Technical Support</h3>
+          <p><strong>Email:</strong> support@flow-app.com</p>
+          <p><strong>Priority Support:</strong> Available 24/7</p>
+          <p>Technical issues, bug reports, and platform feedback.</p>
+        </div>
+      </div>
+
+      <div class="form">
+        <h2>Send us a Message</h2>
+        <form>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label for="type">I am a...</label>
+            <select id="type" name="type" required>
+              <option value="">Select your role</option>
+              <option value="student">Student</option>
+              <option value="parent">Parent</option>
+              <option value="counselor">Counselor</option>
+              <option value="institution">Institution Representative</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+
+          <button type="submit" class="btn">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

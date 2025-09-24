@@ -79,8 +79,16 @@
         var val = sel ? sel.value : 'student';
         console.log('Selected account type:', val);
         
-        // Redirect to registration page with selected account type
-        var url = '/auth/register.html?type=' + encodeURIComponent(val);
+        // Redirect to the specific onboarding page based on account type
+        var onboardingPages = {
+          'student': '/students/onboarding.html',
+          'institution': '/institutions/onboarding.html',
+          'counselor': '/counselors/onboarding.html',
+          'parent': '/parents/onboarding.html',
+          'recommender': '/recommenders/onboarding.html'
+        };
+
+        var url = onboardingPages[val] || '/students/onboarding.html';
         console.log('Redirecting to:', url);
         window.location.href = url;
       });

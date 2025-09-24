@@ -209,7 +209,7 @@
   const validation = {
     validateEmail: e => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e),
     validatePhone: p => /^[\d\s\-\+\(\)]{7,15}$/.test((p||'').replace(/\s/g,'')),
-    validatePassword(p){ const L=p.length>=8,N=/\d/.test(p),S=/[!@#$%^&*(),.?":{}|<>]/.test(p); return {isValid:L&&N&&S,hasLength:L,hasNumber:N,hasSymbol:S}; },
+    validatePassword(p){ const L=p.length>=8,N=/\d/.test(p),S=/[@$!%*?&]/.test(p); return {isValid:L&&N&&S,hasLength:L,hasNumber:N,hasSymbol:S}; },
     showError(id,msg){ const err=$(`#${id}-error`), f=$(`#${id}`); if(err){ err.textContent=msg; err.style.display='block'; } if(f){ f.classList.add('form-input--error'); f.setAttribute('aria-invalid','true'); } },
     clearError(id){ const err=$(`#${id}-error`), f=$(`#${id}`); if(err){ err.textContent=''; err.style.display='none'; } if(f){ f.classList.remove('form-input--error'); f.setAttribute('aria-invalid','false'); } }
   };
@@ -257,15 +257,155 @@
     },
     initNavigation(){
       $('#backToWelcome')?.addEventListener('click', ()=> stepNavigation.prevStep());
-      $('#createAccount')?.addEventListener('click', ()=>{ if(this.validateCurrentMethod()){ toast.show(Flow.i18n.t('creating'), 'info', 2000); setTimeout(()=>{ toast.show(Flow.i18n.t('code_sent'),'success',3000); stepNavigation.nextStep(); }, 1200); } });
+      $('#createAccount')?.addEventListener('click', ()=>{
+        console.log('🔵 Create Account button clicked');
+        console.log('🔵 Validation result:', this.validateCurrentMethod());
+        if(this.validateCurrentMethod()){
+          console.log('🔵 Calling createAccount function...');
+          this.createAccount();
+        } else {
+          console.log('🔴 Validation failed, not creating account');
+        }
+      });
     },
+    async createAccount(){
+      try {
+        toast.show('Creating account...', 'info', 2000);
+
+        if (onboardingData.accountMethod === 'email') {
+          const email = $('#email')?.value.trim();
+          const password = $('#password')?.value;
+
+          // Wait for Firebase to be initialized
+          await this.waitForFirebase();
+
+          // Debug: Check if Firebase is available
+          console.log('Firebase available:', !!window.Firebase);
+          console.log('Firebase initialized:', !!window.Firebase?.initialized);
+          console.log('FlowAuth available:', !!window.FlowAuth);
+
+          // Try direct Firebase Auth first
+          if (window.Firebase && window.Firebase.auth) {
+            try {
+              console.log('Attempting Firebase Auth registration...');
+              const userCredential = await window.Firebase.auth.createUserWithEmailAndPassword(email, password);
+              console.log('Firebase Auth success:', userCredential.user.uid);
+
+              // Send email verification
+              try {
+                await userCredential.user.sendEmailVerification();
+                console.log('Email verification sent successfully');
+              } catch (emailError) {
+                console.error('Email verification failed:', emailError);
+                // Continue with registration even if email verification fails
+              }
+
+              // Now register with backend
+              const response = await fetch('https://us-central1-flow-pwa.cloudfunctions.net/api/api/students/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  firstName: 'Student', // Temporary
+                  lastName: 'User',     // Temporary
+                  email: email,
+                  dateOfBirth: '2000-01-01' // Temporary
+                })
+              });
+
+              const backendResult = await response.json();
+              console.log('Backend registration result:', backendResult);
+
+              if (backendResult.success) {
+                onboardingData.email = email;
+                onboardingData.userId = userCredential.user.uid;
+                onboardingData.studentId = backendResult.studentId;
+
+                // Store account type for proper redirect after login
+                sessionStorage.setItem('flow_account_type', 'student');
+
+                toast.show('Account created! Check your email and click the verification link, then click "Verify" below.', 'success', 5000);
+                stepNavigation.nextStep();
+              } else {
+                throw new Error('Backend registration failed');
+              }
+            } catch (firebaseError) {
+              console.error('Firebase Auth error:', firebaseError);
+              throw firebaseError;
+            }
+          } else {
+            throw new Error('Firebase not available');
+          }
+        } else {
+          // Phone registration - for now just simulate
+          toast.show('Code sent to your phone!', 'success', 3000);
+          stepNavigation.nextStep();
+        }
+      } catch (error) {
+        console.error('Account creation failed:', error);
+        let errorMessage = 'Account creation failed: ';
+
+        if (error.code === 'auth/email-already-in-use') {
+          errorMessage += 'Email already registered. Try signing in instead.';
+        } else if (error.code === 'auth/weak-password') {
+          errorMessage += 'Password is too weak.';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage += 'Invalid email address.';
+        } else {
+          errorMessage += error.message || 'Unknown error occurred.';
+        }
+
+        toast.show(errorMessage, 'error', 5000);
+      }
+    },
+
+    // Wait for Firebase to be initialized
+    async waitForFirebase(maxWait = 10000) {
+      console.log('🔥 Waiting for Firebase initialization...');
+
+      // If Firebase is already initialized, return immediately
+      if (window.Firebase && window.Firebase.initialized) {
+        console.log('✅ Firebase already initialized');
+        return;
+      }
+
+      // Wait for the firebaseInitialized event
+      return new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          reject(new Error('Firebase initialization timeout'));
+        }, maxWait);
+
+        const handleInit = () => {
+          clearTimeout(timeout);
+          console.log('✅ Firebase initialization event received');
+          document.removeEventListener('firebaseInitialized', handleInit);
+          resolve();
+        };
+
+        document.addEventListener('firebaseInitialized', handleInit);
+
+        // Also check if it's already initialized (race condition)
+        setTimeout(() => {
+          if (window.Firebase && window.Firebase.initialized) {
+            handleInit();
+          }
+        }, 100);
+      });
+    },
+
     validateCurrentMethod(){
       if (onboardingData.accountMethod==='email'){
-        const email=$('#email')?.value.trim(), pwd=$('#password')?.value, confirm=$('#confirmPassword')?.value, terms=$('#agreeTerms')?.checked; let ok=true;
+        const email=$('#email')?.value.trim(), pwd=$('#password')?.value, confirm=$('#confirmPassword')?.value, terms=$('#agreeTerms')?.checked;
+        console.log('🔍 Validating email method:', {email, pwd: pwd ? '[HIDDEN]' : 'empty', confirm: confirm ? '[HIDDEN]' : 'empty', terms});
+        let ok=true;
         if(!email){ validation.showError('email', Flow.i18n.t('email_req')); ok=false; } else if(!validation.validateEmail(email)){ validation.showError('email', Flow.i18n.t('email_bad')); ok=false; }
-        if(!pwd){ validation.showError('password', Flow.i18n.t('pwd_req')); ok=false; } else if(!validation.validatePassword(pwd).isValid){ validation.showError('password', Flow.i18n.t('pwd_bad')); ok=false; }
+        if(!pwd){ validation.showError('password', Flow.i18n.t('pwd_req')); ok=false; } else {
+          const pwdValidation = validation.validatePassword(pwd);
+          console.log('🔍 Password validation:', pwdValidation);
+          if(!pwdValidation.isValid){ validation.showError('password', Flow.i18n.t('pwd_bad')); ok=false; }
+        }
         if(!confirm){ validation.showError('confirmPassword', Flow.i18n.t('confirm_req')); ok=false; } else if(pwd!==confirm){ validation.showError('confirmPassword', Flow.i18n.t('pwd_match')); ok=false; }
         if(!terms){ validation.showError('terms', Flow.i18n.t('terms_req')); ok=false; }
+        console.log('🔍 Final validation result:', ok);
         return ok;
       } else {
         const country=$('#country')?.value, phone=$('#phone')?.value.trim(), terms=$('#agreeTermsPhone')?.checked; let ok=true;
@@ -325,8 +465,41 @@
     },
     initNavigation(){
       $('#backToAccount')?.addEventListener('click', ()=> stepNavigation.prevStep());
-      $('#verifyCode')?.addEventListener('click', ()=>{ if(this.checkOTPComplete()){ toast.show(Flow.i18n.t('verifying'),'info',2000); setTimeout(()=>{ toast.show(Flow.i18n.t('verified'),'success',3000); stepNavigation.nextStep(); },1200); }});
-      $('#resendCode')?.addEventListener('click', ()=>{ toast.show(Flow.i18n.t('resent'),'success',2000); this.startResendTimer(); });
+      $('#verifyCode')?.addEventListener('click', async ()=>{
+        if(this.checkOTPComplete()){
+          toast.show(Flow.i18n.t('verifying'),'info',2000);
+          try {
+            // Check if the user's email is verified
+            await window.Firebase.auth.currentUser.reload();
+            const user = window.Firebase.auth.currentUser;
+
+            if (user && user.emailVerified) {
+              toast.show(Flow.i18n.t('verified'),'success',3000);
+              stepNavigation.nextStep();
+            } else {
+              toast.show('Please check your email and click the verification link first.','error',5000);
+            }
+          } catch (error) {
+            console.error('Verification check failed:', error);
+            toast.show('Verification failed. Please try again.','error',3000);
+          }
+        }
+      });
+      $('#resendCode')?.addEventListener('click', async ()=>{
+        try {
+          const user = window.Firebase.auth.currentUser;
+          if (user && !user.emailVerified) {
+            await user.sendEmailVerification();
+            toast.show(Flow.i18n.t('resent'),'success',2000);
+            this.startResendTimer();
+          } else {
+            toast.show('User not found or already verified.','error',3000);
+          }
+        } catch (error) {
+          console.error('Resend verification failed:', error);
+          toast.show('Failed to resend verification email.','error',3000);
+        }
+      });
       $('#changeMethod')?.addEventListener('click', ()=> stepNavigation.showStep(2));
     }
   };

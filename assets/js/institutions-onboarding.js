@@ -159,9 +159,9 @@
       return re.test(email);
     },
     validatePassword(password) {
-      const hasLen = password.length >= 12;
+      const hasLen = password.length >= 8;
       const hasNum = /\d/.test(password);
-      const hasSym = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      const hasSym = /[@$!%*?&]/.test(password);
       return { isValid: hasLen && hasNum && hasSym, hasLen, hasNum, hasSym };
     },
     showError(fieldId, message) {
@@ -282,14 +282,9 @@
       const createBtn = $('#createAccount');
       backBtn?.addEventListener('click', () => stepNavigation.prevStep());
       if (createBtn) {
-        createBtn.addEventListener('click', () => {
+        createBtn.addEventListener('click', async () => {
           if (!this.isValid()) return;
-          createBtn.classList.add('btn--loading');
-          setTimeout(() => {
-            createBtn.classList.remove('btn--loading');
-            this.updateVerificationTarget();
-            stepNavigation.nextStep();
-          }, 800);
+          await this.createAccount();
         });
       }
     },
@@ -320,6 +315,138 @@
     updateCreateButton() {
       const btn = $('#createAccount');
       if (btn) btn.disabled = !this.isValid();
+    },
+
+    // Create Firebase account for institution
+    async createAccount() {
+      try {
+        const btn = $('#createAccount');
+        if (btn) {
+          btn.classList.add('btn--loading');
+          btn.textContent = 'Creating Account...';
+        }
+
+        const email = $('#institutionEmail')?.value.trim();
+        const password = $('#password')?.value;
+
+        if (!email || !password) {
+          throw new Error('Email and password are required');
+        }
+
+        // Wait for Firebase to be initialized
+        await this.waitForFirebase();
+
+        // Create Firebase Auth account
+        const auth = window.Firebase.auth;
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+
+        console.log('✅ Institution Firebase Auth account created:', user.uid);
+
+        // Send email verification
+        try {
+          await user.sendEmailVerification();
+          console.log('✅ Email verification sent');
+        } catch (emailError) {
+          console.error('❌ Email verification failed:', emailError);
+          // Continue with registration even if email verification fails
+        }
+
+        // Store account type for proper redirect after login
+        sessionStorage.setItem('flow_account_type', 'institution');
+
+        // Register with backend API
+        const response = await fetch('https://us-central1-flow-pwa.cloudfunctions.net/api/api/institutions/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: onboardingData.institutionName || 'Institution', // Will be updated in profile step
+            type: onboardingData.institutionType || 'university',
+            country: onboardingData.country || 'Ghana',
+            email: email
+          })
+        });
+
+        const backendResult = await response.json();
+        console.log('Backend registration result:', backendResult);
+
+        if (backendResult.success) {
+          onboardingData.email = email;
+          onboardingData.userId = user.uid;
+          onboardingData.institutionId = backendResult.institutionId;
+
+          // Show success message
+          if (window.toast) {
+            toast.show('Account created! Check your email and click the verification link, then click "Verify" below.', 'success', 5000);
+          }
+
+          // Update verification target and proceed to next step
+          this.updateVerificationTarget();
+          stepNavigation.nextStep();
+        } else {
+          throw new Error('Backend registration failed: ' + (backendResult.error || 'Unknown error'));
+        }
+
+      } catch (error) {
+        console.error('❌ Institution account creation failed:', error);
+
+        let errorMessage = 'Account creation failed: ';
+        if (error.code === 'auth/email-already-in-use') {
+          errorMessage += 'Email already registered. Try signing in instead.';
+        } else if (error.code === 'auth/weak-password') {
+          errorMessage += 'Password is too weak.';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage += 'Invalid email address.';
+        } else {
+          errorMessage += error.message || 'Unknown error occurred.';
+        }
+
+        if (window.toast) {
+          toast.show(errorMessage, 'error', 5000);
+        } else {
+          alert(errorMessage);
+        }
+      } finally {
+        const btn = $('#createAccount');
+        if (btn) {
+          btn.classList.remove('btn--loading');
+          btn.textContent = 'Create Account';
+        }
+      }
+    },
+
+    // Wait for Firebase to be initialized
+    async waitForFirebase(maxWait = 10000) {
+      console.log('🔥 Waiting for Firebase initialization...');
+
+      // If Firebase is already initialized, return immediately
+      if (window.Firebase && window.Firebase.initialized) {
+        console.log('✅ Firebase already initialized');
+        return;
+      }
+
+      // Wait for the firebaseInitialized event
+      return new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          reject(new Error('Firebase initialization timeout'));
+        }, maxWait);
+
+        const handleInit = () => {
+          clearTimeout(timeout);
+          console.log('✅ Firebase initialization event received');
+          document.removeEventListener('firebaseInitialized', handleInit);
+          resolve();
+        };
+
+        document.addEventListener('firebaseInitialized', handleInit);
+
+        // Also check if it's already initialized (race condition)
+        setTimeout(() => {
+          if (window.Firebase && window.Firebase.initialized) {
+            handleInit();
+          }
+        }, 100);
+      });
     }
   };
 
@@ -811,6 +938,98 @@
       const verifyBtn = $('#verifyCode');
       if (verifyBtn) verifyBtn.disabled = !otpComplete;
     },
+
+    // Verify Firebase email
+    async verifyEmailCode() {
+      try {
+        const verifyBtn = $('#verifyCode');
+        if (verifyBtn) {
+          verifyBtn.classList.add('btn--loading');
+          verifyBtn.textContent = 'Verifying...';
+        }
+
+        // Check if user is logged in and email is verified
+        if (!window.Firebase || !window.Firebase.auth) {
+          throw new Error('Firebase not available');
+        }
+
+        const user = window.Firebase.auth.currentUser;
+        if (!user) {
+          throw new Error('No user logged in');
+        }
+
+        // Reload user to get latest verification status
+        await user.reload();
+
+        if (user.emailVerified) {
+          // Email is verified, proceed to next step
+          if (window.toast) {
+            toast.show('Email verified successfully!', 'success', 3000);
+          }
+          stepNavigation.nextStep();
+        } else {
+          // Email not verified yet
+          if (window.toast) {
+            toast.show('Please check your email and click the verification link first.', 'error', 5000);
+          }
+        }
+
+      } catch (error) {
+        console.error('❌ Email verification check failed:', error);
+
+        if (window.toast) {
+          toast.show('Verification failed. Please try again.', 'error', 3000);
+        } else {
+          alert('Verification failed. Please try again.');
+        }
+      } finally {
+        const verifyBtn = $('#verifyCode');
+        if (verifyBtn) {
+          verifyBtn.classList.remove('btn--loading');
+          verifyBtn.textContent = 'Verify';
+        }
+      }
+    },
+
+    // Resend Firebase email verification
+    async resendVerificationEmail() {
+      try {
+        if (!window.Firebase || !window.Firebase.auth) {
+          throw new Error('Firebase not available');
+        }
+
+        const user = window.Firebase.auth.currentUser;
+        if (!user) {
+          throw new Error('No user logged in');
+        }
+
+        if (user.emailVerified) {
+          if (window.toast) {
+            toast.show('Email is already verified!', 'success', 3000);
+          }
+          return;
+        }
+
+        await user.sendEmailVerification();
+
+        if (window.toast) {
+          toast.show('Verification email sent! Check your inbox.', 'success', 3000);
+        }
+
+        // Start resend timer
+        this.startResendTimer();
+
+      } catch (error) {
+        console.error('❌ Failed to resend verification email:', error);
+
+        if (window.toast) {
+          toast.show('Failed to resend verification email. Please try again.', 'error', 3000);
+        } else {
+          alert('Failed to resend verification email. Please try again.');
+        }
+      }
+    },
+
     isOTPComplete() {
       const inputs = $$('.otp-input');
       const code = inputs.map(i => i.value).join('');
@@ -848,16 +1067,12 @@
           stepNavigation.nextStep();
         }, 700);
       });
-      verifyBtn?.addEventListener('click', () => {
+      verifyBtn?.addEventListener('click', async () => {
         if (this.isOTPComplete()) {
-          verifyBtn.classList.add('btn--loading');
-          setTimeout(() => {
-            verifyBtn.classList.remove('btn--loading');
-            stepNavigation.nextStep();
-          }, 500);
+          await this.verifyEmailCode();
         }
       });
-      resend?.addEventListener('click', () => this.startResendTimer());
+      resend?.addEventListener('click', async () => await this.resendVerificationEmail());
       $$('input[name="documentType"]').forEach(radio => radio.addEventListener('change', () => this.updateVerificationButton()));
     },
 

@@ -9,12 +9,12 @@
   // Firebase API Service
   const FirebaseAPI = {
     // Base URL for Firebase Functions
-    functionsBaseUrl: 'https://us-central1-flow-pwa-project.cloudfunctions.net/api',
+    functionsBaseUrl: 'https://us-central1-flow-pwa.cloudfunctions.net/api',
 
     // For local development
     get baseUrl() {
       if (window.location.hostname === 'localhost' && window.Firebase?.app) {
-        return 'http://localhost:5001/flow-pwa-project/us-central1/api';
+        return 'http://localhost:5001/flow-pwa/us-central1/api';
       }
       return this.functionsBaseUrl;
     },

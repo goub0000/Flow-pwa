@@ -847,8 +847,20 @@
   </div>
 
   <!-- Scripts -->
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+  <!-- Firebase Configuration -->
+  <script src="/assets/js/firebase-config.js"></script>
+
+  <!-- Firebase Authentication -->
+  <script src="/assets/js/firebase-auth.js"></script>
+
   <script src="/assets/js/countries.js" defer></script>
-  <script src="/assets/js/test-auth-bypass.js" defer></script>
+  <script src="/assets/js/institutions-onboarding.js" defer></script>
   <script>
     // Onboarding state management
     let currentStep = 1;
@@ -1135,32 +1147,39 @@
             color: white;
             font-size: 0.9rem;
           }
-          .form-input, 
-          .form-select, 
+          .form-input,
+          .form-select,
           .form-textarea {
             width: 100%;
             padding: 0.75rem 1rem;
-            background: rgba(26, 31, 58, 0.8) !important;
-            border: 1px solid rgba(90, 91, 184, 0.3);
+            background: #ffffff !important;
+            border: 2px solid #e5e7eb;
             border-radius: 0.5rem;
-            color: white !important;
+            color: #111827 !important;
             font-size: 1rem;
             transition: all 0.2s ease;
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
           }
+          .form-input:focus,
+          .form-select:focus,
+          .form-textarea:focus {
+            outline: none;
+            border-color: #5a5bb8;
+            box-shadow: 0 0 0 3px rgba(90, 91, 184, 0.1);
+          }
           .form-select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23374151' d='M6 9L1 4h10z'/%3E%3C/svg%3E") !important;
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 12px;
             padding-right: 2.5rem;
-            background-color: rgba(26, 31, 58, 0.8) !important;
+            background-color: #ffffff !important;
           }
           .form-select option {
-            background: #1a1f3a;
-            color: white;
+            background: #ffffff;
+            color: #111827;
           }
           .form-input:focus, 
           .form-select:focus, 
@@ -1316,96 +1335,88 @@
 
     // Render content for each step
     function renderStepContent(step) {
+      console.log('🎨 renderStepContent called with step:', step);
+
       const actionSection = document.querySelector('.action-section');
-      if (!actionSection) return;
-      
+      console.log('📍 Action section in renderStepContent:', !!actionSection);
+
+      if (!actionSection) {
+        console.error('❌ Action section not found!');
+        return;
+      }
+
+      console.log('🎯 Rendering content for step:', step);
+
       switch(step) {
         case 1:
           actionSection.innerHTML = `
-            <button class="btn btn-primary" onclick="navigateToStep(2)">
+            <button class="btn btn-primary" onclick="handleBeginSetup()">
               <span>Begin Setup</span>
               <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
               </svg>
             </button>
-            <button class="btn btn-secondary">
+            <button class="btn btn-secondary" onclick="handleNeedHelp()">
               <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
               <span>Need Help?</span>
             </button>
           `;
+          console.log('✅ Step 1 content rendered, buttons added');
+          console.log('📍 Action section HTML after render:', actionSection.innerHTML);
           break;
           
         case 2:
           actionSection.innerHTML = `
-            <form class="institution-form" onsubmit="handleStep2Submit(event)">
-              <div class="form-group">
-                <label for="institutionName" class="form-label">Institution Name *</label>
-                <input type="text" id="institutionName" class="form-input" placeholder="Enter your institution name" required>
-              </div>
-              <div class="form-row">
+            <div class="account-creation-section">
+              <h2 class="section-title">Create Your Institution Account</h2>
+              <p class="section-subtitle">Set up your login credentials to get started</p>
+
+              <form class="account-form">
                 <div class="form-group">
-                  <label for="institutionType" class="form-label">Institution Type *</label>
-                  <select id="institutionType" class="form-select" required>
-                    <option value="">Select type</option>
-                    <option value="university">University</option>
-                    <option value="college">College</option>
-                    <option value="polytechnic">Polytechnic</option>
-                    <option value="institute">Institute</option>
-                    <option value="academy">Academy</option>
-                  </select>
+                  <label for="institutionEmail" class="form-label">Institution Email *</label>
+                  <input type="email" id="institutionEmail" class="form-input" placeholder="admin@yourinstitution.edu" required>
                 </div>
+
                 <div class="form-group">
-                  <label for="country" class="form-label">Country *</label>
-                  <select id="country" class="form-select" required>
-                    <option value="">Select country</option>
-                  </select>
+                  <label for="password" class="form-label">Password *</label>
+                  <div class="password-input-wrapper">
+                    <input type="password" id="password" class="form-input" placeholder="Create a strong password" required>
+                    <button type="button" class="password-toggle" aria-label="Show password">
+                      <span class="password-toggle__show">👁️</span>
+                      <span class="password-toggle__hide" style="display: none;">🙈</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div class="form-row">
+
                 <div class="form-group">
-                  <label for="city" class="form-label">City *</label>
-                  <input type="text" id="city" class="form-input" placeholder="Enter city" required>
+                  <label for="confirmPassword" class="form-label">Confirm Password *</label>
+                  <input type="password" id="confirmPassword" class="form-input" placeholder="Confirm your password" required>
                 </div>
+
                 <div class="form-group">
-                  <label for="postalCode" class="form-label">Postal Code</label>
-                  <input type="text" id="postalCode" class="form-input" placeholder="Enter postal code">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="agreeTerms" required>
+                    <span class="checkmark"></span>
+                    I agree to the <a href="/terms.html" target="_blank">Terms of Service</a> and <a href="/privacy.html" target="_blank">Privacy Policy</a>
+                  </label>
                 </div>
-              </div>
-              <div class="form-group">
-                <label for="website" class="form-label">Website</label>
-                <input type="url" id="website" class="form-input" placeholder="https://www.example.edu">
-              </div>
-              <div class="form-actions">
-                <button type="button" class="btn btn-secondary" onclick="navigateToStep(1)">
-                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-                    <path d="M11 17l-5-5m0 0l5-5m-5 5h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="6" cy="12" r="2" fill="currentColor" opacity="0.8"/>
-                    <path d="M7.5 12l-1 0.5-1-0.5 1-0.5z" fill="white"/>
-                    <circle cx="16" cy="12" r="1" fill="currentColor" opacity="0.6"/>
-                    <circle cx="13" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
-                    <circle cx="10" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
-                    <path d="M20 8l-2 2M20 16l-2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
-                  </svg>
-                  <span>Back</span>
-                </button>
-                <button type="submit" class="btn btn-primary">
-                  <span>Continue</span>
-                  <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
-                    <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="18" cy="12" r="2" fill="currentColor" opacity="0.8"/>
-                    <path d="M16.5 12l1 0.5 1-0.5-1-0.5z" fill="white"/>
-                    <circle cx="8" cy="12" r="1" fill="currentColor" opacity="0.6"/>
-                    <circle cx="11" cy="12" r="0.8" fill="currentColor" opacity="0.4"/>
-                    <circle cx="14" cy="12" r="0.6" fill="currentColor" opacity="0.3"/>
-                    <path d="M4 8l2 2M4 16l2-2" stroke="currentColor" stroke-width="1" opacity="0.5"/>
-                  </svg>
-                </button>
-              </div>
-            </form>
+
+                <div class="form-actions">
+                  <button type="button" class="btn btn-secondary" id="backToWelcome">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                      <path d="M11 17l-5-5m0 0l5-5m-5 5h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back
+                  </button>
+                  <button type="button" class="btn btn-primary" id="createAccount" disabled>
+                    Create Account
+                  </button>
+                </div>
+              </form>
+            </div>
           `;
-          populateCountries();
           break;
           
         case 3:
@@ -1858,39 +1869,63 @@
       window.location.href = '/institutions/';
     }
 
-    // Initialize step 1 button handlers
-    function initializeStep1Buttons() {
-      const beginSetupBtn = document.querySelector('.btn-primary');
-      const needHelpBtn = document.querySelector('.btn-secondary');
-      
-      if (beginSetupBtn) {
-        beginSetupBtn.addEventListener('click', function() {
-          // Add loading state
-          beginSetupBtn.disabled = true;
-          beginSetupBtn.innerHTML = `
-            <div style="width: 16px; height: 16px; border: 2px solid transparent; border-top: 2px solid currentColor; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 0.5rem;"></div>
-            <span>Starting...</span>
+    // Handle Begin Setup button click
+    function handleBeginSetup() {
+      console.log('🔥 handleBeginSetup called!');
+      console.log('📍 Event:', event);
+
+      const btn = event.target.closest('button');
+      console.log('📍 Button found:', !!btn);
+      if (btn) {
+        // Add loading state
+        btn.disabled = true;
+        btn.innerHTML = `
+          <div style="width: 16px; height: 16px; border: 2px solid transparent; border-top: 2px solid currentColor; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 0.5rem;"></div>
+          <span>Starting...</span>
+        `;
+
+        // Navigate to step 2 after short delay
+        setTimeout(() => {
+          navigateToStep(2);
+          btn.disabled = false;
+          btn.innerHTML = `
+            <span>Begin Setup</span>
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
           `;
-          
-          // Navigate to step 2 after short delay
-          setTimeout(() => {
-            navigateToStep(2);
-            beginSetupBtn.disabled = false;
-          }, 800);
-        });
+        }, 800);
       }
-      
-      if (needHelpBtn) {
-        needHelpBtn.addEventListener('click', function() {
-          // Show help modal or redirect to help
-          alert('Help: Contact our support team at support@flow.edu or check our documentation for setup guidance.');
-        });
-      }
+    }
+
+    // Handle Need Help button click
+    function handleNeedHelp() {
+      alert('Help: Contact our support team at support@flow.edu or check our documentation for setup guidance.');
+    }
+
+    // Test function to verify JavaScript is working
+    function testJavaScript() {
+      console.log('✅ JavaScript is working!');
+      alert('JavaScript test successful!');
     }
 
     // Initialize on DOM load
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 DOM Content Loaded - Starting initialization');
+
+      // Test basic functionality
+      console.log('📍 Current step:', currentStep);
+      console.log('📍 Total steps:', totalSteps);
+
+      // Check if action section exists
+      const actionSection = document.querySelector('.action-section');
+      console.log('📍 Action section found:', !!actionSection);
+      if (actionSection) {
+        console.log('📍 Action section HTML before render:', actionSection.innerHTML);
+      }
+
       // Initialize onboarding state
+      console.log('🔧 Calling initializeOnboarding...');
       initializeOnboarding();
 
       // Animate progress bar on load
@@ -1915,8 +1950,26 @@
       // Initialize form styles
       initializeFormStyles();
 
-      // Initialize button handlers for step 1
-      initializeStep1Buttons();
+      // Render initial step content
+      console.log('🎯 About to render step content for step:', currentStep);
+      renderStepContent(currentStep);
+
+      // Add a fallback test button to debug
+      setTimeout(() => {
+        console.log('🔍 Adding fallback test button after timeout');
+        const actionSection = document.querySelector('.action-section');
+        if (actionSection) {
+          console.log('📍 Current action section content:', actionSection.innerHTML);
+          // Add a test button to see if any button works
+          const testBtn = document.createElement('button');
+          testBtn.textContent = 'TEST BUTTON';
+          testBtn.onclick = () => alert('Test button works!');
+          testBtn.style.cssText = 'position: fixed; top: 10px; right: 10px; z-index: 9999; background: red; color: white; padding: 10px;';
+          document.body.appendChild(testBtn);
+        } else {
+          console.error('❌ Action section still not found after timeout');
+        }
+      }, 1000);
     });
 
     // Footer functions

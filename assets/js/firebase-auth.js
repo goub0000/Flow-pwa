@@ -141,17 +141,62 @@
 
     try {
       const db = window.Firebase.db;
-      const profileDoc = await db.collection('users').doc(user.uid).get();
-      
+
+      // First try the users collection
+      let profileDoc = await db.collection('users').doc(user.uid).get();
+
       if (profileDoc.exists) {
         userProfile = { id: user.uid, ...profileDoc.data() };
-        console.log('✅ User profile loaded:', userProfile.email);
-      } else {
-        // Create profile if it doesn't exist
-        userProfile = await createUserProfile(user);
+        console.log('✅ User profile loaded from users:', userProfile.email);
+        return userProfile;
       }
-      
+
+      // If not found, try specific collections based on registration
+      const collections = ['students', 'institutions', 'counselors', 'parents', 'recommenders'];
+
+      for (const collection of collections) {
+        try {
+          // Try to find user by email in specific collections
+          const querySnapshot = await db.collection(collection)
+            .where('email', '==', user.email)
+            .limit(1)
+            .get();
+
+          if (!querySnapshot.empty) {
+            const doc = querySnapshot.docs[0];
+            const data = doc.data();
+
+            // Map userType to accountType for consistency
+            userProfile = {
+              id: user.uid,
+              docId: doc.id,
+              accountType: data.userType || collection.slice(0, -1), // Remove 's' from collection name
+              ...data
+            };
+
+            console.log(`✅ User profile loaded from ${collection}:`, userProfile.email);
+
+            // Create a unified profile in users collection for future use
+            await createUserProfile(user, {
+              accountType: userProfile.accountType,
+              firstName: data.firstName || '',
+              lastName: data.lastName || '',
+              originalCollection: collection,
+              originalDocId: doc.id
+            });
+
+            return userProfile;
+          }
+        } catch (collectionError) {
+          console.log(`Collection ${collection} not accessible or doesn't exist`);
+        }
+      }
+
+      // If still not found, create a default profile
+      console.log('No existing profile found, creating default...');
+      userProfile = await createUserProfile(user);
       return userProfile;
+
     } catch (error) {
       console.error('❌ Error loading user profile:', error);
       throw error;
@@ -546,7 +591,10 @@
 
   // Check if user is authenticated
   function isAuthenticated() {
-    return !!(currentUser && (!currentUser.emailVerified === false));
+    // User is authenticated if they exist
+    // Note: We allow unverified users to access their dashboard
+    // They'll see verification prompts within the portal
+    return !!currentUser;
   }
 
   // Check if user has specific role
@@ -593,19 +641,46 @@
     if (intendedDestination) {
       sessionStorage.removeItem('flow_redirect_after_login');
       window.location.href = intendedDestination;
-    } else {
-      // Redirect to appropriate dashboard based on account type
-      const dashboardUrls = {
-        student: '/students/',
-        institution: '/institutions/',
-        counselor: '/counselors/',
-        parent: '/parents/',
-        recommender: '/recommenders/'
-      };
-      
-      const dashboardUrl = dashboardUrls[userProfile?.accountType] || '/students/';
-      window.location.href = dashboardUrl;
+      return;
     }
+
+    // Check for account type hint from onboarding
+    const accountTypeHint = sessionStorage.getItem('flow_account_type') ||
+                           localStorage.getItem('flow_account_type') ||
+                           new URLSearchParams(window.location.search).get('accountType');
+
+    // Redirect to appropriate dashboard based on account type
+    const dashboardUrls = {
+      student: '/students/',
+      institution: '/institutions/',
+      counselor: '/counselors/',
+      parent: '/parents/',
+      recommender: '/recommenders/'
+    };
+
+    let dashboardUrl;
+
+    // First priority: account type hint (from onboarding or URL)
+    if (accountTypeHint && dashboardUrls[accountTypeHint]) {
+      dashboardUrl = dashboardUrls[accountTypeHint];
+      console.log(`🔄 Redirecting to ${accountTypeHint} dashboard from hint`);
+    }
+    // Second priority: user profile account type (if loaded)
+    else if (userProfile?.accountType && dashboardUrls[userProfile.accountType]) {
+      dashboardUrl = dashboardUrls[userProfile.accountType];
+      console.log(`🔄 Redirecting to ${userProfile.accountType} dashboard from profile`);
+    }
+    // Fallback: default to student dashboard
+    else {
+      dashboardUrl = '/students/';
+      console.log('🔄 Redirecting to default student dashboard');
+    }
+
+    // Clean up hints
+    sessionStorage.removeItem('flow_account_type');
+    localStorage.removeItem('flow_account_type');
+
+    window.location.href = dashboardUrl;
   }
 
   // Password validation

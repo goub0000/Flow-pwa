@@ -8,15 +8,15 @@
 
   // Firebase configuration - Flow PWA Project
   const firebaseConfig = {
-    apiKey: "AIzaSyBXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", // Replace with your actual API key
-    authDomain: "flow-pwa-project.firebaseapp.com", // Replace with your project domain
-    projectId: "flow-pwa-project", // Replace with your actual project ID
-    storageBucket: "flow-pwa-project.appspot.com", // Replace with your storage bucket
-    messagingSenderId: "123456789012", // Replace with your sender ID
-    appId: "1:123456789012:web:abcdef123456789012", // Replace with your app ID
-    measurementId: "G-ABCDEFGHIJ", // Replace with your measurement ID (optional)
+    apiKey: "AIzaSyAJ7QV35ydmmIxIwe9rCPHzD3AT8I6yiCY",
+    authDomain: "flow-pwa.firebaseapp.com",
+    projectId: "flow-pwa",
+    storageBucket: "flow-pwa.firebasestorage.app",
+    messagingSenderId: "940039973517",
+    appId: "1:940039973517:web:4cee57759b916cb34850c4",
+    measurementId: "G-8K4RD31KW0",
     // For local development, you can use emulator settings
-    useEmulators: window.location.hostname === 'localhost'
+    useEmulators: false // Disabled for now - use production Firebase
   };
 
   // Initialize Firebase app
@@ -55,6 +55,12 @@
       } else {
         app = firebase.app();
         console.log('✅ Firebase app already initialized');
+
+        // If already initialized, use existing services
+        if (window.Firebase && window.Firebase.auth) {
+          console.log('✅ Using existing Firebase services');
+          return;
+        }
       }
 
       // Connect to emulators in development
@@ -84,27 +90,9 @@
       await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
       console.log('✅ Firebase Auth initialized with local persistence');
 
-      // Initialize Firestore
+      // Initialize Firestore - simple approach
       db = firebase.firestore();
-      
-      // Enable Firestore offline persistence
-      try {
-        await db.enablePersistence({
-          synchronizeTabs: true
-        });
-        console.log('✅ Firestore offline persistence enabled');
-      } catch (err) {
-        if (err.code === 'failed-precondition') {
-          console.log('⚠️ Firestore persistence failed: Multiple tabs open');
-        } else if (err.code === 'unimplemented') {
-          console.log('⚠️ Firestore persistence not supported in this browser');
-        }
-      }
-
-      // Configure Firestore settings
-      db.settings({
-        cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
-      });
+      console.log('✅ Firestore initialized');
 
       // Initialize Cloud Storage
       storage = firebase.storage();
