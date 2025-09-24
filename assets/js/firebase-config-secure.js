@@ -195,21 +195,8 @@
 
   // Fallback initialization for development
   async function initializeFallback() {
-    console.warn('🚧 Using fallback Firebase configuration - DEVELOPMENT ONLY');
-
-    const fallbackConfig = {
-      apiKey: "AIzaSyAJ7QV35ydmmIxIwe9rCPHzD3AT8I6yiCY", // Only for development
-      ...publicConfig
-    };
-
-    if (!firebase.apps.length) {
-      FirebaseServices.app = firebase.initializeApp(fallbackConfig);
-    } else {
-      FirebaseServices.app = firebase.app();
-    }
-
-    await initializeServices();
-    return FirebaseServices;
+    console.error('❌ No secure API key available - Firebase initialization failed');
+    throw new Error('Firebase API key not configured. Please set up environment variables.');
   }
 
   // Set up security monitoring

@@ -32,45 +32,78 @@ const admin = __importStar(require("firebase-admin"));
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
+// Import security middleware
+const security_1 = require("./middleware/security");
 // Initialize Firebase Admin SDK
 admin.initializeApp();
 // Initialize Firestore (native mode)
 const db = admin.firestore();
 // Initialize Express app
 const app = (0, express_1.default)();
-// Security middleware
+// Apply security headers first
+app.use(security_1.securityHeaders);
+// Enhanced Helmet configuration
 app.use((0, helmet_1.default)({
-    contentSecurityPolicy: {
-        directives: {
-            defaultSrc: ["'self'"],
-            styleSrc: ["'self'", "'unsafe-inline'"],
-            scriptSrc: ["'self'"],
-            imgSrc: ["'self'", "data:", "https:"],
-        },
-    },
-    crossOriginEmbedderPolicy: false
+    contentSecurityPolicy: process.env.NODE_ENV === 'production' ? security_1.cspConfig : false,
+    crossOriginEmbedderPolicy: false,
+    hsts: {
+        maxAge: 31536000,
+        includeSubDomains: true,
+        preload: true
+    }
 }));
-// CORS configuration
+// CORS configuration - more restrictive for production
+const allowedOrigins = [
+    'https://flow-pwa.web.app',
+    'https://flow-pwa.firebaseapp.com'
+];
+// Add localhost for development
+if (process.env.NODE_ENV === 'development') {
+    allowedOrigins.push('http://localhost:5000', 'http://127.0.0.1:5000');
+}
 app.use((0, cors_1.default)({
-    origin: true,
+    origin: (origin, callback) => {
+        // Allow requests with no origin (mobile apps, Postman, etc.)
+        if (!origin)
+            return callback(null, true);
+        if (allowedOrigins.includes(origin) || process.env.NODE_ENV === 'development') {
+            return callback(null, true);
+        }
+        callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'X-CSRF-Token'],
+    maxAge: 86400 // Cache preflight for 24 hours
 }));
-// Body parsing middleware
-app.use(express_1.default.json({ limit: '10mb' }));
+// Body parsing middleware with size limits
+app.use(express_1.default.json({
+    limit: '10mb',
+    verify: (req, res, buf) => {
+        // Store raw body for webhook verification if needed
+        req.rawBody = buf;
+    }
+}));
 app.use(express_1.default.urlencoded({ extended: true, limit: '10mb' }));
+// Apply rate limiting
+app.use('/api/', security_1.apiRateLimit);
+// Apply input sanitization and validation
+app.use(security_1.sanitizeInput);
+app.use(security_1.validateInput);
+// CSP violation reporting endpoint
+app.post('/api/csp-report', security_1.handleCSPReport);
 // Health check endpoint
 app.get('/health', (req, res) => {
     res.status(200).json({
         status: 'OK',
         timestamp: new Date().toISOString(),
         service: 'Firebase Functions',
-        version: '1.0.0'
+        version: '1.0.0',
+        environment: process.env.NODE_ENV || 'development'
     });
 });
-// Student registration
-app.post('/api/students/register', async (req, res) => {
+// Student registration with enhanced security
+app.post('/api/students/register', security_1.authRateLimit, async (req, res) => {
     try {
         const { firstName, lastName, email, dateOfBirth, grade, schoolName, parentEmail } = req.body;
         // Validation
@@ -104,8 +137,8 @@ app.post('/api/students/register', async (req, res) => {
         res.status(500).json({ error: 'Registration failed', details: error.message });
     }
 });
-// Institution registration
-app.post('/api/institutions/register', async (req, res) => {
+// Institution registration with enhanced security
+app.post('/api/institutions/register', security_1.authRateLimit, async (req, res) => {
     try {
         const { name, type, country, city, email, website, description } = req.body;
         // Validation

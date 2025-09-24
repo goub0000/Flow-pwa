@@ -242,7 +242,15 @@
       "Bash(/bashes)",
       "Bash(taskkill:*)",
       "Bash(firebase hosting:sites:list:*)",
-      "Bash(copy index.html index-original.html)"
+      "Bash(copy index.html index-original.html)",
+      "Bash(git push:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(firebase functions:delete:*)",
+      "Bash(set NODE_ENV=production)",
+      "Bash(webpack:*)",
+      "Bash(npx webpack:*)",
+      "Bash(firebase functions:config:set:*)"
     ],
     "deny": [],
     "ask": []

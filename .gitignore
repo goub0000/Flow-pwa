@@ -84,3 +84,19 @@ master-test-report.json
 *.tmp
 temp/
 node_modules
+
+# Security and sensitive files
+*.pem
+*.key
+*.p12
+*.pfx
+service-account-key.json
+firebase-adminsdk-*.json
+google-services.json
+GoogleService-Info.plist
+
+# Additional environment files
+.env.*
+!.env.example
+config/secrets.js
+config/keys.js

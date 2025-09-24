@@ -252,14 +252,8 @@
         }
 
         if (!firebase.apps.length) {
-          firebase.initializeApp({
-            apiKey: "AIzaSyAJ7QV35ydmmIxIwe9rCPHzD3AT8I6yiCY",
-            authDomain: "flow-pwa.firebaseapp.com",
-            projectId: "flow-pwa",
-            storageBucket: "flow-pwa.firebasestorage.app",
-            messagingSenderId: "940039973517",
-            appId: "1:940039973517:web:4cee57759b916cb34850c4"
-          });
+          // SECURITY: API key removed for security. Use secure initialization instead.
+          throw new Error('Firebase API key removed for security. Please use secure firebase configuration.');
         }
 
         firebaseAuth = firebase.auth();

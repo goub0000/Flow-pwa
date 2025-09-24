@@ -7,16 +7,19 @@
   'use strict';
 
   // Firebase configuration - Flow PWA Project
+  // NOTE: This file is deprecated. Use firebase-config-secure.js instead.
+
+  console.error('❌ DEPRECATED: firebase-config.js is no longer secure. Use firebase-config-secure.js instead.');
+
   const firebaseConfig = {
-    apiKey: "AIzaSyAJ7QV35ydmmIxIwe9rCPHzD3AT8I6yiCY",
+    apiKey: "FIREBASE_API_KEY_PLACEHOLDER", // Will be replaced by build process
     authDomain: "flow-pwa.firebaseapp.com",
     projectId: "flow-pwa",
     storageBucket: "flow-pwa.firebasestorage.app",
     messagingSenderId: "940039973517",
     appId: "1:940039973517:web:4cee57759b916cb34850c4",
     measurementId: "G-8K4RD31KW0",
-    // For local development, you can use emulator settings
-    useEmulators: false // Disabled for now - use production Firebase
+    useEmulators: false
   };
 
   // Initialize Firebase app

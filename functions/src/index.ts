@@ -71,7 +71,7 @@ app.use(cors({
 // Body parsing middleware with size limits
 app.use(express.json({
   limit: '10mb',
-  verify: (req, res, buf) => {
+  verify: (req: any, res, buf) => {
     // Store raw body for webhook verification if needed
     req.rawBody = buf;
   }
