@@ -1213,6 +1213,34 @@
             min-height: 100px;
             resize: vertical;
           }
+
+          /* Password input wrapper styles */
+          .password-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+          }
+
+          .password-toggle {
+            position: absolute;
+            right: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.25rem;
+            z-index: 10;
+            font-size: 1.2rem;
+            color: #6b7280;
+            transition: color 0.2s ease;
+          }
+
+          .password-toggle:hover {
+            color: #5a5bb8;
+          }
+
+          .password-input-wrapper input {
+            padding-right: 3rem !important;
+          }
           .form-actions {
             display: flex;
             gap: 1rem;
@@ -1433,6 +1461,11 @@
               </form>
             </div>
           `;
+
+          // Add event listeners for step 2
+          setTimeout(() => {
+            setupStep2Listeners();
+          }, 100);
           break;
           
         case 3:
@@ -1865,6 +1898,84 @@
         </button>
       `;
       teamList.appendChild(newMember);
+    }
+
+    // Setup event listeners for step 2
+    function setupStep2Listeners() {
+      console.log('🔧 Setting up step 2 event listeners');
+
+      // Password toggle functionality
+      const passwordToggle = document.querySelector('.password-toggle');
+      if (passwordToggle) {
+        passwordToggle.addEventListener('click', function() {
+          const passwordField = document.getElementById('password');
+          const showIcon = this.querySelector('.password-toggle__show');
+          const hideIcon = this.querySelector('.password-toggle__hide');
+
+          if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            showIcon.style.display = 'none';
+            hideIcon.style.display = 'inline';
+          } else {
+            passwordField.type = 'password';
+            showIcon.style.display = 'inline';
+            hideIcon.style.display = 'none';
+          }
+        });
+      }
+
+      // Form validation and create account button
+      const createAccountBtn = document.getElementById('createAccount');
+      const emailField = document.getElementById('institutionEmail');
+      const passwordField = document.getElementById('password');
+      const confirmPasswordField = document.getElementById('confirmPassword');
+      const agreeTerms = document.getElementById('agreeTerms');
+
+      function validateAccountForm() {
+        const email = emailField?.value || '';
+        const password = passwordField?.value || '';
+        const confirmPassword = confirmPasswordField?.value || '';
+        const termsAgreed = agreeTerms?.checked || false;
+
+        const isValidEmail = email.includes('@') && email.includes('.');
+        const isValidPassword = password.length >= 6;
+        const passwordsMatch = password === confirmPassword;
+
+        if (createAccountBtn) {
+          createAccountBtn.disabled = !(isValidEmail && isValidPassword && passwordsMatch && termsAgreed);
+        }
+      }
+
+      // Add input event listeners for real-time validation
+      [emailField, passwordField, confirmPasswordField, agreeTerms].forEach(field => {
+        if (field) {
+          field.addEventListener('input', validateAccountForm);
+          field.addEventListener('change', validateAccountForm);
+        }
+      });
+
+      // Create account button click handler
+      if (createAccountBtn) {
+        createAccountBtn.addEventListener('click', function() {
+          const email = emailField?.value || '';
+          const password = passwordField?.value || '';
+
+          if (!createAccountBtn.disabled) {
+            console.log('✅ Creating account with email:', email);
+
+            // Store account data
+            formData.institutionEmail = email;
+            formData.password = password; // In production, handle securely
+
+            // Show success and navigate to next step
+            showToast('Account created successfully!', 'success');
+            navigateToStep(3);
+          }
+        });
+      }
+
+      // Initial validation
+      validateAccountForm();
     }
 
     function populateCountries() {
