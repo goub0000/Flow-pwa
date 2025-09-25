@@ -5,10 +5,44 @@ service cloud.firestore {
     // Users collection - users can read/write their own profile
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
-      
+
       // Allow users to read basic info of other users (for messaging, etc.)
-      allow read: if request.auth != null 
+      allow read: if request.auth != null
         && resource.data.keys().hasOnly(['displayName', 'email', 'photoURL', 'accountType', 'isActive']);
+    }
+
+    // Students collection - students can read/write their own profile
+    match /students/{studentId} {
+      // Students can read and write their own profile
+      allow read, write: if request.auth != null && request.auth.uid == studentId;
+
+      // Allow counselors to read student profiles they're assigned to
+      allow read: if request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.accountType == 'counselor' &&
+        resource.data.counselorId == request.auth.uid;
+
+      // Allow parents to read their children's profiles
+      allow read: if request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.accountType == 'parent' &&
+        resource.data.parentId == request.auth.uid;
+
+      // Allow institutions to read basic student info for applications
+      allow read: if request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.accountType == 'institution' &&
+        resource.data.keys().hasOnly(['firstName', 'lastName', 'email', 'educationLevel', 'interests', 'active']);
+
+      // Create validation - students can create their own profile during onboarding
+      allow create: if request.auth != null
+        && request.auth.uid == studentId
+        && validateStudentData(request.resource.data);
+
+      // Update validation - students can update their own profile
+      allow update: if request.auth != null
+        && request.auth.uid == studentId
+        && validateStudentUpdate(request.resource.data, resource.data);
     }
 
     // Applications collection
@@ -188,6 +222,34 @@ service cloud.firestore {
         data.status in ['pending', 'accepted', 'completed', 'declined'] &&
         data.createdAt == request.time &&
         data.updatedAt == request.time;
+    }
+
+    function validateStudentData(data) {
+      return data.keys().hasAll(['userId', 'email', 'userType']) &&
+        data.userId is string &&
+        data.email is string &&
+        data.userType == 'student' &&
+        data.userId == request.auth.uid &&
+        // Optional fields validation
+        ((!('firstName' in data)) || data.firstName is string) &&
+        ((!('lastName' in data)) || data.lastName is string) &&
+        ((!('dateOfBirth' in data)) || data.dateOfBirth is string) &&
+        ((!('country' in data)) || data.country is string) &&
+        ((!('city' in data)) || data.city is string) &&
+        ((!('educationLevel' in data)) || data.educationLevel is string) &&
+        ((!('interests' in data)) || data.interests is list) &&
+        ((!('language' in data)) || data.language is string) &&
+        ((!('active' in data)) || data.active is bool) &&
+        ((!('onboardingComplete' in data)) || data.onboardingComplete is bool) &&
+        ((!('profileComplete' in data)) || data.profileComplete is bool) &&
+        ((!('emailVerified' in data)) || data.emailVerified is bool);
+    }
+
+    function validateStudentUpdate(newData, oldData) {
+      return newData.userId == oldData.userId &&
+        newData.email == oldData.email &&
+        newData.userType == oldData.userType &&
+        newData.userId == request.auth.uid;
     }
   }
 }
