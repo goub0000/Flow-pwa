@@ -12,7 +12,7 @@
   // Configuration
   const API_BASE_URL = 'http://localhost:3001'; // Change for production
   const TOKEN_REFRESH_THRESHOLD = 5 * 60 * 1000; // 5 minutes before expiry
-  const DEMO_MODE = true; // Enable demo mode for development
+  const DEMO_MODE = false; // Disable demo mode for production
   
   // Storage keys
   const STORAGE_KEYS = {

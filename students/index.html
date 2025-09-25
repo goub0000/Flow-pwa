@@ -2202,6 +2202,130 @@
     window.showAccessibility = showAccessibility;
   </script>
 
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-storage-compat.js"></script>
+  <script src="/assets/js/firebase-config-secure.js"></script>
+  <script src="/assets/js/firebase-auth.js"></script>
+
+  <script>
+    // Load student data from Firebase
+    async function loadStudentData() {
+      try {
+        // Wait for Firebase to be initialized
+        if (!window.Firebase?.auth || !window.Firebase?.db) {
+          console.error('Firebase not initialized, waiting...');
+          return new Promise((resolve) => {
+            document.addEventListener('firebaseInitialized', () => {
+              loadStudentData().then(resolve);
+            });
+          });
+        }
+
+        return new Promise((resolve) => {
+          window.Firebase.auth.onAuthStateChanged(async (user) => {
+            if (!user) {
+              console.log('User not authenticated, redirecting to login');
+              window.location.href = '/auth/';
+              return;
+            }
+
+            try {
+              // Load student data from Firestore
+              const db = window.Firebase.db;
+              const docRef = db.collection('students').doc(user.uid);
+              const docSnap = await docRef.get();
+
+              if (docSnap.exists) {
+                const data = docSnap.data();
+                updateDashboardWithStudentData(data);
+                console.log('Student data loaded successfully');
+              } else {
+                console.log('No student data found, user may need to complete onboarding');
+                // Check if user should be redirected to onboarding
+                window.location.href = '/students/onboarding.html';
+              }
+            } catch (error) {
+              console.error('Error loading student data:', error);
+            }
+            resolve();
+          });
+        });
+      } catch (error) {
+        console.error('Error in loadStudentData:', error);
+      }
+    }
+
+    // Update dashboard UI with real student data
+    function updateDashboardWithStudentData(data) {
+      // Update welcome message
+      const dashTitle = document.getElementById('dashTitle');
+      if (dashTitle && (data.firstName || data.lastName)) {
+        const name = `${data.firstName || ''} ${data.lastName || ''}`.trim();
+        dashTitle.textContent = `Welcome back, ${name}!`;
+      }
+
+      // Update profile information in settings or other areas
+      const profileElements = document.querySelectorAll('[data-field="studentName"]');
+      if (data.firstName || data.lastName) {
+        const fullName = `${data.firstName || ''} ${data.lastName || ''}`.trim();
+        profileElements.forEach(el => {
+          el.textContent = fullName;
+        });
+      }
+
+      // Update email fields
+      const emailElements = document.querySelectorAll('[data-field="studentEmail"]');
+      if (data.contactEmail) {
+        emailElements.forEach(el => {
+          if (el.tagName === 'INPUT') {
+            el.value = data.contactEmail;
+          } else {
+            el.textContent = data.contactEmail;
+          }
+        });
+      }
+
+      // Update location information
+      if (data.city || data.country) {
+        const locationText = `${data.city || ''}${data.city && data.country ? ', ' : ''}${data.country || ''}`;
+        const locationElements = document.querySelectorAll('[data-field="location"]');
+        locationElements.forEach(el => {
+          el.textContent = locationText;
+        });
+      }
+
+      // Update education level
+      if (data.educationLevel) {
+        const educationElements = document.querySelectorAll('[data-field="educationLevel"]');
+        educationElements.forEach(el => {
+          if (el.tagName === 'SELECT') {
+            el.value = data.educationLevel;
+          } else {
+            el.textContent = data.educationLevel;
+          }
+        });
+      }
+
+      // Update interests
+      if (data.interests && data.interests.length > 0) {
+        const interestsElements = document.querySelectorAll('[data-field="interests"]');
+        interestsElements.forEach(el => {
+          el.textContent = data.interests.join(', ');
+        });
+      }
+
+      console.log('Dashboard updated with student data:', data);
+    }
+
+    // Initialize student data loading
+    document.addEventListener('DOMContentLoaded', function() {
+      loadStudentData();
+    });
+  </script>
+
   <!-- Flow Cookie Consent System -->
   <script src="/assets/js/cookie-consent.js"></script>
 </body>
