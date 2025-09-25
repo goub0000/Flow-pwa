@@ -74,11 +74,11 @@ build/
 ehthumbs.db
 Thumbs.db
 
-# Test reports
-test-report.json
-integration-test-report.json
-onboarding-test-report.json
-master-test-report.json
+# Legacy test reports (removed)
+# test-report.json
+# integration-test-report.json
+# onboarding-test-report.json
+# master-test-report.json
 
 # Temporary files
 *.tmp

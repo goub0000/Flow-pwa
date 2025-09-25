@@ -250,7 +250,9 @@
       "Bash(set NODE_ENV=production)",
       "Bash(webpack:*)",
       "Bash(npx webpack:*)",
-      "Bash(firebase functions:config:set:*)"
+      "Bash(firebase functions:config:set:*)",
+      "Bash(git commit:*)",
+      "Bash(del test.html test-signup.html)"
     ],
     "deny": [],
     "ask": []

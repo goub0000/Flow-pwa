@@ -2,8 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true,
-    jest: true
+    node: true
   },
   extends: [
     'eslint:recommended',
@@ -94,15 +93,6 @@ module.exports = {
       },
       rules: {
         'no-console': 'off' // Allow console in Cloud Functions
-      }
-    },
-    {
-      files: ['**/*.test.js', '**/*.spec.js'],
-      env: {
-        jest: true
-      },
-      rules: {
-        'no-console': 'off'
       }
     }
   ]
