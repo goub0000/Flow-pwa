@@ -70,13 +70,10 @@
       return FirebaseServices;
 
     } catch (error) {
-      console.error('❌ Secure Firebase initialization failed:', error);
-      // Fallback to public config for development only
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        console.warn('🚧 Using fallback configuration for development');
-        return initializeFallback();
-      }
-      throw error;
+      console.warn('⚠️ Secure Firebase initialization failed, using fallback:', error.message);
+      // Always use fallback for now since secure endpoints are not set up
+      console.warn('🚧 Using fallback configuration');
+      return initializeFallback();
     }
   }
 
@@ -195,8 +192,44 @@
 
   // Fallback initialization for development
   async function initializeFallback() {
-    console.error('❌ No secure API key available - Firebase initialization failed');
-    throw new Error('Firebase API key not configured. Please set up environment variables.');
+    console.warn('🚧 Using fallback Firebase configuration');
+
+    // Firebase API keys are designed to be public and safe to expose in client-side code
+    // They are not secret keys and are meant to identify your Firebase project to Google services
+    const fallbackConfig = {
+      apiKey: "AIzaSyAJ7QV35ydmmIxIwe9rCPHzD3AT8I6yiCY", // Safe to expose - not a secret
+      ...publicConfig
+    };
+
+    try {
+      // Initialize Firebase app
+      if (!firebase.apps.length) {
+        FirebaseServices.app = firebase.initializeApp(fallbackConfig);
+        console.log('✅ Firebase app initialized with fallback config');
+      } else {
+        FirebaseServices.app = firebase.app();
+        console.log('✅ Firebase app already initialized');
+      }
+
+      // Initialize services
+      await initializeServices();
+
+      // Set up security monitoring
+      setupSecurityMonitoring();
+
+      console.log('🎉 Fallback Firebase initialization complete');
+
+      // Emit initialization event
+      document.dispatchEvent(new CustomEvent('firebaseInitialized', {
+        detail: FirebaseServices
+      }));
+
+      return FirebaseServices;
+
+    } catch (error) {
+      console.error('❌ Fallback Firebase initialization failed:', error);
+      throw error;
+    }
   }
 
   // Set up security monitoring

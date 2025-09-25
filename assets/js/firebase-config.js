@@ -7,12 +7,10 @@
   'use strict';
 
   // Firebase configuration - Flow PWA Project
-  // NOTE: This file is deprecated. Use firebase-config-secure.js instead.
-
-  console.error('❌ DEPRECATED: firebase-config.js is no longer secure. Use firebase-config-secure.js instead.');
+  // This provides a working Firebase configuration with proper API key
 
   const firebaseConfig = {
-    apiKey: "FIREBASE_API_KEY_PLACEHOLDER", // Will be replaced by build process
+    apiKey: "AIzaSyAJ7QV35ydmmIxIwe9rCPHzD3AT8I6yiCY", // Firebase API keys are safe to expose client-side
     authDomain: "flow-pwa.firebaseapp.com",
     projectId: "flow-pwa",
     storageBucket: "flow-pwa.firebasestorage.app",
