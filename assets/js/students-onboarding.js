@@ -466,7 +466,26 @@
     initNavigation(){
       $('#backToAccount')?.addEventListener('click', ()=> stepNavigation.prevStep());
       $('#verifyCode')?.addEventListener('click', async ()=>{
-        if(this.checkOTPComplete()){
+        // For already authenticated users, just check if email is verified
+        const user = window.Firebase?.auth?.currentUser;
+        if (user) {
+          toast.show(Flow.i18n.t('verifying'),'info',2000);
+          try {
+            // Check if the user's email is verified
+            await user.reload();
+
+            if (user.emailVerified) {
+              toast.show(Flow.i18n.t('verified'),'success',3000);
+              stepNavigation.nextStep();
+            } else {
+              toast.show('Please check your email and click the verification link first.','error',5000);
+            }
+          } catch (error) {
+            console.error('Verification check failed:', error);
+            toast.show('Verification failed. Please try again.','error',3000);
+          }
+        } else if(this.checkOTPComplete()){
+          // Original OTP verification logic for new signups
           toast.show(Flow.i18n.t('verifying'),'info',2000);
           try {
             // Check if the user's email is verified
@@ -554,11 +573,103 @@
     getFieldName(f){ const m={ 'computer-science':'Computer Science','engineering':'Engineering','business':'Business','medicine':'Medicine','nursing':'Nursing','law':'Law','education':'Education','arts':'Arts & Design','agriculture':'Agriculture','economics':'Economics' }; return m[f] || f; },
     initNavigation(){
       $('#backToProfile')?.addEventListener('click', ()=> stepNavigation.prevStep());
-      $('#finishOnboarding')?.addEventListener('click', ()=>{
+      $('#finishOnboarding')?.addEventListener('click', async ()=>{
+        const finishBtn = $('#finishOnboarding');
+        finishBtn.disabled = true;
+
         toast.show(Flow.i18n.t('finishing'),'info',2000);
-        setTimeout(()=>{ toast.show(Flow.i18n.t('welcome_redirect'),'success',3000); setTimeout(()=>{ window.location.href='/students/'; }, 1800); }, 1200);
+
+        try {
+          // Save student data to Firestore
+          await this.saveStudentData();
+
+          setTimeout(()=>{
+            toast.show(Flow.i18n.t('welcome_redirect'),'success',3000);
+            setTimeout(()=>{ window.location.href='/students/'; }, 1800);
+          }, 1200);
+        } catch (error) {
+          console.error('Error saving student data:', error);
+          toast.show('Error saving data. Please try again.', 'error', 5000);
+          finishBtn.disabled = false;
+        }
       });
       $$('[data-edit]').forEach(btn => btn.addEventListener('click', () => { const s=btn.getAttribute('data-edit'); if(s==='account') stepNavigation.showStep(2); else if(s==='profile') stepNavigation.showStep(4); }));
+    },
+
+    async saveStudentData() {
+      if (!window.Firebase?.auth || !window.Firebase?.db) {
+        throw new Error('Firebase not initialized');
+      }
+
+      const user = window.Firebase.auth.currentUser;
+      if (!user) {
+        throw new Error('User not authenticated');
+      }
+
+      // Collect all form data
+      this.saveProfileData();
+
+      const studentData = {
+        // Basic account information
+        email: onboardingData.email || user.email || '',
+        userId: user.uid,
+        userType: 'student',
+
+        // Personal information
+        firstName: onboardingData.firstName || '',
+        lastName: onboardingData.lastName || '',
+        dateOfBirth: onboardingData.dateOfBirth || '',
+        gender: onboardingData.gender || '',
+
+        // Location information
+        country: onboardingData.country || onboardingData.profileCountry || '',
+        city: onboardingData.city || '',
+
+        // Contact information
+        contactMethod: onboardingData.accountMethod || 'email',
+        contactEmail: onboardingData.email || user.email || '',
+        contactPhone: onboardingData.phone || '',
+
+        // Education information
+        educationLevel: onboardingData.educationLevel || '',
+        currentSchool: onboardingData.currentSchool || '',
+        gpa: onboardingData.gpa || '',
+        graduationYear: onboardingData.graduationYear || '',
+
+        // Academic interests
+        interests: onboardingData.interests || [],
+        interestedFields: onboardingData.interestedFields || '',
+
+        // Parent/Guardian information
+        parentName: onboardingData.parentName || '',
+        parentEmail: onboardingData.parentEmail || '',
+        parentPhone: onboardingData.parentPhone || '',
+
+        // Preferences
+        language: onboardingData.language || 'en',
+
+        // Application tracking
+        applications: [],
+        savedPrograms: [],
+        documents: [],
+
+        // Onboarding metadata
+        onboardingComplete: true,
+        profileComplete: true,
+        emailVerified: user.emailVerified || false,
+        active: true,
+
+        // Timestamps
+        createdAt: window.Firebase.firestore?.FieldValue?.serverTimestamp() || new Date().toISOString(),
+        updatedAt: window.Firebase.firestore?.FieldValue?.serverTimestamp() || new Date().toISOString(),
+        completedAt: window.Firebase.firestore?.FieldValue?.serverTimestamp() || new Date().toISOString()
+      };
+
+      // Save to Firestore
+      const db = window.Firebase.db;
+      await db.collection('students').doc(user.uid).set(studentData, { merge: true });
+
+      console.log('Student data saved successfully:', studentData);
     }
   };
 
@@ -567,9 +678,148 @@
     init(){ const sel=$('#lang'); if (!sel) return; sel.value = Flow.i18n.lang; sel.addEventListener('change', e=>{ const l=e.target.value; Flow.i18n.set(l); onboardingData.language=l; toast.show(Flow.i18n.t('lang_switched', sel.options[sel.selectedIndex].text),'success',2000); }); }
   };
 
+  // Authentication state checker
+  const authChecker = {
+    async init() {
+      console.log('🔍 Checking authentication state on onboarding page...');
+
+      // Wait for Firebase to initialize
+      try {
+        await this.waitForFirebase();
+
+        const user = window.Firebase?.auth?.currentUser;
+        console.log('🔍 Current user:', user?.email || 'none');
+
+        if (user) {
+          console.log('✅ User is authenticated, checking profile completion...');
+          await this.checkProfileCompletion(user);
+        } else {
+          console.log('ℹ️ No authenticated user, starting from welcome step');
+          stepNavigation.showStep(1);
+        }
+      } catch (error) {
+        console.error('❌ Auth check failed:', error);
+        // Start from welcome step if auth check fails
+        stepNavigation.showStep(1);
+      }
+    },
+
+    async waitForFirebase(maxWait = 10000) {
+      console.log('🔥 Waiting for Firebase initialization...');
+
+      if (window.Firebase && window.Firebase.initialized) {
+        console.log('✅ Firebase already initialized');
+        return;
+      }
+
+      return new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => {
+          reject(new Error('Firebase initialization timeout'));
+        }, maxWait);
+
+        const handleInit = () => {
+          clearTimeout(timeout);
+          console.log('✅ Firebase initialization event received');
+          document.removeEventListener('firebaseInitialized', handleInit);
+          resolve();
+        };
+
+        document.addEventListener('firebaseInitialized', handleInit);
+
+        setTimeout(() => {
+          if (window.Firebase && window.Firebase.initialized) {
+            handleInit();
+          }
+        }, 100);
+      });
+    },
+
+    async checkProfileCompletion(user) {
+      try {
+        if (!window.Firebase?.db) {
+          throw new Error('Firestore not available');
+        }
+
+        const db = window.Firebase.db;
+        const userDoc = await db.collection('students').doc(user.uid).get();
+
+        if (userDoc.exists) {
+          const userData = userDoc.data();
+          console.log('📋 User profile data:', userData);
+
+          // Check if onboarding is complete
+          if (userData.onboardingComplete && userData.profileComplete) {
+            console.log('✅ Profile already complete, redirecting to dashboard...');
+            toast.show('Welcome back! Redirecting to your dashboard...', 'success', 3000);
+            setTimeout(() => {
+              window.location.href = '/students/';
+            }, 2000);
+            return;
+          }
+
+          // Check if user has completed account creation and verification
+          if (user.emailVerified) {
+            console.log('✅ Email verified, skipping to profile step');
+            // Pre-fill existing data
+            this.prefillUserData(userData, user);
+            // Skip to profile step
+            stepNavigation.showStep(4);
+            toast.show('Continue completing your profile...', 'info', 3000);
+          } else {
+            console.log('⚠️ Email not verified, showing verification step');
+            // Pre-fill account data
+            onboardingData.email = user.email;
+            onboardingData.accountMethod = 'email';
+            // Skip to verification step
+            stepNavigation.showStep(3);
+            toast.show('Please verify your email to continue', 'info', 3000);
+          }
+        } else {
+          console.log('ℹ️ No profile found, but user is authenticated - skipping to profile step');
+          // User exists in Auth but no profile yet - skip to profile
+          onboardingData.email = user.email;
+          onboardingData.accountMethod = 'email';
+          stepNavigation.showStep(4);
+          toast.show('Complete your profile to get started', 'info', 3000);
+        }
+      } catch (error) {
+        console.error('❌ Profile check failed:', error);
+        // If profile check fails, skip to profile step since user is authenticated
+        stepNavigation.showStep(4);
+        toast.show('Complete your profile to get started', 'info', 3000);
+      }
+    },
+
+    prefillUserData(userData, user) {
+      // Pre-fill onboarding data with existing user data
+      onboardingData.email = user.email || userData.email || '';
+      onboardingData.firstName = userData.firstName || '';
+      onboardingData.lastName = userData.lastName || '';
+      onboardingData.country = userData.country || '';
+      onboardingData.city = userData.city || '';
+      onboardingData.phone = userData.contactPhone || '';
+      onboardingData.interests = userData.interests || [];
+      onboardingData.language = userData.language || Flow.i18n.lang;
+
+      console.log('📋 Pre-filled data:', onboardingData);
+
+      // Pre-fill form fields if they exist
+      setTimeout(() => {
+        if ($('#firstName')) $('#firstName').value = onboardingData.firstName;
+        if ($('#lastName')) $('#lastName').value = onboardingData.lastName;
+        if ($('#profileCountry')) $('#profileCountry').value = onboardingData.country;
+        if ($('#city')) $('#city').value = onboardingData.city;
+      }, 500);
+    }
+  };
+
   function init(){
     const y=$('#year'); if (y) y.textContent = new Date().getFullYear();
     connectionStatus.init(); stepNavigation.init(); languageSwitcher.init(); welcomeStep.init(); accountStep.init(); verifyStep.init(); profileStep.init(); reviewStep.init();
+
+    // Initialize auth checker after other components
+    authChecker.init();
+
     console.log('Student onboarding initialized successfully');
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
