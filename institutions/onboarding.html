@@ -1470,7 +1470,86 @@
           
         case 3:
           actionSection.innerHTML = `
-            <form class="institution-form" onsubmit="handleStep3Submit(event)">
+            <div class="institution-details-section">
+              <h2 class="section-title">Institution Details</h2>
+              <p class="section-subtitle">Tell us about your institution</p>
+
+              <form class="institution-form" onsubmit="handleStep3Submit(event)">
+                <div class="form-group">
+                  <label for="institutionName" class="form-label">Institution Name *</label>
+                  <input type="text" id="institutionName" class="form-input" placeholder="University of Example" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="institutionType" class="form-label">Institution Type *</label>
+                  <select id="institutionType" class="form-select" required>
+                    <option value="">Select institution type</option>
+                    <option value="university">University</option>
+                    <option value="college">College</option>
+                    <option value="community-college">Community College</option>
+                    <option value="technical">Technical Institute</option>
+                    <option value="vocational">Vocational School</option>
+                    <option value="graduate">Graduate School</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="country" class="form-label">Country *</label>
+                  <select id="country" class="form-select" required>
+                    <option value="">Select country</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="AU">Australia</option>
+                    <option value="DE">Germany</option>
+                    <option value="FR">France</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="city" class="form-label">City *</label>
+                  <input type="text" id="city" class="form-input" placeholder="New York" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="postalCode" class="form-label">Postal Code</label>
+                  <input type="text" id="postalCode" class="form-input" placeholder="10001">
+                </div>
+
+                <div class="form-group">
+                  <label for="website" class="form-label">Website</label>
+                  <input type="url" id="website" class="form-input" placeholder="https://www.example.edu">
+                </div>
+
+                <div class="form-actions">
+                  <button type="button" class="btn btn-secondary" onclick="navigateToStep(2)">
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                      <path d="M11 17l-5-5m0 0l5-5m-5 5h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back
+                  </button>
+                  <button type="submit" class="btn btn-primary">
+                    Continue
+                    <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
+                      <path d="M13 7l5 5m0 0l-5 5m5-5H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                </div>
+              </form>
+            </div>
+          `;
+
+          // Populate countries dropdown
+          setTimeout(() => {
+            populateCountries();
+          }, 100);
+          break;
+
+        case 4:
+          actionSection.innerHTML = `
+            <form class="institution-form" onsubmit="handleStep4Submit(event)">
               <div class="upload-area" onclick="document.getElementById('verificationDoc').click()">
                 <input type="file" id="verificationDoc" accept=".pdf,.doc,.docx,.jpg,.png">
                 <svg width="40" height="40" fill="none" viewBox="0 0 24 24" style="margin: 0 auto 1rem;">
@@ -1505,7 +1584,7 @@
                 <input type="text" id="accreditation" class="form-input" placeholder="Enter accreditation body name">
               </div>
               <div class="form-actions">
-                <button type="button" class="btn btn-secondary" onclick="navigateToStep(2)">
+                <button type="button" class="btn btn-secondary" onclick="navigateToStep(3)">
                   <svg width="20" height="20" fill="none" viewBox="0 0 24 24">
                     <path d="M11 17l-5-5m0 0l5-5m-5 5h12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <circle cx="6" cy="12" r="2" fill="currentColor" opacity="0.8"/>
@@ -1835,33 +1914,43 @@
     // Form submission handlers
     function handleStep2Submit(event) {
       event.preventDefault();
+      // Step 2 handles account creation - this is handled by setupStep2Listeners
+      console.log('Step 2 form submitted (account creation)');
+    }
+
+    function handleStep3Submit(event) {
+      event.preventDefault();
+      // Step 3 now handles institution details
       formData.institutionName = document.getElementById('institutionName').value;
       formData.institutionType = document.getElementById('institutionType').value;
       formData.country = document.getElementById('country').options[document.getElementById('country').selectedIndex].text;
       formData.city = document.getElementById('city').value;
       formData.postalCode = document.getElementById('postalCode').value;
       formData.website = document.getElementById('website').value;
-      navigateToStep(3);
-    }
 
-    function handleStep3Submit(event) {
-      event.preventDefault();
-      formData.registrationNumber = document.getElementById('registrationNumber').value;
-      formData.establishedYear = document.getElementById('establishedYear').value;
-      formData.accreditation = document.getElementById('accreditation').value;
+      console.log('Institution details saved:', formData);
       navigateToStep(4);
     }
 
     function handleStep4Submit(event) {
       event.preventDefault();
-      formData.totalPrograms = document.getElementById('totalPrograms').value;
-      formData.admissionCycle = document.getElementById('admissionCycle').options[document.getElementById('admissionCycle').selectedIndex].text;
+      // Step 4 now handles document verification
+      formData.registrationNumber = document.getElementById('registrationNumber').value;
+      formData.establishedYear = document.getElementById('establishedYear').value;
+      formData.accreditation = document.getElementById('accreditation').value;
       navigateToStep(5);
     }
 
     function handleStep5Submit(event) {
       event.preventDefault();
+      formData.totalPrograms = document.getElementById('totalPrograms').value;
+      formData.admissionCycle = document.getElementById('admissionCycle').options[document.getElementById('admissionCycle').selectedIndex].text;
       navigateToStep(6);
+    }
+
+    function handleStep6Submit(event) {
+      event.preventDefault();
+      navigateToStep(7);
     }
 
     function handleStep6Submit(event) {
