@@ -597,17 +597,31 @@
     },
 
     async saveStudentData() {
+      console.log('🔄 Starting saveStudentData...');
+
+      // Check Firebase initialization
       if (!window.Firebase?.auth || !window.Firebase?.db) {
+        console.error('❌ Firebase not initialized:', {
+          auth: !!window.Firebase?.auth,
+          db: !!window.Firebase?.db,
+          Firebase: !!window.Firebase
+        });
         throw new Error('Firebase not initialized');
       }
 
       const user = window.Firebase.auth.currentUser;
       if (!user) {
+        console.error('❌ User not authenticated');
         throw new Error('User not authenticated');
       }
 
+      console.log('✅ User authenticated:', user.uid, user.email);
+
       // Collect all form data
-      this.saveProfileData();
+      console.log('📋 Collecting form data...');
+      profileStep.saveProfileData();
+
+      console.log('📋 Current onboarding data:', onboardingData);
 
       const studentData = {
         // Basic account information
@@ -660,16 +674,30 @@
         active: true,
 
         // Timestamps
-        createdAt: window.Firebase.firestore?.FieldValue?.serverTimestamp() || new Date().toISOString(),
-        updatedAt: window.Firebase.firestore?.FieldValue?.serverTimestamp() || new Date().toISOString(),
-        completedAt: window.Firebase.firestore?.FieldValue?.serverTimestamp() || new Date().toISOString()
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        completedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 
       // Save to Firestore
+      console.log('💾 Saving to Firestore...');
       const db = window.Firebase.db;
-      await db.collection('students').doc(user.uid).set(studentData, { merge: true });
 
-      console.log('Student data saved successfully:', studentData);
+      console.log('📤 Student data to save:', studentData);
+
+      try {
+        await db.collection('students').doc(user.uid).set(studentData, { merge: true });
+        console.log('✅ Student data saved successfully to Firestore');
+        return studentData;
+      } catch (firestoreError) {
+        console.error('❌ Firestore save error:', firestoreError);
+        console.error('❌ Error details:', {
+          code: firestoreError.code,
+          message: firestoreError.message,
+          stack: firestoreError.stack
+        });
+        throw new Error(`Failed to save data to Firestore: ${firestoreError.message}`);
+      }
     }
   };
 
