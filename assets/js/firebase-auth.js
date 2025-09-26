@@ -636,20 +636,59 @@
   }
 
   // Redirect after successful login
-  function redirectAfterLogin() {
+  async function redirectAfterLogin() {
+    console.log('🔄 redirectAfterLogin called');
+
     const intendedDestination = sessionStorage.getItem('flow_redirect_after_login');
     if (intendedDestination) {
+      console.log('🔄 Using intended destination:', intendedDestination);
       sessionStorage.removeItem('flow_redirect_after_login');
       window.location.href = intendedDestination;
       return;
     }
 
-    // Check for account type hint from onboarding
-    const accountTypeHint = sessionStorage.getItem('flow_account_type') ||
-                           localStorage.getItem('flow_account_type') ||
-                           new URLSearchParams(window.location.search).get('accountType');
+    // Check for account type hint from onboarding/storage
+    let accountTypeHint = sessionStorage.getItem('flow_account_type') ||
+                         localStorage.getItem('flow_account_type') ||
+                         new URLSearchParams(window.location.search).get('accountType');
 
-    // Redirect to appropriate dashboard based on account type
+    console.log('🔍 Account type hint from storage/URL:', accountTypeHint);
+
+    // If no hint, try to get account type from user's Firestore profile
+    if (!accountTypeHint) {
+      const currentUser = window.Firebase?.auth?.currentUser;
+      if (currentUser && window.Firebase?.db) {
+        try {
+          console.log('🔍 Checking Firestore for user account type...');
+
+          // Try students collection first (most common)
+          const studentDoc = await window.Firebase.db.collection('students').doc(currentUser.uid).get();
+          if (studentDoc.exists) {
+            accountTypeHint = 'student';
+            console.log('✅ Found student profile in Firestore');
+          } else {
+            // Try institutions collection
+            const institutionDoc = await window.Firebase.db.collection('institutions').doc(currentUser.uid).get();
+            if (institutionDoc.exists) {
+              accountTypeHint = 'institution';
+              console.log('✅ Found institution profile in Firestore');
+            } else {
+              // Check users collection for generic account type
+              const userDoc = await window.Firebase.db.collection('users').doc(currentUser.uid).get();
+              if (userDoc.exists) {
+                const userData = userDoc.data();
+                accountTypeHint = userData.accountType || userData.userType;
+                console.log('✅ Found account type in users collection:', accountTypeHint);
+              }
+            }
+          }
+        } catch (error) {
+          console.error('❌ Error checking Firestore for account type:', error);
+        }
+      }
+    }
+
+    // Dashboard URLs mapping
     const dashboardUrls = {
       student: '/students/',
       institution: '/institutions/',
@@ -660,12 +699,12 @@
 
     let dashboardUrl;
 
-    // First priority: account type hint (from onboarding or URL)
+    // Use account type to determine dashboard
     if (accountTypeHint && dashboardUrls[accountTypeHint]) {
       dashboardUrl = dashboardUrls[accountTypeHint];
-      console.log(`🔄 Redirecting to ${accountTypeHint} dashboard from hint`);
+      console.log(`🔄 Redirecting to ${accountTypeHint} dashboard`);
     }
-    // Second priority: user profile account type (if loaded)
+    // Check user profile if loaded
     else if (userProfile?.accountType && dashboardUrls[userProfile.accountType]) {
       dashboardUrl = dashboardUrls[userProfile.accountType];
       console.log(`🔄 Redirecting to ${userProfile.accountType} dashboard from profile`);
@@ -673,13 +712,14 @@
     // Fallback: default to student dashboard
     else {
       dashboardUrl = '/students/';
-      console.log('🔄 Redirecting to default student dashboard');
+      console.log('🔄 Using fallback: redirecting to default student dashboard');
     }
 
     // Clean up hints
     sessionStorage.removeItem('flow_account_type');
     localStorage.removeItem('flow_account_type');
 
+    console.log('🔄 Final redirect URL:', dashboardUrl);
     window.location.href = dashboardUrl;
   }
 
