@@ -52,7 +52,7 @@ jspm_packages/
 
 # Firebase
 .firebase/
-firebase-debug.log
+firebase-debug*.log
 
 # Build outputs
 dist/
@@ -74,11 +74,6 @@ build/
 ehthumbs.db
 Thumbs.db
 
-# Test reports
-test-report.json
-integration-test-report.json
-onboarding-test-report.json
-master-test-report.json
 
 # Temporary files
 *.tmp

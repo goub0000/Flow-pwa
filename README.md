@@ -71,19 +71,6 @@ mongod --dbpath /data/db
 
 ### Development Environment
 ```bash
-# Start the complete development environment
-node start-dev.js
-```
-
-This will:
-- Check all prerequisites
-- Start the MongoDB connection
-- Launch the backend API server (port 3001)
-- Start Firebase hosting (port 5000)
-- Display helpful development information
-
-### Manual Setup
-```bash
 # Start backend server
 cd server
 npm start
@@ -92,34 +79,6 @@ npm start
 firebase serve --only hosting --port 5000
 ```
 
-## 🧪 Testing
-
-### Automated Testing
-```bash
-# Run complete project tests
-node test-complete-project.js
-
-# Run integration tests
-node test-integration.js
-
-# Run institution onboarding tests
-node test-onboarding.js
-
-# Run all tests with master report
-node run-all-tests.js
-```
-
-### Specific Testing
-```bash
-# Test specific module
-node test-complete-project.js --module=students --verbose
-
-# Test specific scenario
-node test-integration.js --scenario=institution --verbose
-
-# Quick tests only
-node run-all-tests.js --quick
-```
 
 ## 📊 Project Structure
 
@@ -140,8 +99,6 @@ flow-pwa/
 │   ├── models/           # Database models
 │   ├── middleware/       # Custom middleware
 │   └── config/           # Configuration files
-├── test-*.js             # Test scripts
-├── start-dev.js          # Development startup
 └── firebase.json         # Firebase configuration
 ```
 
@@ -223,13 +180,6 @@ ALLOWED_ORIGINS=http://localhost:5000,http://localhost:3000
 - Lazy loading for better performance
 - Efficient database queries
 
-## 🧪 Testing Coverage
-
-- **Component Tests**: All user type functionalities
-- **Integration Tests**: End-to-end workflows
-- **Security Tests**: Authentication and authorization
-- **Performance Tests**: Load times and API responses
-- **Institution Tests**: Complete onboarding process
 
 ## 🚀 Deployment
 
@@ -245,7 +195,6 @@ firebase deploy --only hosting --project production-project-id
 
 ## 📚 Documentation
 
-- [Complete Testing Guide](COMPLETE_PROJECT_TESTING.md)
 - [API Documentation](docs/api.md) (planned)
 - [User Guides](docs/users/) (planned)
 
@@ -280,7 +229,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 For support and questions:
 - Create an issue in the repository
 - Check the documentation
-- Review the testing guides
 
 ---
 

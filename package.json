@@ -9,12 +9,10 @@
     "deploy": "firebase deploy",
     "deploy:hosting": "firebase deploy --only hosting",
     "deploy:firestore": "firebase deploy --only firestore",
-    "deploy:storage": "firebase deploy --only storage", 
+    "deploy:storage": "firebase deploy --only storage",
     "emulators": "firebase emulators:start",
     "emulators:export": "firebase emulators:export ./emulator-data",
     "emulators:import": "firebase emulators:start --import=./emulator-data",
-    "test": "echo 'No tests specified'",
-    "lint": "echo 'No linting configured'",
     "validate": "firebase functions:shell",
     "logs": "firebase functions:log"
   },
