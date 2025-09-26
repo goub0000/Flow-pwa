@@ -709,10 +709,15 @@
       dashboardUrl = dashboardUrls[userProfile.accountType];
       console.log(`🔄 Redirecting to ${userProfile.accountType} dashboard from profile`);
     }
-    // Fallback: default to student dashboard
+    // Enhanced fallback: if we're on auth page, redirect to home; otherwise stay on current page
     else {
-      dashboardUrl = '/students/';
-      console.log('🔄 Using fallback: redirecting to default student dashboard');
+      if (window.location.pathname.includes('/auth/')) {
+        dashboardUrl = '/index.html';
+        console.log('🔄 Using fallback: redirecting to default student dashboard from auth page');
+      } else {
+        console.log('🔄 Could not determine account type, staying on current page');
+        return; // Don't redirect if we can't determine the account type and we're not on auth page
+      }
     }
 
     // Clean up hints
