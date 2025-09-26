@@ -312,9 +312,35 @@
   <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+
+  <!-- Firebase Configuration -->
+  <script src="/assets/js/firebase-config.js"></script>
+
+  <!-- Firebase Auth Service -->
+  <script src="/assets/js/firebase-auth.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Wait for Firebase to be initialized
+      function waitForFirebase() {
+        return new Promise((resolve) => {
+          if (window.Firebase && window.Firebase.initialized) {
+            resolve();
+          } else {
+            document.addEventListener('firebaseInitialized', resolve);
+          }
+        });
+      }
+
+      // Initialize auth page after Firebase is ready
+      waitForFirebase().then(() => {
+        initializeAuthPage();
+      });
+    });
+
+    function initializeAuthPage() {
       const form = document.getElementById('loginForm');
       const errorMessage = document.getElementById('errorMessage');
       const successMessage = document.getElementById('successMessage');
@@ -384,15 +410,38 @@
 
       // Determine redirect based on user type
       function determineRedirect(user) {
-        // Use the proper redirect function from FlowAuth if available
+        // Use Firebase Auth redirect function directly
         if (window.FlowAuth && window.FlowAuth.redirectAfterLogin) {
           window.FlowAuth.redirectAfterLogin();
           return null; // Let FlowAuth handle the redirect
         }
 
-        // Fallback: try to determine from user data
-        // This requires the user profile to be loaded
-        return '/students/'; // Default fallback
+        // Check for account type hint from onboarding or URL
+        const accountTypeHint = sessionStorage.getItem('flow_account_type') ||
+                               localStorage.getItem('flow_account_type') ||
+                               new URLSearchParams(window.location.search).get('accountType');
+
+        // Dashboard URLs mapping
+        const dashboardUrls = {
+          student: '/students/',
+          institution: '/institutions/',
+          counselor: '/counselors/',
+          parent: '/parents/',
+          recommender: '/recommenders/'
+        };
+
+        // Use account type hint if available
+        if (accountTypeHint && dashboardUrls[accountTypeHint]) {
+          console.log(`🔄 Redirecting to ${accountTypeHint} dashboard from hint`);
+          // Clean up hints
+          sessionStorage.removeItem('flow_account_type');
+          localStorage.removeItem('flow_account_type');
+          return dashboardUrls[accountTypeHint];
+        }
+
+        // Default to student dashboard
+        console.log('🔄 Redirecting to default student dashboard');
+        return '/students/';
       }
 
       // Simple Firebase initialization check
@@ -402,13 +451,12 @@
           throw new Error('Firebase SDK not loaded');
         }
 
-        // Initialize Firebase if needed
-        if (!firebase.apps.length) {
-          // SECURITY: API key removed for security. Use secure initialization instead.
-          throw new Error('Firebase API key removed for security. Please use secure firebase configuration.');
+        // Wait for Firebase to be initialized
+        if (!window.Firebase || !window.Firebase.auth) {
+          throw new Error('Firebase not initialized. Please wait for Firebase to load.');
         }
 
-        return firebase.auth();
+        return window.Firebase.auth;
       }
 
       // Handle form submission
@@ -434,10 +482,26 @@
         showLoading(true);
 
         try {
-          console.log('Attempting login with:', email);
+          console.log('🔐 Attempting login with:', email);
+          console.log('🔥 Firebase status:', {
+            firebaseLoaded: typeof firebase !== 'undefined',
+            windowFirebase: !!window.Firebase,
+            firebaseAuth: !!window.Firebase?.auth,
+            firebaseInitialized: !!window.Firebase?.initialized
+          });
 
-          // Get Firebase Auth instance
-          const auth = ensureFirebaseAuth();
+          // Get Firebase Auth instance with better error handling
+          let auth;
+          try {
+            auth = ensureFirebaseAuth();
+            console.log('✅ Firebase Auth instance obtained');
+          } catch (initError) {
+            console.error('❌ Firebase initialization error:', initError);
+            showError('Authentication system not ready. Please refresh the page and try again.');
+            return;
+          }
+
+          console.log('🔄 Attempting Firebase sign in...');
 
           // Sign in with Firebase Auth
           const userCredential = await auth.signInWithEmailAndPassword(email, password);
@@ -480,6 +544,7 @@
           showError(errorMsg);
         } finally {
           showLoading(false);
+          console.log('🔄 Login attempt completed');
         }
       });
 
@@ -534,7 +599,67 @@
 
       // Auto-focus email field
       document.getElementById('email').focus();
-    });
+
+      // Add Firebase status indicator
+      addFirebaseStatusIndicator();
+
+      // Test Firebase connection
+      testFirebaseConnection();
+    }
+
+    // Add a visual Firebase status indicator
+    function addFirebaseStatusIndicator() {
+      const statusDiv = document.createElement('div');
+      statusDiv.id = 'firebaseStatus';
+      statusDiv.style.cssText = `
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background: #f0f0f0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-family: monospace;
+        z-index: 9999;
+        border: 1px solid #ccc;
+      `;
+
+      if (window.Firebase && window.Firebase.initialized) {
+        statusDiv.textContent = '🟢 Firebase Ready';
+        statusDiv.style.background = '#d4edda';
+        statusDiv.style.borderColor = '#c3e6cb';
+      } else {
+        statusDiv.textContent = '🔴 Firebase Loading...';
+        statusDiv.style.background = '#f8d7da';
+        statusDiv.style.borderColor = '#f5c6cb';
+      }
+
+      document.body.appendChild(statusDiv);
+
+      // Update status when Firebase initializes
+      document.addEventListener('firebaseInitialized', () => {
+        statusDiv.textContent = '🟢 Firebase Ready';
+        statusDiv.style.background = '#d4edda';
+        statusDiv.style.borderColor = '#c3e6cb';
+      });
+    }
+
+    // Test Firebase connection
+    function testFirebaseConnection() {
+      setTimeout(() => {
+        console.log('🧪 Testing Firebase connection...');
+        try {
+          if (window.Firebase && window.Firebase.auth) {
+            console.log('✅ Firebase Auth available');
+            console.log('📊 Auth instance:', window.Firebase.auth);
+          } else {
+            console.error('❌ Firebase Auth not available');
+          }
+        } catch (error) {
+          console.error('❌ Firebase test error:', error);
+        }
+      }, 1000);
+    }
   </script>
 </body>
 </html>
