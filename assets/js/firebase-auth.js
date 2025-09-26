@@ -588,24 +588,138 @@
   }
 
   // Redirect after successful login
-  function redirectAfterLogin() {
+  async function redirectAfterLogin() {
+    console.log('🔄 redirectAfterLogin called');
+
     const intendedDestination = sessionStorage.getItem('flow_redirect_after_login');
     if (intendedDestination) {
+      console.log('🔄 Using intended destination:', intendedDestination);
       sessionStorage.removeItem('flow_redirect_after_login');
       window.location.href = intendedDestination;
-    } else {
-      // Redirect to appropriate dashboard based on account type
-      const dashboardUrls = {
-        student: '/students/',
-        institution: '/institutions/',
-        counselor: '/counselors/',
-        parent: '/parents/',
-        recommender: '/recommenders/'
-      };
-      
-      const dashboardUrl = dashboardUrls[userProfile?.accountType] || '/students/';
-      window.location.href = dashboardUrl;
+      return;
     }
+
+    // Check for account type hint from onboarding/storage
+    let accountTypeHint = sessionStorage.getItem('flow_account_type') ||
+                         localStorage.getItem('flow_account_type') ||
+                         new URLSearchParams(window.location.search).get('accountType');
+
+    console.log('🔍 Account type hint from storage/URL:', accountTypeHint);
+
+    // If no hint, try to get account type from user's Firestore profile
+    if (!accountTypeHint) {
+      const currentUser = window.Firebase?.auth?.currentUser;
+      if (currentUser && window.Firebase?.db) {
+        try {
+          console.log('🔍 Checking Firestore for user account type...');
+
+          // Check all collections in parallel to find user data
+          const collections = ['students', 'institutions', 'counselors', 'parents', 'recommenders'];
+          const queries = collections.map(async (collectionName) => {
+            try {
+              // First try by document ID (uid)
+              const docByUid = await window.Firebase.db.collection(collectionName).doc(currentUser.uid).get();
+              if (docByUid.exists) {
+                return {
+                  collection: collectionName,
+                  data: docByUid.data(),
+                  foundBy: 'uid'
+                };
+              }
+
+              // Then try by email query
+              const queryByEmail = await window.Firebase.db.collection(collectionName)
+                .where('email', '==', currentUser.email)
+                .limit(1)
+                .get();
+
+              if (!queryByEmail.empty) {
+                return {
+                  collection: collectionName,
+                  data: queryByEmail.docs[0].data(),
+                  foundBy: 'email'
+                };
+              }
+
+              return null;
+            } catch (error) {
+              console.log(`Collection ${collectionName} query failed:`, error.message);
+              return null;
+            }
+          });
+
+          // Wait for all queries to complete
+          const results = await Promise.allSettled(queries);
+          const foundResult = results
+            .filter(result => result.status === 'fulfilled' && result.value)
+            .map(result => result.value)
+            .find(result => result !== null);
+
+          if (foundResult) {
+            // Map collection name to account type
+            const collectionToAccountType = {
+              'students': 'student',
+              'institutions': 'institution',
+              'counselors': 'counselor',
+              'parents': 'parent',
+              'recommenders': 'recommender'
+            };
+
+            accountTypeHint = collectionToAccountType[foundResult.collection] || foundResult.data.userType || foundResult.data.accountType;
+            console.log(`✅ Found user profile in ${foundResult.collection} (by ${foundResult.foundBy}):`, accountTypeHint);
+          } else {
+            // Check users collection as final fallback
+            const userDoc = await window.Firebase.db.collection('users').doc(currentUser.uid).get();
+            if (userDoc.exists) {
+              const userData = userDoc.data();
+              accountTypeHint = userData.accountType || userData.userType;
+              console.log('✅ Found account type in users collection:', accountTypeHint);
+            }
+          }
+        } catch (error) {
+          console.error('❌ Error checking Firestore for account type:', error);
+        }
+      }
+    }
+
+    // Dashboard URLs mapping
+    const dashboardUrls = {
+      student: '/students/',
+      institution: '/institutions/',
+      counselor: '/counselors/',
+      parent: '/parents/',
+      recommender: '/recommenders/'
+    };
+
+    let dashboardUrl;
+
+    // Use account type to determine dashboard
+    if (accountTypeHint && dashboardUrls[accountTypeHint]) {
+      dashboardUrl = dashboardUrls[accountTypeHint];
+      console.log(`🔄 Redirecting to ${accountTypeHint} dashboard`);
+    }
+    // Check user profile if loaded
+    else if (userProfile?.accountType && dashboardUrls[userProfile.accountType]) {
+      dashboardUrl = dashboardUrls[userProfile.accountType];
+      console.log(`🔄 Redirecting to ${userProfile.accountType} dashboard from profile`);
+    }
+    // Enhanced fallback: if we're on auth page, redirect to home; otherwise stay on current page
+    else {
+      if (window.location.pathname.includes('/auth/')) {
+        dashboardUrl = '/index.html';
+        console.log('🔄 Using fallback: redirecting to default student dashboard from auth page');
+      } else {
+        console.log('🔄 Could not determine account type, staying on current page');
+        return; // Don't redirect if we can't determine the account type and we're not on auth page
+      }
+    }
+
+    // Clean up hints
+    sessionStorage.removeItem('flow_account_type');
+    localStorage.removeItem('flow_account_type');
+
+    console.log('🔄 Final redirect URL:', dashboardUrl);
+    window.location.href = dashboardUrl;
   }
 
   // Password validation
