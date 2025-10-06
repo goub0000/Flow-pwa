@@ -35,7 +35,8 @@
       "WebFetch(domain:console.firebase.google.com)",
       "Bash(npm install:*)",
       "Bash(curl:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

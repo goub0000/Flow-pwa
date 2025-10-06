@@ -1879,7 +1879,13 @@
         const db = window.Firebase.db;
 
         // Save institution profile to Firestore
-        await db.collection('users').doc(user.uid).update({
+        // Using set with merge:true to create or update the document
+        await db.collection('users').doc(user.uid).set({
+          // User identification
+          uid: user.uid,
+          email: user.email,
+          emailVerified: user.emailVerified,
+
           // IMPORTANT: Set account type for institutions
           accountType: 'institution',
 
@@ -1910,10 +1916,14 @@
             admissionCycle: formData.admissionCycle || ''
           },
 
-          // Mark onboarding as complete
+          // Status flags
+          isActive: true,
           onboardingCompleted: true,
-          updatedAt: window.FirebaseUtils.getTimestamp()
-        });
+
+          // Timestamps
+          updatedAt: window.FirebaseUtils.getTimestamp(),
+          lastLoginAt: window.FirebaseUtils.getTimestamp()
+        }, { merge: true });
 
         // Also save to localStorage for backward compatibility
         localStorage.setItem('institutionOnboarding', JSON.stringify(formData));
@@ -2164,6 +2174,7 @@
   <script src="/assets/js/firebase-config.js"></script>
   <script src="/assets/js/firebase-auth.js"></script>
   <script src="/assets/js/firebase-data.js"></script>
+  <script src="/assets/js/onboarding-save.js"></script>
   <script src="/assets/js/auth-guards.js"></script>
 
   <!-- Flow Cookie Consent System -->

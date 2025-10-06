@@ -817,6 +817,14 @@
             }
         }
     </style>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    <script src="/assets/js/firebase-config.js"></script>
+    <script src="/assets/js/firebase-auth.js"></script>
+    <script src="/assets/js/onboarding-save.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -1959,7 +1967,7 @@
             `;
         }
 
-        function completeOnboarding() {
+        async function completeOnboarding() {
             if (!validateStep6()) {
                 showNotification('Please agree to the Terms of Service and Privacy Policy', 'error');
                 return;
@@ -1969,23 +1977,48 @@
             completeBtn.disabled = true;
             completeBtn.innerHTML = '<span class="loading"></span> Processing...';
 
-            // Save final data
-            formData.timestamp = new Date().toISOString();
-            formData.completed = true;
-            
-            // Simulate processing
-            setTimeout(() => {
-                completeBtn.innerHTML = '✅ Account Created!';
-                showNotification('Welcome to Flow! Your account has been created successfully.', 'success');
-                
-                // Clear saved data
-                localStorage.removeItem('parentOnboardingData');
-                
-                // Redirect to parent portal
-                setTimeout(() => {
-                    window.location.href = '/parents/';
-                }, 2000);
-            }, 3000);
+            try {
+                // Prepare profile data
+                const profileData = {
+                    accountType: 'parent',
+                    firstName: formData.firstName || '',
+                    lastName: formData.lastName || '',
+                    displayName: `${formData.firstName || ''} ${formData.lastName || ''}`.trim(),
+                    phone: formData.phone || '',
+                    relationship: formData.relationship || '',
+                    address: {
+                        street: formData.street || '',
+                        city: formData.city || '',
+                        state: formData.state || '',
+                        zipCode: formData.zipCode || '',
+                        country: formData.country || ''
+                    },
+                    studentIds: [] // Will be linked later when students connect
+                };
+
+                // Save to Firestore using the universal helper
+                const result = await window.OnboardingSave.saveProfile(profileData);
+
+                if (result.success) {
+                    // Clear saved data from localStorage
+                    localStorage.removeItem('parentOnboardingData');
+
+                    completeBtn.innerHTML = '✅ Account Created!';
+                    showNotification('Welcome to Flow! Your account has been created successfully.', 'success');
+
+                    // Redirect to parent portal
+                    setTimeout(() => {
+                        window.location.href = '/parents/';
+                    }, 1500);
+                } else {
+                    throw new Error(result.message || 'Failed to save profile');
+                }
+            } catch (error) {
+                console.error('Error saving parent data:', error);
+                showNotification(error.message || 'Failed to save profile. Please try again.', 'error');
+                completeBtn.disabled = false;
+                completeBtn.innerHTML = 'Complete Onboarding';
+            }
         }
 
         function saveToLocalStorage() {
