@@ -1033,6 +1033,22 @@ body[data-theme="dark"] .card {
   object-fit: cover;
 }
 
+/* Universal logo styling for consistency */
+.brand__logo,
+.footer__logo {
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  border: 2px solid #373896 !important;
+  transition: all 0.3s ease !important;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.brand__logo:hover,
+.footer__logo:hover {
+  transform: scale(1.05) !important;
+}
+
 /* Enhanced brand text styling */
 .brand__name {
   background: linear-gradient(135deg, #64ffda, #667eea);

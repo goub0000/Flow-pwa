@@ -15,12 +15,6 @@
       "server/**",
       "*.md"
     ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ],
     "headers": [
       {
         "source": "/assets/**",

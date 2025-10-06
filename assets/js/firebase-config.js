@@ -6,15 +6,21 @@
 (function() {
   'use strict';
 
-  // Firebase configuration - Replace with your actual Firebase config
+  // Development/Demo detection
+  const isDevelopment = window.location.hostname === 'localhost' ||
+                       window.location.hostname === '127.0.0.1' ||
+                       window.location.hostname.includes('localhost') ||
+                       window.location.search.includes('demo=true');
+
+  // Firebase configuration for flow-pwa project
   const firebaseConfig = {
-    apiKey: "your-api-key-here",
-    authDomain: "your-project.firebaseapp.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:123456789:web:abcdef123456",
-    measurementId: "G-ABCDEFGHIJ"
+    apiKey: "AIzaSyAJ7QV35ydmmIxIwe9rCPHzD3AT8I6yiCY",
+    authDomain: "flow-pwa.firebaseapp.com",
+    projectId: "flow-pwa",
+    storageBucket: "flow-pwa.firebasestorage.app",
+    messagingSenderId: "940039973517",
+    appId: "1:940039973517:web:4cee57759b916cb34850c4",
+    measurementId: "G-8K4RD31KW0"
   };
 
   // Initialize Firebase app
@@ -38,12 +44,29 @@
 
   // Initialize Firebase services
   async function initializeFirebase() {
+    // Prevent multiple initializations
+    if (FirebaseServices.initialized) {
+      console.log('🔥 Firebase already initialized, skipping...');
+      return FirebaseServices;
+    }
+
     try {
       console.log('🔥 Initializing Firebase...');
 
       // Check if Firebase SDK is loaded
       if (typeof firebase === 'undefined') {
-        throw new Error('Firebase SDK not loaded. Please include Firebase scripts.');
+        console.warn('⚠️ Firebase SDK not loaded. Running in mock mode for development.');
+        initializeMockFirebase();
+        return;
+      }
+
+      // Check if we have placeholder configuration (should use mock instead)
+      if (firebaseConfig.apiKey === 'your-api-key-here' ||
+          firebaseConfig.projectId === 'your-project-id' ||
+          isDevelopment && window.location.search.includes('mock=true')) {
+        console.warn('⚠️ Placeholder Firebase config detected or mock mode requested. Running in mock mode for development.');
+        initializeMockFirebase();
+        return;
       }
 
       // Initialize Firebase app
@@ -56,49 +79,94 @@
       }
 
       // Initialize Authentication
+      console.log('🔍 Creating Firebase Auth instance...');
       auth = firebase.auth();
+      console.log('🔍 Setting device language...');
       auth.useDeviceLanguage();
-      
-      // Configure auth persistence
-      await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-      console.log('✅ Firebase Auth initialized with local persistence');
 
-      // Initialize Firestore
-      db = firebase.firestore();
-      
-      // Enable Firestore offline persistence
+      // Configure auth persistence (skip timeout that might cause issues)
+      console.log('🔍 Setting auth persistence...');
       try {
-        await db.enablePersistence({
-          synchronizeTabs: true
+        await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        console.log('✅ Firebase Auth persistence configured');
+      } catch (error) {
+        console.warn('⚠️ Auth persistence setup failed, continuing without persistence:', error.message);
+      }
+      console.log('✅ Firebase Auth initialized');
+
+      // Initialize Firestore with settings configured before first use
+      console.log('🔍 Creating Firestore instance...');
+      db = firebase.firestore();
+      console.log('🔍 Firestore instance created');
+
+      // Configure Firestore settings before enabling persistence
+      try {
+        db.settings({
+          cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
         });
-        console.log('✅ Firestore offline persistence enabled');
       } catch (err) {
-        if (err.code === 'failed-precondition') {
-          console.log('⚠️ Firestore persistence failed: Multiple tabs open');
-        } else if (err.code === 'unimplemented') {
-          console.log('⚠️ Firestore persistence not supported in this browser');
-        }
+        console.log('⚠️ Firestore settings already configured');
       }
 
-      // Configure Firestore settings
-      db.settings({
-        cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
-      });
+      // Enable Firestore offline persistence (with timeout to prevent hanging)
+      try {
+        console.log('🔍 Enabling Firestore persistence...');
+
+        await Promise.race([
+          (async () => {
+            // Try modern persistence API first
+            if (db.enableMultiTabIndexedDbPersistence) {
+              await db.enableMultiTabIndexedDbPersistence();
+              console.log('✅ Firestore multi-tab persistence enabled');
+            } else {
+              // Fallback to regular persistence
+              console.log('🔍 Using fallback persistence...');
+              await db.enablePersistence({
+                synchronizeTabs: true
+              });
+              console.log('✅ Firestore offline persistence enabled');
+            }
+          })(),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Firestore persistence timeout')), 5000)
+          )
+        ]);
+      } catch (err) {
+        if (err.code === 'failed-precondition') {
+          console.log('⚠️ Firestore persistence failed: Multiple tabs open or already enabled');
+        } else if (err.code === 'unimplemented') {
+          console.log('⚠️ Firestore persistence not supported in this browser');
+        } else {
+          console.log('⚠️ Firestore persistence setup failed:', err.message);
+        }
+      }
 
       // Initialize Cloud Storage
       storage = firebase.storage();
       console.log('✅ Firebase Storage initialized');
 
-      // Initialize Analytics (optional)
-      if (firebase.analytics) {
-        analytics = firebase.analytics();
-        console.log('✅ Firebase Analytics initialized');
+      // Initialize Analytics (optional) - skip in development to avoid noise
+      if (firebase.analytics && !isDevelopment) {
+        try {
+          analytics = firebase.analytics();
+          console.log('✅ Firebase Analytics initialized');
+        } catch (error) {
+          console.warn('⚠️ Firebase Analytics initialization failed:', error.message);
+        }
+      } else {
+        console.log('📊 Firebase Analytics skipped (development mode)');
       }
 
-      // Initialize Cloud Messaging (optional)
-      if (firebase.messaging && firebase.messaging.isSupported()) {
-        messaging = firebase.messaging();
-        console.log('✅ Firebase Messaging initialized');
+      // Initialize Cloud Messaging (optional) - only in production with valid config
+      if (firebase.messaging && firebase.messaging.isSupported() && !isDevelopment) {
+        try {
+          messaging = firebase.messaging();
+          console.log('✅ Firebase Messaging initialized');
+        } catch (error) {
+          console.warn('⚠️ Firebase Messaging initialization failed:', error.message);
+        }
+      } else {
+        console.log('📱 Firebase Messaging skipped (development mode or not supported)');
       }
 
       // Store service instances
@@ -166,29 +234,83 @@
 
   // Set up network state monitoring
   function setupNetworkMonitoring() {
+    // Track network state
+    let isOnline = navigator.onLine;
+    let firestoreConnected = false;
+
     // Monitor online/offline status
     window.addEventListener('online', () => {
       console.log('🌐 Network connection restored');
+      isOnline = true;
+
+      // Re-enable Firestore network
+      if (db && !firestoreConnected) {
+        console.log('🔄 Attempting to re-enable Firestore...');
+        db.enableNetwork().then(() => {
+          console.log('✅ Firestore network re-enabled');
+          firestoreConnected = true;
+        }).catch((error) => {
+          console.error('❌ Failed to re-enable Firestore:', error);
+        });
+      }
+
       document.dispatchEvent(new CustomEvent('networkStatusChanged', {
-        detail: { online: true }
+        detail: { online: true, firestoreConnected }
       }));
     });
 
     window.addEventListener('offline', () => {
       console.log('📴 Network connection lost');
+      isOnline = false;
+      firestoreConnected = false;
+
       document.dispatchEvent(new CustomEvent('networkStatusChanged', {
-        detail: { online: false }
+        detail: { online: false, firestoreConnected: false }
       }));
     });
 
-    // Monitor Firestore connection state
+    // Monitor Firestore connection state with retry logic
     if (db) {
-      db.enableNetwork().then(() => {
-        console.log('✅ Firestore network enabled');
-      }).catch((error) => {
-        console.error('❌ Firestore network error:', error);
-      });
+      let retryCount = 0;
+      const maxRetries = 3;
+
+      async function enableFirestoreNetwork() {
+        try {
+          await db.enableNetwork();
+          console.log('✅ Firestore network enabled');
+          firestoreConnected = true;
+          retryCount = 0; // Reset on success
+        } catch (error) {
+          console.error('❌ Firestore network error:', error);
+          firestoreConnected = false;
+
+          if (retryCount < maxRetries && isOnline) {
+            retryCount++;
+            console.log(`🔄 Retrying Firestore connection... (${retryCount}/${maxRetries})`);
+            setTimeout(enableFirestoreNetwork, 2000 * retryCount);
+          }
+        }
+      }
+
+      enableFirestoreNetwork();
     }
+
+    // Expose network status globally
+    window.NetworkStatus = {
+      isOnline: () => isOnline,
+      isFirestoreConnected: () => firestoreConnected,
+      retry: () => {
+        if (db && isOnline && !firestoreConnected) {
+          console.log('🔄 Manual Firestore retry requested');
+          db.enableNetwork().then(() => {
+            console.log('✅ Firestore network manually re-enabled');
+            firestoreConnected = true;
+          }).catch((error) => {
+            console.error('❌ Manual Firestore retry failed:', error);
+          });
+        }
+      }
+    };
   }
 
   // Utility functions for Firebase operations
@@ -353,11 +475,124 @@
     }
   };
 
-  // Wait for DOM to be ready, then initialize Firebase
+  // Mock Firebase for development when SDK is not available
+  function initializeMockFirebase() {
+    // Prevent multiple mock initializations
+    if (FirebaseServices.initialized) {
+      console.log('🎭 Mock Firebase already initialized, skipping...');
+      return FirebaseServices;
+    }
+
+    console.log('🎭 Initializing mock Firebase for development...');
+
+    // Create mock Firebase services
+    const mockAuth = {
+      currentUser: null,
+      onAuthStateChanged: (callback) => {
+        // Simulate no user initially
+        setTimeout(() => callback(null), 100);
+        return () => {}; // unsubscribe function
+      },
+      onIdTokenChanged: (callback) => {
+        // Mock token change listener
+        setTimeout(() => callback(null), 100);
+        return () => {}; // unsubscribe function
+      },
+      createUserWithEmailAndPassword: async (email, password) => {
+        console.log('🎭 Mock createUserWithEmailAndPassword called - use test bypass instead');
+        throw new Error('Mock Firebase: Use test bypass for authentication in development mode');
+      },
+      signInWithEmailAndPassword: async (email, password) => {
+        console.log('🎭 Mock signInWithEmailAndPassword called - use test bypass instead');
+        throw new Error('Mock Firebase: Use test bypass for authentication in development mode');
+      },
+      signInWithPopup: async (provider) => {
+        console.log('🎭 Mock signInWithPopup called - use test bypass instead');
+        throw new Error('Mock Firebase: Use test bypass for authentication in development mode');
+      },
+      signOut: async () => {
+        console.log('🎭 Mock signOut');
+        return Promise.resolve();
+      },
+      setPersistence: async () => {
+        console.log('🎭 Mock setPersistence');
+        return Promise.resolve();
+      },
+      useDeviceLanguage: () => {
+        console.log('🎭 Mock useDeviceLanguage');
+      }
+    };
+
+    const mockDb = {
+      collection: (name) => ({
+        doc: (id) => ({
+          get: () => Promise.resolve({ exists: false, data: () => ({}) }),
+          set: () => Promise.resolve(),
+          update: () => Promise.resolve(),
+          delete: () => Promise.resolve()
+        }),
+        where: () => ({
+          limit: () => ({
+            get: () => Promise.resolve({ empty: true, docs: [] })
+          })
+        })
+      }),
+      settings: () => {
+        console.log('🎭 Mock Firestore settings');
+      },
+      enablePersistence: () => {
+        console.log('🎭 Mock enablePersistence');
+        return Promise.resolve();
+      },
+      enableNetwork: () => {
+        console.log('🎭 Mock enableNetwork');
+        return Promise.resolve();
+      }
+    };
+
+    const mockStorage = {
+      ref: (path) => ({
+        put: () => ({
+          on: (event, progress, error, complete) => {
+            setTimeout(complete, 100);
+          },
+          snapshot: { ref: { getDownloadURL: () => Promise.resolve('mock-url') } }
+        }),
+        delete: () => Promise.resolve()
+      })
+    };
+
+    // Store mock services
+    FirebaseServices.auth = mockAuth;
+    FirebaseServices.db = mockDb;
+    FirebaseServices.storage = mockStorage;
+    FirebaseServices.analytics = null; // No analytics in mock mode
+    FirebaseServices.messaging = null; // No messaging in mock mode
+    FirebaseServices.initialized = true;
+
+    // Emit initialization event
+    document.dispatchEvent(new CustomEvent('firebaseInitialized', {
+      detail: FirebaseServices
+    }));
+
+    console.log('🎭 Mock Firebase initialized');
+    return FirebaseServices;
+  }
+
+  // Wait for DOM and Firebase SDK to be ready, then initialize Firebase
+  function waitForFirebaseSDK() {
+    if (typeof firebase !== 'undefined') {
+      initializeFirebase();
+    } else {
+      console.log('⏳ Waiting for Firebase SDK to load...');
+      setTimeout(waitForFirebaseSDK, 100);
+    }
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeFirebase);
+    document.addEventListener('DOMContentLoaded', waitForFirebaseSDK);
   } else {
-    initializeFirebase();
+    waitForFirebaseSDK();
   }
 
   // Export Firebase services and utilities globally

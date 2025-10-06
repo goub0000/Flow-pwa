@@ -6,8 +6,8 @@
   <title>Flow — Institution Onboarding</title>
   <meta name="description" content="Create your institution account with Flow's advanced onboarding system" />
   <meta name="theme-color" content="#373896" />
-  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
-  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+  <link rel="icon" href="/assets/img/logo.PNG" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.PNG" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -559,7 +559,7 @@
         <div class="brand">
           <a href="/" class="logo-link" style="display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit;">
             <div class="logo-glow">
-              <img src="/assets/img/logo.png" alt="Flow" width="40" height="40" />
+              <img src="/assets/img/logo.PNG" alt="Flow" width="40" height="40" />
             </div>
             <span class="brand-text">Flow</span>
           </a>
@@ -1852,10 +1852,85 @@
       }
     }
 
-    function completeOnboarding() {
-      // Save data and redirect to dashboard
-      localStorage.setItem('institutionOnboarding', JSON.stringify(formData));
-      window.location.href = '/institutions/';
+    async function completeOnboarding() {
+      // Show loading state
+      const btn = event.target;
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = 'Saving...';
+
+      try {
+        // Get current user
+        const user = window.FlowAuth?.getCurrentUser();
+        if (!user) {
+          showToast('Please log in first', 'error');
+          btn.disabled = false;
+          btn.innerHTML = originalText;
+          return;
+        }
+
+        // Wait for Firebase to be ready
+        if (!window.Firebase || !window.Firebase.initialized) {
+          await new Promise(resolve => {
+            document.addEventListener('firebaseInitialized', resolve, { once: true });
+          });
+        }
+
+        const db = window.Firebase.db;
+
+        // Save institution profile to Firestore
+        await db.collection('users').doc(user.uid).update({
+          // IMPORTANT: Set account type for institutions
+          accountType: 'institution',
+
+          // Basic info
+          institutionName: formData.institutionName || '',
+          institutionType: formData.institutionType || '',
+          displayName: formData.institutionName || '',
+
+          // Contact info
+          website: formData.website || '',
+          phone: formData.phone || '',
+
+          // Address
+          address: {
+            city: formData.city || '',
+            country: formData.country || '',
+            postalCode: formData.postalCode || ''
+          },
+
+          // Registration details
+          registrationNumber: formData.registrationNumber || '',
+          establishedYear: parseInt(formData.establishedYear) || null,
+          accreditation: formData.accreditation || '',
+
+          // Program info
+          stats: {
+            totalPrograms: parseInt(formData.totalPrograms) || 0,
+            admissionCycle: formData.admissionCycle || ''
+          },
+
+          // Mark onboarding as complete
+          onboardingCompleted: true,
+          updatedAt: window.FirebaseUtils.getTimestamp()
+        });
+
+        // Also save to localStorage for backward compatibility
+        localStorage.setItem('institutionOnboarding', JSON.stringify(formData));
+
+        showToast('Institution profile saved successfully!', 'success');
+
+        // Redirect to dashboard after short delay
+        setTimeout(() => {
+          window.location.href = '/institutions/';
+        }, 1000);
+
+      } catch (error) {
+        console.error('Error saving institution data:', error);
+        showToast('Error saving data: ' + error.message, 'error');
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
     }
 
     // Initialize step 1 button handlers
@@ -2077,6 +2152,19 @@
       </div>
     </div>
   </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-storage-compat.js"></script>
+
+  <!-- Flow Scripts -->
+  <script src="/assets/js/translations.js"></script>
+  <script src="/assets/js/firebase-config.js"></script>
+  <script src="/assets/js/firebase-auth.js"></script>
+  <script src="/assets/js/firebase-data.js"></script>
+  <script src="/assets/js/auth-guards.js"></script>
 
   <!-- Flow Cookie Consent System -->
   <script src="/assets/js/cookie-consent.js"></script>

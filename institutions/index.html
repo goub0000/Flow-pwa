@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#373896" />
   <title>Flow — Institution Portal</title>
 
-  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
-  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+  <link rel="icon" href="/assets/img/logo.PNG" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.PNG" />
 
   <!-- Styles -->
   <link rel="stylesheet" href="/assets/css/base.css" />
@@ -758,7 +758,7 @@
   <header class="header" role="banner" aria-label="Site header">
     <div class="container header__inner">
       <a class="brand" href="/" aria-label="Flow home">
-        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <img src="/assets/img/logo.PNG" class="brand__logo" alt="Flow logo" width="40" height="40" />
         <span class="brand__name">Flow</span>
       </a>
 
@@ -781,14 +781,6 @@
               </button>
             </div>
             <div class="search-suggestions" id="searchSuggestions">
-              <div class="search-category">
-                <h4>Recent Searches</h4>
-                <div class="search-items">
-                  <a href="#" class="search-item">Computer Science applications</a>
-                  <a href="#" class="search-item">Pending reviews</a>
-                  <a href="#" class="search-item">Sarah Johnson</a>
-                </div>
-              </div>
               <div class="search-category">
                 <h4>Quick Actions</h4>
                 <div class="search-items">
@@ -818,41 +810,8 @@
               </div>
             </div>
             <div class="notifications-list" id="notificationsList">
-              <div class="notification-item notification-item--unread">
-                <div class="notification-icon notification-icon--new">📋</div>
-                <div class="notification-content">
-                  <div class="notification-title">New Application Received</div>
-                  <div class="notification-message">Sarah Johnson submitted application for Computer Science Master's program</div>
-                  <div class="notification-time">2 minutes ago</div>
-                </div>
-                <button class="notification-dismiss" aria-label="Dismiss">×</button>
-              </div>
-              <div class="notification-item notification-item--unread">
-                <div class="notification-icon notification-icon--urgent">⚠️</div>
-                <div class="notification-content">
-                  <div class="notification-title">Review Deadline Approaching</div>
-                  <div class="notification-message">5 applications require review by end of day</div>
-                  <div class="notification-time">1 hour ago</div>
-                </div>
-                <button class="notification-dismiss" aria-label="Dismiss">×</button>
-              </div>
-              <div class="notification-item">
-                <div class="notification-icon notification-icon--message">💬</div>
-                <div class="notification-content">
-                  <div class="notification-title">New Message</div>
-                  <div class="notification-message">Michael Chen sent a message regarding document clarification</div>
-                  <div class="notification-time">3 hours ago</div>
-                </div>
-                <button class="notification-dismiss" aria-label="Dismiss">×</button>
-              </div>
-              <div class="notification-item">
-                <div class="notification-icon notification-icon--success">✅</div>
-                <div class="notification-content">
-                  <div class="notification-title">Application Processed</div>
-                  <div class="notification-message">Emily Rodriguez application has been automatically processed</div>
-                  <div class="notification-time">1 day ago</div>
-                </div>
-                <button class="notification-dismiss" aria-label="Dismiss">×</button>
+              <div style="padding: 2rem; text-align: center; color: #666;">
+                <p>No new notifications</p>
               </div>
             </div>
             <div class="notifications-footer">
@@ -875,38 +834,8 @@
               <button class="btn-link" id="composeMessage">Compose</button>
             </div>
             <div class="messages-list" id="messagesList">
-              <div class="message-item message-item--unread">
-                <div class="message-avatar">
-                  <img src="/assets/img/avatars/student1.jpg" alt="Student avatar" width="40" height="40">
-                </div>
-                <div class="message-content">
-                  <div class="message-sender">Sarah Johnson</div>
-                  <div class="message-preview">Hello, I have a question about the required documents for...</div>
-                  <div class="message-time">5 min ago</div>
-                </div>
-                <div class="message-status message-status--unread"></div>
-              </div>
-              <div class="message-item message-item--unread">
-                <div class="message-avatar">
-                  <img src="/assets/img/avatars/student2.jpg" alt="Student avatar" width="40" height="40">
-                </div>
-                <div class="message-content">
-                  <div class="message-sender">Michael Chen</div>
-                  <div class="message-preview">Thank you for the feedback on my application. I will update...</div>
-                  <div class="message-time">1 hour ago</div>
-                </div>
-                <div class="message-status message-status--unread"></div>
-              </div>
-              <div class="message-item">
-                <div class="message-avatar">
-                  <img src="/assets/img/avatars/student3.jpg" alt="Student avatar" width="40" height="40">
-                </div>
-                <div class="message-content">
-                  <div class="message-sender">Emily Rodriguez</div>
-                  <div class="message-preview">I wanted to follow up on my interview schedule...</div>
-                  <div class="message-time">2 days ago</div>
-                </div>
-                <div class="message-status"></div>
+              <div style="padding: 2rem; text-align: center; color: #666;">
+                <p>No messages</p>
               </div>
             </div>
             <div class="messages-footer">
@@ -922,7 +851,7 @@
               <img src="/assets/img/avatars/institution.jpg" alt="Institution avatar" width="32" height="32">
             </div>
             <div class="profile-info">
-              <span class="profile-name">University of Excellence</span>
+              <span class="profile-name" id="headerInstitutionName">Institution</span>
               <span class="profile-role">Institution Admin</span>
             </div>
             <svg width="16" height="16" fill="white" class="profile-chevron">
@@ -935,9 +864,9 @@
                 <img src="/assets/img/avatars/institution.jpg" alt="Institution avatar" width="48" height="48">
               </div>
               <div class="profile-details">
-                <div class="profile-name-large">University of Excellence</div>
-                <div class="profile-email">admin@universityexcellence.edu</div>
-                <div class="profile-plan">Premium Plan</div>
+                <div class="profile-name-large" id="profileInstitutionName">Institution</div>
+                <div class="profile-email" id="profileEmail">email@institution.edu</div>
+                <div class="profile-plan" id="profilePlan">Free Plan</div>
               </div>
             </div>
             <div class="profile-menu">
@@ -1012,7 +941,7 @@
       <div class="nav-overlay__content">
         <div class="nav-overlay__header">
           <div class="brand">
-            <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="32" height="32" />
+            <img src="/assets/img/logo.PNG" class="brand__logo" alt="Flow logo" width="32" height="32" />
             <span class="brand__name">Flow</span>
           </div>
           <button class="nav-overlay__close" id="mobileMenuClose" aria-label="Close menu">×</button>
@@ -1060,7 +989,7 @@
     <section id="dashboard" class="section" aria-labelledby="dashTitle" style="padding: 3rem 0;">
       <div class="container" style="padding: 0 3rem;">
         <header class="section__header" style="padding: 2rem 0 3rem 0; margin-bottom: 4rem;">
-          <h1 id="dashTitle" style="padding: 1rem 2rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, rgba(90, 91, 184, 0.05), rgba(90, 91, 184, 0.1)); border-radius: 16px; border-left: 6px solid #5a5bb8;">Welcome, University of Excellence</h1>
+          <h1 id="dashTitle" style="padding: 1rem 2rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, rgba(90, 91, 184, 0.05), rgba(90, 91, 184, 0.1)); border-radius: 16px; border-left: 6px solid #5a5bb8;">Welcome</h1>
           <p class="section__description" style="padding: 1.5rem 2rem; background: rgba(90, 91, 184, 0.03); border-radius: 12px; font-size: 1.2rem; line-height: 1.7;">Manage your admissions, review applications, and oversee institutional operations</p>
         </header>
 
@@ -1073,7 +1002,7 @@
               </svg>
             </div>
             <div class="stat-card__content">
-              <div class="stat-card__number">2,847</div>
+              <div class="stat-card__number" id="totalApplications">0</div>
               <div class="stat-card__label">Total Applications</div>
             </div>
           </div>
@@ -1085,7 +1014,7 @@
               </svg>
             </div>
             <div class="stat-card__content">
-              <div class="stat-card__number">486</div>
+              <div class="stat-card__number" id="pendingReviews">0</div>
               <div class="stat-card__label">Pending Reviews</div>
             </div>
           </div>
@@ -1097,7 +1026,7 @@
               </svg>
             </div>
             <div class="stat-card__content">
-              <div class="stat-card__number">1,203</div>
+              <div class="stat-card__number" id="acceptedApplications">0</div>
               <div class="stat-card__label">Accepted</div>
             </div>
           </div>
@@ -1109,7 +1038,7 @@
               </svg>
             </div>
             <div class="stat-card__content">
-              <div class="stat-card__number">94.2%</div>
+              <div class="stat-card__number" id="completionRate">0%</div>
               <div class="stat-card__label">Completion Rate</div>
             </div>
           </div>
@@ -1123,38 +1052,10 @@
               <h2 id="recentAppsTitle">Recent Applications</h2>
               <a href="/institutions/applicants.html" class="dashboard-card__action">View all</a>
             </header>
-            <div class="application-list">
-              <div class="application-item">
-                <div class="application-item__avatar">
-                  <img src="/assets/img/avatars/student1.jpg" alt="Student avatar" width="40" height="40" />
-                </div>
-                <div class="application-item__content">
-                  <div class="application-item__name">Sarah Johnson</div>
-                  <div class="application-item__program">Computer Science, Master's</div>
-                </div>
-                <div class="application-item__status application-item__status--new">New</div>
-              </div>
-
-              <div class="application-item">
-                <div class="application-item__avatar">
-                  <img src="/assets/img/avatars/student2.jpg" alt="Student avatar" width="40" height="40" />
-                </div>
-                <div class="application-item__content">
-                  <div class="application-item__name">Michael Chen</div>
-                  <div class="application-item__program">Business Administration, MBA</div>
-                </div>
-                <div class="application-item__status application-item__status--review">Under Review</div>
-              </div>
-
-              <div class="application-item">
-                <div class="application-item__avatar">
-                  <img src="/assets/img/avatars/student3.jpg" alt="Student avatar" width="40" height="40" />
-                </div>
-                <div class="application-item__content">
-                  <div class="application-item__name">Emily Rodriguez</div>
-                  <div class="application-item__program">Medicine, Doctor of Medicine</div>
-                </div>
-                <div class="application-item__status application-item__status--interview">Interview</div>
+            <div class="application-list" id="recentApplicationsList">
+              <div style="padding: 2rem; text-align: center; color: #666;">
+                <p>No applications yet</p>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Applications will appear here once students apply to your programs</p>
               </div>
             </div>
           </article>
@@ -1200,15 +1101,15 @@
             </header>
             <div class="program-stats">
               <div class="program-stat">
-                <div class="program-stat__number">24</div>
+                <div class="program-stat__number" id="activePrograms">0</div>
                 <div class="program-stat__label">Active Programs</div>
               </div>
               <div class="program-stat">
-                <div class="program-stat__number">156</div>
+                <div class="program-stat__number" id="availableSpots">0</div>
                 <div class="program-stat__label">Available Spots</div>
               </div>
               <div class="program-stat">
-                <div class="program-stat__number">89%</div>
+                <div class="program-stat__number" id="fillRate">0%</div>
                 <div class="program-stat__label">Fill Rate</div>
               </div>
             </div>
@@ -1552,7 +1453,7 @@
           <h3>🏛️ Institution Profile</h3>
           <div class="settings-group">
             <label for="institutionName">Institution Name</label>
-            <input type="text" id="institutionName" value="University of Excellence" placeholder="Enter institution name">
+            <input type="text" id="institutionName" value="" placeholder="Enter institution name">
           </div>
           <div class="settings-group">
             <label for="institutionType">Institution Type</label>
@@ -1706,13 +1607,23 @@
   <!-- Flow Cookie Consent System -->
   <script src="/assets/js/cookie-consent.js"></script>
 
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-storage-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-messaging-compat.js"></script>
+
   <!-- Scripts -->
-  <!-- Commenting out external scripts that might cause issues
-  <script src="/assets/js/base.js"></script>
-  <script src="/assets/js/auth.js"></script>
+  <script src="/assets/js/translations.js"></script>
+  <script src="/assets/js/firebase-config.js"></script>
+  <script src="/assets/js/firebase-auth.js"></script>
+  <script src="/assets/js/firebase-data.js"></script>
+  <script src="/assets/js/data-service.js"></script>
   <script src="/assets/js/auth-guards.js"></script>
+  <script src="/assets/js/dashboard-loader.js"></script>
   <script src="/assets/js/institutions.js"></script>
-  -->
   
   <script>
     console.log('Institution dashboard script loaded');
@@ -2007,6 +1918,9 @@
         resetSettings: typeof window.resetSettings
       });
     });
+
+    // Dashboard data is now loaded by dashboard-loader.js
+    // This handles all user types automatically
   </script>
 </body>
 </html>

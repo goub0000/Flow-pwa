@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#373896" />
   <title>Flow — Programs</title>
 
-  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
-  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+  <link rel="icon" href="/assets/img/logo.PNG" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.PNG" />
 
   <!-- Styles -->
   <link rel="stylesheet" href="/assets/css/base.css" />
@@ -141,7 +141,7 @@
   <header class="header" role="banner" aria-label="Site header">
     <div class="container header__inner">
       <a class="brand" href="/" aria-label="Flow home">
-        <img src="/assets/img/logo.png" class="brand__logo" alt="Flow logo" width="40" height="40" />
+        <img src="/assets/img/logo.PNG" class="brand__logo" alt="Flow logo" width="40" height="40" />
         <span class="brand__name">Flow</span>
       </a>
 
@@ -366,7 +366,7 @@
   <footer class="footer" role="contentinfo" aria-label="Site footer">
     <div class="container footer__grid">
       <section class="footer__brand">
-        <img src="/assets/img/logo.png" alt="" class="footer__logo" width="40" height="40" />
+        <img src="/assets/img/logo.PNG" alt="" class="footer__logo" width="40" height="40" />
         <h3 class="footer__title">Flow</h3>
         <p class="footer__tagline">Connecting learners and institutions across Africa with technology designed for real-world connectivity challenges.</p>
       </section>
@@ -1754,8 +1754,19 @@
     });
   </script>
 
+  <!-- Firebase and Data Services -->
+  <script src="/assets/js/firebase-config.js"></script>
+  <script src="/assets/js/firebase-auth.js"></script>
+  <script src="/assets/js/data-service.js"></script>
+
   <!-- Countries Data -->
   <script src="/assets/js/countries.js"></script>
+
+  <!-- Programs Loader - Real Data from Firestore -->
+  <script src="/assets/js/programs-loader.js"></script>
+
+  <!-- Legacy script (will be replaced by programs-loader.js) -->
+  <script src="/assets/js/students_programs.js" defer></script>
 
   <!-- Programs Filter Enhancement Script -->
   <script>

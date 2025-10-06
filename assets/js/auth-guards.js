@@ -55,48 +55,120 @@
 
   // Initialize auth guards
   function init() {
-    // Check authentication on page load
-    checkAuthentication();
-    
+    console.log('🛡️ [Auth Guards] Initializing auth guards...');
+
+    // Wait for authentication system to be ready before checking
+    waitForAuthSystem();
+
     // Listen for auth state changes
     if (window.FlowAuth) {
+      console.log('🛡️ [Auth Guards] FlowAuth found, setting up listener');
       window.FlowAuth.on('authStateChanged', handleAuthStateChange);
+    } else {
+      console.log('🛡️ [Auth Guards] FlowAuth not found yet');
     }
-    
+
     // Protect navigation
     protectNavigation();
-    
+
     console.log('🛡️ Auth guards initialized');
+  }
+
+  // Wait for auth system to be ready
+  let authWaitAttempts = 0;
+  const maxAuthWaitAttempts = 50; // 5 seconds max (50 * 100ms)
+
+  function waitForAuthSystem() {
+    if (window.FlowAuth && window.Firebase && window.Firebase.initialized) {
+      console.log('🛡️ Auth system ready');
+      authWaitAttempts = 0; // Reset counter
+
+      const currentPath = window.location.pathname;
+
+      // NEVER protect auth pages - they handle their own authentication flow
+      if (currentPath.includes('/auth/') || currentPath.includes('/login')) {
+        console.log('🛡️ On auth page, auth guards will NOT interfere:', currentPath);
+        return;
+      }
+
+      // Only protect specific dashboard pages, not public pages
+      if (currentPath.startsWith('/students/') ||
+          currentPath.startsWith('/institutions/') ||
+          currentPath.startsWith('/counselors/') ||
+          currentPath.startsWith('/parents/') ||
+          currentPath.startsWith('/recommenders/')) {
+
+        console.log('🛡️ On protected dashboard page, checking authentication...');
+
+        // Check authentication immediately instead of waiting 5 seconds
+        console.log('🛡️ Checking authentication state...');
+        console.log('🛡️ FlowAuth available:', !!window.FlowAuth);
+        console.log('🛡️ isAuthenticated result:', window.FlowAuth?.isAuthenticated());
+
+        if (!window.FlowAuth || !window.FlowAuth.isAuthenticated()) {
+          console.log('🛡️ User not authenticated for protected page, redirecting...');
+          redirectToAuth(currentPath);
+        } else {
+          console.log('🛡️ User authenticated, allowing access to:', currentPath);
+        }
+      } else {
+        console.log('🛡️ On public page, no auth check needed:', currentPath);
+      }
+    } else {
+      authWaitAttempts++;
+      if (authWaitAttempts >= maxAuthWaitAttempts) {
+        console.log('❌ Auth system failed to initialize after', maxAuthWaitAttempts, 'attempts');
+        // Stop waiting and proceed without auth checks for non-protected pages
+        const currentPath = window.location.pathname;
+        if (!currentPath.includes('/auth/') && !currentPath.includes('/login')) {
+          console.log('⚠️ Proceeding without auth system for:', currentPath);
+        }
+        return;
+      }
+      console.log('⏳ Waiting for auth system to be ready... attempt', authWaitAttempts, '/', maxAuthWaitAttempts);
+      setTimeout(waitForAuthSystem, 100);
+    }
   }
 
   // Check if current route requires authentication
   function checkAuthentication() {
     const currentPath = window.location.pathname;
-    
+
+    console.log('🛡️ Auth guard checking route:', currentPath);
+
     // Skip check for public routes
     if (isPublicRoute(currentPath)) {
       console.log('🌍 Public route, no auth required:', currentPath);
       return;
     }
-    
+
     // STRICT: Check if user is authenticated - NO FALLBACK
     if (!window.FlowAuth) {
       console.log('❌ FlowAuth system not available, redirecting to home');
       redirectToAuth(currentPath);
       return;
     }
-    
-    if (!window.FlowAuth.isAuthenticated()) {
+
+    const isAuth = window.FlowAuth.isAuthenticated();
+    console.log('🔍 Authentication check result:', isAuth);
+
+    if (!isAuth) {
       console.log('🔒 Authentication required for:', currentPath);
       redirectToAuth(currentPath);
       return;
     }
+
+    console.log('✅ User is authenticated, allowing access to:', currentPath);
     
     // Check account type permissions
     const user = window.FlowAuth.getCurrentUser();
-    if (!checkAccountTypePermission(currentPath, user)) {
-      console.log('🚫 Access denied for account type:', user.accountType, 'to path:', currentPath);
-      redirectToAuthorizedArea(user);
+    const userProfile = window.FlowAuth.getUserProfile();
+    if (!checkAccountTypePermission(currentPath, user, userProfile)) {
+      const accountType = user?.accountType || userProfile?.accountType || userProfile?.userType || 'unknown';
+      console.log('🚫 Access denied for account type:', accountType, 'to path:', currentPath);
+      console.log('🚫 User object:', user);
+      console.log('🚫 User profile:', userProfile);
+      redirectToAuthorizedArea(user, userProfile);
       return;
     }
     
@@ -112,21 +184,28 @@
 
   // Handle authentication state changes
   function handleAuthStateChange(authState) {
-    const { user, isAuthenticated } = authState;
-    
+    console.log('🛡️ [Auth Guards] handleAuthStateChange called with:', authState);
+    const { user, profile, isAuthenticated } = authState;
+
     if (!isAuthenticated) {
       console.log('🔓 User logged out, checking current route...');
       checkAuthentication();
     } else {
-      console.log('🔐 User logged in:', user.accountType);
-      
-      // If user is on home page after login, redirect to dashboard
+      console.log('🔐 User logged in:', profile?.accountType || user?.accountType);
+
+      // NEVER interfere with login pages - let them handle their own redirects
       const currentPath = window.location.pathname;
-      if (currentPath === '/' || currentPath === '/index.html') {
-        if (window.FlowAuth) {
-          window.FlowAuth.redirectAfterLogin();
-        }
+      if (currentPath === '/' ||
+          currentPath === '/index.html' ||
+          currentPath.includes('/auth/') ||
+          currentPath.includes('/login')) {
+        console.log('🔄 [Auth Guards] User on public/auth page - auth guards will NOT interfere');
+        // Don't interfere with any auth-related pages
+        return;
       }
+
+      // For other pages, check if user has permission to be there
+      checkAuthentication();
     }
   }
 
@@ -141,43 +220,99 @@
   }
 
   // Check account type permission for path
-  function checkAccountTypePermission(path, user) {
-    if (!user || !user.accountType) return false;
-    
-    const userConfig = ROUTE_CONFIG[user.accountType];
-    if (!userConfig) return false;
-    
+  function checkAccountTypePermission(path, user, userProfile) {
+    // Get account type from multiple sources
+    const accountType = user?.accountType ||
+                       userProfile?.accountType ||
+                       userProfile?.userType ||
+                       userProfile?.type ||
+                       userProfile?.role;
+
+    console.log('🔍 Permission check - path:', path, 'accountType:', accountType);
+
+    if (!accountType) {
+      console.log('❌ No account type found in user or profile');
+      // For students path, assume student if no account type is found
+      if (path.startsWith('/students/')) {
+        console.log('✅ Allowing access to students path as default');
+        return true;
+      }
+      return false;
+    }
+
+    const userConfig = ROUTE_CONFIG[accountType];
+    if (!userConfig) {
+      console.log('❌ No route config found for account type:', accountType);
+      return false;
+    }
+
     // Check if path is in user's allowed paths
-    return userConfig.allowedPaths.some(allowedPath => path.startsWith(allowedPath));
+    const hasAccess = userConfig.allowedPaths.some(allowedPath => path.startsWith(allowedPath));
+    console.log('🔍 Access check result:', hasAccess, 'for', accountType, 'to', path);
+    return hasAccess;
   }
 
   // Redirect to authentication
   function redirectToAuth(intendedPath) {
+    console.log('🔄 [Auth Guards] redirectToAuth called for path:', intendedPath);
+
+    // Check if redirect is already in progress to prevent loops
+    if (window.redirectInProgress) {
+      console.log('🔄 [Auth Guards] Redirect already in progress, skipping auth redirect...');
+      return;
+    }
+
     // Store intended destination
     if (intendedPath !== '/' && intendedPath !== '/index.html') {
       sessionStorage.setItem('flow_redirect_after_login', window.location.href);
+      console.log('🔄 [Auth Guards] Stored redirect destination:', window.location.href);
     }
-    
-    // Show auth modal if on home page, otherwise redirect
-    if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-      showAuthModal();
-    } else {
-      window.location.href = '/';
+
+    // Don't redirect to home if user is already authenticated - this might be causing the loop
+    if (window.FlowAuth && window.FlowAuth.isAuthenticated()) {
+      console.log('🔄 [Auth Guards] User is authenticated, not redirecting to auth page');
+      return;
     }
+
+    // Redirect to unified login page (auto-detects user type after login)
+    const loginPage = '/auth/index.html';
+
+    console.log('🔄 [Auth Guards] Redirecting to appropriate login page:', loginPage);
+    window.redirectInProgress = true;
+    window.location.href = loginPage;
   }
 
   // Redirect to user's authorized area
-  function redirectToAuthorizedArea(user) {
-    if (user && user.accountType) {
-      const userConfig = ROUTE_CONFIG[user.accountType];
+  function redirectToAuthorizedArea(user, userProfile) {
+    // Check if redirect is already in progress to prevent loops
+    if (window.redirectInProgress) {
+      console.log('🔄 [Auth Guards] Redirect already in progress, skipping...');
+      return;
+    }
+
+    // Get account type from multiple sources
+    const accountType = user?.accountType ||
+                       userProfile?.accountType ||
+                       userProfile?.userType ||
+                       userProfile?.type ||
+                       userProfile?.role;
+
+    console.log('🔄 [Auth Guards] Redirecting to authorized area for account type:', accountType);
+
+    if (accountType) {
+      const userConfig = ROUTE_CONFIG[accountType];
       if (userConfig) {
+        console.log('🔄 [Auth Guards] Redirecting to dashboard:', userConfig.dashboardPath);
+        window.redirectInProgress = true;
         window.location.href = userConfig.dashboardPath;
         return;
       }
     }
-    
-    // Fallback to home page
-    window.location.href = '/';
+
+    // Default to student dashboard instead of home page
+    console.log('🔄 [Auth Guards] No account type found, defaulting to student dashboard');
+    window.redirectInProgress = true;
+    window.location.href = '/students/';
   }
 
   // Show authentication modal

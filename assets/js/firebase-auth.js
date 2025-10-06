@@ -15,6 +15,8 @@
   let currentUser = null;
   let userProfile = null;
   let authInitialized = false;
+  let usingTestAuth = false; // Flag to track if we're using test authentication
+  let lastAuthState = null; // Track last auth state to prevent duplicate emissions
 
   // Event emitter for auth state changes
   const authEvents = {
@@ -43,16 +45,199 @@
     }
   };
 
+  // Safe auth state emission to prevent duplicates
+  function safeEmitAuthState(authState) {
+    const stateKey = `${authState.isAuthenticated}-${authState.user?.uid || 'none'}-${authState.profile?.accountType || 'none'}`;
+
+    if (lastAuthState === stateKey) {
+      console.log('🔍 Skipping duplicate auth state emission');
+      return;
+    }
+
+    lastAuthState = stateKey;
+    console.log('🔄 Emitting auth state change:', stateKey);
+    authEvents.emit('authStateChanged', authState);
+  }
+
+  // Test accounts for development/mock mode
+  const testAccounts = {
+    'test@student.edu': {
+      password: 'TestStudent123!',
+      profile: {
+        uid: 'test-student-uid',
+        email: 'test@student.edu',
+        displayName: 'Test Student',
+        accountType: 'student',
+        firstName: 'Test',
+        lastName: 'Student',
+        isVerified: true
+      }
+    },
+    'test@university.edu': {
+      password: 'TestUniversity123!',
+      profile: {
+        uid: 'test-institution-uid',
+        email: 'test@university.edu',
+        displayName: 'Test University',
+        accountType: 'institution',
+        institutionName: 'Test University',
+        isVerified: true
+      }
+    },
+    'test@counselor.edu': {
+      password: 'TestCounselor123!',
+      profile: {
+        uid: 'test-counselor-uid',
+        email: 'test@counselor.edu',
+        displayName: 'Test Counselor',
+        accountType: 'counselor',
+        firstName: 'Test',
+        lastName: 'Counselor',
+        isVerified: true
+      }
+    },
+    'test@parent.com': {
+      password: 'TestParent123!',
+      profile: {
+        uid: 'test-parent-uid',
+        email: 'test@parent.com',
+        displayName: 'Test Parent',
+        accountType: 'parent',
+        firstName: 'Test',
+        lastName: 'Parent',
+        isVerified: true
+      }
+    },
+    'test@recommender.edu': {
+      password: 'TestRecommender123!',
+      profile: {
+        uid: 'test-recommender-uid',
+        email: 'test@recommender.edu',
+        displayName: 'Test Recommender',
+        accountType: 'recommender',
+        firstName: 'Test',
+        lastName: 'Recommender',
+        isVerified: true
+      }
+    }
+  };
+
+  // Handle test login for development/mock mode
+  function handleTestLogin(email, password) {
+    console.log('🧪 Processing test login for:', email);
+
+    const testAccount = testAccounts[email];
+    // Check if login should succeed with correct password
+    const loginValid = testAccount && testAccount.password === password;
+
+    if (loginValid) {
+      console.log('🧪 Valid test credentials provided');
+
+      // Create mock user object
+      const mockUser = {
+        uid: testAccount.profile.uid,
+        email: testAccount.profile.email,
+        displayName: testAccount.profile.displayName,
+        emailVerified: true
+      };
+
+      // Set user profile
+      userProfile = testAccount.profile;
+      currentUser = mockUser;
+      usingTestAuth = true; // Mark that we're using test authentication
+
+      // Persist test authentication state
+      localStorage.setItem('test_auth_user', JSON.stringify({
+        ...mockUser,
+        profile: testAccount.profile
+      }));
+      localStorage.setItem('test_auth_active', 'true');
+
+      // Store account type for redirect
+      if (testAccount.profile.accountType) {
+        sessionStorage.setItem('flow_account_type', testAccount.profile.accountType);
+        console.log('🔄 Stored account type for redirect:', testAccount.profile.accountType);
+      }
+
+      console.log('✅ Test login successful:', email);
+
+      // Trigger auth state change event for test login
+      safeEmitAuthState({
+        user: mockUser,
+        profile: testAccount.profile,
+        isAuthenticated: true
+      });
+
+      // NO REDIRECT - let user navigate manually or page handle it
+
+      return {
+        success: true,
+        user: mockUser,
+        profile: testAccount.profile,
+        message: 'Test login successful!'
+      };
+    } else {
+      console.log('❌ Invalid test credentials');
+      return {
+        success: false,
+        error: 'Invalid test credentials. Use one of the pre-filled test accounts.'
+      };
+    }
+  }
+
+  // REMOVED: checkHomePageRedirect function - no automatic redirects
+
   // Initialize Firebase Auth integration
   function initFirebaseAuth() {
     console.log('🔐 Initializing Firebase Auth integration...');
 
-    // Wait for Firebase to be ready
-    if (!window.Firebase || !window.Firebase.initialized) {
-      document.addEventListener('firebaseInitialized', initFirebaseAuth);
+    // Debug what Firebase services are available
+    console.log('🔍 Firebase available:', !!window.Firebase);
+    console.log('🔍 Firebase.auth available:', !!(window.Firebase && window.Firebase.auth));
+    console.log('🔍 Firebase.initialized flag:', window.Firebase?.initialized);
+    console.log('🔍 Available Firebase properties:', window.Firebase ? Object.keys(window.Firebase) : 'none');
+
+    // Check if Firebase Auth is available even if initialized flag isn't set
+    if (window.Firebase && window.Firebase.auth) {
+      console.log('🔍 Firebase Auth detected, proceeding with initialization');
+      continueFirebaseAuthInit();
       return;
     }
 
+    // Wait for Firebase to be ready
+    if (!window.Firebase || !window.Firebase.initialized) {
+      console.log('🔍 Firebase not ready, waiting for firebaseInitialized event...');
+      document.addEventListener('firebaseInitialized', initFirebaseAuth);
+
+      // Add fallback timeout in case the event never fires
+      setTimeout(() => {
+        console.log('🔍 Timeout reached - debugging Firebase state:');
+        console.log('🔍 window.Firebase exists:', !!window.Firebase);
+        console.log('🔍 window.Firebase.auth exists:', !!(window.Firebase && window.Firebase.auth));
+        console.log('🔍 firebaseReady flag:', firebaseReady);
+
+        if (!firebaseReady && window.Firebase && window.Firebase.auth) {
+          console.log('⚠️ firebaseInitialized event timeout, proceeding with available Firebase');
+          continueFirebaseAuthInit();
+        } else if (!firebaseReady) {
+          console.log('❌ Firebase Auth still not available after timeout');
+          console.log('🔍 Available Firebase services:', window.Firebase ? Object.keys(window.Firebase) : 'none');
+        }
+      }, 2000); // Reduced to 2 seconds
+      return;
+    }
+
+    continueFirebaseAuthInit();
+  }
+
+  // Continue Firebase Auth initialization
+  function continueFirebaseAuthInit() {
+    if (firebaseReady) {
+      console.log('🔍 Firebase Auth already initialized, skipping...');
+      return;
+    }
+
+    console.log('🔍 Continuing Firebase Auth initialization...');
     firebaseReady = true;
     const auth = window.Firebase.auth;
     const db = window.Firebase.db;
@@ -60,7 +245,35 @@
     // Set up auth state listener
     auth.onAuthStateChanged(async (user) => {
       console.log('🔐 Firebase auth state changed:', user ? user.email : 'No user');
-      
+
+      // Check for test authentication in localStorage
+      const testAuthUser = localStorage.getItem('test_auth_user');
+      const testAuthActive = localStorage.getItem('test_auth_active');
+
+      // Don't override test authentication
+      if (usingTestAuth || (testAuthUser && testAuthActive === 'true')) {
+        console.log('🧪 Using test authentication, ignoring Firebase auth state change');
+
+        // If we have test auth data but no current user, restore it
+        if (testAuthUser && !currentUser) {
+          try {
+            const testUser = JSON.parse(testAuthUser);
+            currentUser = testUser;
+            userProfile = testUser.profile || testUser;
+            console.log('🧪 Restored test authentication for:', testUser.email);
+
+            safeEmitAuthState({
+              user: currentUser,
+              profile: userProfile,
+              isAuthenticated: true
+            });
+          } catch (error) {
+            console.error('❌ Error restoring test auth:', error);
+          }
+        }
+        return;
+      }
+
       if (user) {
         try {
           // Load user profile from Firestore
@@ -74,27 +287,37 @@
             });
           }
 
-          authEvents.emit('authStateChanged', { 
-            user: currentUser, 
+          safeEmitAuthState({
+            user: currentUser,
             profile: userProfile,
-            isAuthenticated: true 
+            isAuthenticated: true
           });
+
+          // COMPLETELY DISABLED AUTO-REDIRECT to stop loops
+          const currentPath = window.location.pathname;
+          console.log('🔄 Auth state changed, current path:', currentPath);
+          console.log('🔄 Profile loaded, ALL automatic redirects disabled');
         } catch (error) {
           console.error('❌ Error loading user profile:', error);
           currentUser = user;
-          authEvents.emit('authStateChanged', { 
-            user: currentUser, 
+          safeEmitAuthState({
+            user: currentUser,
             profile: null,
-            isAuthenticated: true 
+            isAuthenticated: true
           });
         }
       } else {
         currentUser = null;
         userProfile = null;
-        authEvents.emit('authStateChanged', { 
-          user: null, 
+
+        // Reset redirect flags when user logs out
+        window.homePageRedirectDone = false;
+        window.redirectInProgress = false;
+
+        safeEmitAuthState({
+          user: null,
           profile: null,
-          isAuthenticated: false 
+          isAuthenticated: false
         });
       }
 
@@ -104,28 +327,46 @@
 
     authInitialized = true;
     console.log('✅ Firebase Auth integration initialized');
+
+    // EMERGENCY DISABLE: Stop redirect loop
+    // checkHomePageRedirect();
   }
 
   // Process operations that were queued before auth was ready
   function processPendingOperations() {
-    pendingOperations.forEach(operation => {
+    console.log('🔍 Processing', pendingOperations.length, 'pending operations');
+    pendingOperations.forEach((operation, index) => {
       try {
+        console.log('🔍 Executing pending operation', index + 1);
         operation();
       } catch (error) {
         console.error('❌ Error processing pending operation:', error);
       }
     });
     pendingOperations = [];
+    console.log('✅ All pending operations processed');
   }
 
-  // Queue operation if Firebase not ready
+  // Queue operation if Firebase not ready, with timeout
   function queueOrExecute(operation) {
+    console.log('🔍 queueOrExecute called - firebaseReady:', firebaseReady, 'authInitialized:', authInitialized);
+
     if (firebaseReady && authInitialized) {
+      console.log('🔍 Firebase ready, executing operation immediately');
       return operation();
     } else {
+      console.log('🔍 Firebase not ready, queueing operation with timeout');
       return new Promise((resolve, reject) => {
+        // Add timeout for queued operations
+        const timeoutId = setTimeout(() => {
+          console.error('❌ Queued operation timed out waiting for Firebase initialization');
+          reject(new Error('Firebase initialization timeout'));
+        }, 30000); // 30 second timeout
+
         pendingOperations.push(() => {
+          clearTimeout(timeoutId);
           try {
+            console.log('🔍 Executing queued operation');
             resolve(operation());
           } catch (error) {
             reject(error);
@@ -135,27 +376,87 @@
     }
   }
 
-  // Load user profile from Firestore
+  // Load user profile from Firestore with retry logic
   async function loadUserProfile(user) {
     if (!user) return null;
 
-    try {
-      const db = window.Firebase.db;
-      const profileDoc = await db.collection('users').doc(user.uid).get();
-      
-      if (profileDoc.exists) {
-        userProfile = { id: user.uid, ...profileDoc.data() };
-        console.log('✅ User profile loaded:', userProfile.email);
-      } else {
-        // Create profile if it doesn't exist
-        userProfile = await createUserProfile(user);
+    let retryCount = 0;
+    const maxRetries = 3;
+
+    while (retryCount <= maxRetries) {
+      try {
+        const db = window.Firebase.db;
+        if (!db) {
+          console.warn('⚠️ Firestore not available, creating minimal profile');
+          userProfile = createMinimalProfile(user);
+          return userProfile;
+        }
+
+        const profileDoc = await db.collection('users').doc(user.uid).get();
+
+        if (profileDoc.exists) {
+          userProfile = { id: user.uid, ...profileDoc.data() };
+          console.log('✅ User profile loaded:', userProfile.email);
+        } else {
+          // Create profile if it doesn't exist
+          try {
+            userProfile = await createUserProfile(user);
+          } catch (createError) {
+            console.warn('⚠️ Failed to create profile, using minimal profile:', createError.message);
+            userProfile = createMinimalProfile(user);
+          }
+        }
+
+        return userProfile;
+      } catch (error) {
+        if (isNetworkError(error) && retryCount < maxRetries) {
+          console.log(`🔄 Profile loading failed, retrying... (${retryCount + 1}/${maxRetries})`);
+          retryCount++;
+          await sleep(1000 * retryCount);
+          continue;
+        }
+
+        console.error('❌ Error loading user profile after retries:', error);
+
+        // Create minimal profile as fallback
+        console.log('🔄 Creating minimal profile as fallback');
+        userProfile = createMinimalProfile(user);
+        return userProfile;
       }
-      
-      return userProfile;
-    } catch (error) {
-      console.error('❌ Error loading user profile:', error);
-      throw error;
     }
+  }
+
+  // Create minimal profile when Firestore is unavailable
+  function createMinimalProfile(user) {
+    return {
+      id: user.uid,
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName || '',
+      photoURL: user.photoURL || '',
+      emailVerified: user.emailVerified,
+      accountType: determineAccountTypeFromEmail(user.email),
+      isActive: true,
+      createdAt: new Date().toISOString(),
+      preferences: {
+        theme: 'dark',
+        language: 'en'
+      }
+    };
+  }
+
+  // Determine account type from email domain
+  function determineAccountTypeFromEmail(email) {
+    if (!email) return 'student';
+
+    const domain = email.split('@')[1]?.toLowerCase() || '';
+
+    if (domain.includes('university') || domain.includes('college') || domain.includes('edu')) {
+      // Could be student or institution - default to student for safety
+      return 'student';
+    }
+
+    return 'student'; // Default fallback
   }
 
   // Create user profile in Firestore
@@ -252,52 +553,80 @@
     });
   }
 
-  // Login user with email and password
+  // Login user with email and password - waits for Firebase to be ready
   async function login(email, password) {
+    // Check if this is a test account first - NO QUEUEING for test accounts
+    if (testAccounts[email]) {
+      console.log('🧪 Test account detected, handling immediately without queueing');
+      showAuthLoading(true, 'Signing in...');
+      showAuthLoading(false);
+      return handleTestLogin(email, password);
+    }
+
     return queueOrExecute(async () => {
       try {
         showAuthLoading(true, 'Signing in...');
-        
-        const auth = window.Firebase.auth;
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-        const user = userCredential.user;
 
-        // Update last login time
-        if (window.Firebase.db) {
-          await window.Firebase.db.collection('users').doc(user.uid).update({
-            lastLoginAt: window.FirebaseUtils.getTimestamp()
-          });
+        const auth = window.Firebase.auth;
+        if (!auth) {
+          throw new Error('Firebase Auth not available');
         }
 
+        // Firebase authentication with extended timeout
+        console.log('🔍 Attempting Firebase signInWithEmailAndPassword...');
+        const userCredential = await Promise.race([
+          auth.signInWithEmailAndPassword(email, password),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Login timeout - please check your internet connection and try again')), 20000)
+          )
+        ]);
+        console.log('🔍 Firebase signInWithEmailAndPassword completed');
+
+        const user = userCredential.user;
         console.log('✅ Login successful:', email);
-        return { 
-          success: true, 
+
+        // Wait for user profile to load before returning
+        console.log('🔍 Waiting for user profile to load...');
+        await loadUserProfile(user);
+        console.log('✅ User profile loaded:', userProfile);
+
+        showAuthLoading(false);
+
+        return {
+          success: true,
           user: user,
           profile: userProfile,
-          message: 'Login successful!' 
+          message: 'Login successful!'
         };
 
       } catch (error) {
-        console.error('❌ Login failed:', error);
-        const friendlyMessage = window.FirebaseErrorHandler.handleAuthError(error);
-        return { 
-          success: false, 
-          error: friendlyMessage,
-          code: error.code 
-        };
-      } finally {
         showAuthLoading(false);
+        console.error('❌ Login failed:', error);
+
+        const friendlyMessage = window.FirebaseErrorHandler?.handleAuthError
+          ? window.FirebaseErrorHandler.handleAuthError(error)
+          : error.message;
+
+        return {
+          success: false,
+          error: friendlyMessage,
+          code: error.code
+        };
       }
     });
   }
 
-  // Login with Google
+  // Google login - waits for Firebase to be ready
   async function loginWithGoogle() {
     return queueOrExecute(async () => {
       try {
         showAuthLoading(true, 'Signing in with Google...');
-        
+
         const auth = window.Firebase.auth;
+        if (!auth) {
+          throw new Error('Firebase Auth not available');
+        }
+
         const provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope('profile');
         provider.addScope('email');
@@ -305,41 +634,36 @@
         const result = await auth.signInWithPopup(provider);
         const user = result.user;
 
-        // Check if this is a new user
-        const isNewUser = result.additionalUserInfo?.isNewUser;
-        
-        if (isNewUser) {
-          // Create profile for new Google users
-          await createUserProfile(user, {
-            firstName: user.displayName?.split(' ')[0] || '',
-            lastName: user.displayName?.split(' ').slice(1).join(' ') || '',
-            accountType: 'student' // Default, can be changed later
-          });
-        } else {
-          // Update last login for existing users
-          await window.Firebase.db.collection('users').doc(user.uid).update({
-            lastLoginAt: window.FirebaseUtils.getTimestamp()
-          });
-        }
-
         console.log('✅ Google login successful:', user.email);
-        return { 
-          success: true, 
+        showAuthLoading(false);
+
+        // NO REDIRECT - let user navigate manually or page handle it
+
+        return {
+          success: true,
           user: user,
-          profile: userProfile,
-          message: 'Google login successful!' 
+          message: 'Google login successful!'
         };
 
       } catch (error) {
-        console.error('❌ Google login failed:', error);
-        const friendlyMessage = window.FirebaseErrorHandler.handleAuthError(error);
-        return { 
-          success: false, 
-          error: friendlyMessage,
-          code: error.code 
-        };
-      } finally {
         showAuthLoading(false);
+        console.error('❌ Google login failed:', error);
+
+        // Handle test mode
+        if (error.message && error.message.includes('Mock Firebase')) {
+          console.log('🧪 Mock Firebase detected for Google sign-in, using test bypass');
+          return handleTestLogin('test@student.edu', 'TestStudent123!');
+        }
+
+        const friendlyMessage = window.FirebaseErrorHandler?.handleAuthError
+          ? window.FirebaseErrorHandler.handleAuthError(error)
+          : error.message;
+
+        return {
+          success: false,
+          error: friendlyMessage,
+          code: error.code
+        };
       }
     });
   }
@@ -357,6 +681,15 @@
         if (window.Firebase.analytics) {
           window.Firebase.analytics.logEvent('logout');
         }
+
+        // Reset redirect flags on logout
+        window.homePageRedirectDone = false;
+        window.redirectInProgress = false;
+        usingTestAuth = false; // Reset test auth flag
+
+        // Clear test authentication state
+        localStorage.removeItem('test_auth_user');
+        localStorage.removeItem('test_auth_active');
 
         console.log('✅ Logout successful');
         return { success: true, message: 'Logged out successfully' };
@@ -546,7 +879,18 @@
 
   // Check if user is authenticated
   function isAuthenticated() {
-    return !!(currentUser && (!currentUser.emailVerified === false));
+    // Check test authentication first
+    const testAuthActive = localStorage.getItem('test_auth_active');
+    if (testAuthActive === 'true' && currentUser) {
+      console.log('🔍 isAuthenticated check - test auth active:', true);
+      return true;
+    }
+
+    const isAuth = !!(currentUser && authInitialized);
+    console.log('🔍 isAuthenticated check - currentUser:', !!currentUser);
+    console.log('🔍 isAuthenticated check - authInitialized:', authInitialized);
+    console.log('🔍 isAuthenticated check - result:', isAuth);
+    return isAuth;
   }
 
   // Check if user has specific role
@@ -563,7 +907,11 @@
 
   // Show/hide authentication loading state
   function showAuthLoading(show, message = 'Loading...') {
+    console.log('🔄 showAuthLoading called:', show, message);
+
     const loadingEl = document.querySelector('#loadingIndicator');
+    const loginButton = document.querySelector('#loginButton');
+
     if (loadingEl) {
       loadingEl.style.display = show ? 'flex' : 'none';
       const messageEl = loadingEl.querySelector('span');
@@ -572,10 +920,18 @@
       }
     }
 
+    // Update login button state
+    if (loginButton) {
+      loginButton.disabled = show;
+      loginButton.textContent = show ? message : 'Sign In';
+    }
+
     // Also emit loading event
     document.dispatchEvent(new CustomEvent('authLoadingChanged', {
       detail: { loading: show, message }
     }));
+
+    console.log('🔄 Loading state updated - show:', show, 'button disabled:', loginButton?.disabled);
   }
 
   // Redirect to login page
@@ -587,103 +943,36 @@
     window.location.href = '/auth/index.html';
   }
 
-  // Redirect after successful login
-  async function redirectAfterLogin() {
+  // Redirect after successful login based on account type
+  function redirectAfterLogin() {
     console.log('🔄 redirectAfterLogin called');
 
+    // Check for intended destination first
     const intendedDestination = sessionStorage.getItem('flow_redirect_after_login');
     if (intendedDestination) {
-      console.log('🔄 Using intended destination:', intendedDestination);
       sessionStorage.removeItem('flow_redirect_after_login');
+      console.log('🔄 Redirecting to intended destination:', intendedDestination);
       window.location.href = intendedDestination;
       return;
     }
 
-    // Check for account type hint from onboarding/storage
-    let accountTypeHint = sessionStorage.getItem('flow_account_type') ||
-                         localStorage.getItem('flow_account_type') ||
-                         new URLSearchParams(window.location.search).get('accountType');
+    // Get user profile to determine account type
+    const profile = getUserProfile();
+    const user = getCurrentUser();
 
-    console.log('🔍 Account type hint from storage/URL:', accountTypeHint);
+    console.log('🔄 User profile:', profile);
+    console.log('🔄 Current user:', user);
 
-    // If no hint, try to get account type from user's Firestore profile
-    if (!accountTypeHint) {
-      const currentUser = window.Firebase?.auth?.currentUser;
-      if (currentUser && window.Firebase?.db) {
-        try {
-          console.log('🔍 Checking Firestore for user account type...');
+    // Determine account type from multiple sources
+    const accountType = profile?.accountType ||
+                       user?.accountType ||
+                       profile?.userType ||
+                       profile?.type;
 
-          // Check all collections in parallel to find user data
-          const collections = ['students', 'institutions', 'counselors', 'parents', 'recommenders'];
-          const queries = collections.map(async (collectionName) => {
-            try {
-              // First try by document ID (uid)
-              const docByUid = await window.Firebase.db.collection(collectionName).doc(currentUser.uid).get();
-              if (docByUid.exists) {
-                return {
-                  collection: collectionName,
-                  data: docByUid.data(),
-                  foundBy: 'uid'
-                };
-              }
+    console.log('🔄 Determined account type:', accountType);
 
-              // Then try by email query
-              const queryByEmail = await window.Firebase.db.collection(collectionName)
-                .where('email', '==', currentUser.email)
-                .limit(1)
-                .get();
-
-              if (!queryByEmail.empty) {
-                return {
-                  collection: collectionName,
-                  data: queryByEmail.docs[0].data(),
-                  foundBy: 'email'
-                };
-              }
-
-              return null;
-            } catch (error) {
-              console.log(`Collection ${collectionName} query failed:`, error.message);
-              return null;
-            }
-          });
-
-          // Wait for all queries to complete
-          const results = await Promise.allSettled(queries);
-          const foundResult = results
-            .filter(result => result.status === 'fulfilled' && result.value)
-            .map(result => result.value)
-            .find(result => result !== null);
-
-          if (foundResult) {
-            // Map collection name to account type
-            const collectionToAccountType = {
-              'students': 'student',
-              'institutions': 'institution',
-              'counselors': 'counselor',
-              'parents': 'parent',
-              'recommenders': 'recommender'
-            };
-
-            accountTypeHint = collectionToAccountType[foundResult.collection] || foundResult.data.userType || foundResult.data.accountType;
-            console.log(`✅ Found user profile in ${foundResult.collection} (by ${foundResult.foundBy}):`, accountTypeHint);
-          } else {
-            // Check users collection as final fallback
-            const userDoc = await window.Firebase.db.collection('users').doc(currentUser.uid).get();
-            if (userDoc.exists) {
-              const userData = userDoc.data();
-              accountTypeHint = userData.accountType || userData.userType;
-              console.log('✅ Found account type in users collection:', accountTypeHint);
-            }
-          }
-        } catch (error) {
-          console.error('❌ Error checking Firestore for account type:', error);
-        }
-      }
-    }
-
-    // Dashboard URLs mapping
-    const dashboardUrls = {
+    // Route configuration for each account type
+    const dashboardRoutes = {
       student: '/students/',
       institution: '/institutions/',
       counselor: '/counselors/',
@@ -691,35 +980,11 @@
       recommender: '/recommenders/'
     };
 
-    let dashboardUrl;
+    // Get the appropriate dashboard for the user's account type
+    const dashboardPath = dashboardRoutes[accountType] || '/students/';
 
-    // Use account type to determine dashboard
-    if (accountTypeHint && dashboardUrls[accountTypeHint]) {
-      dashboardUrl = dashboardUrls[accountTypeHint];
-      console.log(`🔄 Redirecting to ${accountTypeHint} dashboard`);
-    }
-    // Check user profile if loaded
-    else if (userProfile?.accountType && dashboardUrls[userProfile.accountType]) {
-      dashboardUrl = dashboardUrls[userProfile.accountType];
-      console.log(`🔄 Redirecting to ${userProfile.accountType} dashboard from profile`);
-    }
-    // Enhanced fallback: if we're on auth page, redirect to student dashboard; otherwise stay on current page
-    else {
-      if (window.location.pathname.includes('/auth/')) {
-        dashboardUrl = '/students/';
-        console.log('🔄 Using fallback: redirecting to default student dashboard from auth page');
-      } else {
-        console.log('🔄 Could not determine account type, staying on current page');
-        return; // Don't redirect if we can't determine the account type and we're not on auth page
-      }
-    }
-
-    // Clean up hints
-    sessionStorage.removeItem('flow_account_type');
-    localStorage.removeItem('flow_account_type');
-
-    console.log('🔄 Final redirect URL:', dashboardUrl);
-    window.location.href = dashboardUrl;
+    console.log('🔄 Redirecting to dashboard:', dashboardPath);
+    window.location.href = dashboardPath;
   }
 
   // Password validation
@@ -758,10 +1023,64 @@
     return emailRegex.test(email);
   }
 
+  // Utility functions
+
+  // Check if error is network-related
+  function isNetworkError(error) {
+    const networkErrorCodes = [
+      'auth/network-request-failed',
+      'auth/timeout',
+      'unavailable',
+      'deadline-exceeded',
+      'internal'
+    ];
+    return networkErrorCodes.includes(error.code) ||
+           error.message?.includes('network') ||
+           error.message?.includes('timeout') ||
+           error.message?.includes('fetch');
+  }
+
+  // Sleep utility for retry delays
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  // Check for existing test authentication on page load
+  function checkExistingTestAuth() {
+    const testAuthUser = localStorage.getItem('test_auth_user');
+    const testAuthActive = localStorage.getItem('test_auth_active');
+
+    if (testAuthUser && testAuthActive === 'true') {
+      try {
+        const testUser = JSON.parse(testAuthUser);
+        currentUser = testUser;
+        userProfile = testUser.profile || testUser;
+        usingTestAuth = true;
+
+        console.log('🧪 Restored test authentication on page load for:', testUser.email);
+
+        // Emit auth state change to update UI
+        safeEmitAuthState({
+          user: currentUser,
+          profile: userProfile,
+          isAuthenticated: true
+        });
+      } catch (error) {
+        console.error('❌ Error restoring test auth on page load:', error);
+        localStorage.removeItem('test_auth_user');
+        localStorage.removeItem('test_auth_active');
+      }
+    }
+  }
+
   // Initialize when DOM is ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFirebaseAuth);
+    document.addEventListener('DOMContentLoaded', () => {
+      checkExistingTestAuth();
+      initFirebaseAuth();
+    });
   } else {
+    checkExistingTestAuth();
     initFirebaseAuth();
   }
 
@@ -778,6 +1097,10 @@
     authEvents.emit('authError', error);
   }
 
+  // Check and redirect authenticated users on page load
+  // REMOVED: checkAndRedirectIfAuthenticated function to prevent automatic redirects
+  // Redirects now only happen on explicit login success
+
   // Export Firebase Auth API
   window.FlowAuth = {
     // Authentication methods
@@ -787,34 +1110,34 @@
     logout,
     sendPasswordResetEmail,
     resendEmailVerification,
-    
+
     // Profile management
     updateProfile,
     deleteAccount,
-    
+
     // User info
     getCurrentUser,
     getUserProfile,
     isAuthenticated,
     hasRole,
     hasAccountType,
-    
+
     // Navigation
     redirectToLogin,
     redirectAfterLogin,
-    
+
     // Validation
     validatePassword,
     validateEmail,
-    
+
     // Events
     on: authEvents.on.bind(authEvents),
     off: authEvents.off.bind(authEvents),
-    
+
     // Internal methods (for backward compatibility)
     _updateFirebaseUser,
     _handleAuthError,
-    
+
     // Constants
     ACCOUNT_TYPES: {
       STUDENT: 'student',

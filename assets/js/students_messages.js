@@ -131,7 +131,7 @@
     const now = Date.now();
     const notifs = [
       { id: 'n-mobile-money', title: 'Mobile Money Ready', body: 'Pay fees instantly with M-Pesa, MTN MoMo, or Airtel Money.', ts: now - 60 * 60 * 1000, type: 'system', read: false, cta: { label: 'Open Finance', href: '/students/finance.html' } },
-      { id: 'n-task-due',     title: 'Task due: Essay Draft', body: 'Your essay for Abuja Tech Institute is due Sept 1.', ts: now - 2 * 60 * 60 * 1000, type: 'task',   read: false, cta: { label: 'View Tasks', href: '/students/#dashboard' } },
+      { id: 'n-task-due',     title: 'Task due: Essay Draft', body: 'Your essay for Abuja Tech Institute is due Sept 1.', ts: now - 2 * 60 * 60 * 1000, type: 'task',   read: false, cta: { label: 'View Tasks', href: '/students/' } },
       { id: 'n-app-update',   title: 'Application updated', body: 'University of Accra application status: Under Review.', ts: now - 3 * 24 * 60 * 60 * 1000, type: 'application', read: true, cta: { label: 'Open Applications', href: '/students/applications.html' } },
     ];
     Flow.store.set(KEY_NOTIFS, notifs);

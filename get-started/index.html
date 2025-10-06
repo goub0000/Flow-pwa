@@ -1,185 +1,531 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flow — Choose your account type</title>
+  <meta name="description" content="Pick your role to start: Student, Institution, Counselor, Parent, or Recommender.">
+  <meta name="theme-color" content="#373896">
 
-  <title data-i18n-title="modal.chooseAccountType">Flow — Choose your account type</title>
-  <meta name="description" content="Pick your role to start: Student, Institution, Counselor, Parent, or Recommender." />
+  <!-- Favicons -->
+  <link rel="icon" href="/assets/img/logo.PNG" type="image/png">
+  <link rel="apple-touch-icon" href="/assets/img/logo.PNG">
 
-  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
-  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+  <!-- Base CSS for consistent styling -->
+  <link rel="stylesheet" href="/assets/css/base.css">
 
-  <!-- Core styles -->
-  <link rel="stylesheet" href="/assets/css/base.css" />
-  <link rel="stylesheet" href="/assets/css/get-started.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f8f9fa;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    .header {
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header__inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #373896;
+    }
+
+    .brand__logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #373896;
+    }
+
+    .brand__name {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .lang-switch select {
+      padding: 8px 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 6px;
+      background: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .nav__list {
+      display: flex;
+      list-style: none;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .nav__list a {
+      text-decoration: none;
+      color: #666;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav__list a:hover {
+      color: #373896;
+    }
+
+    .nav__toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      color: #373896;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .btn--primary {
+      background: #373896;
+      color: white;
+      border-color: #373896;
+    }
+
+    .btn--primary:hover {
+      background: #2c2d7a;
+      transform: translateY(-1px);
+    }
+
+    .btn--secondary {
+      background: transparent;
+      color: #373896;
+      border-color: #373896;
+    }
+
+    .btn--secondary:hover {
+      background: #373896;
+      color: white;
+      transform: translateY(-1px);
+    }
+
+    /* Main Content */
+    .main {
+      padding: 40px 0 80px;
+    }
+
+    .breadcrumb {
+      margin-bottom: 2rem;
+    }
+
+    .breadcrumb ol {
+      list-style: none;
+      display: flex;
+      gap: 0.5rem;
+      margin: 0;
+      padding: 0;
+      color: #6b7280;
+      font-size: 14px;
+    }
+
+    .breadcrumb a {
+      text-decoration: none;
+      color: #373896;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+      font-size: 2.5rem;
+      color: #373896;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .page-header p {
+      font-size: 1.1rem;
+      color: #666;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Cards Grid */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      border: 2px solid #e5e7eb;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      border-color: #373896;
+    }
+
+    .card h2 {
+      font-size: 1.5rem;
+      color: #373896;
+      margin-bottom: 1rem;
+      margin-top: 0;
+    }
+
+    .card p {
+      color: #666;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .card .btn {
+      width: auto;
+      margin-top: 0.5rem;
+    }
+
+    /* Footer */
+    .footer {
+      background: #1f2937;
+      color: white;
+      padding: 60px 0 30px;
+      margin-top: auto;
+    }
+
+    .footer__inner {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    .footer__brand .brand {
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .footer__nav {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer__section h3 {
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: #d1d5db;
+    }
+
+    .footer__section ul {
+      list-style: none;
+    }
+
+    .footer__section li {
+      margin-bottom: 0.5rem;
+    }
+
+    .footer__section a {
+      color: #9ca3af;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer__section a:hover {
+      color: white;
+    }
+
+    .footer__bottom {
+      border-top: 1px solid #374151;
+      padding-top: 2rem;
+      text-align: center;
+      color: #9ca3af;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav__list {
+        display: none;
+      }
+
+      .nav__toggle {
+        display: block;
+      }
+
+      .page-header h1 {
+        font-size: 2rem;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .footer__inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .header__inner {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .main {
+        padding: 20px 0 60px;
+      }
+
+      .page-header h1 {
+        font-size: 1.75rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Skip link for accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: #373896;
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      border-radius: 4px;
+      z-index: 1000;
+    }
+
+    .skip-link:focus {
+      top: 6px;
+    }
+  </style>
 </head>
 <body>
-  <a href="#main" class="skip-link" data-i18n="accessibility.skipToContent">Skip to content</a>
+  <a href="#main" class="skip-link">Skip to content</a>
 
-  <header class="header" role="banner" aria-label="Site header">
-    <div class="container header__inner">
-      <a class="brand" href="/" aria-label="Flow home">
-        <div class="logo-glow">
-          <img src="/assets/img/logo.png" alt="Flow logo" class="brand__logo" />
-        </div>
-        <span class="brand__name">Flow</span>
-      </a>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <a href="/" class="brand">
+          <img src="/assets/img/logo.PNG" alt="Flow Logo" class="brand__logo">
+          <span class="brand__name">Flow</span>
+        </a>
 
-      <form class="lang-switch" aria-label="Language selector">
-        <label for="lang" class="sr-only" data-i18n="accessibility.selectLanguage">Language</label>
-        <select id="lang" name="lang">
-          <option value="en" selected>English</option>
-          <option value="fr">Français</option>
-          <option value="ar" dir="rtl">العربية</option>
-          <option value="sw">Kiswahili</option>
-          <option value="es">Español</option>
-        </select>
-      </form>
+        <form class="lang-switch" aria-label="Language selector">
+          <label for="lang" style="display: none;">Language</label>
+          <select id="lang" name="lang">
+            <option value="en" selected>English</option>
+            <option value="fr">Français</option>
+            <option value="ar">العربية</option>
+            <option value="sw">Kiswahili</option>
+            <option value="es">Español</option>
+          </select>
+        </form>
 
-      <nav class="nav" role="navigation" aria-label="Main navigation">
-        <button class="nav__toggle"
-                aria-expanded="false"
-                aria-controls="navMenu"
-                type="button"
-                data-i18n="accessibility.toggleMenu"
-                data-i18n-attrs='{"aria-label":"accessibility.toggleMenu"}'>
-          Menu
-        </button>
-        <ul id="navMenu" class="nav__list">
-          <li><a href="/" data-i18n="nav.home">Home</a></li>
-          <li><a href="/students/" data-i18n="nav.students">Students</a></li>
-          <li><a href="/institutions/" data-i18n="nav.institutions">Institutions</a></li>
-          <li><a href="/counselors/" data-i18n="nav.counselors">Counselors</a></li>
-          <li><a href="/parents/" data-i18n="nav.parents">Parents</a></li>
-          <li><a href="/recommenders/" data-i18n="nav.recommenders">Recommenders</a></li>
-          <li><a class="btn btn--primary nav-login" href="/auth/" data-i18n="auth.signIn">Sign In</a></li>
-        </ul>
-      </nav>
+        <nav class="nav">
+          <button class="nav__toggle" aria-expanded="false" aria-controls="navMenu" type="button">
+            Menu
+          </button>
+          <ul id="navMenu" class="nav__list">
+            <li><a href="/">Home</a></li>
+            <li><a href="/students/">Students</a></li>
+            <li><a href="/institutions/">Institutions</a></li>
+            <li><a href="/counselors/">Counselors</a></li>
+            <li><a href="/parents/">Parents</a></li>
+            <li><a href="/recommenders/">Recommenders</a></li>
+            <li><a class="btn btn--primary" href="/auth/">Sign In</a></li>
+          </ul>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <main id="main">
-    <section class="section" aria-labelledby="chooseTitle" style="padding-top:2rem">
-      <div class="container">
-        <nav aria-label="Breadcrumb" style="margin-bottom:1rem">
-          <ol style="list-style:none;display:flex;gap:.35rem;margin:0;padding:0;color:#6b7280">
-            <li><a href="/" data-i18n="nav.home" style="text-decoration:none">Home</a></li>
-            <li aria-hidden="true">/</li>
-            <li><strong data-i18n="nav.getStarted">Get Started</strong></li>
-          </ol>
-        </nav>
+  <!-- Main Content -->
+  <main id="main" class="main">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav aria-label="Breadcrumb" class="breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li aria-hidden="true">/</li>
+          <li><strong>Get Started</strong></li>
+        </ol>
+      </nav>
 
-        <header class="prose" style="margin-bottom:1rem">
-          <h1 id="chooseTitle" data-i18n="modal.chooseAccountType">Choose account type</h1>
-          <p data-i18n="modal.subtitle">Select the option that best describes you</p>
-        </header>
+      <!-- Page Header -->
+      <header class="page-header">
+        <h1>Choose your account type</h1>
+        <p>Select the option that best describes you to get started with Flow</p>
+      </header>
 
-        <div class="cards cards--grid">
-          <!-- Student -->
-          <article class="card" aria-labelledby="studentTitle">
-            <h2 id="studentTitle" data-i18n="modal.student">Student</h2>
-            <p data-i18n="modal.student.desc">Create a profile, discover programs, apply once, track everywhere.</p>
-            <a class="btn btn--primary" href="/students/onboarding.html" rel="nofollow" data-i18n="btn.continue">Continue</a>
-          </article>
+      <!-- Account Type Cards -->
+      <div class="cards">
+        <!-- Student -->
+        <article class="card">
+          <h2>Student</h2>
+          <p>Create a profile, discover programs, apply once, track everywhere. Perfect for students looking to apply to multiple universities.</p>
+          <a class="btn btn--primary" href="/students/onboarding.html">Continue as Student</a>
+        </article>
 
-          <!-- Institution -->
-          <article class="card" aria-labelledby="instTitle">
-            <h2 id="instTitle" data-i18n="modal.institution">Institution</h2>
-            <p data-i18n="modal.institution.desc">Review applicants, manage programs, analyze metrics.</p>
-            <a class="btn btn--primary" href="/institutions/onboarding.html" rel="nofollow" data-i18n="btn.continue">Continue</a>
-          </article>
+        <!-- Institution -->
+        <article class="card">
+          <h2>Institution</h2>
+          <p>Review applicants, manage programs, analyze metrics. Streamline your admissions process and connect with prospective students.</p>
+          <a class="btn btn--primary" href="/institutions/onboarding.html">Continue as Institution</a>
+        </article>
 
-          <!-- Counselor -->
-          <article class="card" aria-labelledby="counTitle">
-            <h2 id="counTitle" data-i18n="modal.counselor">Counselor</h2>
-            <p data-i18n="modal.counselor.desc">Support multiple students and track their progress.</p>
-            <a class="btn btn--primary" href="/counselors/onboarding.html" rel="nofollow" data-i18n="btn.continue">Continue</a>
-          </article>
+        <!-- Counselor -->
+        <article class="card">
+          <h2>Counselor</h2>
+          <p>Support multiple students and track their progress. Help guide students through their university application journey.</p>
+          <a class="btn btn--primary" href="/counselors/onboarding.html">Continue as Counselor</a>
+        </article>
 
-          <!-- Parent -->
-          <article class="card" aria-labelledby="parentTitle">
-            <h2 id="parentTitle" data-i18n="modal.parent">Parent / Guardian</h2>
-            <p data-i18n="modal.parent.desc">View your child's progress and approve key steps.</p>
-            <a class="btn btn--primary" href="/parents/onboarding.html" rel="nofollow" data-i18n="btn.continue">Continue</a>
-          </article>
+        <!-- Parent -->
+        <article class="card">
+          <h2>Parent</h2>
+          <p>Monitor your child's application progress and collaborate in their university selection process. Stay informed every step of the way.</p>
+          <a class="btn btn--primary" href="/parents/onboarding.html">Continue as Parent</a>
+        </article>
 
-          <!-- Recommender -->
-          <article class="card" aria-labelledby="recTitle">
-            <h2 id="recTitle" data-i18n="modal.recommender">Recommender</h2>
-            <p data-i18n="modal.recommender.desc">Securely upload recommendation letters.</p>
-            <a class="btn btn--primary" href="/recommenders/onboarding.html" rel="nofollow" data-i18n="btn.continue">Continue</a>
-          </article>
-        </div>
-
-        <!-- Quick chooser (no extra JS required) -->
-        <form class="card" aria-labelledby="quickTitle" style="margin-top:2rem">
-          <h2 id="quickTitle" data-i18n="modal.chooseAccountType">Choose account type</h2>
-          <label for="role" data-i18n="modal.chooseAccountType">Choose account type</label>
-          <select id="role" name="role">
-            <option value="/students/onboarding.html" data-i18n="modal.student">Student</option>
-            <option value="/institutions/onboarding.html" data-i18n="modal.institution">Institution</option>
-            <option value="/counselors/onboarding.html" data-i18n="modal.counselor">Counselor</option>
-            <option value="/parents/onboarding.html" data-i18n="modal.parent">Parent / Guardian</option>
-            <option value="/recommenders/onboarding.html" data-i18n="modal.recommender">Recommender</option>
-          </select>
-          <button class="btn btn--secondary" type="button"
-                  onclick="try{location.href=document.getElementById('role').value;}catch(e){}"
-                  data-i18n="btn.continue">
-            Continue
-          </button>
-        </form>
+        <!-- Recommender -->
+        <article class="card">
+          <h2>Recommender</h2>
+          <p>Write and submit recommendation letters for students. Manage multiple recommendations efficiently and securely.</p>
+          <a class="btn btn--primary" href="/recommenders/onboarding.html">Continue as Recommender</a>
+        </article>
       </div>
-    </section>
+
+      <!-- Additional Help -->
+      <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: white; border-radius: 12px; border: 1px solid #e5e7eb;">
+        <h3 style="color: #373896; margin-bottom: 1rem;">Need Help Choosing?</h3>
+        <p style="color: #666; margin-bottom: 1.5rem;">Not sure which account type is right for you? Contact our support team for guidance.</p>
+        <a href="/contact/" class="btn btn--secondary">Contact Support</a>
+      </div>
+    </div>
   </main>
 
-  <footer class="footer" role="contentinfo" aria-label="Site footer">
-    <div class="container footer__grid">
-      <section class="footer__brand">
-        <img src="/assets/img/logo.png" alt="" class="footer__logo" />
-        <p class="footer__tagline" data-i18n="footer.tagline">Connecting learners and institutions across Africa.</p>
-      </section>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <a href="/" class="brand">
+            <img src="/assets/img/logo.PNG" alt="Flow Logo" class="brand__logo">
+            <span class="brand__name">Flow</span>
+          </a>
+          <p>Streamlining university applications across Africa</p>
+        </div>
 
-      <nav aria-label="Explore" class="footer__nav">
-        <h3 class="footer__title" data-i18n="footer.explore">Explore</h3>
-        <ul>
-          <li><a href="/students/" data-i18n="nav.students">Students</a></li>
-          <li><a href="/institutions/" data-i18n="nav.institutions">Institutions</a></li>
-          <li><a href="/counselors/" data-i18n="nav.counselors">Counselors</a></li>
-          <li><a href="/parents/" data-i18n="nav.parents">Parents</a></li>
-          <li><a href="/recommenders/" data-i18n="nav.recommenders">Recommenders</a></li>
-        </ul>
-      </nav>
+        <div class="footer__nav">
+          <div class="footer__section">
+            <h3>Platform</h3>
+            <ul>
+              <li><a href="/students/">Students</a></li>
+              <li><a href="/institutions/">Institutions</a></li>
+              <li><a href="/counselors/">Counselors</a></li>
+              <li><a href="/parents/">Parents</a></li>
+              <li><a href="/recommenders/">Recommenders</a></li>
+            </ul>
+          </div>
 
-      <nav aria-label="Legal" class="footer__nav">
-        <h3 class="footer__title" data-i18n="footer.legal">Legal</h3>
-        <ul>
-          <li><a href="/legal/terms.html" data-i18n="footer.terms">Terms</a></li>
-          <li><a href="/legal/privacy.html" data-i18n="footer.privacy">Privacy</a></li>
-          <li><a href="/legal/cookies.html" data-i18n="footer.cookies">Cookies</a></li>
-        </ul>
-      </nav>
+          <div class="footer__section">
+            <h3>Support</h3>
+            <ul>
+              <li><a href="/contact/">Contact</a></li>
+              <li><a href="/community/">Community</a></li>
+              <li><a href="/blog/">Blog</a></li>
+            </ul>
+          </div>
 
-      <section class="footer__cta">
-        <h3 class="footer__title" data-i18n="auth.signIn">Sign In</h3>
-        <a href="/auth/" class="btn btn--primary" data-i18n="auth.signIn">Sign In</a>
-      </section>
-    </div>
+          <div class="footer__section">
+            <h3>Legal</h3>
+            <ul>
+              <li><a href="/legal/">Privacy Policy</a></li>
+              <li><a href="/legal/">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-    <div class="footer__meta">
-      <div class="container">
-        <small>© <span id="year"></span> Flow</small>
+      <div class="footer__bottom">
+        <p>&copy; 2025 Flow. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-  <script>
-    (function(){ try { document.getElementById('year').textContent = new Date().getFullYear(); } catch(e){} })();
-  </script>
+  <!-- Scripts -->
+  <script src="/assets/js/firebase-config.js"></script>
+  <script src="/assets/js/firebase-auth.js"></script>
+  <script src="/assets/js/main.js"></script>
 
-  <!-- Keep script order consistent with the home page -->
-  <script src="/assets/js/auth.js" defer></script>
-  <script src="/assets/js/i18n.js" defer></script>
-  <script src="/assets/js/main.js" defer></script>
+  <!-- Simple mobile menu toggle -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const toggle = document.querySelector('.nav__toggle');
+      const menu = document.querySelector('.nav__list');
+
+      if (toggle && menu) {
+        toggle.addEventListener('click', function() {
+          const expanded = this.getAttribute('aria-expanded') === 'true';
+          this.setAttribute('aria-expanded', !expanded);
+          menu.style.display = expanded ? 'none' : 'flex';
+        });
+      }
+    });
+  </script>
 </body>
 </html>

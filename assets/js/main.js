@@ -88,8 +88,7 @@
       console.log('continueToOnboarding button not found!');
     }
 
-    // Initialize authentication integration
-    initAuthIntegration();
+    // Authentication integration is handled by firebase-auth.js automatically
   });
 
   // Helper to select a single element
@@ -631,24 +630,28 @@
         });
       }
     });
-  }
 
-  // Authentication Integration Functions
-  function initAuthIntegration() {
-    console.log('🔗 Initializing auth integration...');
-    
+    // Authentication Integration Functions
+    function initAuthIntegration() {
+      console.log('🔗 Initializing auth integration...');
+
     // Wait for FlowAuth to be available
     if (window.FlowAuth) {
       setupAuthListeners();
+      console.log('🔗 Auth integration completed - no automatic redirects on home page');
     } else {
       // Retry after a short delay
       setTimeout(() => {
         if (window.FlowAuth) {
           setupAuthListeners();
+          console.log('🔗 Auth integration completed - no automatic redirects on home page');
         }
       }, 500);
     }
   }
+
+  // Make initAuthIntegration globally accessible
+  window.initAuthIntegration = initAuthIntegration;
 
   function setupAuthListeners() {
     // Listen for auth state changes
@@ -925,15 +928,20 @@
   function waitForI18nAndInit() {
     if (window.FlowI18n) {
       initLanguageSelector();
+      // Initialize auth integration after language setup
+      initAuthIntegration();
     } else {
       // Wait a bit more for i18n.js to load
       setTimeout(waitForI18nAndInit, 100);
     }
   }
-  
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', waitForI18nAndInit);
   } else {
     waitForI18nAndInit();
   }
+
+
+  } // Close the main scope that includes initAuthIntegration
 })();

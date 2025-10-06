@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Firebase Auth</title>
+    <style>
+        body { font-family: Arial; padding: 20px; max-width: 600px; margin: 0 auto; }
+        button { padding: 10px 20px; margin: 5px; }
+        .log { background: #f5f5f5; padding: 10px; margin: 10px 0; border-radius: 5px; max-height: 400px; overflow-y: auto; }
+        .success { color: green; }
+        .error { color: red; }
+        input { padding: 8px; margin: 5px; width: 300px; }
+    </style>
+</head>
+<body>
+    <h1>Firebase Auth Test</h1>
+
+    <div>
+        <input type="email" id="email" placeholder="Email" value="oumarou.gouba-1@ou.edu">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="testLogin()">Test Login</button>
+    </div>
+
+    <div class="log" id="log"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyAJ7QV35ydmmIxIwe9rCPHzD3AT8I6yiCY",
+            authDomain: "flow-pwa.firebaseapp.com",
+            projectId: "flow-pwa"
+        };
+
+        function log(message, isError = false) {
+            const logDiv = document.getElementById('log');
+            const p = document.createElement('p');
+            p.className = isError ? 'error' : 'success';
+            p.textContent = new Date().toLocaleTimeString() + ' - ' + message;
+            logDiv.appendChild(p);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        log('Initializing Firebase...');
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        log('Firebase initialized');
+
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                log('User authenticated: ' + user.email);
+            } else {
+                log('No user authenticated');
+            }
+        });
+
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            log('Starting login for: ' + email);
+
+            try {
+                log('Calling signInWithEmailAndPassword...');
+                const startTime = Date.now();
+
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+
+                const endTime = Date.now();
+                log(`Login successful in ${endTime - startTime}ms! User: ${userCredential.user.email}`);
+            } catch (error) {
+                log('Login failed: ' + error.message, true);
+                log('Error code: ' + error.code, true);
+            }
+        }
+    </script>
+</body>
+</html>

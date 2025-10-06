@@ -323,9 +323,11 @@
   }
 
   .brand__logo {
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #373896;
     box-shadow: 0 4px 12px rgba(67, 56, 202, 0.25);
     transition: var(--t);
   }

@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#373896" />
   <title data-i18n-title="page.auth.title">Sign In - Flow</title>
 
-  <link rel="icon" href="/assets/img/logo.png" type="image/png" />
-  <link rel="apple-touch-icon" href="/assets/img/logo.png" />
+  <link rel="icon" href="/assets/img/logo.PNG" type="image/png" />
+  <link rel="apple-touch-icon" href="/assets/img/logo.PNG" />
 
   <!-- Styles -->
   <link rel="stylesheet" href="/assets/css/design-system.css" />
@@ -200,7 +200,7 @@
   <header class="unified-header">
     <div class="header-content">
       <a href="/" class="header-logo">
-        <img src="/assets/img/logo.png" alt="Flow Logo" width="32" height="32" loading="lazy" />
+        <img src="/assets/img/logo.PNG" alt="Flow Logo" width="32" height="32" loading="lazy" />
         <span>Flow</span>
       </a>
       
@@ -222,7 +222,7 @@
   <div class="auth-container">
     <div class="auth-card">
       <div class="auth-header">
-        <img src="/assets/img/logo.png" alt="Flow Logo" class="auth-logo">
+        <img src="/assets/img/logo.PNG" alt="Flow Logo" class="auth-logo">
         <h1 class="auth-title" data-i18n="auth.signIn.title">Sign In</h1>
         <p class="auth-subtitle" data-i18n="auth.signIn.subtitle">Welcome back to Flow</p>
       </div>
@@ -309,16 +309,104 @@
   <!-- Translation System -->
   <script src="/assets/js/translations.js"></script>
 
-  <!-- Test Authentication (Development Only) -->
-  <script src="/assets/js/test-auth-bypass.js"></script>
-
   <!-- Firebase Configuration -->
   <script src="/assets/js/firebase-config.js"></script>
-  
+
   <!-- Firebase Services -->
   <script src="/assets/js/firebase-auth.js"></script>
   <script src="/assets/js/firebase-data.js"></script>
   <script>
+    // Test Authentication Bypass (Development Only)
+    (function() {
+      const isDevelopment = window.location.hostname === 'localhost' ||
+                           window.location.hostname === '127.0.0.1' ||
+                           window.location.search.includes('dev=true');
+
+      if (isDevelopment) {
+        console.log('🧪 Test authentication bypass enabled for development');
+
+        // Test accounts for different portals
+        const testAccounts = {
+          student: {
+            email: 'test@student.edu',
+            password: 'TestStudent123!',
+            profile: {
+              uid: 'test-student-uid',
+              email: 'test@student.edu',
+              displayName: 'Test Student',
+              accountType: 'student',
+              isVerified: true
+            }
+          },
+          institution: {
+            email: 'test@university.edu',
+            password: 'TestUniversity123!',
+            profile: {
+              uid: 'test-institution-uid',
+              email: 'test@university.edu',
+              displayName: 'Test University',
+              accountType: 'institution',
+              isVerified: true
+            }
+          },
+          counselor: {
+            email: 'test@counselor.edu',
+            password: 'TestCounselor123!',
+            profile: {
+              uid: 'test-counselor-uid',
+              email: 'test@counselor.edu',
+              displayName: 'Test Counselor',
+              accountType: 'counselor',
+              isVerified: true
+            }
+          },
+          parent: {
+            email: 'test@parent.com',
+            password: 'TestParent123!',
+            profile: {
+              uid: 'test-parent-uid',
+              email: 'test@parent.com',
+              displayName: 'Test Parent',
+              accountType: 'parent',
+              isVerified: true
+            }
+          },
+          recommender: {
+            email: 'test@recommender.edu',
+            password: 'TestRecommender123!',
+            profile: {
+              uid: 'test-recommender-uid',
+              email: 'test@recommender.edu',
+              displayName: 'Test Recommender',
+              accountType: 'recommender',
+              isVerified: true
+            }
+          }
+        };
+
+        // Auto-fill test credentials only if explicitly requested via URL
+        document.addEventListener('DOMContentLoaded', function() {
+          const urlParams = new URLSearchParams(window.location.search);
+          if (urlParams.get('demo') === 'true' || urlParams.get('test') === 'true') {
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+
+            if (emailInput && passwordInput) {
+              const testAccount = testAccounts.student; // Default to student
+              emailInput.value = testAccount.email;
+              passwordInput.value = testAccount.password;
+              emailInput.style.borderColor = '#28a745';
+              passwordInput.style.borderColor = '#28a745';
+              emailInput.title = 'Test account (auto-filled)';
+              passwordInput.title = 'Test account (auto-filled)';
+
+              console.log('🧪 Test credentials auto-filled (demo mode requested)');
+            }
+          }
+        });
+      }
+    })();
+
     document.addEventListener('DOMContentLoaded', function() {
       const form = document.getElementById('loginForm');
       const errorMessage = document.getElementById('errorMessage');
@@ -380,24 +468,50 @@
             throw new Error('Firebase authentication system not available');
           }
 
-          const result = await window.FlowAuth.login(email, password);
+          console.log('🔄 Starting login process...');
 
-          if (result.success) {
+          // Add timeout to the login process
+          const loginPromise = window.FlowAuth.login(email, password);
+          const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Login timed out after 20 seconds')), 20000)
+          );
+
+          const result = await Promise.race([loginPromise, timeoutPromise]);
+
+          console.log('🔄 Login result received:', result);
+
+          if (result && result.success) {
             showSuccess('Login successful! Redirecting...');
-            
+
             // Track login event
-            if (window.FirebaseData) {
-              await window.FirebaseData.AnalyticsService.trackEvent('login', {
-                method: 'email',
-                account_type: result.profile?.accountType
-              });
+            try {
+              if (window.FirebaseData) {
+                await window.FirebaseData.AnalyticsService.trackEvent('login', {
+                  method: 'email',
+                  account_type: result.profile?.accountType
+                });
+              }
+            } catch (analyticsError) {
+              console.warn('Analytics tracking failed:', analyticsError);
             }
-            
+
+            // Clear any redirect flags that might interfere
+            window.redirectInProgress = false;
+
             setTimeout(() => {
-              window.FlowAuth.redirectAfterLogin();
+              console.log('🔄 About to call redirectAfterLogin...');
+              console.log('🔄 FlowAuth object exists:', !!window.FlowAuth);
+              console.log('🔄 redirectAfterLogin function exists:', !!window.FlowAuth?.redirectAfterLogin);
+              if (window.FlowAuth && window.FlowAuth.redirectAfterLogin) {
+                window.FlowAuth.redirectAfterLogin();
+              } else {
+                console.log('❌ FlowAuth.redirectAfterLogin not available, manual redirect');
+                window.location.href = '/students/index.html';
+              }
             }, 1000);
           } else {
-            showError(result.error || 'Login failed');
+            console.error('Login failed with result:', result);
+            showError(result?.error || 'Login failed');
           }
         } catch (error) {
           console.error('Login error:', error);
@@ -429,9 +543,17 @@
                 account_type: result.profile?.accountType
               });
             }
-            
+
             setTimeout(() => {
-              window.FlowAuth.redirectAfterLogin();
+              console.log('🔄 [Google] About to call redirectAfterLogin...');
+              console.log('🔄 [Google] FlowAuth object exists:', !!window.FlowAuth);
+              console.log('🔄 [Google] redirectAfterLogin function exists:', !!window.FlowAuth?.redirectAfterLogin);
+              if (window.FlowAuth && window.FlowAuth.redirectAfterLogin) {
+                window.FlowAuth.redirectAfterLogin();
+              } else {
+                console.log('❌ [Google] FlowAuth.redirectAfterLogin not available, manual redirect');
+                window.location.href = '/students/index.html';
+              }
             }, 1000);
           } else {
             showError(result.error || 'Google login failed');
