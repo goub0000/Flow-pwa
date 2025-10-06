@@ -1114,6 +1114,14 @@
     // Profile management
     updateProfile,
     deleteAccount,
+    reloadUserProfile: async () => {
+      const user = getCurrentUser();
+      if (user) {
+        await loadUserProfile(user);
+        return userProfile;
+      }
+      return null;
+    },
 
     // User info
     getCurrentUser,

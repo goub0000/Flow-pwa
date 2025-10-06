@@ -1621,6 +1621,7 @@
   <script src="/assets/js/firebase-auth.js"></script>
   <script src="/assets/js/firebase-data.js"></script>
   <script src="/assets/js/data-service.js"></script>
+  <script src="/assets/js/onboarding-save.js"></script>
   <script src="/assets/js/auth-guards.js"></script>
   <script src="/assets/js/dashboard-loader.js"></script>
   <script src="/assets/js/institutions.js"></script>
@@ -1664,13 +1665,37 @@
     }
     
     // Settings functionality
-    window.openSettings = function() {
+    window.openSettings = async function() {
       console.log('openSettings function called');
       const settingsOverlay = document.getElementById('settingsOverlay');
       if (settingsOverlay) {
         settingsOverlay.setAttribute('aria-hidden', 'false');
         settingsOverlay.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+
+        // Load current profile data into settings form
+        try {
+          const profile = window.FlowAuth?.getUserProfile();
+          if (profile) {
+            const institutionNameInput = document.getElementById('institutionName');
+            if (institutionNameInput) {
+              institutionNameInput.value = profile.institutionName || profile.displayName || '';
+            }
+
+            // Load other fields if they exist
+            const websiteInput = document.getElementById('institutionWebsite');
+            const phoneInput = document.getElementById('institutionPhone');
+            const countryInput = document.getElementById('institutionCountry');
+            const cityInput = document.getElementById('institutionCity');
+
+            if (websiteInput) websiteInput.value = profile.website || '';
+            if (phoneInput) phoneInput.value = profile.phone || '';
+            if (countryInput) countryInput.value = profile.address?.country || '';
+            if (cityInput) cityInput.value = profile.address?.city || '';
+          }
+        } catch (error) {
+          console.error('Error loading settings:', error);
+        }
       }
     }
     
@@ -1684,10 +1709,66 @@
       }
     }
     
-    window.saveSettings = function() {
+    window.saveSettings = async function() {
       console.log('saveSettings function called');
-      alert('⚙️ Settings saved successfully!\n\nYour preferences have been updated.');
-      closeSettings();
+
+      const saveBtn = document.getElementById('saveSettings');
+      const originalText = saveBtn.innerHTML;
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = '💾 Saving...';
+
+      try {
+        // Get form values
+        const institutionName = document.getElementById('institutionName')?.value;
+        const updates = {};
+
+        // Only include fields that have values
+        if (institutionName) {
+          updates.institutionName = institutionName;
+          updates.displayName = institutionName;
+        }
+
+        // Add other settings fields if they exist
+        const website = document.getElementById('institutionWebsite')?.value;
+        const phone = document.getElementById('institutionPhone')?.value;
+        const country = document.getElementById('institutionCountry')?.value;
+        const city = document.getElementById('institutionCity')?.value;
+
+        if (website) updates.website = website;
+        if (phone) updates.phone = phone;
+        if (country || city) {
+          updates.address = updates.address || {};
+          if (country) updates.address.country = country;
+          if (city) updates.address.city = city;
+        }
+
+        // Save to Firestore using the helper
+        if (Object.keys(updates).length > 0) {
+          const result = await window.OnboardingSave.updateProfile(updates);
+
+          if (result.success) {
+            alert('⚙️ Settings saved successfully!\n\nYour preferences have been updated.');
+
+            // Reload dashboard to show new data
+            if (window.reloadDashboard) {
+              setTimeout(() => window.reloadDashboard(), 500);
+            }
+
+            closeSettings();
+          } else {
+            throw new Error(result.message || 'Failed to save settings');
+          }
+        } else {
+          alert('No changes to save.');
+          closeSettings();
+        }
+      } catch (error) {
+        console.error('Error saving settings:', error);
+        alert('❌ Failed to save settings: ' + error.message);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = originalText;
+      }
     }
     
     window.resetSettings = function() {

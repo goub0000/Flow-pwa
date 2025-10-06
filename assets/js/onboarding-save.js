@@ -98,6 +98,11 @@
 
       console.log('✅ Profile updated successfully');
 
+      // Reload user profile in FlowAuth to get latest data
+      if (window.FlowAuth && window.FlowAuth.reloadUserProfile) {
+        await window.FlowAuth.reloadUserProfile();
+      }
+
       return {
         success: true,
         message: 'Profile updated successfully!'

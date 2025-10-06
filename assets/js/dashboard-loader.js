@@ -375,8 +375,18 @@
     loadDashboard();
   }
 
-  // Expose reload function
-  window.reloadDashboard = loadDashboard;
+  // Expose reload function with cache clearing
+  window.reloadDashboard = async function() {
+    console.log('🔄 Reloading dashboard and clearing cache...');
+
+    // Clear data service cache
+    if (window.DataService && window.DataService.clearCache) {
+      window.DataService.clearCache();
+    }
+
+    // Reload the dashboard
+    await loadDashboard();
+  };
 
   console.log('📊 Dashboard Loader initialized');
 
