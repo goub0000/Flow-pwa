@@ -303,8 +303,69 @@
     </div>
   </footer>
 
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+  <script src="/assets/js/firebase-config.js"></script>
+  <script src="/assets/js/firebase-auth.js"></script>
+  <script src="/assets/js/onboarding-save.js"></script>
+
   <script>
     (function(){ try { document.getElementById('year').textContent = new Date().getFullYear(); } catch(e){} })();
+
+    // Add save functionality for recommender onboarding
+    document.addEventListener('DOMContentLoaded', function() {
+      const completeBtn = document.querySelector('button[type="submit"]') ||
+                         document.querySelector('.btn--primary');
+
+      if (completeBtn && completeBtn.textContent.includes('Dashboard')) {
+        completeBtn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          const btn = this;
+          const originalText = btn.innerHTML;
+          btn.disabled = true;
+          btn.innerHTML = 'Saving...';
+
+          try {
+            const formData = window.recommenderOnboardingData || {};
+
+            const profileData = {
+              accountType: 'recommender',
+              firstName: formData.firstName || '',
+              lastName: formData.lastName || '',
+              displayName: `${formData.firstName || ''} ${formData.lastName || ''}`.trim() || 'Recommender',
+              title: formData.title || '',
+              organization: formData.organization || '',
+              phone: formData.phone || '',
+              relationship: formData.relationship || '',
+              preferences: {
+                language: localStorage.getItem('flowLanguage') || 'en'
+              }
+            };
+
+            console.log('💾 Saving recommender profile:', profileData);
+
+            const result = await window.OnboardingSave.saveProfile(profileData);
+
+            if (result.success) {
+              console.log('✅ Recommender profile saved successfully');
+              btn.innerHTML = '✓ Complete!';
+              setTimeout(() => {
+                window.location.href = '/recommenders/';
+              }, 1000);
+            } else {
+              throw new Error(result.message || 'Failed to save profile');
+            }
+          } catch (error) {
+            console.error('❌ Error saving recommender profile:', error);
+            alert('Failed to save profile: ' + error.message);
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>

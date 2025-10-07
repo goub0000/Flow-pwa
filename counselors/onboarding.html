@@ -452,8 +452,74 @@
       </div>
     </div>
   </footer>
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+  <script src="/assets/js/firebase-config.js"></script>
+  <script src="/assets/js/firebase-auth.js"></script>
+  <script src="/assets/js/onboarding-save.js"></script>
+
   <!-- Counselor Onboarding JS -->
   <script src="/assets/js/countries.js" defer></script>
   <script src="/assets/js/counselors-onboarding.js" defer></script>
+
+  <script>
+    // Add save functionality for counselor onboarding
+    document.addEventListener('DOMContentLoaded', function() {
+      // Find the "Go to Dashboard" or "Complete" button
+      const completeBtn = document.querySelector('button[type="submit"]') ||
+                         document.querySelector('.btn--primary');
+
+      if (completeBtn && completeBtn.textContent.includes('Dashboard')) {
+        completeBtn.addEventListener('click', async function(e) {
+          e.preventDefault();
+          const btn = this;
+          const originalText = btn.innerHTML;
+          btn.disabled = true;
+          btn.innerHTML = 'Saving...';
+
+          try {
+            // Get form data (basic for now)
+            const formData = window.counselorOnboardingData || {};
+
+            const profileData = {
+              accountType: 'counselor',
+              firstName: formData.firstName || '',
+              lastName: formData.lastName || '',
+              displayName: `${formData.firstName || ''} ${formData.lastName || ''}`.trim() || 'Counselor',
+              schoolName: formData.schoolName || '',
+              schoolDistrict: formData.schoolDistrict || '',
+              phone: formData.phone || '',
+              licenseNumber: formData.licenseNumber || '',
+              specializations: formData.specializations || [],
+              preferences: {
+                language: localStorage.getItem('flowLanguage') || 'en'
+              }
+            };
+
+            console.log('💾 Saving counselor profile:', profileData);
+
+            const result = await window.OnboardingSave.saveProfile(profileData);
+
+            if (result.success) {
+              console.log('✅ Counselor profile saved successfully');
+              btn.innerHTML = '✓ Complete!';
+              setTimeout(() => {
+                window.location.href = '/counselors/';
+              }, 1000);
+            } else {
+              throw new Error(result.message || 'Failed to save profile');
+            }
+          } catch (error) {
+            console.error('❌ Error saving counselor profile:', error);
+            alert('Failed to save profile: ' + error.message);
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

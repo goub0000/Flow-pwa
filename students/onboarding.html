@@ -1356,6 +1356,14 @@
     </div>
   </footer>
 
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+  <script src="/assets/js/firebase-config.js"></script>
+  <script src="/assets/js/firebase-auth.js"></script>
+  <script src="/assets/js/onboarding-save.js"></script>
+
   <!-- Scripts: load i18n BEFORE page script -->
   <script src="/assets/js/i18n.js" defer></script>
   <script src="/assets/js/countries.js" defer></script>
@@ -1459,6 +1467,77 @@
           const onboardingRadio = document.querySelector(`input[name="onboarding-language"][value="${this.value}"]`);
           if (onboardingRadio) {
             onboardingRadio.checked = true;
+          }
+        });
+      }
+
+      // Handle finish onboarding button
+      const finishBtn = document.getElementById('finishOnboarding');
+      if (finishBtn) {
+        finishBtn.addEventListener('click', async function() {
+          const btn = this;
+          const originalText = btn.innerHTML;
+          btn.disabled = true;
+          btn.innerHTML = '<span>Saving...</span>';
+
+          try {
+            // Get form data from students-onboarding.js if it exists
+            const formData = window.studentOnboardingData || {};
+
+            // Prepare profile data
+            const profileData = {
+              accountType: 'student',
+              firstName: formData.firstName || '',
+              lastName: formData.lastName || '',
+              displayName: `${formData.firstName || ''} ${formData.lastName || ''}`.trim() || 'Student',
+              dateOfBirth: formData.dateOfBirth || '',
+              phone: formData.phone || '',
+              address: {
+                street: formData.street || '',
+                city: formData.city || '',
+                state: formData.state || '',
+                zipCode: formData.zipCode || '',
+                country: formData.country || ''
+              },
+              academicInfo: {
+                currentGrade: formData.currentGrade || formData.grade || '',
+                gpa: parseFloat(formData.gpa) || 0,
+                schoolName: formData.schoolName || '',
+                graduationYear: parseInt(formData.graduationYear) || null,
+                intendedMajor: formData.intendedMajor || ''
+              },
+              testScores: {
+                sat: parseInt(formData.sat) || null,
+                act: parseInt(formData.act) || null
+              },
+              preferences: {
+                language: localStorage.getItem('flowLanguage') || 'en'
+              }
+            };
+
+            console.log('💾 Saving student profile:', profileData);
+
+            // Save to Firestore
+            const result = await window.OnboardingSave.saveProfile(profileData);
+
+            if (result.success) {
+              console.log('✅ Student profile saved successfully');
+
+              // Show success message
+              btn.innerHTML = '<span>✓ Complete!</span>';
+
+              // Redirect to dashboard
+              setTimeout(() => {
+                window.location.href = '/students/';
+              }, 1000);
+            } else {
+              throw new Error(result.message || 'Failed to save profile');
+            }
+          } catch (error) {
+            console.error('❌ Error saving student profile:', error);
+            alert('Failed to save profile: ' + error.message);
+            btn.disabled = false;
+            btn.innerHTML = originalText;
           }
         });
       }
