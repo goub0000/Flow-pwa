@@ -101,7 +101,7 @@
           <li><a href="/parents/" data-i18n="nav.parents">Parents</a></li>
           <li><a href="/recommenders/" data-i18n="nav.recommenders">Recommenders</a></li>
           <li><a class="btn btn--ghost" href="/students/onboarding.html" data-i18n="nav.getStarted">Get Started</a></li>
-          <li><a class="btn btn--primary" href="/auth/" data-i18n="auth.signIn">Sign In</a></li>
+          <li><button id="signOutBtn" class="btn btn--primary" data-i18n="auth.signOut">Sign Out</button></li>
         </ul>
       </nav>
     </div>
@@ -2054,5 +2054,27 @@
   <!-- Data Service and Dashboard Loader -->
   <script src="/assets/js/data-service.js"></script>
   <script src="/assets/js/dashboard-loader.js"></script>
+
+  <!-- Sign Out functionality -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const signOutBtn = document.getElementById('signOutBtn');
+      if (signOutBtn) {
+        signOutBtn.addEventListener('click', async function() {
+          try {
+            if (window.FlowAuth && window.FlowAuth.signOut) {
+              await window.FlowAuth.signOut();
+              window.location.href = '/';
+            } else {
+              window.location.href = '/auth/';
+            }
+          } catch (error) {
+            console.error('Error signing out:', error);
+            alert('Failed to sign out. Please try again.');
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

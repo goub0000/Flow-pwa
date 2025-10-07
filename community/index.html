@@ -461,7 +461,7 @@
             <span class="lang-switch__text">EN</span>
           </button>
         </div>
-        <a href="/auth/" class="btn btn--primary btn--sm">Sign In</a>
+        <button id="signOutBtn" class="btn btn--primary btn--sm" data-i18n="auth.signOut">Sign Out</button>
       </div>
     </div>
   </header>
@@ -977,6 +977,28 @@
     window.browseResources = function() { alert('📚 Browsing all shared resources...'); }
     window.hostEvent = function() { alert('📅 Host an Event\n\nInterested in hosting a community event? Contact us at events@flow.edu'); }
     window.createGroup = function() { alert('👥 Create New Group\n\nTo create a new community group, please contact our community team at community@flow.edu'); }
+  </script>
+
+  <!-- Sign Out functionality -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const signOutBtn = document.getElementById('signOutBtn');
+      if (signOutBtn) {
+        signOutBtn.addEventListener('click', async function() {
+          try {
+            if (window.FlowAuth && window.FlowAuth.signOut) {
+              await window.FlowAuth.signOut();
+              window.location.href = '/';
+            } else {
+              window.location.href = '/auth/';
+            }
+          } catch (error) {
+            console.error('Error signing out:', error);
+            alert('Failed to sign out. Please try again.');
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>

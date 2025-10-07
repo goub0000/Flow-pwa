@@ -956,7 +956,7 @@
           <div class="nav-overlay__divider"></div>
           <a href="#settings" class="nav-overlay__link">⚙️ Settings</a>
           <a href="/institutions/help.html" class="nav-overlay__link">❓ Help</a>
-          <a href="/auth/" class="nav-overlay__link nav-overlay__link--primary">🔑 Sign In</a>
+          <button id="signOutBtn" class="nav-overlay__link nav-overlay__link--primary" data-i18n="auth.signOut">🔑 Sign Out</button>
         </nav>
       </div>
     </div>
@@ -1984,6 +1984,28 @@
 
     // Dashboard data is now loaded by dashboard-loader.js
     // This handles all user types automatically
+  </script>
+
+  <!-- Sign Out functionality -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const signOutBtn = document.getElementById('signOutBtn');
+      if (signOutBtn) {
+        signOutBtn.addEventListener('click', async function() {
+          try {
+            if (window.FlowAuth && window.FlowAuth.signOut) {
+              await window.FlowAuth.signOut();
+              window.location.href = '/';
+            } else {
+              window.location.href = '/auth/';
+            }
+          } catch (error) {
+            console.error('Error signing out:', error);
+            alert('Failed to sign out. Please try again.');
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>
