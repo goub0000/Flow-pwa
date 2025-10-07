@@ -894,6 +894,22 @@
   <!-- Language Population Script -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Check if user is authenticated - redirect to login if not
+      document.addEventListener('firebaseInitialized', function() {
+        setTimeout(function() {
+          const user = window.Firebase?.auth?.currentUser;
+          console.log('🔐 Onboarding auth check - user:', user ? user.email : 'none');
+
+          if (!user) {
+            console.log('⚠️ No user logged in, redirecting to login with return URL');
+            sessionStorage.setItem('flow_redirect_after_login', '/students/onboarding.html');
+            window.location.href = '/auth/';
+          } else {
+            console.log('✅ User authenticated, allowing onboarding access');
+          }
+        }, 1000); // Wait 1 second for auth state to settle
+      });
+
       // Sign Out button functionality
       const signOutBtn = document.getElementById('signOutBtn');
       if (signOutBtn) {
