@@ -598,6 +598,9 @@
               <path d="M18 10c0.5-0.5 1-1 1.5-1.5M6 14c-0.5 0.5-1 1-1.5 1.5" stroke="currentColor" stroke-width="0.8" opacity="0.4"/>
             </svg>
           </button>
+          <button id="signOutBtn" class="help-btn" aria-label="Sign Out" style="margin-left: 0.5rem; padding: 0.5rem 1rem; font-size: 0.875rem;">
+            Sign Out
+          </button>
         </div>
       </div>
     </header>
@@ -1983,6 +1986,25 @@
 
     // Initialize on DOM load
     document.addEventListener('DOMContentLoaded', function() {
+      // Sign Out button functionality
+      const signOutBtn = document.getElementById('signOutBtn');
+      if (signOutBtn) {
+        signOutBtn.addEventListener('click', async function() {
+          try {
+            if (window.FlowAuth && window.FlowAuth.signOut) {
+              await window.FlowAuth.signOut();
+              window.location.href = '/';
+            } else {
+              console.error('FlowAuth.signOut not available');
+              window.location.href = '/auth/';
+            }
+          } catch (error) {
+            console.error('Error signing out:', error);
+            alert('Failed to sign out. Please try again.');
+          }
+        });
+      }
+
       // Initialize onboarding state
       initializeOnboarding();
 

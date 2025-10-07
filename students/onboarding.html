@@ -64,7 +64,7 @@
         <ul class="nav__list nav__list--simple">
           <li><a href="/" data-i18n="nav.home">Home</a></li>
           <li><a href="/students/" class="nav__link--active" data-i18n="nav.students">Students</a></li>
-          <li><a href="/auth/" class="btn btn--ghost" data-i18n="auth.signIn">Sign In</a></li>
+          <li><button id="signOutBtn" class="btn btn--ghost" data-i18n="auth.signOut">Sign Out</button></li>
         </ul>
       </nav>
     </div>
@@ -561,10 +561,9 @@
             <footer class="onboarding-footer">
               <div class="onboarding-actions">
                 <button type="button" class="btn btn--primary btn--large" id="continueToAccount">
-                  <span data-i18n="students.onboarding.welcome.cta">Continue to Account Setup</span>
+                  <span data-i18n="students.onboarding.welcome.cta">Continue to Profile Setup</span>
                   <svg width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
                 </button>
-                <a href="/auth/" class="btn btn--ghost btn--large" data-i18n="students.onboarding.welcome.signin">I already have an account</a>
               </div>
             </footer>
           </div>
@@ -894,6 +893,25 @@
   <!-- Language Population Script -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Sign Out button functionality
+      const signOutBtn = document.getElementById('signOutBtn');
+      if (signOutBtn) {
+        signOutBtn.addEventListener('click', async function() {
+          try {
+            if (window.FlowAuth && window.FlowAuth.signOut) {
+              await window.FlowAuth.signOut();
+              window.location.href = '/';
+            } else {
+              console.error('FlowAuth.signOut not available');
+              window.location.href = '/auth/';
+            }
+          } catch (error) {
+            console.error('Error signing out:', error);
+            alert('Failed to sign out. Please try again.');
+          }
+        });
+      }
+
       // Populate header language selector
       const headerLanguageSelect = document.getElementById('lang');
       if (headerLanguageSelect && window.FlowLanguages) {

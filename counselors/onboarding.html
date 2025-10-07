@@ -54,6 +54,11 @@
         <button class="save-exit-btn" title="Save & Exit" aria-label="Save & Exit">
           Save & Exit
         </button>
+
+        <!-- Sign Out -->
+        <button id="signOutBtn" class="btn btn--ghost" data-i18n="auth.signOut" title="Sign Out" aria-label="Sign Out">
+          Sign Out
+        </button>
       </div>
     </div>
   </header>
@@ -315,6 +320,26 @@
   <script>
     // Add save functionality for counselor onboarding
     document.addEventListener('DOMContentLoaded', function() {
+      // Sign Out button functionality
+      const signOutBtn = document.getElementById('signOutBtn');
+      if (signOutBtn) {
+        signOutBtn.addEventListener('click', async function() {
+          try {
+            if (window.FlowAuth && window.FlowAuth.signOut) {
+              await window.FlowAuth.signOut();
+              window.location.href = '/';
+            } else {
+              console.error('FlowAuth.signOut not available');
+              window.location.href = '/auth/';
+            }
+          } catch (error) {
+            console.error('Error signing out:', error);
+            alert('Failed to sign out. Please try again.');
+          }
+        });
+      }
+
+
       // Find the "Go to Dashboard" or "Complete" button
       const completeBtn = document.querySelector('button[type="submit"]') ||
                          document.querySelector('.btn--primary');

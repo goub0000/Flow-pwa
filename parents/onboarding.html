@@ -845,10 +845,14 @@
                     <div class="step-line" id="line-3"></div>
                     <div class="step-dot" id="dot-4">4</div>
                 </div>
-                
+
                 <a href="#" class="help-link">
                     💬 Need Help?
                 </a>
+
+                <button id="signOutBtn" class="btn btn-secondary" style="margin-left: 1rem;">
+                    Sign Out
+                </button>
             </div>
         </div>
     </header>
@@ -1202,12 +1206,31 @@
 
         // Initialize when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
+            // Sign Out button functionality
+            const signOutBtn = document.getElementById('signOutBtn');
+            if (signOutBtn) {
+                signOutBtn.addEventListener('click', async function() {
+                    try {
+                        if (window.FlowAuth && window.FlowAuth.signOut) {
+                            await window.FlowAuth.signOut();
+                            window.location.href = '/';
+                        } else {
+                            console.error('FlowAuth.signOut not available');
+                            window.location.href = '/auth/';
+                        }
+                    } catch (error) {
+                        console.error('Error signing out:', error);
+                        alert('Failed to sign out. Please try again.');
+                    }
+                });
+            }
+
             initializeCountries();
             setupEventListeners();
             setupPermissions();
             setupFileUploads();
             updateProgress();
-            
+
             // Load any saved data
             loadSavedData();
         });
