@@ -15,9 +15,237 @@
   <link rel="stylesheet" href="/assets/css/students.css" />
   <link rel="stylesheet" href="/assets/css/students-onboarding.css" />
   
-  <!-- Essential Grid Styles for Onboarding -->
+  <!-- Advanced Interactive Padding Styles for Onboarding -->
   <style>
-    /* Grid layouts for responsive content */
+    /* Welcome Hero Section Advanced Padding */
+    .welcome-hero {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 3rem 2.5rem;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(67, 56, 202, 0.03), rgba(139, 92, 246, 0.03));
+      margin: 2rem 0;
+    }
+
+    .welcome-hero:hover {
+      padding: 3.5rem 3rem;
+      background: linear-gradient(135deg, rgba(67, 56, 202, 0.08), rgba(139, 92, 246, 0.08));
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
+      border-left: 6px solid #4338ca;
+    }
+
+    .welcome-hero:hover .onboarding-title {
+      color: #4338ca;
+      text-shadow: 0 2px 4px rgba(67, 56, 202, 0.1);
+    }
+
+    .welcome-hero:hover .welcome-hero__icon svg {
+      transform: scale(1.05);
+      filter: drop-shadow(0 8px 25px rgba(67, 56, 202, 0.3));
+    }
+
+    /* Welcome Cards Enhanced Padding */
+    .welcome-card {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 2.5rem 2rem;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.6);
+      border: 1px solid rgba(229, 231, 235, 0.8);
+      margin: 1rem 0;
+    }
+
+    .welcome-card:hover {
+      padding: 3rem 2.5rem;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(139, 92, 246, 0.08));
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      border-left: 6px solid #3b82f6;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    .welcome-card:hover .welcome-card__title {
+      color: #3b82f6;
+      text-shadow: 0 1px 2px rgba(59, 130, 246, 0.1);
+    }
+
+    .welcome-card:hover .welcome-card__icon {
+      transform: scale(1.1) rotate(2deg);
+    }
+
+    /* Language Selection Enhanced Padding */
+    .language-selection {
+      transition: all 0.3s ease;
+      padding: 2.5rem 2rem;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(249, 250, 251, 0.8), rgba(243, 244, 246, 0.8));
+      margin: 2rem 0;
+      border: 1px solid rgba(229, 231, 235, 0.6);
+    }
+
+    .language-selection:hover {
+      padding: 3rem 2.5rem;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      border-left: 6px solid #6366f1;
+      border: 1px solid rgba(99, 102, 241, 0.2);
+    }
+
+    .language-selection:hover .language-selection__title {
+      color: #6366f1;
+      text-shadow: 0 1px 2px rgba(99, 102, 241, 0.1);
+    }
+
+    /* Language Options Enhanced Padding */
+    .language-option {
+      transition: all 0.3s ease;
+      padding: 1.25rem 1.5rem;
+      border-radius: 12px;
+      margin: 0.75rem 0;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(229, 231, 235, 0.8);
+    }
+
+    .language-option:hover {
+      padding: 1.5rem 2rem;
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(59, 130, 246, 0.08));
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      border-left: 4px solid #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .language-option:hover .language-option__name,
+    .language-option:hover .language-option__native {
+      color: #047857;
+      font-weight: 600;
+    }
+
+    /* Action Buttons Enhanced Padding */
+    .onboarding-actions {
+      transition: all 0.3s ease;
+      padding: 2rem 2.5rem;
+      border-radius: 16px;
+      background: rgba(248, 250, 252, 0.6);
+      margin: 1.5rem 0;
+    }
+
+    .onboarding-actions:hover {
+      padding: 2.5rem 3rem;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), rgba(251, 191, 36, 0.05));
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      border-left: 4px solid #f59e0b;
+    }
+
+    .onboarding-actions .btn {
+      transition: all 0.3s ease;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+    }
+
+    .onboarding-actions:hover .btn--primary {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(67, 56, 202, 0.3);
+      background: linear-gradient(135deg, #4338ca, #6366f1);
+    }
+
+    .onboarding-actions:hover .btn--ghost {
+      transform: scale(1.02);
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Specific card type enhancements */
+    .welcome-card:nth-child(1):hover {
+      border-left-color: #4338ca;
+      background: linear-gradient(135deg, rgba(67, 56, 202, 0.08), rgba(99, 102, 241, 0.08));
+    }
+
+    .welcome-card:nth-child(2):hover {
+      border-left-color: #059669;
+      background: linear-gradient(135deg, rgba(5, 150, 105, 0.08), rgba(16, 185, 129, 0.08));
+    }
+
+    .welcome-card:nth-child(3):hover {
+      border-left-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(251, 191, 36, 0.08));
+    }
+
+    .welcome-card:nth-child(4):hover {
+      border-left-color: #7c3aed;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(139, 92, 246, 0.08));
+    }
+
+    /* Stepper Section Enhanced */
+    .stepper-section {
+      transition: all 0.3s ease;
+      padding: 2rem 0;
+    }
+
+    .stepper-section:hover {
+      background: linear-gradient(135deg, rgba(67, 56, 202, 0.02), rgba(139, 92, 246, 0.02));
+    }
+
+    .stepper-wrapper:hover .stepper__item--current {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(67, 56, 202, 0.2);
+    }
+
+    /* Mobile responsive adjustments */
+    @media (max-width: 768px) {
+      .welcome-hero {
+        padding: 2rem 1.5rem;
+      }
+      
+      .welcome-hero:hover {
+        padding: 2.5rem 2rem;
+        transform: translateY(-2px);
+      }
+      
+      .welcome-card {
+        padding: 2rem 1.5rem;
+      }
+      
+      .welcome-card:hover {
+        padding: 2.5rem 2rem;
+        transform: translateY(-2px) scale(1.01);
+      }
+      
+      .language-selection {
+        padding: 2rem 1.5rem;
+      }
+      
+      .language-selection:hover {
+        padding: 2.5rem 2rem;
+      }
+      
+      .language-option {
+        padding: 1rem 1.25rem;
+      }
+      
+      .language-option:hover {
+        padding: 1.25rem 1.5rem;
+      }
+      
+      .onboarding-actions {
+        padding: 1.5rem 2rem;
+      }
+      
+      .onboarding-actions:hover {
+        padding: 2rem 2.5rem;
+      }
+    }
+
+    /* Additional subtle animations */
+    .welcome-hero__content {
+      transition: all 0.3s ease;
+    }
+
+    .welcome-hero:hover .welcome-hero__content {
+      transform: translateY(-2px);
+    }
+
     .language-options {
       display: grid;
       gap: 0.75rem;
@@ -74,7 +302,7 @@
   <section class="stepper-section" aria-label="Onboarding Progress">
     <div class="container">
       <div class="stepper-wrapper">
-        <ol class="stepper" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="3" data-i18n-attrs='{"aria-label":"students.onboarding.progress.aria1"}'>
+        <ol class="stepper" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="5" data-i18n-attrs='{"aria-label":"students.onboarding.progress.aria1"}'>
           <li class="stepper__item stepper__item--current" data-step="1">
             <div class="stepper__content">
               <span class="stepper__number">1</span>
@@ -85,22 +313,36 @@
           <li class="stepper__item" data-step="2">
             <div class="stepper__content">
               <span class="stepper__number">2</span>
-              <span class="stepper__label" data-i18n="students.onboarding.stepper.profile">Complete Profile</span>
+              <span class="stepper__label" data-i18n="students.onboarding.stepper.createAccount">Create Account</span>
             </div>
             <div class="stepper__connector" aria-hidden="true"></div>
           </li>
           <li class="stepper__item" data-step="3">
             <div class="stepper__content">
               <span class="stepper__number">3</span>
+              <span class="stepper__label" data-i18n="students.onboarding.stepper.verify">Verify Identity</span>
+            </div>
+            <div class="stepper__connector" aria-hidden="true"></div>
+          </li>
+          <li class="stepper__item" data-step="4">
+            <div class="stepper__content">
+              <span class="stepper__number">4</span>
+              <span class="stepper__label" data-i18n="students.onboarding.stepper.profile">Complete Profile</span>
+            </div>
+            <div class="stepper__connector" aria-hidden="true"></div>
+          </li>
+          <li class="stepper__item" data-step="5">
+            <div class="stepper__content">
+              <span class="stepper__number">5</span>
               <span class="stepper__label" data-i18n="students.onboarding.stepper.review">Review & Finish</span>
             </div>
           </li>
         </ol>
         <div class="stepper-progress">
           <div class="stepper-progress__bar">
-            <div class="stepper-progress__fill" style="width: 33%"></div>
+            <div class="stepper-progress__fill" style="width: 20%"></div>
           </div>
-          <span class="stepper-progress__text" data-i18n="students.onboarding.progress.text1of3">Step 1 of 3</span>
+          <span class="stepper-progress__text" data-i18n="students.onboarding.progress.text1of5">Step 1 of 5</span>
         </div>
       </div>
     </div>
@@ -570,10 +812,248 @@
           </div>
         </div>
       </section>
+      
+      <!-- Step 2: Create Account -->
+      <section id="step-account" class="onboarding-step" data-step="2" aria-labelledby="accountTitle">
+        <div class="container">
+          <div class="onboarding-content">
+            <header class="onboarding-header">
+              <h1 id="accountTitle" class="onboarding-title" data-i18n="students.onboarding.account.title">Create your account</h1>
+              <p class="onboarding-subtitle" data-i18n="students.onboarding.account.subtitle">Choose how you'd like to sign up. We'll send a verification code to confirm your identity.</p>
+            </header>
 
+            <div class="onboarding-main">
+              <div class="account-options">
+                <!-- Email option -->
+                <div class="account-option account-option--active" data-method="email">
+                  <div class="account-option__header">
+                    <div class="account-option__icon" aria-hidden="true">
+                      <svg width="24" height="24" fill="currentColor"><path d="M2 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2zM1 4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4z"/></svg>
+                    </div>
+                    <h3 class="account-option__title" data-i18n="students.onboarding.account.email.title">Sign up with Email</h3>
+                    <p class="account-option__description" data-i18n="students.onboarding.account.email.desc">Recommended for most users</p>
+                  </div>
 
-      <!-- Step 2: Complete Profile -->
-      <section id="step-profile" class="onboarding-step" data-step="2" aria-labelledby="profileTitle">
+                  <form class="account-form" id="emailSignupForm" novalidate>
+                    <div class="form-group">
+                      <label for="email" class="form-label" data-i18n="form.email.label">Email address</label>
+                      <input type="email" id="email" name="email" class="form-input" placeholder="you@example.com" autocomplete="email" required aria-describedby="email-error" />
+                      <div id="email-error" class="form-error" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="password" class="form-label" data-i18n="form.password.label">Password</label>
+                      <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" autocomplete="new-password" required aria-describedby="password-help password-error" />
+                      <div id="password-help" class="form-help" data-i18n="form.password.help">Must be at least 8 characters with a number and symbol</div>
+                      <div id="password-error" class="form-error" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="confirmPassword" class="form-label" data-i18n="form.confirmPassword.label">Confirm password</label>
+                      <input type="password" id="confirmPassword" name="confirmPassword" class="form-input" placeholder="••••••••" autocomplete="new-password" required aria-describedby="confirm-password-error" />
+                      <div id="confirm-password-error" class="form-error" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="checkbox-label">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms" required />
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text" data-i18n="form.terms.text">I agree to the <a href="/legal/terms.html" target="_blank" data-i18n="footer.terms">Terms</a> of Service and <a href="/legal/privacy.html" target="_blank" data-i18n="footer.privacy">Privacy</a> Policy</span>
+                      </label>
+                      <div id="terms-error" class="form-error" role="alert"></div>
+                    </div>
+                  </form>
+                </div>
+
+                <!-- Phone option -->
+                <div class="account-option" data-method="phone">
+                  <div class="account-option__header">
+                    <div class="account-option__icon" aria-hidden="true">
+                      <svg width="24" height="24" fill="currentColor"><path d="M3 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V2zm6 11a1 1 0 1 0-2 0 1 1 0 0 0 2 0z"/></svg>
+                    </div>
+                    <h3 class="account-option__title" data-i18n="students.onboarding.account.phone.title">Sign up with Phone</h3>
+                    <p class="account-option__description" data-i18n="students.onboarding.account.phone.desc">Get instant SMS verification</p>
+                  </div>
+
+                  <form class="account-form" id="phoneSignupForm" novalidate>
+                    <div class="form-group">
+                      <label for="country" class="form-label" data-i18n="form.country.label">Country</label>
+                      <select id="country" name="country" class="form-select" required data-i18n-attrs='{"aria-describedby":"form.country.error.aria"}'>
+                        <option value="" data-i18n="form.country.placeholder">Select your country</option>
+                        <!-- (Country list left as-is) -->
+                        <!-- Africa -->
+                        <option value="dz" data-code="+213">Algeria (+213)</option>
+                        <option value="ao" data-code="+244">Angola (+244)</option>
+                        <option value="bj" data-code="+229">Benin (+229)</option>
+                        <option value="bw" data-code="+267">Botswana (+267)</option>
+                        <option value="bf" data-code="+226">Burkina Faso (+226)</option>
+                        <option value="bi" data-code="+257">Burundi (+257)</option>
+                        <option value="cv" data-code="+238">Cape Verde (+238)</option>
+                        <option value="cm" data-code="+237">Cameroon (+237)</option>
+                        <option value="cf" data-code="+236">Central African Republic (+236)</option>
+                        <option value="td" data-code="+235">Chad (+235)</option>
+                        <option value="km" data-code="+269">Comoros (+269)</option>
+                        <option value="cg" data-code="+242">Congo (Brazzaville) (+242)</option>
+                        <option value="cd" data-code="+243">Congo (Kinshasa) (+243)</option>
+                        <option value="ci" data-code="+225">Côte d’Ivoire (+225)</option>
+                        <option value="dj" data-code="+253">Djibouti (+253)</option>
+                        <option value="eg" data-code="+20">Egypt (+20)</option>
+                        <option value="gq" data-code="+240">Equatorial Guinea (+240)</option>
+                        <option value="er" data-code="+291">Eritrea (+291)</option>
+                        <option value="sz" data-code="+268">Eswatini (+268)</option>
+                        <option value="et" data-code="+251">Ethiopia (+251)</option>
+                        <option value="ga" data-code="+241">Gabon (+241)</option>
+                        <option value="gm" data-code="+220">Gambia (+220)</option>
+                        <option value="gh" data-code="+233">Ghana (+233)</option>
+                        <option value="gn" data-code="+224">Guinea (+224)</option>
+                        <option value="gw" data-code="+245">Guinea-Bissau (+245)</option>
+                        <option value="ke" data-code="+254">Kenya (+254)</option>
+                        <option value="ls" data-code="+266">Lesotho (+266)</option>
+                        <option value="lr" data-code="+231">Liberia (+231)</option>
+                        <option value="ly" data-code="+218">Libya (+218)</option>
+                        <option value="mg" data-code="+261">Madagascar (+261)</option>
+                        <option value="mw" data-code="+265">Malawi (+265)</option>
+                        <option value="ml" data-code="+223">Mali (+223)</option>
+                        <option value="mr" data-code="+222">Mauritania (+222)</option>
+                        <option value="mu" data-code="+230">Mauritius (+230)</option>
+                        <option value="ma" data-code="+212">Morocco (+212)</option>
+                        <option value="mz" data-code="+258">Mozambique (+258)</option>
+                        <option value="na" data-code="+264">Namibia (+264)</option>
+                        <option value="ne" data-code="+227">Niger (+227)</option>
+                        <option value="ng" data-code="+234">Nigeria (+234)</option>
+                        <option value="rw" data-code="+250">Rwanda (+250)</option>
+                        <option value="st" data-code="+239">São Tomé & Príncipe (+239)</option>
+                        <option value="sn" data-code="+221">Senegal (+221)</option>
+                        <option value="sc" data-code="+248">Seychelles (+248)</option>
+                        <option value="sl" data-code="+232">Sierra Leone (+232)</option>
+                        <option value="so" data-code="+252">Somalia (+252)</option>
+                        <option value="za" data-code="+27">South Africa (+27)</option>
+                        <option value="ss" data-code="+211">South Sudan (+211)</option>
+                        <option value="sd" data-code="+249">Sudan (+249)</option>
+                        <option value="tz" data-code="+255">Tanzania (+255)</option>
+                        <option value="tg" data-code="+228">Togo (+228)</option>
+                        <option value="tn" data-code="+216">Tunisia (+216)</option>
+                        <option value="ug" data-code="+256">Uganda (+256)</option>
+                        <option value="zm" data-code="+260">Zambia (+260)</option>
+                        <option value="zw" data-code="+263">Zimbabwe (+263)</option>
+                        <!-- (Remaining lists omitted for brevity; keep your originals) -->
+                      </select>
+                      <div id="country-error" class="form-error" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="phone" class="form-label" data-i18n="form.phone.label">Phone number</label>
+                      <div class="phone-input-group">
+                        <span class="phone-prefix" id="phonePrefix">+233</span>
+                        <input type="tel" id="phone" name="phone" class="form-input form-input--phone" placeholder="555 123 456" autocomplete="tel" required aria-describedby="phone-help phone-error" />
+                      </div>
+                      <div id="phone-help" class="form-help" data-i18n="form.phone.help">We'll send a verification code via SMS</div>
+                      <div id="phone-error" class="form-error" role="alert"></div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="checkbox-label">
+                        <input type="checkbox" id="agreeTermsPhone" name="agreeTermsPhone" required />
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text" data-i18n="form.terms.text">I agree to the <a href="/legal/terms.html" target="_blank" data-i18n="footer.terms">Terms</a> of Service and <a href="/legal/privacy.html" target="_blank" data-i18n="footer.privacy">Privacy</a> Policy</span>
+                      </label>
+                      <div id="terms-phone-error" class="form-error" role="alert"></div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Method Switcher -->
+              <div class="method-switcher">
+                <button type="button" class="method-switch method-switch--active" data-method="email">
+                  <svg width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M2 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H2z"/></svg>
+                  <span data-i18n="form.method.email">Email</span>
+                </button>
+                <button type="button" class="method-switch" data-method="phone">
+                  <svg width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M3 2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V2z"/></svg>
+                  <span data-i18n="form.method.phone">Phone</span>
+                </button>
+              </div>
+            </div>
+
+            <footer class="onboarding-footer">
+              <div class="onboarding-actions">
+                <button type="button" class="btn btn--ghost btn--large" id="backToWelcome">
+                  <svg width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>
+                  <span data-i18n="common.back">Back</span>
+                </button>
+                <button type="button" class="btn btn--primary btn--large" id="createAccount" disabled>
+                  <span data-i18n="students.onboarding.account.create">Create Account</span>
+                  <svg width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+                </button>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Step 3: Verify Identity -->
+      <section id="step-verify" class="onboarding-step" data-step="3" aria-labelledby="verifyTitle">
+        <div class="container">
+          <div class="onboarding-content">
+            <header class="onboarding-header">
+              <h1 id="verifyTitle" class="onboarding-title" data-i18n="students.onboarding.verify.title">Verify your identity</h1>
+              <p class="onboarding-subtitle" id="verifySubtitle" data-i18n="students.onboarding.verify.subtitle">We've sent a 6-digit verification code to <strong data-i18n="students.onboarding.verify.target.email">your email</strong></p>
+            </header>
+
+            <div class="onboarding-main">
+              <form class="verification-form" id="verificationForm" novalidate>
+                <div class="otp-input-group" role="group" aria-labelledby="otpLabel">
+                  <label id="otpLabel" class="form-label" data-i18n="form.otp.label">Enter verification code</label>
+                  <div class="otp-inputs">
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" data-i18n-attrs='{"aria-label":"form.otp.d1"}' aria-label="Digit 1" />
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" data-i18n-attrs='{"aria-label":"form.otp.d2"}' aria-label="Digit 2" />
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" data-i18n-attrs='{"aria-label":"form.otp.d3"}' aria-label="Digit 3" />
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" data-i18n-attrs='{"aria-label":"form.otp.d4"}' aria-label="Digit 4" />
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" data-i18n-attrs='{"aria-label":"form.otp.d5"}' aria-label="Digit 5" />
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" inputmode="numeric" data-i18n-attrs='{"aria-label":"form.otp.d6"}' aria-label="Digit 6" />
+                  </div>
+                  <div id="otp-error" class="form-error" role="alert"></div>
+                </div>
+
+                <div class="verification-actions">
+                  <button type="button" class="btn btn--ghost" id="resendCode" disabled>
+                    <span data-i18n="students.onboarding.verify.resend">Resend code</span>
+                    <span class="resend-timer" id="resendTimer">(60s)</span>
+                  </button>
+                  <button type="button" class="btn btn--ghost" id="changeMethod" data-i18n="students.onboarding.verify.changeMethod">Change verification method</button>
+                </div>
+              </form>
+
+              <!-- Verification status -->
+              <div class="verification-status" id="verificationStatus" aria-live="polite">
+                <div class="status-indicator">
+                  <div class="status-indicator__icon" aria-hidden="true">
+                    <svg width="20" height="20" fill="currentColor"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zM7 3v6h2V3H7zm0 8v2h2v-2H7z"/></svg>
+                  </div>
+                  <span class="status-indicator__text" data-i18n="students.onboarding.verify.waiting">Waiting for verification code...</span>
+                </div>
+              </div>
+            </div>
+
+            <footer class="onboarding-footer">
+              <div class="onboarding-actions">
+                <button type="button" class="btn btn--ghost btn--large" id="backToAccount">
+                  <svg width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/></svg>
+                  <span data-i18n="common.back">Back</span>
+                </button>
+                <button type="button" class="btn btn--primary btn--large" id="verifyCode" disabled>
+                  <span data-i18n="students.onboarding.verify.cta">Verify & Continue</span>
+                  <svg width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
+                </button>
+              </div>
+            </footer>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Step 4: Complete Profile -->
+      <section id="step-profile" class="onboarding-step" data-step="4" aria-labelledby="profileTitle">
         <div class="container">
           <div class="onboarding-content">
             <header class="onboarding-header">
@@ -736,8 +1216,8 @@
         </div>
       </section>
       
-      <!-- Step 3: Review & Finish -->
-      <section id="step-review" class="onboarding-step" data-step="3" aria-labelledby="reviewTitle">
+      <!-- Step 5: Review & Finish -->
+      <section id="step-review" class="onboarding-step" data-step="5" aria-labelledby="reviewTitle">
         <div class="container">
           <div class="onboarding-content">
             <header class="onboarding-header">

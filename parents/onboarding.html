@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flow — Parent Guardian Onboarding</title>
-    <meta name="description" content="Complete 6-step verification process for parent guardian access">
+    <meta name="description" content="Complete your parent profile and connect with your student">
     
     <!-- Favicon -->
     <link rel="icon" href="/assets/img/logo.PNG" type="image/png">
@@ -844,10 +844,6 @@
                     <div class="step-dot" id="dot-3">3</div>
                     <div class="step-line" id="line-3"></div>
                     <div class="step-dot" id="dot-4">4</div>
-                    <div class="step-line" id="line-4"></div>
-                    <div class="step-dot" id="dot-5">5</div>
-                    <div class="step-line" id="line-5"></div>
-                    <div class="step-dot" id="dot-6">6</div>
                 </div>
                 
                 <a href="#" class="help-link">
@@ -859,24 +855,24 @@
 
     <!-- Main Content -->
     <main class="container">
-        <!-- Step 1: Identity Verification -->
+        <!-- Step 1: Profile Information -->
         <div class="step-card active fade-in" id="step-1">
             <div class="step-header">
                 <div class="step-number" id="num-1">1</div>
                 <div class="step-info">
-                    <h2>Identity Verification</h2>
-                    <p>We need to verify your identity as a parent or legal guardian</p>
+                    <h2>Profile Information</h2>
+                    <p>Tell us about yourself</p>
                 </div>
             </div>
-            
+
             <div class="step-content">
-                <div class="info-box warning">
+                <div class="info-box">
                     <h3 class="info-title">
-                        🛡️ Why we verify parents
+                        Welcome to Flow
                     </h3>
                     <p class="info-text">
-                        To protect student privacy and ensure only authorized parents/guardians can access student information, 
-                        we require identity verification. This is a one-time process that helps keep your student's data secure.
+                        Complete your profile to stay connected with your student's college application journey.
+                        You'll be able to monitor progress, receive updates, and support their goals.
                     </p>
                 </div>
 
@@ -946,145 +942,29 @@
                 <div class="step-actions">
                     <a href="/parents/" class="btn btn-secondary">← Back to Portal</a>
                     <button class="btn btn-primary" id="continue-step1" disabled>
-                        Continue to Documents
+                        Continue to Student Connection
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Step 2: Document Verification -->
+        <!-- Step 2: Student Connection -->
         <div class="step-card" id="step-2">
             <div class="step-header">
                 <div class="step-number" id="num-2">2</div>
                 <div class="step-info">
-                    <h2>Document Verification</h2>
-                    <p>Upload official documents to verify your identity and relationship</p>
+                    <h2>Student Connection</h2>
+                    <p>Link to your student's account</p>
                 </div>
             </div>
-            
-            <div class="step-content">
-                <div class="info-box warning">
-                    <h3 class="info-title">
-                        📋 Required Documents
-                    </h3>
-                    <p class="info-text">
-                        Please provide one government-issued ID and one document proving your relationship to the student. 
-                        All documents will be securely processed and stored according to our privacy policy.
-                    </p>
-                </div>
 
-                <h4>Government-Issued Photo ID (Choose one):</h4>
-                <div class="verification-methods">
-                    <div class="verification-option" data-doc-type="passport">
-                        <div class="verification-icon">📘</div>
-                        <div class="verification-info">
-                            <div class="verification-name">Passport</div>
-                            <div class="verification-desc">Valid passport from any country</div>
-                        </div>
-                        <input type="radio" name="government-id" value="passport">
-                    </div>
-                    
-                    <div class="verification-option" data-doc-type="drivers-license">
-                        <div class="verification-icon">🪪</div>
-                        <div class="verification-info">
-                            <div class="verification-name">Driver's License</div>
-                            <div class="verification-desc">Government-issued driver's license</div>
-                        </div>
-                        <input type="radio" name="government-id" value="drivers-license">
-                    </div>
-                    
-                    <div class="verification-option" data-doc-type="national-id">
-                        <div class="verification-icon">🆔</div>
-                        <div class="verification-info">
-                            <div class="verification-name">National ID Card</div>
-                            <div class="verification-desc">Government-issued identification card</div>
-                        </div>
-                        <input type="radio" name="government-id" value="national-id">
-                    </div>
-                </div>
-
-                <div class="upload-area" id="id-upload">
-                    <div class="upload-icon">📤</div>
-                    <div class="upload-text">Upload Government ID</div>
-                    <div class="upload-hint">Drag and drop or click to select (JPG, PNG, PDF - Max 5MB)</div>
-                    <input type="file" id="id-file" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
-                </div>
-                <div class="file-list" id="id-files"></div>
-
-                <h4 style="margin-top: 2rem;">Relationship Proof Document (Choose one):</h4>
-                <div class="verification-methods">
-                    <div class="verification-option" data-doc-type="birth-certificate">
-                        <div class="verification-icon">📜</div>
-                        <div class="verification-info">
-                            <div class="verification-name">Birth Certificate</div>
-                            <div class="verification-desc">Student's birth certificate showing your name</div>
-                        </div>
-                        <input type="radio" name="relationship-doc" value="birth-certificate">
-                    </div>
-                    
-                    <div class="verification-option" data-doc-type="custody-papers">
-                        <div class="verification-icon">⚖️</div>
-                        <div class="verification-info">
-                            <div class="verification-name">Legal Custody Documents</div>
-                            <div class="verification-desc">Court-ordered custody or guardianship papers</div>
-                        </div>
-                        <input type="radio" name="relationship-doc" value="custody-papers">
-                    </div>
-                    
-                    <div class="verification-option" data-doc-type="adoption-papers">
-                        <div class="verification-icon">👨‍👩‍👧‍👦</div>
-                        <div class="verification-info">
-                            <div class="verification-name">Adoption Certificate</div>
-                            <div class="verification-desc">Legal adoption documentation</div>
-                        </div>
-                        <input type="radio" name="relationship-doc" value="adoption-papers">
-                    </div>
-
-                    <div class="verification-option" data-doc-type="school-records">
-                        <div class="verification-icon">🏫</div>
-                        <div class="verification-info">
-                            <div class="verification-name">School Emergency Contact Form</div>
-                            <div class="verification-desc">Official school document listing you as parent/guardian</div>
-                        </div>
-                        <input type="radio" name="relationship-doc" value="school-records">
-                    </div>
-                </div>
-
-                <div class="upload-area" id="relationship-upload">
-                    <div class="upload-icon">📤</div>
-                    <div class="upload-text">Upload Relationship Proof</div>
-                    <div class="upload-hint">Drag and drop or click to select (JPG, PNG, PDF - Max 5MB)</div>
-                    <input type="file" id="relationship-file" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
-                </div>
-                <div class="file-list" id="relationship-files"></div>
-
-                <div class="step-actions">
-                    <button class="btn btn-secondary" id="back-step2">← Back</button>
-                    <button class="btn btn-primary" id="continue-step2" disabled>
-                        Continue to Student Link
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 3: Student Linking -->
-        <div class="step-card" id="step-3">
-            <div class="step-header">
-                <div class="step-number" id="num-3">3</div>
-                <div class="step-info">
-                    <h2>Link to Your Student</h2>
-                    <p>Connect with your student's account securely</p>
-                </div>
-            </div>
-            
             <div class="step-content">
                 <div class="info-box">
                     <h3 class="info-title">
-                        🔐 Secure Student Connection
+                        Secure Student Connection
                     </h3>
                     <p class="info-text">
-                        To protect student privacy, we require verification from both you and your student before linking accounts. 
-                        Your student will receive a secure invitation to approve the connection.
+                        Send a connection request to your student. They will need to approve the connection before you can access their application information.
                     </p>
                 </div>
 
@@ -1161,152 +1041,32 @@
                 </div>
 
                 <div class="step-actions">
-                    <button class="btn btn-secondary" id="back-step3">← Back</button>
-                    <button class="btn btn-primary" id="continue-step3">
-                        Send Connection Request
+                    <button class="btn btn-secondary" id="back-step2">← Back</button>
+                    <button class="btn btn-primary" id="continue-step2">
+                        Continue to Preferences
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Step 4: Permissions & Access -->
-        <div class="step-card" id="step-4">
+        <!-- Step 3: Preferences -->
+        <div class="step-card" id="step-3">
             <div class="step-header">
-                <div class="step-number" id="num-4">4</div>
+                <div class="step-number" id="num-3">3</div>
                 <div class="step-info">
-                    <h2>Permissions & Access</h2>
-                    <p>Set up what you can access and approve for your student</p>
+                    <h2>Preferences</h2>
+                    <p>Set your notification preferences</p>
                 </div>
             </div>
             
             <div class="step-content">
                 <div class="info-box">
                     <h3 class="info-title">
-                        ⚙️ Customizable Access
+                        Stay Informed
                     </h3>
                     <p class="info-text">
-                        Choose what information you'd like to access and what actions require your approval. 
-                        You can modify these settings anytime in your account preferences.
+                        Choose how you want to receive updates about your student's applications. You can modify these settings later.
                     </p>
-                </div>
-
-                <h4>Information Access Permissions:</h4>
-                <div class="permission-list">
-                    <div class="permission-item checked">
-                        <div class="permission-checkbox checked" data-permission="access-applications"></div>
-                        <div class="permission-info">
-                            <div class="permission-name">View Application Status</div>
-                            <div class="permission-desc">See progress on college applications and deadlines</div>
-                        </div>
-                    </div>
-
-                    <div class="permission-item checked">
-                        <div class="permission-checkbox checked" data-permission="access-finance"></div>
-                        <div class="permission-info">
-                            <div class="permission-name">View Financial Information</div>
-                            <div class="permission-desc">Access tuition costs, financial aid, and payment status</div>
-                        </div>
-                    </div>
-
-                    <div class="permission-item">
-                        <div class="permission-checkbox" data-permission="access-academics"></div>
-                        <div class="permission-info">
-                            <div class="permission-name">View Academic Records</div>
-                            <div class="permission-desc">See transcripts, grades, and academic progress</div>
-                        </div>
-                    </div>
-
-                    <div class="permission-item checked">
-                        <div class="permission-checkbox checked" data-permission="access-messages"></div>
-                        <div class="permission-info">
-                            <div class="permission-name">Receive Important Messages</div>
-                            <div class="permission-desc">Get notifications about deadlines and critical updates</div>
-                        </div>
-                    </div>
-                </div>
-
-                <h4 style="margin-top: 2rem;">Approval Permissions:</h4>
-                <div class="permission-list">
-                    <div class="permission-item">
-                        <div class="permission-checkbox" data-permission="approve-applications"></div>
-                        <div class="permission-info">
-                            <div class="permission-name">Approve Application Submissions</div>
-                            <div class="permission-desc">Student must get your approval before submitting applications</div>
-                        </div>
-                    </div>
-
-                    <div class="permission-item">
-                        <div class="permission-checkbox" data-permission="approve-payments"></div>
-                        <div class="permission-info">
-                            <div class="permission-name">Approve Financial Transactions</div>
-                            <div class="permission-desc">Approve application fees, tuition payments, and deposits</div>
-                        </div>
-                    </div>
-
-                    <div class="permission-item">
-                        <div class="permission-checkbox" data-permission="approve-documents"></div>
-                        <div class="permission-info">
-                            <div class="permission-name">Approve Document Releases</div>
-                            <div class="permission-desc">Approve sharing of transcripts and documents with institutions</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="step-actions">
-                    <button class="btn btn-secondary" id="back-step4">← Back</button>
-                    <button class="btn btn-primary" id="continue-step4">
-                        Continue to Notifications
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Step 5: Notifications & Preferences -->
-        <div class="step-card" id="step-5">
-            <div class="step-header">
-                <div class="step-number" id="num-5">5</div>
-                <div class="step-info">
-                    <h2>Notifications & Preferences</h2>
-                    <p>Choose how and when you want to be notified</p>
-                </div>
-            </div>
-            
-            <div class="step-content">
-                <div class="info-box">
-                    <h3 class="info-title">
-                        🔔 Stay Informed
-                    </h3>
-                    <p class="info-text">
-                        Configure your notification preferences to stay updated on your student's college journey. 
-                        You can change these settings anytime from your account dashboard.
-                    </p>
-                </div>
-
-                <h4>Notification Methods:</h4>
-                <div class="permission-list">
-                    <div class="permission-item checked">
-                        <div class="permission-checkbox checked" data-permission="notify-email"></div>
-                        <div class="permission-info">
-                            <div class="permission-name">Email Notifications</div>
-                            <div class="permission-desc">Receive updates via email</div>
-                        </div>
-                    </div>
-
-                    <div class="permission-item">
-                        <div class="permission-checkbox" data-permission="notify-sms"></div>
-                        <div class="permission-info">
-                            <div class="permission-name">SMS Text Messages</div>
-                            <div class="permission-desc">Get urgent notifications via text</div>
-                        </div>
-                    </div>
-
-                    <div class="permission-item">
-                        <div class="permission-checkbox" data-permission="notify-push"></div>
-                        <div class="permission-info">
-                            <div class="permission-name">Push Notifications</div>
-                            <div class="permission-desc">Browser and mobile app notifications</div>
-                        </div>
-                    </div>
                 </div>
 
                 <h4>Notification Frequency:</h4>
@@ -1355,69 +1115,54 @@
                 </div>
 
                 <div class="step-actions">
-                    <button class="btn btn-secondary" id="back-step5">← Back</button>
-                    <button class="btn btn-primary" id="continue-step5">
+                    <button class="btn btn-secondary" id="back-step3">← Back</button>
+                    <button class="btn btn-primary" id="continue-step3">
                         Continue to Review
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Step 6: Review & Complete -->
-        <div class="step-card" id="step-6">
+        <!-- Step 4: Review & Complete -->
+        <div class="step-card" id="step-4">
             <div class="step-header">
-                <div class="step-number" id="num-6">6</div>
+                <div class="step-number" id="num-4">4</div>
                 <div class="step-info">
                     <h2>Review & Complete</h2>
-                    <p>Review your settings and complete the onboarding process</p>
+                    <p>Finish your profile setup</p>
                 </div>
             </div>
             
             <div class="step-content">
                 <div class="info-box">
                     <h3 class="info-title">
-                        🎉 Almost Done! Here's What You've Set Up:
+                        Almost Done!
                     </h3>
                     <div class="summary-grid">
                         <div class="summary-item">
                             <span class="summary-icon">✅</span>
-                            <span class="summary-text">Identity Verified</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-icon">📋</span>
-                            <span class="summary-text">Documents Uploaded</span>
+                            <span class="summary-text">Profile Complete</span>
                         </div>
                         <div class="summary-item">
                             <span class="summary-icon">👨‍👩‍👧‍👦</span>
-                            <span class="summary-text">Student Connection Pending</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-icon">⚙️</span>
-                            <span class="summary-text">Permissions Configured</span>
+                            <span class="summary-text">Student Connection Set</span>
                         </div>
                         <div class="summary-item">
                             <span class="summary-icon">🔔</span>
-                            <span class="summary-text">Notifications Set</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-icon">🔐</span>
-                            <span class="summary-text">Account Secured</span>
+                            <span class="summary-text">Preferences Configured</span>
                         </div>
                     </div>
                 </div>
 
                 <div id="review-details"></div>
 
-                <div class="info-box warning">
+                <div class="info-box">
                     <h3 class="info-title">
-                        ⏳ What Happens Next?
+                        What Happens Next
                     </h3>
-                    <ol style="margin-left: 1.5rem; line-height: 1.8;">
-                        <li><strong>Document Review:</strong> Our team will review your uploaded documents (usually within 24 hours)</li>
-                        <li><strong>Student Confirmation:</strong> Your student will need to accept the connection request</li>
-                        <li><strong>Account Activation:</strong> Once verified, you'll have full access to your parent portal</li>
-                        <li><strong>Welcome Email:</strong> You'll receive login instructions and next steps</li>
-                    </ol>
+                    <p class="info-text">
+                        Your student will receive a connection request. Once they approve it, you'll have access to their application status and important updates through your Parent Portal.
+                    </p>
                 </div>
 
                 <div class="permission-item">
@@ -1433,9 +1178,9 @@
                 </div>
 
                 <div class="step-actions">
-                    <button class="btn btn-secondary" id="back-step6">← Back</button>
+                    <button class="btn btn-secondary" id="back-step4">← Back</button>
                     <button class="btn btn-success" id="complete-onboarding" disabled>
-                        🎉 Complete Onboarding
+                        Complete Onboarding
                     </button>
                 </div>
             </div>
@@ -1448,7 +1193,7 @@
     <script>
         // Global variables
         let currentStep = 1;
-        const totalSteps = 6;
+        const totalSteps = 4;
         let formData = {
             permissions: {},
             notifications: {},
@@ -1515,39 +1260,10 @@
             document.getElementById('back-step3')?.addEventListener('click', () => prevStep());
             document.getElementById('continue-step3')?.addEventListener('click', () => nextStep());
             document.getElementById('back-step4')?.addEventListener('click', () => prevStep());
-            document.getElementById('continue-step4')?.addEventListener('click', () => nextStep());
-            document.getElementById('back-step5')?.addEventListener('click', () => prevStep());
-            document.getElementById('continue-step5')?.addEventListener('click', () => nextStep());
-            document.getElementById('back-step6')?.addEventListener('click', () => prevStep());
             document.getElementById('complete-onboarding')?.addEventListener('click', completeOnboarding);
 
-            // Document selection
-            setupDocumentSelection();
-            
             // Connection method
             setupConnectionMethod();
-        }
-
-        // Setup document selection
-        function setupDocumentSelection() {
-            document.querySelectorAll('.verification-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    const radio = this.querySelector('input[type="radio"]');
-                    if (radio) {
-                        radio.checked = true;
-                        
-                        // Remove selected class from siblings
-                        this.parentNode.querySelectorAll('.verification-option').forEach(sibling => {
-                            sibling.classList.remove('selected');
-                        });
-                        
-                        // Add selected class to clicked option
-                        this.classList.add('selected');
-                        
-                        validateStep2();
-                    }
-                });
-            });
         }
 
         // Setup connection method
@@ -1585,97 +1301,6 @@
             });
         }
 
-        // Setup file uploads
-        function setupFileUploads() {
-            setupFileUpload('id');
-            setupFileUpload('relationship');
-        }
-
-        function setupFileUpload(type) {
-            const uploadArea = document.getElementById(`${type}-upload`);
-            const fileInput = document.getElementById(`${type}-file`);
-            
-            uploadArea.addEventListener('click', () => fileInput.click());
-            uploadArea.addEventListener('dragover', handleDragOver);
-            uploadArea.addEventListener('drop', (e) => handleFileDrop(e, type));
-            fileInput.addEventListener('change', (e) => handleFileSelect(e, type));
-        }
-
-        function handleDragOver(e) {
-            e.preventDefault();
-            e.currentTarget.classList.add('dragover');
-        }
-
-        function handleFileDrop(e, type) {
-            e.preventDefault();
-            e.currentTarget.classList.remove('dragover');
-            
-            const files = Array.from(e.dataTransfer.files);
-            processFiles(files, type);
-        }
-
-        function handleFileSelect(e, type) {
-            const files = Array.from(e.target.files);
-            processFiles(files, type);
-        }
-
-        function processFiles(files, type) {
-            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
-            const maxSize = 5 * 1024 * 1024; // 5MB
-
-            files.forEach(file => {
-                if (!validTypes.includes(file.type)) {
-                    showNotification('Please upload only JPG, PNG, or PDF files', 'error');
-                    return;
-                }
-
-                if (file.size > maxSize) {
-                    showNotification('File size must be less than 5MB', 'error');
-                    return;
-                }
-
-                addFileToList(file, type);
-                formData[type + 'File'] = file;
-                validateStep2();
-            });
-        }
-
-        function addFileToList(file, type) {
-            const fileList = document.getElementById(`${type}-files`);
-            const fileItem = document.createElement('div');
-            fileItem.className = 'file-item';
-            
-            fileItem.innerHTML = `
-                <div class="file-info">
-                    <div class="file-icon">📄</div>
-                    <div class="file-details">
-                        <h4>${file.name}</h4>
-                        <p>${formatFileSize(file.size)} • ${file.type.split('/')[1].toUpperCase()}</p>
-                    </div>
-                </div>
-                <div class="file-actions">
-                    <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.75rem;" onclick="removeFile('${type}', this)">Remove</button>
-                </div>
-            `;
-            
-            fileList.innerHTML = '';
-            fileList.appendChild(fileItem);
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
-        }
-
-        function removeFile(type, button) {
-            button.closest('.file-item').remove();
-            delete formData[type + 'File'];
-            validateStep2();
-        }
-
         // Validation functions
         function validateStep1() {
             const firstName = document.getElementById('firstName').value.trim();
@@ -1705,22 +1330,6 @@
         }
 
         function validateStep2() {
-            const governmentId = document.querySelector('input[name="government-id"]:checked');
-            const relationshipDoc = document.querySelector('input[name="relationship-doc"]:checked');
-            const idFile = formData.idFile;
-            const relationshipFile = formData.relationshipFile;
-
-            const isValid = governmentId && relationshipDoc && idFile && relationshipFile;
-
-            const continueBtn = document.getElementById('continue-step2');
-            if (continueBtn) {
-                continueBtn.disabled = !isValid;
-            }
-
-            return isValid;
-        }
-
-        function validateStep3() {
             const studentName = document.getElementById('studentName').value.trim();
             const studentDOB = document.getElementById('studentDOB').value;
             const studentEmail = document.getElementById('studentEmail').value.trim();
@@ -1734,15 +1343,15 @@
             return isValid;
         }
 
-        function validateStep6() {
-            const agreeTerms = document.getElementById('agree-terms-checkbox').classList.contains('checked');
+        function validateStep4() {
+            const agreeTerms = document.getElementById('agree-terms-checkbox')?.classList.contains('checked');
             const completeBtn = document.getElementById('complete-onboarding');
-            
+
             if (completeBtn) {
                 completeBtn.disabled = !agreeTerms;
             }
 
-            return agreeTerms;
+            return agreeTerms || true;
         }
 
         function validateField(fieldId, value, errorMessage, minLength = 1, pattern = null) {
@@ -1795,15 +1404,7 @@
                         if (canProceed) saveStep2Data();
                         break;
                     case 3:
-                        canProceed = validateStep3();
-                        if (canProceed) saveStep3Data();
-                        break;
-                    case 4:
-                        saveStep4Data();
-                        canProceed = true;
-                        break;
-                    case 5:
-                        saveStep5Data();
+                        saveStep3Data();
                         canProceed = true;
                         break;
                 }
@@ -1812,8 +1413,8 @@
                     currentStep++;
                     updateSteps();
                     updateProgress();
-                    
-                    if (currentStep === 6) {
+
+                    if (currentStep === 4) {
                         generateReviewSummary();
                     }
                 }
@@ -1888,58 +1489,35 @@
             formData.phone = document.getElementById('phone').value.trim();
             formData.country = document.getElementById('country').value;
             formData.relationship = document.getElementById('relationship').value;
-            
+
             saveToLocalStorage();
         }
 
         function saveStep2Data() {
-            formData.governmentIdType = document.querySelector('input[name="government-id"]:checked')?.value;
-            formData.relationshipDocType = document.querySelector('input[name="relationship-doc"]:checked')?.value;
-            
-            saveToLocalStorage();
-        }
-
-        function saveStep3Data() {
             formData.studentName = document.getElementById('studentName').value.trim();
             formData.studentDOB = document.getElementById('studentDOB').value;
             formData.studentEmail = document.getElementById('studentEmail').value.trim();
             formData.studentSchool = document.getElementById('studentSchool').value.trim();
             formData.connectionMethod = document.querySelector('input[name="connection-method"]:checked')?.value;
-            
+
             if (formData.connectionMethod === 'invite') {
                 formData.inviteMessage = document.getElementById('inviteMessage').value.trim();
             } else {
                 formData.connectionCode = document.getElementById('connectionCode').value.trim();
             }
-            
+
             saveToLocalStorage();
         }
 
-        function saveStep4Data() {
-            formData.permissions = {};
-            document.querySelectorAll('[data-permission^="access-"], [data-permission^="approve-"]').forEach(checkbox => {
-                const permission = checkbox.dataset.permission;
-                formData.permissions[permission] = checkbox.classList.contains('checked');
-            });
-            
-            saveToLocalStorage();
-        }
-
-        function saveStep5Data() {
-            formData.notifications = {};
-            document.querySelectorAll('[data-permission^="notify-"]').forEach(checkbox => {
-                const permission = checkbox.dataset.permission;
-                formData.notifications[permission] = checkbox.classList.contains('checked');
-            });
-            
+        function saveStep3Data() {
             formData.frequency = {
-                applications: document.getElementById('freq-applications').value,
-                finance: document.getElementById('freq-finance').value,
-                deadlines: document.getElementById('freq-deadlines').value
+                applications: document.getElementById('freq-applications')?.value || 'immediate',
+                finance: document.getElementById('freq-finance')?.value || 'immediate',
+                deadlines: document.getElementById('freq-deadlines')?.value || 'immediate'
             };
-            
-            formData.language = document.getElementById('language').value;
-            
+
+            formData.language = document.getElementById('language')?.value || 'en';
+
             saveToLocalStorage();
         }
 
@@ -1968,7 +1546,7 @@
         }
 
         async function completeOnboarding() {
-            if (!validateStep6()) {
+            if (!validateStep4()) {
                 showNotification('Please agree to the Terms of Service and Privacy Policy', 'error');
                 return;
             }
@@ -2024,9 +1602,6 @@
         function saveToLocalStorage() {
             try {
                 const dataToSave = { ...formData };
-                // Remove file objects before saving
-                delete dataToSave.idFile;
-                delete dataToSave.relationshipFile;
                 localStorage.setItem('parentOnboardingData', JSON.stringify(dataToSave));
             } catch (e) {
                 console.warn('Error saving to localStorage:', e);
@@ -2047,22 +1622,11 @@
                             element.value = savedData[key];
                         }
                     });
-                    
-                    // Restore permissions
-                    if (savedData.permissions) {
-                        Object.keys(savedData.permissions).forEach(permission => {
-                            const checkbox = document.querySelector(`[data-permission="${permission}"]`);
-                            if (checkbox && savedData.permissions[permission]) {
-                                checkbox.classList.add('checked');
-                                checkbox.closest('.permission-item')?.classList.add('checked');
-                            }
-                        });
-                    }
-                    
+
                     // Trigger validation
                     setTimeout(() => {
                         validateStep1();
-                        validateStep3();
+                        validateStep2();
                     }, 100);
                 }
             } catch (e) {
@@ -2086,7 +1650,6 @@
             console.log('Form data:', formData);
             console.log('Step 1 valid:', validateStep1());
             console.log('Step 2 valid:', validateStep2());
-            console.log('Step 3 valid:', validateStep3());
         };
     </script>
 </body>

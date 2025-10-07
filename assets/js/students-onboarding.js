@@ -186,7 +186,7 @@
       currentStep = n; this.updateStepper(); this.updateProgress();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     },
-    getStepId(n){ return ['welcome','account','verify','profile','review'][n-1] || 'welcome'; },
+    getStepId(n){ return ['welcome','profile','review'][n-1] || 'welcome'; },
     updateStepper(){
       $$('.stepper__item').forEach((item, i) => {
         const num = i+1;
@@ -194,14 +194,14 @@
         if (num === currentStep) item.classList.add('stepper__item--current');
         else if (num < currentStep) item.classList.add('stepper__item--completed');
       });
-      const s = $('.stepper'); if (s){ s.setAttribute('aria-valuenow', currentStep); s.setAttribute('aria-label', `Onboarding progress: Step ${currentStep} of 5`); }
+      const s = $('.stepper'); if (s){ s.setAttribute('aria-valuenow', currentStep); s.setAttribute('aria-label', `Onboarding progress: Step ${currentStep} of 3`); }
     },
     updateProgress(){
       const fill = $('.stepper-progress__fill'); const txt = $('.stepper-progress__text');
-      if (fill) fill.style.width = `${(currentStep/5)*100}%`;
-      if (txt) txt.textContent = `Step ${currentStep} of 5`;
+      if (fill) fill.style.width = `${(currentStep/3)*100}%`;
+      if (txt) txt.textContent = `Step ${currentStep} of 3`;
     },
-    nextStep(){ if (currentStep < 5) this.showStep(currentStep+1); },
+    nextStep(){ if (currentStep < 3) this.showStep(currentStep+1); },
     prevStep(){ if (currentStep > 1) this.showStep(currentStep-1); }
   };
 
@@ -217,11 +217,12 @@
   // Step 1: Welcome
   const welcomeStep = {
     init() {
+      // Updated to go directly to profile (step 2)
       $('#continueToAccount')?.addEventListener('click', () => {
         const selected = $('input[name="onboarding-language"]:checked')?.value || Flow.i18n.lang;
         onboardingData.language = selected; Flow.i18n.set(selected);
         toast.show(Flow.i18n.t('lang_saved'), 'success', 2000);
-        stepNavigation.nextStep();
+        stepNavigation.nextStep(); // Goes to profile (step 2)
       });
       $$('input[name="onboarding-language"]').forEach(r => {
         r.addEventListener('change', (e) => {
@@ -331,7 +332,7 @@
     }
   };
 
-  // Step 4: Profile
+  // Step 2: Profile (formerly Step 4)
   const profileStep = {
     init(){ this.initInterestTags(); this.initFormValidation(); this.initNavigation(); this.initAutoSave(); },
     initInterestTags(){
@@ -345,6 +346,7 @@
       required.forEach(id => { const f=$(`#${id}`); if(!f) return; const h=()=>{ validation.clearError(id); this.updateSaveButton(); }; f.addEventListener('input', h); f.addEventListener('change', h); });
     },
     initNavigation(){
+      // Updated: back goes to welcome (step 1), not verify
       $('#backToVerify')?.addEventListener('click', ()=> stepNavigation.prevStep());
       $('#saveProfile')?.addEventListener('click', ()=>{ if(this.validateProfile()){ this.saveProfileData(); toast.show(Flow.i18n.t('profile_saved'),'success',3000); stepNavigation.nextStep(); } });
     },
@@ -364,12 +366,11 @@
     debounce(fn,wait){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), wait); }; }
   };
 
-  // Step 5: Review
+  // Step 3: Review (formerly Step 5)
   const reviewStep = {
     init(){ this.populateReview(); this.initNavigation(); },
     populateReview(){
-      const contact = onboardingData.accountMethod==='email' ? onboardingData.email : onboardingData.phone;
-      $('#reviewContact').textContent = contact || '—';
+      // No longer showing account contact info since we removed account creation
       $('#reviewLanguage').textContent = this.getLanguageName(onboardingData.language);
       const full = `${onboardingData.firstName||''} ${onboardingData.lastName||''}`.trim(); $('#reviewName').textContent = full || '—';
       const location = `${onboardingData.city || ''}, ${this.getCountryName(onboardingData.profileCountry)}`.replace(/^, |, $/,''); $('#reviewLocation').textContent = location || '—';
@@ -385,7 +386,8 @@
         toast.show(Flow.i18n.t('finishing'),'info',2000);
         setTimeout(()=>{ toast.show(Flow.i18n.t('welcome_redirect'),'success',3000); setTimeout(()=>{ window.location.href='/students/'; }, 1800); }, 1200);
       });
-      $$('[data-edit]').forEach(btn => btn.addEventListener('click', () => { const s=btn.getAttribute('data-edit'); if(s==='account') stepNavigation.showStep(2); else if(s==='profile') stepNavigation.showStep(4); }));
+      // Updated: edit buttons now reference correct step numbers
+      $$('[data-edit]').forEach(btn => btn.addEventListener('click', () => { const s=btn.getAttribute('data-edit'); if(s==='profile') stepNavigation.showStep(2); }));
     }
   };
 
@@ -396,8 +398,10 @@
 
   function init(){
     const y=$('#year'); if (y) y.textContent = new Date().getFullYear();
-    connectionStatus.init(); stepNavigation.init(); languageSwitcher.init(); welcomeStep.init(); accountStep.init(); verifyStep.init(); profileStep.init(); reviewStep.init();
-    console.log('Student onboarding initialized successfully');
+    connectionStatus.init(); stepNavigation.init(); languageSwitcher.init(); welcomeStep.init(); profileStep.init(); reviewStep.init();
+    // Export onboarding data for use by inline scripts
+    window.studentOnboardingData = onboardingData;
+    console.log('Student onboarding initialized successfully (3-step flow)');
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

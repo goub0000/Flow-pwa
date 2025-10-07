@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Flow — Recommender Onboarding</title>
-  <meta name="description" content="Confirm your details, link to a student’s request, and securely upload a PDF recommendation letter." />
+  <meta name="description" content="Complete your profile and upload recommendation letters for students." />
   <link rel="icon" href="/assets/img/logo.PNG" type="image/png" />
   <link rel="apple-touch-icon" href="/assets/img/logo.PNG" />
   <link rel="stylesheet" href="/assets/css/base.css" />
@@ -29,12 +29,6 @@
           <div class="progress-circle">2</div>
           <div class="progress-line"></div>
           <div class="progress-circle">3</div>
-          <div class="progress-line"></div>
-          <div class="progress-circle">4</div>
-          <div class="progress-line"></div>
-          <div class="progress-circle">5</div>
-          <div class="progress-line"></div>
-          <div class="progress-circle">6</div>
         </div>
         
         <!-- Help Button -->
@@ -76,12 +70,9 @@
       <aside class="steps-nav" aria-label="Onboarding progress">
         <h2 class="steps-nav__title">Setup checklist</h2>
         <ol class="steps" role="list">
-          <li class="step step--current"><span class="step__bullet">1</span><div><a class="step__label" href="#step-account">Account</a><p class="step__desc">Your info</p></div></li>
-          <li class="step"><span class="step__bullet">2</span><div><a class="step__label" href="#step-verify">Verify identity</a><p class="step__desc">Optional</p></div></li>
-          <li class="step"><span class="step__bullet">3</span><div><a class="step__label" href="#step-link">Link request</a><p class="step__desc">Email or code</p></div></li>
-          <li class="step"><span class="step__bullet">4</span><div><a class="step__label" href="#step-upload">Upload letter</a><p class="step__desc">PDF only</p></div></li>
-          <li class="step"><span class="step__bullet">5</span><div><a class="step__label" href="#step-consent">Consent</a><p class="step__desc">Policy</p></div></li>
-          <li class="step"><span class="step__bullet">6</span><div><a class="step__label" href="#step-review">Review</a><p class="step__desc">Finish</p></div></li>
+          <li class="step step--current"><span class="step__bullet">1</span><div><a class="step__label" href="#step-profile">Profile</a><p class="step__desc">Your information</p></div></li>
+          <li class="step"><span class="step__bullet">2</span><div><a class="step__label" href="#step-preferences">Preferences</a><p class="step__desc">Notifications</p></div></li>
+          <li class="step"><span class="step__bullet">3</span><div><a class="step__label" href="#step-review">Review</a><p class="step__desc">Finish</p></div></li>
         </ol>
       </aside>
 
@@ -89,13 +80,13 @@
       <div class="section">
         <div class="onboarding__intro card notice">
           <h1 class="u-mb-0">Recommender Onboarding</h1>
-          <p class="u-mt-2 u-mb-0">Confirm your details, link to a student’s request, and upload a signed PDF letter. You can save a draft and return later.</p>
+          <p class="u-mt-2 u-mb-0">Complete your profile to start providing recommendations for students. You can save a draft and return later.</p>
         </div>
 
-        <!-- Step 1: Account -->
-        <section id="step-account" class="card" aria-labelledby="accountTitle">
+        <!-- Step 1: Profile -->
+        <section id="step-profile" class="card" aria-labelledby="profileTitle">
           <div class="section__header">
-            <h2 id="accountTitle">1. Account</h2>
+            <h2 id="profileTitle">1. Profile Information</h2>
             <div class="header-actions"><span class="pill pill--ok">Required</span></div>
           </div>
           <form class="form">
@@ -110,118 +101,43 @@
               <label>Phone<input type="tel" placeholder="+233 55 000 0000" /></label>
             </div>
             <div class="section__actions">
-              <a class="btn btn--ghost" href="#step-verify">Next: Verify</a>
+              <a class="btn btn--ghost" href="#step-preferences">Next: Preferences</a>
               <a class="btn" href="#" aria-disabled="true">Save draft</a>
             </div>
           </form>
         </section>
 
-        <!-- Step 2: Verify (optional) -->
-        <section id="step-verify" class="card" aria-labelledby="verifyTitle">
+        <!-- Step 2: Preferences -->
+        <section id="step-preferences" class="card" aria-labelledby="prefTitle">
           <div class="section__header">
-            <h2 id="verifyTitle">2. Verify identity (optional)</h2>
+            <h2 id="prefTitle">2. Preferences</h2>
             <div class="header-actions"><span class="pill">Optional</span></div>
           </div>
           <form class="form">
-            <p class="hint">Verifying your work email helps institutions trust letters attributed to you.</p>
-            <div class="grid grid--2">
-              <label>Work email (for verification link)<input type="email" placeholder="aisha@university.edu" /></label>
-              <label>OR upload ID (not required)<input type="file" /></label>
+            <div class="grid grid--3">
+              <label>Notifications
+                <select>
+                  <option>All</option>
+                  <option>Only requests</option>
+                  <option>None</option>
+                </select>
+              </label>
+              <label>Email summary
+                <select>
+                  <option>Weekly</option>
+                  <option>Monthly</option>
+                  <option>Disabled</option>
+                </select>
+              </label>
+              <label>Language
+                <select>
+                  <option>English</option>
+                  <option>Français</option>
+                  <option>العربية</option>
+                  <option>Kiswahili</option>
+                </select>
+              </label>
             </div>
-            <div class="section__actions">
-              <a class="btn btn--ghost" href="#step-link">Next: Link request</a>
-              <a class="btn" href="#" aria-disabled="true">Send verification</a>
-            </div>
-          </form>
-        </section>
-
-        <!-- Step 3: Link to student request -->
-        <section id="step-link" class="card" aria-labelledby="linkTitle">
-          <div class="section__header">
-            <h2 id="linkTitle">3. Link to a student’s request</h2>
-            <div class="header-actions"><span class="pill pill--ok">Required</span></div>
-          </div>
-          <form class="form">
-            <p class="hint">If you came via a unique link, the request will appear below automatically. Otherwise, enter the student’s email or the request code.</p>
-
-            <div class="grid grid--2">
-              <label>Student email<input type="email" placeholder="student@example.com" /></label>
-              <label>Request code<input type="text" placeholder="8‑digit code" /></label>
-            </div>
-
-            <div class="u-mt-4 tableish">
-              <div class="tableish__row"><div>Student</div><div class="hide-sm">Program</div><div>Deadline</div><div>Action</div></div>
-              <div class="tableish__row">
-                <div>Oumarou Gouba</div>
-                <div class="hide-sm">B.Sc. Computer Science</div>
-                <div><time datetime="2025-09-01">Sept 1</time></div>
-                <div><a class="btn btn--ghost" href="#step-upload">Link</a></div>
-              </div>
-            </div>
-
-            <div class="section__actions">
-              <a class="btn btn--ghost" href="#step-upload">Next: Upload letter</a>
-              <a class="btn" href="#" aria-disabled="true">Find request</a>
-            </div>
-          </form>
-        </section>
-
-        <!-- Step 4: Upload letter -->
-        <section id="step-upload" class="card" aria-labelledby="uploadTitle">
-          <div class="section__header">
-            <h2 id="uploadTitle">4. Upload your letter</h2>
-            <div class="header-actions"><span class="pill pill--ok">Required</span></div>
-          </div>
-          <form class="form">
-            <div class="drop">
-              <div class="drop__icon" aria-hidden="true">⬆</div>
-              <p class="u-mb-0"><strong>Drag & drop</strong> your signed PDF here, or</p>
-              <label class="drop__btn">Browse<input type="file" accept="application/pdf" /></label>
-              <p class="hint">PDF only, max 5MB. You may replace the file before final submission.</p>
-            </div>
-
-            <div class="grid grid--2">
-              <label>Letter title<input type="text" placeholder="Recommendation for Oumarou Gouba" /></label>
-              <label>Relationship<select>
-                <option>Professor / Instructor</option>
-                <option>Advisor</option>
-                <option>Employer</option>
-                <option>Other</option>
-              </select></label>
-            </div>
-
-            <label>Notes to admissions (optional)
-              <textarea rows="4" placeholder="Add brief context if needed…"></textarea>
-            </label>
-
-            <div class="u-mt-4 tableish">
-              <div class="tableish__row"><div>File</div><div class="hide-sm">Size</div><div>Status</div><div>Action</div></div>
-              <div class="tableish__row">
-                <div>Letter.pdf</div><div class="hide-sm">—</div><div><span class="badge">Not uploaded</span></div>
-                <div><a class="btn btn--ghost" href="#" aria-disabled="true">Remove</a></div>
-              </div>
-            </div>
-
-            <div class="section__actions">
-              <a class="btn btn--ghost" href="#step-consent">Next: Consent</a>
-              <a class="btn" href="#" aria-disabled="true">Save draft</a>
-            </div>
-          </form>
-        </section>
-
-        <!-- Step 5: Consent -->
-        <section id="step-consent" class="card" aria-labelledby="consentTitle">
-          <div class="section__header">
-            <h2 id="consentTitle">5. Consent & policies</h2>
-            <div class="header-actions"><span class="pill pill--ok">Required</span></div>
-          </div>
-          <form class="form">
-            <fieldset class="fieldset">
-              <legend class="sr-only">Consent</legend>
-              <label><input type="checkbox" /> I confirm this letter is my original work and accurately reflects my evaluation.</label>
-              <label><input type="checkbox" /> I agree to Flow’s <a href="/legal/privacy.html">Privacy Policy</a> and <a href="/legal/terms.html">Terms</a>.</label>
-              <label><input type="checkbox" /> I understand my identity may be shared with institutions receiving this letter.</label>
-            </fieldset>
             <div class="section__actions">
               <a class="btn btn--ghost" href="#step-review">Next: Review</a>
               <a class="btn" href="#" aria-disabled="true">Save</a>
@@ -229,31 +145,34 @@
           </form>
         </section>
 
-        <!-- Step 6: Review & Finish -->
+        <!-- Step 3: Review & Finish -->
         <section id="step-review" class="card complete" aria-labelledby="reviewTitle">
           <div class="section__header">
-            <h2 id="reviewTitle">6. Review & submit</h2>
+            <h2 id="reviewTitle">3. Review & Finish</h2>
             <div class="header-actions"><span class="pill pill--ok">Ready</span></div>
           </div>
           <div class="grid grid--2">
             <div>
               <h3 class="u-mt-0">Summary</h3>
               <ul class="checklist">
-                <li>Account: <strong>Complete</strong></li>
-                <li>Verify: <strong>Optional</strong></li>
-                <li>Linked request: <strong>Oumarou Gouba</strong></li>
-                <li>Letter: <strong>Ready</strong></li>
-                <li>Consent: <strong>Accepted</strong></li>
+                <li>Profile: <strong>Complete</strong></li>
+                <li>Preferences: <strong>Set</strong></li>
               </ul>
             </div>
             <div>
-              <h3 class="u-mt-0">What happens next?</h3>
-              <p>Your PDF will be delivered to the institution(s) for the student’s application. You’ll receive a confirmation email.</p>
+              <h3 class="u-mt-0">Next steps</h3>
+              <p>After finishing, you'll access the Recommender Portal where you can respond to student requests and upload recommendation letters.</p>
             </div>
           </div>
+          <fieldset class="fieldset u-mt-4">
+            <legend class="sr-only">Legal agreement</legend>
+            <label>
+              <input type="checkbox" /> I agree to Flow's <a href="/legal/privacy.html">Privacy Policy</a> and <a href="/legal/terms.html">Terms of Service</a>.
+            </label>
+          </fieldset>
           <div class="wizard-ctrls">
-            <a class="btn btn--ghost" href="#step-consent">← Back</a>
-            <a class="btn btn--secondary" href="/recommenders/">Submit Letter & Go to Recommender Portal</a>
+            <a class="btn btn--ghost" href="#step-preferences">← Back</a>
+            <a class="btn btn--secondary" href="/recommenders/">Finish & Go to Portal</a>
           </div>
         </section>
 
