@@ -5985,20 +5985,20 @@
                 
                 <div class="profile-stats">
                   <div class="stat-card">
-                    <div class="stat-number">12</div>
-                    <div class="stat-label">Applications</div>
+                    <div class="stat-number" id="totalChildren">0</div>
+                    <div class="stat-label">Linked Students</div>
                   </div>
                   <div class="stat-card">
-                    <div class="stat-number">8</div>
+                    <div class="stat-number" id="totalApplications">0</div>
+                    <div class="stat-label">Total Applications</div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-number" id="acceptedApplications">0</div>
                     <div class="stat-label">Accepted</div>
                   </div>
                   <div class="stat-card">
-                    <div class="stat-number">$45K</div>
-                    <div class="stat-label">Aid Secured</div>
-                  </div>
-                  <div class="stat-card">
-                    <div class="stat-number">98%</div>
-                    <div class="stat-label">Success Rate</div>
+                    <div class="stat-number" id="completionRate">0%</div>
+                    <div class="stat-label">Completion Rate</div>
                   </div>
                 </div>
               </div>
@@ -8960,5 +8960,8 @@ Generated on: ${new Date().toLocaleDateString()}
     </div>
   </div>
 
+  <!-- Data Service and Dashboard Loader -->
+  <script src="/assets/js/data-service.js"></script>
+  <script src="/assets/js/dashboard-loader.js"></script>
 </body>
 </html>

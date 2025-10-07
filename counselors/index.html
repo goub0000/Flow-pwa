@@ -495,24 +495,24 @@
     <!-- Dashboard Stats -->
     <section class="container dashboard-stats">
       <div class="stat-card">
-        <span class="stat-number">12</span>
+        <span class="stat-number" id="totalStudents">0</span>
         <div class="stat-label">Active Students</div>
-        <span class="stat-trend up">↗ +2 this week</span>
+        <span class="stat-trend"></span>
       </div>
       <div class="stat-card">
-        <span class="stat-number">25</span>
+        <span class="stat-number" id="totalApplications">0</span>
         <div class="stat-label">Applications</div>
-        <span class="stat-trend up">↗ +5 pending</span>
+        <span class="stat-trend"></span>
       </div>
       <div class="stat-card">
-        <span class="stat-number">6</span>
-        <div class="stat-label">Urgent Tasks</div>
-        <span class="stat-trend down">↘ -2 from yesterday</span>
+        <span class="stat-number" id="acceptedApplications">0</span>
+        <div class="stat-label">Accepted</div>
+        <span class="stat-trend"></span>
       </div>
       <div class="stat-card">
-        <span class="stat-number">68%</span>
-        <div class="stat-label">On Track</div>
-        <span class="stat-trend up">↗ +12% this month</span>
+        <span class="stat-number" id="successRate">0%</span>
+        <div class="stat-label">Success Rate</div>
+        <span class="stat-trend"></span>
       </div>
     </section>
     <!-- HERO -->
@@ -1502,5 +1502,9 @@
 
   <!-- Flow Cookie Consent System -->
   <script src="/assets/js/cookie-consent.js"></script>
+
+  <!-- Data Service and Dashboard Loader -->
+  <script src="/assets/js/data-service.js"></script>
+  <script src="/assets/js/dashboard-loader.js"></script>
 </body>
 </html>

@@ -225,8 +225,8 @@
               </svg>
             </div>
             <div class="stat-card__content">
-              <div class="stat-card__number">3</div>
-              <div class="stat-card__label" data-i18n="students.stats.activeApplications">Active Applications</div>
+              <div class="stat-card__number" id="totalApplications">0</div>
+              <div class="stat-card__label" data-i18n="students.stats.activeApplications">Total Applications</div>
             </div>
           </div>
           <div class="stat-card">
@@ -252,8 +252,8 @@
               </svg>
             </div>
             <div class="stat-card__content">
-              <div class="stat-card__number">2</div>
-              <div class="stat-card__label" data-i18n="students.stats.pendingTasks">Pending Tasks</div>
+              <div class="stat-card__number" id="draftApplications">0</div>
+              <div class="stat-card__label" data-i18n="students.stats.pendingTasks">Draft Applications</div>
             </div>
           </div>
           <div class="stat-card">
@@ -287,8 +287,8 @@
               </svg>
             </div>
             <div class="stat-card__content">
-              <div class="stat-card__number">5</div>
-              <div class="stat-card__label" data-i18n="students.stats.programsSaved">Programs Saved</div>
+              <div class="stat-card__number" id="submittedApplications">0</div>
+              <div class="stat-card__label" data-i18n="students.stats.programsSaved">Submitted</div>
             </div>
           </div>
           <div class="stat-card">
@@ -320,8 +320,8 @@
               </svg>
             </div>
             <div class="stat-card__content">
-              <div class="stat-card__number">$0</div>
-              <div class="stat-card__label" data-i18n="students.stats.feesDue">Fees Due</div>
+              <div class="stat-card__number" id="acceptedApplications">0</div>
+              <div class="stat-card__label" data-i18n="students.stats.feesDue">Accepted</div>
             </div>
           </div>
         </div>
@@ -2205,5 +2205,9 @@
 
   <!-- Flow Cookie Consent System -->
   <script src="/assets/js/cookie-consent.js"></script>
+
+  <!-- Data Service and Dashboard Loader -->
+  <script src="/assets/js/data-service.js"></script>
+  <script src="/assets/js/dashboard-loader.js"></script>
 </body>
 </html>
