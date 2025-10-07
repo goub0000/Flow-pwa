@@ -184,6 +184,12 @@
       $$('.onboarding-step').forEach(s => s.classList.remove('onboarding-step--active'));
       $(`#step-${this.getStepId(n)}`)?.classList.add('onboarding-step--active');
       currentStep = n; this.updateStepper(); this.updateProgress();
+
+      // Populate review data when showing review step (step 3)
+      if (n === 3 && reviewStep.populateReview) {
+        reviewStep.populateReview();
+      }
+
       window.scrollTo({ top: 0, behavior: 'smooth' });
     },
     getStepId(n){ return ['welcome','profile','review'][n-1] || 'welcome'; },
@@ -376,12 +382,39 @@
   const reviewStep = {
     init(){ this.populateReview(); this.initNavigation(); },
     populateReview(){
-      // No longer showing account contact info since we removed account creation
-      $('#reviewLanguage').textContent = this.getLanguageName(onboardingData.language);
-      const full = `${onboardingData.firstName||''} ${onboardingData.lastName||''}`.trim(); $('#reviewName').textContent = full || '—';
-      const location = `${onboardingData.city || ''}, ${this.getCountryName(onboardingData.profileCountry)}`.replace(/^, |, $/,''); $('#reviewLocation').textContent = location || '—';
-      const education = `${onboardingData.educationLevel || ''} ${onboardingData.gpa ? '(GPA: '+onboardingData.gpa+')':''}`.trim(); $('#reviewEducation').textContent = education || '—';
-      const interests = (onboardingData.interests||[]).map(f => this.getFieldName(f)).join(', '); $('#reviewInterests').textContent = interests || '—';
+      console.log('📋 Populating review with data:', onboardingData);
+
+      // Show user email if signed in
+      const user = window.FlowAuth?.getCurrentUser();
+      const contact = user?.email || onboardingData.email || onboardingData.phone || '—';
+      const reviewContactEl = $('#reviewContact');
+      if (reviewContactEl) reviewContactEl.textContent = contact;
+
+      // Show language
+      const reviewLanguageEl = $('#reviewLanguage');
+      if (reviewLanguageEl) reviewLanguageEl.textContent = this.getLanguageName(onboardingData.language);
+
+      // Show name
+      const full = `${onboardingData.firstName||''} ${onboardingData.lastName||''}`.trim();
+      const reviewNameEl = $('#reviewName');
+      if (reviewNameEl) reviewNameEl.textContent = full || '—';
+
+      // Show location
+      const location = `${onboardingData.city || ''}, ${this.getCountryName(onboardingData.profileCountry)}`.replace(/^, |, $/,'');
+      const reviewLocationEl = $('#reviewLocation');
+      if (reviewLocationEl) reviewLocationEl.textContent = location || '—';
+
+      // Show education
+      const education = `${onboardingData.educationLevel || ''} ${onboardingData.gpa ? '(GPA: '+onboardingData.gpa+')':''}`.trim();
+      const reviewEducationEl = $('#reviewEducation');
+      if (reviewEducationEl) reviewEducationEl.textContent = education || '—';
+
+      // Show interests
+      const interests = (onboardingData.interests||[]).map(f => this.getFieldName(f)).join(', ');
+      const reviewInterestsEl = $('#reviewInterests');
+      if (reviewInterestsEl) reviewInterestsEl.textContent = interests || '—';
+
+      console.log('✅ Review populated - Name:', full, 'Location:', location, 'Interests:', interests);
     },
     getLanguageName(c){ const m={en:'English', fr:'French', ar:'Arabic', sw:'Swahili', ha:'Hausa', yo:'Yoruba', ig:'Igbo', zu:'Zulu', am:'Amharic'}; return m[c] || 'English'; },
     getCountryName(c){ const m={ gh:'Ghana', ng:'Nigeria', ke:'Kenya', tz:'Tanzania', ug:'Uganda', sn:'Senegal', bf:'Burkina Faso', rw:'Rwanda', et:'Ethiopia', za:'South Africa' }; return m[c] || ''; },
