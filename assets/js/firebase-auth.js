@@ -944,7 +944,7 @@
   }
 
   // Redirect after successful login based on account type
-  function redirectAfterLogin() {
+  async function redirectAfterLogin() {
     console.log('🔄 redirectAfterLogin called');
 
     // Check for intended destination first
@@ -956,12 +956,23 @@
       return;
     }
 
-    // Get user profile to determine account type
-    const profile = getUserProfile();
+    // Get user and profile
     const user = getCurrentUser();
+    let profile = getUserProfile();
 
-    console.log('🔄 User profile:', profile);
-    console.log('🔄 Current user:', user);
+    // If profile not loaded yet, try to reload it
+    if (!profile || !profile.accountType) {
+      console.log('⏳ Profile not loaded yet, attempting to reload...');
+      try {
+        profile = await reloadUserProfile();
+        console.log('✅ Profile reloaded:', profile);
+      } catch (error) {
+        console.error('❌ Error reloading profile:', error);
+      }
+    }
+
+    console.log('🔄 User:', user);
+    console.log('🔄 Profile:', profile);
 
     // Determine account type from multiple sources
     const accountType = profile?.accountType ||
@@ -981,10 +992,27 @@
     };
 
     // Get the appropriate dashboard for the user's account type
-    const dashboardPath = dashboardRoutes[accountType] || '/students/';
+    const dashboardPath = dashboardRoutes[accountType];
+
+    if (!dashboardPath) {
+      console.warn('⚠️ No dashboard found for account type:', accountType);
+      console.warn('⚠️ Defaulting to home page');
+      window.location.href = '/';
+      return;
+    }
 
     console.log('🔄 Redirecting to dashboard:', dashboardPath);
     window.location.href = dashboardPath;
+  }
+
+  // Add helper function to reload profile
+  async function reloadUserProfile() {
+    const user = getCurrentUser();
+    if (user) {
+      await loadUserProfile(user);
+      return userProfile;
+    }
+    return null;
   }
 
   // Password validation
