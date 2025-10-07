@@ -42,64 +42,13 @@
   const DRAFTS_KEY  = 'flow.applications.drafts.v1';
   const COMPARE_KEY = 'flow.programs.compare.v1';
 
-  // Seed catalog if needed (with extended details)
+  // Data will be loaded from Firestore via DataService
+  // No hardcoded sample data - all programs come from the database
   function seedCatalog(){
+    // Removed hardcoded sample programs
+    // Programs should be loaded from Firestore instead
     if (Flow.store.get(CATALOG_KEY)) return;
-    const today = new Date();
-    const plus = d => new Date(+today + d*24*3600e3).toISOString().slice(0,10);
-    const data = [
-      { id:'p-accra-cs',   title:'B.Sc. Computer Science',       uni:'University of Accra', country:'Ghana',       level:'Bachelor', field:'Computer Science',   mode:'campus', tuitionUSD:4200, deadline:plus(60),  scholarship:true,  match:95,
-        duration:'4 years', language:'English', city:'Accra', accreditation:'National Council for Tertiary Education',
-        overview:'A solid CS foundation covering algorithms, systems, and AI with hands-on labs.',
-        courses:['Data Structures','Algorithms','Operating Systems','Databases','AI Fundamentals'],
-        requirements:['High school diploma','Maths & Physics','Personal statement'] },
-      { id:'p-nairobi-it', title:'B.Sc. Information Technology', uni:'University of Nairobi', country:'Kenya',     level:'Bachelor', field:'Information Technology', mode:'campus', tuitionUSD:3800, deadline:plus(30),  scholarship:false, match:88,
-        duration:'4 years', language:'English', city:'Nairobi', accreditation:'Commission for University Education',
-        overview:'Focus on software development, networks, and IT management.',
-        courses:['Programming I/II','Networks','Web Development','Systems Analysis'],
-        requirements:['KCSE or equivalent','Maths','CV'] },
-      { id:'p-dakar-ce',   title:'B.Eng. Computer Engineering',  uni:'École Polytechnique Dakar', country:'Senegal', level:'Bachelor', field:'Engineering',          mode:'campus', tuitionUSD:4600, deadline:plus(45),  scholarship:false, match:84,
-        duration:'4 years', language:'French', city:'Dakar', accreditation:'Ministry of Higher Education',
-        overview:'Hardware-software integration, embedded systems, and signal processing.',
-        courses:['Digital Logic','Microprocessors','Signals & Systems','Embedded C'],
-        requirements:['Baccalauréat S','Motivation letter'] },
-      { id:'p-lagos-biz',  title:'BBA Business Administration',  uni:'University of Lagos',   country:'Nigeria',    level:'Bachelor', field:'Business',             mode:'campus', tuitionUSD:3200, deadline:plus(75),  scholarship:true,  match:81,
-        duration:'4 years', language:'English', city:'Lagos', accreditation:'NUC',
-        overview:'Management, finance, marketing with practical case studies.',
-        courses:['Accounting','Microeconomics','Marketing','Business Law'],
-        requirements:['O-levels','Personal essay'] },
-      { id:'p-uct-ds',     title:'M.Sc. Data Science',           uni:'University of Cape Town', country:'South Africa', level:'Master', field:'Data Science',       mode:'campus', tuitionUSD:5400, deadline:plus(52),  scholarship:true,  match:92,
-        duration:'2 years', language:'English', city:'Cape Town', accreditation:'CHE',
-        overview:'Advanced ML, statistics, and data engineering with capstone.',
-        courses:['Statistical Learning','Deep Learning','Big Data Systems','NLP'],
-        requirements:['Bachelor in STEM','Transcripts','Portfolio'] },
-      { id:'p-makerere-ph',title:'M.Sc. Public Health',          uni:'Makerere University',   country:'Uganda',     level:'Master',   field:'Health',               mode:'campus', tuitionUSD:4100, deadline:plus(90),  scholarship:false, match:79,
-        duration:'2 years', language:'English', city:'Kampala', accreditation:'NCHE',
-        overview:'Epidemiology, biostatistics, and health policy for practitioners.',
-        courses:['Epidemiology','Biostatistics','Health Systems','Policy & Ethics'],
-        requirements:['Bachelor in Health','References'] },
-      { id:'p-aau-ee',     title:'B.Eng. Electrical Engineering',uni:'Addis Ababa University', country:'Ethiopia', level:'Bachelor', field:'Engineering',          mode:'campus', tuitionUSD:3500, deadline:plus(40),  scholarship:true,  match:86,
-        duration:'5 years', language:'English', city:'Addis Ababa', accreditation:'HERQA',
-        overview:'Power systems, electronics, and control with industry projects.',
-        courses:['Circuit Theory','Power Systems','Control','Electronics'],
-        requirements:['Secondary certificate','Maths & Physics'] },
-      { id:'p-stell-ai',   title:'M.Sc. Artificial Intelligence',uni:'Stellenbosch University', country:'South Africa', level:'Master', field:'Computer Science',  mode:'online', tuitionUSD:5800, deadline:plus(25),  scholarship:false, match:90,
-        duration:'18 months', language:'English', city:'Online', accreditation:'CHE',
-        overview:'Applied AI with research track and practical deployments.',
-        courses:['Machine Learning','Reinforcement Learning','MLOps','Computer Vision'],
-        requirements:['Bachelor in CS/EE','Motivation letter'] },
-      { id:'p-ku-it',      title:'Diploma in Information Tech',  uni:'Kenyatta University',   country:'Kenya',     level:'Diploma',  field:'Information Technology', mode:'campus', tuitionUSD:1800, deadline:plus(120), scholarship:true,  match:74,
-        duration:'2 years', language:'English', city:'Nairobi', accreditation:'CUE',
-        overview:'Starter track for IT careers with strong practical labs.',
-        courses:['Intro to CS','Networks Basics','Web I','Databases I'],
-        requirements:['KCSE','Basic computer skills'] },
-      { id:'p-udsm-se',    title:'B.Sc. Software Engineering',   uni:'Univ. of Dar es Salaam', country:'Tanzania', level:'Bachelor', field:'Engineering',          mode:'campus', tuitionUSD:3000, deadline:plus(70),  scholarship:false, match:80,
-        duration:'4 years', language:'English', city:'Dar es Salaam', accreditation:'TCU',
-        overview:'Full-stack engineering, DevOps, and agile teamwork.',
-        courses:['OOP','Web Frameworks','DevOps','Mobile Dev'],
-        requirements:['A-levels','Maths','Personal statement'] }
-    ];
-    Flow.store.set(CATALOG_KEY, data);
+    Flow.store.set(CATALOG_KEY, []);
   }
 
   // State

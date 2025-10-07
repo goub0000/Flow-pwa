@@ -63,17 +63,15 @@
     if (count > 0) { badge.textContent = String(count); badge.hidden = false; } else { badge.hidden = true; }
   })();
 
-  // ---------- Data seed ----------
+  // ---------- Data from Firestore ----------
+  // Data will be loaded from Firestore via DataService
+  // No hardcoded sample applications
   const APPKEY = 'flow.apps.v1';
   const seedIfNeeded = () => {
     const curr = Flow.store.get(APPKEY, null);
     if (curr && Array.isArray(curr) && curr.length) return;
-    const now = Date.now();
-    Flow.store.set(APPKEY, [
-      { id:'a-accra', uni:'University of Accra', program:'B.Sc. Computer Science', status:'review', updated: now - 1*86400000, feesUSD: 0, tasks:['Confirm interview slot'], notes:'' },
-      { id:'a-abuja', uni:'Abuja Tech Institute', program:'B.Eng. Software Engineering', status:'draft', updated: now - 5*86400000, feesUSD: 0, tasks:['Write personal statement'], notes:'' },
-      { id:'a-epd', uni:'École Polytechnique Dakar', program:'B.Eng. Computer Engineering', status:'submitted', updated: now - 11*86400000, feesUSD: 0, tasks:[], notes:'' },
-    ]);
+    // Initialize with empty array - real data comes from Firestore
+    Flow.store.set(APPKEY, []);
   };
   seedIfNeeded();
 

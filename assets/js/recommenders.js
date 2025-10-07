@@ -327,42 +327,17 @@
   // ---------- Messaging ----------
   const MSG_KEY = 'flow.recommender.messages.v2'; // bump key to include recipients + attachments
 
-  // Directory of possible recipients (example)
-  const RECIPIENTS = [
-    { id:'adm-accra',   name:'Admissions — University of Accra', role:'admissions' },
-    { id:'adm-ati',     name:'Admissions — Abuja Tech Institute', role:'admissions' },
-    { id:'student-ou',  name:'Student — Oumarou Gouba', role:'student' },
-    { id:'student-am',  name:'Student — Adjoa Mensah', role:'student' },
-    { id:'counselor-sa',name:'Counselor Sarah', role:'counselor' }
-  ];
+  // Data will be loaded from Firestore via DataService
+  // No hardcoded recipients
+  const RECIPIENTS = [];
+  // Real recipients will be loaded from Firestore
 
+  // Data will be loaded from Firestore via DataService
+  // No hardcoded sample threads
   function seedThreadsIfEmpty(){
     if (Flow.store.get(MSG_KEY)) return;
-    const now = Date.now();
-    const threads = [
-      {
-        id:'t-accra',
-        subject:'Interview Scheduling',
-        recipients:['adm-accra'],
-        unread:1,
-        updated: now - 60*60*1000,
-        messages:[
-          { id:'m1', me:false, author:'Admissions — University of Accra', text:'Please confirm your interview slot for next week. We have times on Tue/Wed.', ts: now - 2*60*60*1000, attachments:[] },
-          { id:'m2', me:true, author:'You', text:'Next Wednesday works — 2pm?', ts: now - 60*60*1000, attachments:[] }
-        ]
-      },
-      {
-        id:'t-oumarou',
-        subject:'Reference details',
-        recipients:['student-ou'],
-        unread:1,
-        updated: now - 24*60*60*1000,
-        messages:[
-          { id:'m3', me:false, author:'Oumarou Gouba', text:'Hi! Thank you again for agreeing to recommend me. Let me know if you need details.', ts: now - 23*60*60*1000, attachments:[] }
-        ]
-      }
-    ];
-    Flow.store.set(MSG_KEY, threads);
+    // Initialize with empty array - real data comes from Firestore
+    Flow.store.set(MSG_KEY, []);
   }
   function getThreads(){ return Flow.store.get(MSG_KEY, []); }
   function setThreads(list){ Flow.store.set(MSG_KEY, list); }

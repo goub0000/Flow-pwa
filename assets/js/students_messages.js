@@ -96,45 +96,21 @@
   const KEY_NOTIFS  = 'flow.notifications.v1';
   const USER = document.body.getAttribute('data-user-id') || 'u-student-demo';
 
-  // Seed threads if empty
+  // Data will be loaded from Firestore via DataService
+  // No hardcoded sample conversations or notifications
   (function seedThreads() {
     const existing = Flow.store.get(KEY_THREADS, null);
     if (existing && Array.isArray(existing) && existing.length) return;
-    const now = Date.now();
-    const threads = [
-      {
-        id: 't-accra',
-        name: 'Admissions Office',
-        participants: [USER, 'inst-accra-adm'],
-        unread: true,
-        messages: [
-          { from: 'inst-accra-adm', text: 'Please confirm your interview slot for next week. We have available times on Tue/Wed.', ts: now - 2 * 60 * 60 * 1000, attachments: [] },
-        ],
-      },
-      {
-        id: 't-counselor',
-        name: 'Counselor Sarah',
-        participants: [USER, 'counselor-sarah'],
-        unread: false,
-        messages: [
-          { from: 'counselor-sarah', text: 'I shared some scholarship opportunities that might interest you.', ts: now - 24 * 60 * 60 * 1000, attachments: [] },
-        ],
-      },
-    ];
-    Flow.store.set(KEY_THREADS, threads);
+    // Initialize with empty array - real data comes from Firestore
+    Flow.store.set(KEY_THREADS, []);
   })();
 
-  // Seed notifications if empty
+  // Initialize notifications from Firestore
   (function seedNotifs() {
     const existing = Flow.store.get(KEY_NOTIFS, null);
     if (existing && Array.isArray(existing) && existing.length) return;
-    const now = Date.now();
-    const notifs = [
-      { id: 'n-mobile-money', title: 'Mobile Money Ready', body: 'Pay fees instantly with M-Pesa, MTN MoMo, or Airtel Money.', ts: now - 60 * 60 * 1000, type: 'system', read: false, cta: { label: 'Open Finance', href: '/students/finance.html' } },
-      { id: 'n-task-due',     title: 'Task due: Essay Draft', body: 'Your essay for Abuja Tech Institute is due Sept 1.', ts: now - 2 * 60 * 60 * 1000, type: 'task',   read: false, cta: { label: 'View Tasks', href: '/students/' } },
-      { id: 'n-app-update',   title: 'Application updated', body: 'University of Accra application status: Under Review.', ts: now - 3 * 24 * 60 * 60 * 1000, type: 'application', read: true, cta: { label: 'Open Applications', href: '/students/applications.html' } },
-    ];
-    Flow.store.set(KEY_NOTIFS, notifs);
+    // Initialize with empty array - real data comes from Firestore
+    Flow.store.set(KEY_NOTIFS, []);
   })();
 
   // State

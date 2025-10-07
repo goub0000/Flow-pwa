@@ -40,16 +40,13 @@
     apply(){ $$('[data-amount-usd]').forEach(el=> el.textContent = this.fmt(el.getAttribute('data-amount-usd'))); }
   };
 
-  // Seed transactions
+  // Data will be loaded from Firestore via DataService
+  // No hardcoded sample transactions
   const KEY = 'flow.finance.tx.v1';
   const seed = () => {
     if (Flow.store.get(KEY)) return;
-    const now = Date.now();
-    const tx = [
-      { id: 'TX-1001', ts: now - 7*24*3600e3, desc: 'Application fee — University of Accra', usd: 0, method: 'N/A', status: 'Waived' },
-      { id: 'TX-1002', ts: now - 2*24*3600e3, desc: 'Scholarship credit', usd: -1500, method: 'Scholarship', status: 'Applied' }
-    ];
-    Flow.store.set(KEY, tx);
+    // Initialize with empty array - real data comes from Firestore
+    Flow.store.set(KEY, []);
   };
 
   function fmtDate(ts){

@@ -70,14 +70,10 @@
     set(v){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(v)); } catch{} },
   };
 
-  // ---------- recipients directory ----------
-  const DIRECTORY = [
-    { id:'stu-jane',  name:'Jane Doe', role:'student' },
-    { id:'stu-sam',   name:'Samuel Okoro', role:'student' },
-    { id:'stu-adjoa', name:'Adjoa Mensah', role:'student' },
-    { id:'adm-accra', name:'Admissions — University of Accra', role:'admissions' },
-    { id:'adm-ati',   name:'Admissions — Abuja Tech Institute', role:'admissions' },
-  ];
+  // Data will be loaded from Firestore via DataService
+  // No hardcoded student or admissions data
+  const DIRECTORY = [];
+  // Real recipients will be loaded from Firestore
 
   const TEMPLATES = [
     'Quick check-in: how are you doing on this week’s tasks?',
@@ -86,33 +82,12 @@
     'Interview prep tips attached — schedule time if you want to rehearse.'
   ];
 
-  // ---------- seed sample threads ----------
+  // Data will be loaded from Firestore via DataService
+  // No hardcoded sample threads
   function seedIfEmpty(){
     if (store.get().length) return;
-    const now = Date.now();
-    store.set([
-      {
-        id:'t-accra',
-        recipients:['adm-accra'],
-        subject:'Interview times for Jane Doe',
-        unread:1,
-        updated: now - 45*60*1000,
-        messages:[
-          { id:'m1', me:false, author:'Admissions — University of Accra', text:'Interview slots posted for next week (Tue/Wed).', ts: now - 2*60*60*1000, attachments:[] },
-          { id:'m2', me:true, author:'You', text:'Thanks! Wednesday 2pm works for Jane.', ts: now - 45*60*1000, attachments:[] },
-        ]
-      },
-      {
-        id:'t-adjoa',
-        recipients:['stu-adjoa'],
-        subject:'Transcript upload',
-        unread:0,
-        updated: now - 20*60*1000,
-        messages:[
-          { id:'m3', me:false, author:'Adjoa Mensah', text:'I’ll upload the transcript tonight.', ts: now - 20*60*1000, attachments:[] }
-        ]
-      }
-    ]);
+    // Initialize with empty array - real data comes from Firestore
+    store.set([]);
   }
 
   // ---------- DOM grab ----------
