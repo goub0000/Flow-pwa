@@ -1921,9 +1921,17 @@
           onboardingCompleted: true,
 
           // Timestamps
+          createdAt: window.FirebaseUtils.getTimestamp(),
           updatedAt: window.FirebaseUtils.getTimestamp(),
           lastLoginAt: window.FirebaseUtils.getTimestamp()
         }, { merge: true });
+
+        console.log('✅ Institution profile saved to Firestore');
+        console.log('📋 Saved data:', {
+          institutionName: formData.institutionName,
+          accountType: 'institution',
+          onboardingCompleted: true
+        });
 
         // Also save to localStorage for backward compatibility
         localStorage.setItem('institutionOnboarding', JSON.stringify(formData));

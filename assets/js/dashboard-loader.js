@@ -337,12 +337,19 @@
       const profile = window.FlowAuth.getUserProfile();
 
       if (!user || !profile) {
-        console.log('Waiting for user authentication...');
+        console.log('⏳ Waiting for user authentication and profile...');
+        // Wait for auth state change event instead of giving up
         return;
       }
 
+      console.log('✅ User and profile loaded:', {
+        email: user.email,
+        accountType: profile.accountType,
+        displayName: profile.displayName || profile.institutionName || 'Unknown'
+      });
+
       const accountType = profile.accountType;
-      console.log('Loading dashboard for account type:', accountType);
+      console.log('📊 Loading dashboard for account type:', accountType);
 
       switch (accountType) {
         case 'institution':
@@ -374,6 +381,21 @@
   } else {
     loadDashboard();
   }
+
+  // Listen for auth state changes and reload dashboard
+  // Setup listener after dependencies are ready
+  waitForDependencies().then(() => {
+    if (window.FlowAuth && window.FlowAuth.on) {
+      console.log('📡 Setting up auth state change listener for dashboard...');
+      window.FlowAuth.on('authStateChanged', async (authState) => {
+        console.log('📡 Dashboard loader received auth state change:', authState.isAuthenticated);
+        if (authState.isAuthenticated && authState.profile) {
+          console.log('🔄 Auth state changed with profile, reloading dashboard...');
+          await loadDashboard();
+        }
+      });
+    }
+  });
 
   // Expose reload function with cache clearing
   window.reloadDashboard = async function() {
