@@ -178,6 +178,9 @@
       FirebaseServices.messaging = messaging;
       FirebaseServices.initialized = true;
 
+      // Update global reference immediately
+      window.Firebase = FirebaseServices;
+
       // Set up auth state listener
       setupAuthStateListener();
 
@@ -185,7 +188,9 @@
       setupNetworkMonitoring();
 
       console.log('🎉 Firebase initialization complete');
-      
+      console.log('🔍 Firebase.auth available:', !!FirebaseServices.auth);
+      console.log('🔍 Firebase.db available:', !!FirebaseServices.db);
+
       // Emit initialization event
       document.dispatchEvent(new CustomEvent('firebaseInitialized', {
         detail: FirebaseServices
