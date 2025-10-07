@@ -486,32 +486,32 @@
         <a href="/counselors/settings.html">Settings</a>
       </nav>
       
-      <div class="user-avatar" title="User Menu">JD</div>
+      <div class="user-avatar" id="headerAvatar" title="User Menu"></div>
     </div>
   </header>
 
   <div class="profile-container">
     <!-- Profile Header -->
     <div class="profile-header">
-      <div class="profile-avatar-large">JD</div>
-      <h1 class="profile-name">Dr. Jane Doe</h1>
-      <p class="profile-title">Senior Academic Counselor • University of Ghana</p>
-      
+      <div class="profile-avatar-large" id="profileAvatarLarge"></div>
+      <h1 class="profile-name" id="profileName">Complete Your Profile</h1>
+      <p class="profile-title" id="profileTitle">Add your title and institution</p>
+
       <div class="profile-stats">
         <div class="stat-item">
-          <span class="stat-number">156</span>
+          <span class="stat-number" id="studentsHelped">0</span>
           <div class="stat-label">Students Helped</div>
         </div>
         <div class="stat-item">
-          <span class="stat-number">89%</span>
+          <span class="stat-number" id="successRate">0%</span>
           <div class="stat-label">Success Rate</div>
         </div>
         <div class="stat-item">
-          <span class="stat-number">12</span>
+          <span class="stat-number" id="activeStudents">0</span>
           <div class="stat-label">Active Students</div>
         </div>
         <div class="stat-item">
-          <span class="stat-number">5.2</span>
+          <span class="stat-number" id="yearsExperience">0</span>
           <div class="stat-label">Years Experience</div>
         </div>
       </div>
@@ -530,25 +530,23 @@
         
         <div class="form-group">
           <label class="form-label">Full Name</label>
-          <input type="text" class="form-input" value="Dr. Jane Doe" />
+          <input type="text" class="form-input" id="fullName" placeholder="Enter your full name" />
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Email Address</label>
-          <input type="email" class="form-input" value="jane.doe@university.edu.gh" />
+          <input type="email" class="form-input" id="emailAddress" placeholder="your.email@institution.edu" />
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Phone Number</label>
-          <input type="tel" class="form-input" value="+233 24 123 4567" />
+          <input type="tel" class="form-input" id="phoneNumber" placeholder="+1 234 567 8900" />
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Institution</label>
-          <select class="form-select">
-            <option value="university-ghana" selected>University of Ghana</option>
-            <option value="knust">Kwame Nkrumah University</option>
-            <option value="university-cape-coast">University of Cape Coast</option>
+          <select class="form-select" id="institution">
+            <option value="">Select your institution</option>
           </select>
         </div>
         
@@ -568,22 +566,22 @@
         
         <div class="form-group">
           <label class="form-label">Position/Title</label>
-          <input type="text" class="form-input" value="Senior Academic Counselor" />
+          <input type="text" class="form-input" id="positionTitle" placeholder="e.g., Academic Counselor" />
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Department</label>
-          <input type="text" class="form-input" value="Student Affairs & Academic Support" />
+          <input type="text" class="form-input" id="department" placeholder="e.g., Student Affairs" />
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Years of Experience</label>
-          <input type="number" class="form-input" value="5" />
+          <input type="number" class="form-input" id="yearsExp" placeholder="0" min="0" />
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Employee ID</label>
-          <input type="text" class="form-input" value="UC-2019-001523" readonly />
+          <input type="text" class="form-input" id="employeeId" placeholder="Will be assigned" readonly />
         </div>
         
         <div class="button-group">
@@ -602,35 +600,20 @@
         
         <div class="form-group">
           <label class="form-label">Professional Bio</label>
-          <textarea class="form-textarea" rows="4" placeholder="Share your experience and approach to student counseling...">Experienced academic counselor with a passion for helping students achieve their educational goals. Specialized in STEM programs and international applications with over 5 years of dedicated service in higher education.</textarea>
+          <textarea class="form-textarea" id="professionalBio" rows="4" placeholder="Share your experience and approach to student counseling..."></textarea>
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Areas of Expertise</label>
-          <div class="skills-container">
-            <div class="skill-tag">
-              Computer Science
-              <button class="remove-skill" onclick="removeSkill(this)">×</button>
-            </div>
-            <div class="skill-tag">
-              Engineering Programs
-              <button class="remove-skill" onclick="removeSkill(this)">×</button>
-            </div>
-            <div class="skill-tag">
-              International Applications
-              <button class="remove-skill" onclick="removeSkill(this)">×</button>
-            </div>
-            <div class="skill-tag">
-              Scholarship Guidance
-              <button class="remove-skill" onclick="removeSkill(this)">×</button>
-            </div>
+          <div class="skills-container" id="skillsContainer">
+            <!-- Skills will be added dynamically -->
           </div>
-          <input type="text" class="form-input" placeholder="Add new expertise area..." onkeypress="addSkill(event)" style="margin-top: 1rem;" />
+          <input type="text" class="form-input" id="newSkillInput" placeholder="Add new expertise area and press Enter..." onkeypress="addSkill(event)" style="margin-top: 1rem;" />
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Languages Spoken</label>
-          <input type="text" class="form-input" value="English, French, Twi, Ga" />
+          <input type="text" class="form-input" id="languagesSpoken" placeholder="e.g., English, French, Spanish" />
         </div>
         
         <div class="button-group">
@@ -647,19 +630,15 @@
           <h3 class="card-title">Qualifications & Certifications</h3>
         </div>
         
-        <div class="achievement-item">
-          <h4 class="achievement-title">Ph.D in Educational Psychology</h4>
-          <p class="achievement-details">University of Ghana • 2018 • Dissertation: "Impact of Academic Counseling on Student Success"</p>
-        </div>
-        
-        <div class="achievement-item">
-          <h4 class="achievement-title">Certified Academic Advisor (CAA)</h4>
-          <p class="achievement-details">National Academic Advising Association • 2020 • Professional certification in academic advising</p>
-        </div>
-        
-        <div class="achievement-item">
-          <h4 class="achievement-title">International Student Services Certificate</h4>
-          <p class="achievement-details">NAFSA Association • 2021 • Specialized training for international student support</p>
+        <div id="qualificationsList">
+          <!-- Qualifications will be loaded dynamically -->
+          <div class="empty-state" style="text-align: center; padding: 2rem 1rem;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 1rem; color: #9ca3af;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+            <h4 style="color: #374151; margin-bottom: 0.5rem;">No Qualifications Added</h4>
+            <p style="color: #6b7280; font-size: 0.9rem;">Add your educational background and certifications</p>
+          </div>
         </div>
         
         <div class="button-group">
@@ -679,28 +658,30 @@
         
         <div class="form-group">
           <label class="form-label">Office Location</label>
-          <input type="text" class="form-input" value="Student Affairs Building, Room 204" />
+          <input type="text" class="form-input" id="officeLocation" placeholder="e.g., Building A, Room 201" />
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Office Hours</label>
-          <input type="text" class="form-input" value="Monday-Friday: 9:00 AM - 5:00 PM" />
+          <input type="text" class="form-input" id="officeHours" placeholder="e.g., Monday-Friday: 9:00 AM - 5:00 PM" />
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Preferred Contact Method</label>
-          <select class="form-select">
-            <option value="email" selected>Email</option>
+          <select class="form-select" id="contactMethod">
+            <option value="">Select contact method</option>
+            <option value="email">Email</option>
             <option value="phone">Phone</option>
             <option value="flow-messages">Flow Messages</option>
             <option value="in-person">In-Person</option>
           </select>
         </div>
-        
+
         <div class="form-group">
           <label class="form-label">Response Time</label>
-          <select class="form-select">
-            <option value="within-24h" selected>Within 24 hours</option>
+          <select class="form-select" id="responseTime">
+            <option value="">Select response time</option>
+            <option value="within-24h">Within 24 hours</option>
             <option value="within-48h">Within 48 hours</option>
             <option value="within-week">Within 1 week</option>
           </select>
@@ -720,24 +701,15 @@
           <h3 class="card-title">Performance Metrics</h3>
         </div>
         
-        <div class="achievement-item">
-          <h4 class="achievement-title">Student Success Rate</h4>
-          <p class="achievement-details">89% of students successfully gained admission to their preferred programs</p>
-        </div>
-        
-        <div class="achievement-item">
-          <h4 class="achievement-title">Student Satisfaction</h4>
-          <p class="achievement-details">4.8/5.0 average rating from student feedback surveys</p>
-        </div>
-        
-        <div class="achievement-item">
-          <h4 class="achievement-title">Application Completion Rate</h4>
-          <p class="achievement-details">94% of students completed their applications on time</p>
-        </div>
-        
-        <div class="achievement-item">
-          <h4 class="achievement-title">Scholarship Success</h4>
-          <p class="achievement-details">67% of guided students received scholarship offers</p>
+        <div id="performanceMetrics">
+          <!-- Metrics will be calculated and displayed dynamically -->
+          <div class="empty-state" style="text-align: center; padding: 2rem 1rem;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 1rem; color: #9ca3af;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+            </svg>
+            <h4 style="color: #374151; margin-bottom: 0.5rem;">No Metrics Available</h4>
+            <p style="color: #6b7280; font-size: 0.9rem;">Performance data will appear as you work with students</p>
+          </div>
         </div>
         
         <div class="button-group">

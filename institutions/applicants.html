@@ -560,7 +560,7 @@
               <img src="/assets/img/avatars/institution.jpg" alt="Institution avatar" width="32" height="32">
             </div>
             <div class="profile-info">
-              <span class="profile-name">University of Excellence</span>
+              <span class="profile-name" id="institutionName">Loading...</span>
               <span class="profile-role">Institution Admin</span>
             </div>
           </button>
@@ -602,23 +602,23 @@
           <!-- Quick Stats -->
           <div class="applicants-stats">
             <div class="stat-card">
-              <div class="stat-card__number">2,847</div>
+              <div class="stat-card__number" id="totalApplications">0</div>
               <div class="stat-card__label">Total Applications</div>
             </div>
             <div class="stat-card">
-              <div class="stat-card__number">486</div>
+              <div class="stat-card__number" id="pendingReview">0</div>
               <div class="stat-card__label">Pending Review</div>
             </div>
             <div class="stat-card">
-              <div class="stat-card__number">1,203</div>
+              <div class="stat-card__number" id="acceptedCount">0</div>
               <div class="stat-card__label">Accepted</div>
             </div>
             <div class="stat-card">
-              <div class="stat-card__number">312</div>
+              <div class="stat-card__number" id="rejectedCount">0</div>
               <div class="stat-card__label">Rejected</div>
             </div>
             <div class="stat-card">
-              <div class="stat-card__number">846</div>
+              <div class="stat-card__number" id="interviewsScheduled">0</div>
               <div class="stat-card__label">Interviews Scheduled</div>
             </div>
           </div>
@@ -739,200 +739,17 @@
 
     <!-- Applicants List -->
     <section class="container">
-      <div class="applicants-container">
-        <div class="applicant-row">
-          <input type="checkbox" class="applicant-checkbox" aria-label="Select applicant">
-          <div class="applicant-avatar">
-            <img src="/assets/img/avatars/student1.jpg" alt="Sarah Johnson" width="48" height="48">
-          </div>
-          <div class="applicant-info">
-            <h4>Sarah Johnson</h4>
-            <p>sarah.johnson@email.com</p>
-            <small>Applied: Sep 15, 2024</small>
-          </div>
-          <div class="applicant-program">
-            <strong>Computer Science</strong>
-            <small>Master's Program</small>
-          </div>
-          <div class="applicant-score">
-            <strong>8.5/10</strong>
-            <small>Overall Score</small>
-          </div>
-          <div class="status-badge status-badge--new">New</div>
-          <div class="applicant-actions">
-            <button class="action-icon" title="View Details">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
-              </svg>
-            </button>
-            <button class="action-icon" title="Send Message">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-              </svg>
-            </button>
-            <button class="action-icon" title="Download Documents">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div class="applicant-row">
-          <input type="checkbox" class="applicant-checkbox" aria-label="Select applicant">
-          <div class="applicant-avatar">
-            <img src="/assets/img/avatars/student2.jpg" alt="Michael Chen" width="48" height="48">
-          </div>
-          <div class="applicant-info">
-            <h4>Michael Chen</h4>
-            <p>michael.chen@email.com</p>
-            <small>Applied: Sep 12, 2024</small>
-          </div>
-          <div class="applicant-program">
-            <strong>Business Administration</strong>
-            <small>MBA Program</small>
-          </div>
-          <div class="applicant-score">
-            <strong>9.2/10</strong>
-            <small>Overall Score</small>
-          </div>
-          <div class="status-badge status-badge--review">Under Review</div>
-          <div class="applicant-actions">
-            <button class="action-icon" title="View Details">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
-              </svg>
-            </button>
-            <button class="action-icon" title="Send Message">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-              </svg>
-            </button>
-            <button class="action-icon" title="Download Documents">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div class="applicant-row">
-          <input type="checkbox" class="applicant-checkbox" aria-label="Select applicant">
-          <div class="applicant-avatar">
-            <img src="/assets/img/avatars/student3.jpg" alt="Emily Rodriguez" width="48" height="48">
-          </div>
-          <div class="applicant-info">
-            <h4>Emily Rodriguez</h4>
-            <p>emily.rodriguez@email.com</p>
-            <small>Applied: Sep 10, 2024</small>
-          </div>
-          <div class="applicant-program">
-            <strong>Medicine</strong>
-            <small>Doctor of Medicine</small>
-          </div>
-          <div class="applicant-score">
-            <strong>9.8/10</strong>
-            <small>Overall Score</small>
-          </div>
-          <div class="status-badge status-badge--interview">Interview</div>
-          <div class="applicant-actions">
-            <button class="action-icon" title="View Details">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
-              </svg>
-            </button>
-            <button class="action-icon" title="Send Message">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-              </svg>
-            </button>
-            <button class="action-icon" title="Download Documents">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div class="applicant-row">
-          <input type="checkbox" class="applicant-checkbox" aria-label="Select applicant">
-          <div class="applicant-avatar">
-            <img src="/assets/img/avatars/student1.jpg" alt="Amara Okafor" width="48" height="48">
-          </div>
-          <div class="applicant-info">
-            <h4>Amara Okafor</h4>
-            <p>amara.okafor@email.com</p>
-            <small>Applied: Sep 8, 2024</small>
-          </div>
-          <div class="applicant-program">
-            <strong>Engineering</strong>
-            <small>Bachelor's Program</small>
-          </div>
-          <div class="applicant-score">
-            <strong>8.9/10</strong>
-            <small>Overall Score</small>
-          </div>
-          <div class="status-badge status-badge--accepted">Accepted</div>
-          <div class="applicant-actions">
-            <button class="action-icon" title="View Details">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
-              </svg>
-            </button>
-            <button class="action-icon" title="Send Message">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-              </svg>
-            </button>
-            <button class="action-icon" title="Download Documents">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div class="applicant-row">
-          <input type="checkbox" class="applicant-checkbox" aria-label="Select applicant">
-          <div class="applicant-avatar">
-            <img src="/assets/img/avatars/student2.jpg" alt="David Kim" width="48" height="48">
-          </div>
-          <div class="applicant-info">
-            <h4>David Kim</h4>
-            <p>david.kim@email.com</p>
-            <small>Applied: Sep 5, 2024</small>
-          </div>
-          <div class="applicant-program">
-            <strong>Law</strong>
-            <small>Juris Doctor</small>
-          </div>
-          <div class="applicant-score">
-            <strong>7.2/10</strong>
-            <small>Overall Score</small>
-          </div>
-          <div class="status-badge status-badge--rejected">Rejected</div>
-          <div class="applicant-actions">
-            <button class="action-icon" title="View Details">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z"/>
-              </svg>
-            </button>
-            <button class="action-icon" title="Send Message">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-              </svg>
-            </button>
-            <button class="action-icon" title="Download Documents">
-              <svg width="16" height="16" fill="currentColor">
-                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
-              </svg>
-            </button>
-          </div>
+      <div class="applicants-container" id="applicantsList">
+        <!-- Applicants will be loaded dynamically -->
+        <div class="empty-state" style="text-align: center; padding: 4rem 2rem;">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin: 0 auto 1rem; opacity: 0.3;">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+          <h3 style="color: #6b7280; font-size: 1.25rem; margin-bottom: 0.5rem;">No applicants yet</h3>
+          <p style="color: #9ca3af; margin: 0;">Applicants will appear here when students apply to your programs</p>
         </div>
       </div>
     </section>

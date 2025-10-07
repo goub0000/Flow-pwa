@@ -529,81 +529,15 @@
           <p>Join the conversation on today's most engaging education topics</p>
         </header>
 
-        <div class="discussions-grid">
-          <article class="discussion-card">
-            <div class="discussion-header">
-              <div class="discussion-avatar">
-                <img src="/assets/img/avatars/educator1.jpg" alt="Dr. Sarah Chen" width="40" height="40">
-              </div>
-              <div class="discussion-meta">
-                <h3><a href="#" onclick="viewDiscussion('ai-education')">The Future of AI in Education: Opportunities and Challenges</a></h3>
-                <p>Started by <strong>Dr. Sarah Chen</strong> • 2 hours ago</p>
-                <div class="discussion-tags">
-                  <span class="tag">AI</span>
-                  <span class="tag">Technology</span>
-                  <span class="tag">Future</span>
-                </div>
-              </div>
-            </div>
-            <div class="discussion-preview">
-              <p>How can we leverage AI tools while maintaining the human element in education? Let's discuss the balance between innovation and traditional teaching methods...</p>
-            </div>
-            <div class="discussion-stats">
-              <span>💬 24 replies</span>
-              <span>❤️ 18 likes</span>
-              <span>👥 12 participants</span>
-            </div>
-          </article>
-
-          <article class="discussion-card">
-            <div class="discussion-header">
-              <div class="discussion-avatar">
-                <img src="/assets/img/avatars/counselor1.jpg" alt="Michael Rodriguez" width="40" height="40">
-              </div>
-              <div class="discussion-meta">
-                <h3><a href="#" onclick="viewDiscussion('student-stress')">Supporting Student Mental Health During Application Season</a></h3>
-                <p>Started by <strong>Michael Rodriguez</strong> • 5 hours ago</p>
-                <div class="discussion-tags">
-                  <span class="tag">Mental Health</span>
-                  <span class="tag">Counseling</span>
-                  <span class="tag">Support</span>
-                </div>
-              </div>
-            </div>
-            <div class="discussion-preview">
-              <p>What strategies have you found effective for helping students manage stress and anxiety during the college application process? Sharing resources and techniques...</p>
-            </div>
-            <div class="discussion-stats">
-              <span>💬 31 replies</span>
-              <span>❤️ 45 likes</span>
-              <span>👥 19 participants</span>
-            </div>
-          </article>
-
-          <article class="discussion-card">
-            <div class="discussion-header">
-              <div class="discussion-avatar">
-                <img src="/assets/img/avatars/admin1.jpg" alt="Jennifer Park" width="40" height="40">
-              </div>
-              <div class="discussion-meta">
-                <h3><a href="#" onclick="viewDiscussion('diversity-admissions')">Best Practices for Inclusive Admissions Processes</a></h3>
-                <p>Started by <strong>Jennifer Park</strong> • 1 day ago</p>
-                <div class="discussion-tags">
-                  <span class="tag">Diversity</span>
-                  <span class="tag">Admissions</span>
-                  <span class="tag">Best Practices</span>
-                </div>
-              </div>
-            </div>
-            <div class="discussion-preview">
-              <p>How can institutions create more inclusive admissions processes that support diversity while maintaining fairness? Looking for practical strategies and success stories...</p>
-            </div>
-            <div class="discussion-stats">
-              <span>💬 67 replies</span>
-              <span>❤️ 92 likes</span>
-              <span>👥 34 participants</span>
-            </div>
-          </article>
+        <div class="discussions-grid" id="discussionsList">
+          <!-- Discussions will be loaded dynamically -->
+          <div class="empty-state" style="text-align: center; padding: 4rem 2rem; color: #9ca3af;">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin: 0 auto 1rem; opacity: 0.3;">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
+            <h3 style="margin-bottom: 0.5rem;">No discussions yet</h3>
+            <p>Be the first to start a conversation in the community</p>
+          </div>
         </div>
 
         <div class="section-actions">

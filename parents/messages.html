@@ -645,8 +645,8 @@
               color: white;
               font-size: 12px;
               font-weight: 600;
-            ">A</div>
-            <span>Alex Johnson</span>
+            " id="studentAvatar"></div>
+            <span id="studentName">Select Student</span>
             <svg width="16" height="16" fill="currentColor" style="margin-left: 4px;">
               <path d="m7.247 4.86-4.796 5.481c-.566.647-.106 1.659.753 1.659h9.592a1 1 0 0 0 .753-1.659l-4.796-5.48a1 1 0 0 0-1.506 0z"/>
             </svg>
@@ -787,15 +787,15 @@
       </div>
       <div class="messages-stats">
         <div class="message-stat">
-          <span class="message-stat-number">3</span>
+          <span class="message-stat-number" id="unreadCount">0</span>
           <span class="message-stat-label">Unread</span>
         </div>
         <div class="message-stat">
-          <span class="message-stat-number">12</span>
+          <span class="message-stat-number" id="conversationCount">0</span>
           <span class="message-stat-label">Conversations</span>
         </div>
         <div class="message-stat">
-          <span class="message-stat-number">8</span>
+          <span class="message-stat-number" id="contactCount">0</span>
           <span class="message-stat-label">Contacts</span>
         </div>
       </div>
@@ -815,76 +815,26 @@
           </div>
         </div>
 
-        <div class="conversations-list">
-          <!-- Active Conversation -->
-          <div class="conversation-item active" data-conversation="sarah-johnson">
-            <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=48" alt="Sarah Johnson" class="conversation-avatar">
-            <div class="conversation-info">
-              <h4 class="conversation-name">Sarah Johnson</h4>
-              <p class="conversation-preview">Thanks for the update on Jane's application progress...</p>
-            </div>
-            <div class="conversation-meta">
-              <span class="conversation-time">2m ago</span>
-              <span class="unread-badge">2</span>
-            </div>
-          </div>
-
-          <!-- Other Conversations -->
-          <div class="conversation-item" data-conversation="jane-doe">
-            <img src="https://ui-avatars.com/api/?name=Jane+Doe&background=10b981&color=fff&size=48" alt="Jane Doe" class="conversation-avatar">
-            <div class="conversation-info">
-              <h4 class="conversation-name">Jane Doe</h4>
-              <p class="conversation-preview">Just submitted my essay for review...</p>
-            </div>
-            <div class="conversation-meta">
-              <span class="conversation-time">1h ago</span>
-            </div>
-          </div>
-
-          <div class="conversation-item" data-conversation="makerere-admissions">
-            <img src="https://ui-avatars.com/api/?name=Makerere&background=f59e0b&color=fff&size=48" alt="Makerere Admissions" class="conversation-avatar">
-            <div class="conversation-info">
-              <h4 class="conversation-name">Makerere Admissions</h4>
-              <p class="conversation-preview">Application deadline reminder for fall semester...</p>
-            </div>
-            <div class="conversation-meta">
-              <span class="conversation-time">3h ago</span>
-              <span class="unread-badge">1</span>
-            </div>
-          </div>
-
-          <div class="conversation-item" data-conversation="financial-aid">
-            <img src="https://ui-avatars.com/api/?name=Financial+Aid&background=8b5cf6&color=fff&size=48" alt="Financial Aid Office" class="conversation-avatar">
-            <div class="conversation-info">
-              <h4 class="conversation-name">Financial Aid Office</h4>
-              <p class="conversation-preview">Your FAFSA application has been processed...</p>
-            </div>
-            <div class="conversation-meta">
-              <span class="conversation-time">1d ago</span>
-            </div>
-          </div>
-
-          <div class="conversation-item" data-conversation="alex-doe">
-            <img src="https://ui-avatars.com/api/?name=Alex+Doe&background=06b6d4&color=fff&size=48" alt="Alex Doe" class="conversation-avatar">
-            <div class="conversation-info">
-              <h4 class="conversation-name">Alex Doe</h4>
-              <p class="conversation-preview">Can we schedule a meeting to discuss my course selection?</p>
-            </div>
-            <div class="conversation-meta">
-              <span class="conversation-time">2d ago</span>
-            </div>
+        <div class="conversations-list" id="conversationsList">
+          <!-- Conversations will be loaded dynamically -->
+          <div class="empty-state" style="text-align: center; padding: 3rem 1.5rem;">
+            <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 1rem; color: #9ca3af;">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <h3 style="color: #374151; margin-bottom: 0.5rem; font-size: 1.1rem;">No Messages Yet</h3>
+            <p style="color: #6b7280; font-size: 0.9rem; max-width: 250px; margin: 0 auto;">Your conversations with counselors, schools, and your child will appear here.</p>
           </div>
         </div>
       </div>
 
       <!-- Chat Panel -->
       <div class="chat-panel" id="chatPanel">
-        <div class="chat-header">
+        <div class="chat-header" id="chatHeader" style="display: none;">
           <div class="chat-participant">
-            <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=44" alt="Sarah Johnson" class="participant-avatar">
+            <img src="" alt="" class="participant-avatar" id="participantAvatar">
             <div>
-              <h3 class="participant-name">Sarah Johnson</h3>
-              <p class="participant-status">Online</p>
+              <h3 class="participant-name" id="participantName"></h3>
+              <p class="participant-status" id="participantStatus"></p>
             </div>
           </div>
           <div class="chat-actions">
@@ -902,40 +852,12 @@
         </div>
 
         <div class="chat-messages" id="chatMessages">
-          <!-- Received Message -->
-          <div class="message">
-            <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=44" alt="Sarah Johnson" class="message-avatar">
-            <div class="message-content">
-              <div class="message-bubble">Hi! I wanted to update you on Jane's application progress. She's doing excellent work on her essays and is staying on track with all deadlines.</div>
-              <div class="message-time">2:30 PM</div>
-            </div>
-          </div>
-
-          <!-- Sent Message -->
-          <div class="message sent">
-            <img src="https://ui-avatars.com/api/?name=You&background=374151&color=fff&size=36" alt="You" class="message-avatar">
-            <div class="message-content">
-              <div class="message-bubble">That's wonderful to hear! How is she doing with the University of Nairobi application specifically?</div>
-              <div class="message-time">2:32 PM</div>
-            </div>
-          </div>
-
-          <!-- Received Message -->
-          <div class="message">
-            <img src="https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=44" alt="Sarah Johnson" class="message-avatar">
-            <div class="message-content">
-              <div class="message-bubble">She's making great progress on that one. The application is due next week, and she'll have everything ready well before the deadline. Her personal statement is particularly strong.</div>
-              <div class="message-time">2:35 PM</div>
-            </div>
-          </div>
-
-          <!-- Sent Message -->
-          <div class="message sent">
-            <img src="https://ui-avatars.com/api/?name=You&background=374151&color=fff&size=36" alt="You" class="message-avatar">
-            <div class="message-content">
-              <div class="message-bubble">Thank you so much for keeping me updated. Should I expect any other important deadlines coming up?</div>
-              <div class="message-time">2:37 PM</div>
-            </div>
+          <!-- Empty state -->
+          <div class="empty-chat" id="emptyChat">
+            <svg class="empty-chat-icon" width="64" height="64" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
+            <p>Select a conversation to start messaging</p>
           </div>
         </div>
 
@@ -965,72 +887,8 @@
     // Messages functionality
     class MessagesApp {
       constructor() {
-        this.activeConversation = 'sarah-johnson';
-        this.conversations = {
-          'sarah-johnson': {
-            name: 'Sarah Johnson',
-            avatar: 'https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=36',
-            status: 'Online',
-            messages: [
-              {
-                sender: 'sarah-johnson',
-                content: "Hi! I wanted to update you on Jane's application progress. She's doing excellent work on her essays and is staying on track with all deadlines.",
-                time: '2:30 PM',
-                avatar: 'https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=36'
-              },
-              {
-                sender: 'me',
-                content: "That's wonderful to hear! How is she doing with the University of Nairobi application specifically?",
-                time: '2:32 PM',
-                avatar: 'https://ui-avatars.com/api/?name=You&background=374151&color=fff&size=36'
-              },
-              {
-                sender: 'sarah-johnson',
-                content: "She's making great progress on that one. The application is due next week, and she'll have everything ready well before the deadline. Her personal statement is particularly strong.",
-                time: '2:35 PM',
-                avatar: 'https://ui-avatars.com/api/?name=Sarah+Johnson&background=667eea&color=fff&size=36'
-              },
-              {
-                sender: 'me',
-                content: "Thank you so much for keeping me updated. Should I expect any other important deadlines coming up?",
-                time: '2:37 PM',
-                avatar: 'https://ui-avatars.com/api/?name=You&background=374151&color=fff&size=36'
-              }
-            ]
-          },
-          'jane-doe': {
-            name: 'Jane Doe',
-            avatar: 'https://ui-avatars.com/api/?name=Jane+Doe&background=10b981&color=fff&size=36',
-            status: 'Online',
-            messages: [
-              {
-                sender: 'jane-doe',
-                content: "Hi Mom! Just submitted my essay for review. Sarah says it looks really good!",
-                time: '1:15 PM',
-                avatar: 'https://ui-avatars.com/api/?name=Jane+Doe&background=10b981&color=fff&size=36'
-              },
-              {
-                sender: 'me',
-                content: "That's amazing honey! I'm so proud of your hard work.",
-                time: '1:18 PM',
-                avatar: 'https://ui-avatars.com/api/?name=You&background=374151&color=fff&size=36'
-              }
-            ]
-          },
-          'makerere-admissions': {
-            name: 'Makerere Admissions',
-            avatar: 'https://ui-avatars.com/api/?name=Makerere&background=f59e0b&color=fff&size=36',
-            status: 'Office Hours',
-            messages: [
-              {
-                sender: 'makerere-admissions',
-                content: "Dear Parent, this is a friendly reminder that the application deadline for fall semester is approaching. Please ensure all documents are submitted by the end of this month.",
-                time: '11:30 AM',
-                avatar: 'https://ui-avatars.com/api/?name=Makerere&background=f59e0b&color=fff&size=36'
-              }
-            ]
-          }
-        };
+        this.activeConversation = null;
+        this.conversations = {};
 
         this.initializeApp();
       }

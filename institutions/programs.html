@@ -1425,36 +1425,7 @@
     // Sample course data initialization
     function initializeSampleData() {
       courseCatalog.courses = [
-        {
-          id: "CS101", code: "CS-101", title: "Introduction to Computer Science",
-          shortDesc: "Fundamentals of programming and computer science",
-          longDesc: "An introduction to computer science through programming. Topics include data types, control structures, functions, arrays, and basic algorithms.",
-          credits: 3, contactHours: 45, tags: ["core", "programming", "beginner"],
-          deliveryMode: "in-person", status: "active",
-          effectiveDate: "2024-08-01", endDate: null,
-          prerequisites: [], corequisites: [], repeatability: "no",
-          crossListing: "COMP-101"
-        },
-        {
-          id: "MATH201", code: "MATH-201", title: "Calculus I",
-          shortDesc: "Differential calculus with applications",
-          longDesc: "Limits, derivatives, and applications of differential calculus. Includes optimization problems and related rates.",
-          credits: 4, contactHours: 60, tags: ["core", "mathematics", "calculus"],
-          deliveryMode: "hybrid", status: "active",
-          effectiveDate: "2024-08-01", endDate: null,
-          prerequisites: ["MATH-120"], corequisites: [], repeatability: "no",
-          crossListing: "CALC-201"
-        },
-        {
-          id: "ENG110", code: "ENG-110", title: "Composition and Rhetoric",
-          shortDesc: "Academic writing and critical thinking",
-          longDesc: "Development of writing skills through practice in various rhetorical modes. Emphasis on critical thinking, research methods, and documentation.",
-          credits: 3, contactHours: 45, tags: ["core", "writing", "communication"],
-          deliveryMode: "in-person", status: "active",
-          effectiveDate: "2024-08-01", endDate: null,
-          prerequisites: [], corequisites: [], repeatability: "no",
-          crossListing: null
-        }
+        // Courses will be loaded from database
       ];
     }
 
@@ -1576,11 +1547,7 @@
                   <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; color: #d1d5db;">Select Program</label>
                   <select id="degreeProgram" onchange="loadDegreeProgram(this.value)" style="width: 100%; padding: 0.75rem; border: 1px solid #4b5563; border-radius: 6px; background: #1f2937; color: white; font-size: 0.9rem;">
                     <option value="">Choose program...</option>
-                    <option value="computer-science-bs">Computer Science (B.S.)</option>
-                    <option value="computer-science-ms">Computer Science (M.S.)</option>
-                    <option value="data-science-ms">Data Science (M.S.)</option>
-                    <option value="software-engineering-bs">Software Engineering (B.S.)</option>
-                    <option value="cybersecurity-bs">Cybersecurity (B.S.)</option>
+                    <!-- Programs will be loaded dynamically -->
                   </select>
                 </div>
 
@@ -3587,9 +3554,7 @@ Report Date: ${reportDate}
           <select id="programSelector" onchange="loadProgram(this.value)" style="width: 100%; padding: 0.7rem; border: 1px solid #d1d5db;
                   border-radius: 8px; font-size: 0.9rem; margin-bottom: 0.8rem;">
             <option value="">Select Program...</option>
-            <option value="cs-bs">Computer Science (BS)</option>
-            <option value="math-bs">Mathematics (BS)</option>
-            <option value="eng-bs">Engineering (BS)</option>
+            <!-- Programs will be loaded dynamically -->
           </select>
           <button onclick="createNewProgram()" style="width: 100%; padding: 0.8rem; background: #22c55e;
                   color: white; border: none; border-radius: 8px; margin-bottom: 0.8rem; cursor: pointer;
@@ -4169,9 +4134,7 @@ Report Date: ${reportDate}
 
     function getProgramName(programId) {
       const names = {
-        'cs-bs': 'Computer Science (BS)',
-        'math-bs': 'Mathematics (BS)',
-        'eng-bs': 'Engineering (BS)'
+        // Program names will be loaded dynamically
       };
       return names[programId] || programId;
     }
@@ -6966,10 +6929,7 @@ ${validationData.recommendations.map(rec => `- ${rec}`).join('\n')}
 
         programIds.forEach(id => {
           const nameMap = {
-            'computer-science-bs': { name: 'Computer Science (BS)', campus: 'Main', delivery: 'In-Person' },
-            'mathematics-bs': { name: 'Mathematics (BS)', campus: 'Main', delivery: 'Hybrid' },
-            'engineering-bs': { name: 'Engineering (BS)', campus: 'North', delivery: 'In-Person' },
-            'business-mba': { name: 'Business (MBA)', campus: 'Downtown', delivery: 'Online' }
+            // Program mappings will be loaded from database
           };
           if (nameMap[id]) {
             statsData.programs[id] = nameMap[id];
@@ -6980,10 +6940,7 @@ ${validationData.recommendations.map(rec => `- ${rec}`).join('\n')}
       // Fallback sample data if no programs found
       if (Object.keys(statsData.programs).length === 0) {
         statsData.programs = {
-          'computer-science-bs': { name: 'Computer Science (BS)', campus: 'Main', delivery: 'In-Person' },
-          'mathematics-bs': { name: 'Mathematics (BS)', campus: 'Main', delivery: 'Hybrid' },
-          'engineering-bs': { name: 'Engineering (BS)', campus: 'North', delivery: 'In-Person' },
-          'business-mba': { name: 'Business (MBA)', campus: 'Downtown', delivery: 'Online' }
+          // Programs will be loaded from database
         };
       }
 
@@ -10215,58 +10172,7 @@ Best regards,
 
     function getSampleFaculties() {
       return [
-        {
-          id: 'fac_001',
-          name: 'Dr. Sarah Johnson',
-          title: 'Professor of Computer Science',
-          department: 'Computer Science',
-          email: 'sarah.johnson@university.edu',
-          phone: '+1 (555) 123-4567',
-          office: 'CS Building, Room 301',
-          bio: 'Dr. Johnson specializes in artificial intelligence and machine learning with over 15 years of research experience.',
-          expertise: ['Artificial Intelligence', 'Machine Learning', 'Data Science', 'Neural Networks'],
-          status: 'Active',
-          publicProfile: true
-        },
-        {
-          id: 'fac_002',
-          name: 'Prof. Michael Chen',
-          title: 'Associate Professor of Mathematics',
-          department: 'Mathematics',
-          email: 'michael.chen@university.edu',
-          phone: '+1 (555) 234-5678',
-          office: 'Math Building, Room 205',
-          bio: 'Prof. Chen focuses on applied mathematics and statistical modeling.',
-          expertise: ['Applied Mathematics', 'Statistics', 'Modeling', 'Analysis'],
-          status: 'Active',
-          publicProfile: true
-        },
-        {
-          id: 'fac_003',
-          name: 'Dr. Emily Rodriguez',
-          title: 'Assistant Professor of Engineering',
-          department: 'Engineering',
-          email: 'emily.rodriguez@university.edu',
-          phone: '+1 (555) 345-6789',
-          office: 'Engineering Building, Room 150',
-          bio: 'Dr. Rodriguez researches sustainable engineering solutions and renewable energy systems.',
-          expertise: ['Sustainable Engineering', 'Renewable Energy', 'Environmental Systems'],
-          status: 'Active',
-          publicProfile: false
-        },
-        {
-          id: 'fac_004',
-          name: 'Dr. Robert Taylor',
-          title: 'Professor Emeritus',
-          department: 'Business',
-          email: 'robert.taylor@university.edu',
-          phone: '+1 (555) 456-7890',
-          office: 'Business Building, Room 400',
-          bio: 'Dr. Taylor has extensive experience in strategic management and organizational behavior.',
-          expertise: ['Strategic Management', 'Leadership', 'Organizational Behavior'],
-          status: 'Inactive',
-          publicProfile: true
-        }
+        // Faculty data will be loaded from database
       ];
     }
 
@@ -10463,7 +10369,7 @@ Best regards,
             id: 'cs401_default',
             courseId: 'CS401',
             courseName: 'Advanced Algorithms',
-            faculty: 'Dr. Sarah Johnson',
+            faculty: 'TBD',
             role: 'Instructor',
             workload: '100%',
             credits: 3,
@@ -10473,7 +10379,7 @@ Best regards,
             id: 'cs350_default',
             courseId: 'CS350',
             courseName: 'Machine Learning',
-            faculty: 'Dr. Sarah Johnson',
+            faculty: 'TBD',
             role: 'Instructor',
             workload: '100%',
             credits: 3,
@@ -10483,7 +10389,7 @@ Best regards,
             id: 'math301_default',
             courseId: 'MATH301',
             courseName: 'Statistics',
-            faculty: 'Prof. Michael Chen',
+            faculty: 'TBD',
             role: 'Instructor',
             workload: '100%',
             credits: 3,
@@ -10493,7 +10399,7 @@ Best regards,
             id: 'eng201_main',
             courseId: 'ENG201',
             courseName: 'Sustainable Systems',
-            faculty: 'Dr. Emily Rodriguez',
+            faculty: 'TBD',
             role: 'Instructor',
             workload: '80%',
             credits: 3,
@@ -11229,12 +11135,7 @@ Prof. Michael Johnson,m.johnson@university.edu,Engineering,Assistant Professor,+
               <label style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Faculty Member:</label>
               <select id="addProgramFaculty" style="width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 6px;">
                 <option value="">Select Faculty Member</option>
-                <option value="faculty1">Dr. Sarah Johnson</option>
-                <option value="faculty2">Prof. Michael Chen</option>
-                <option value="faculty3">Dr. Emily Rodriguez</option>
-                <option value="faculty4">Dr. Robert Taylor</option>
-                <option value="faculty5">Dr. Lisa Anderson</option>
-                <option value="faculty6">Prof. David Kim</option>
+                <!-- Faculty will be loaded dynamically -->
               </select>
             </div>
 
@@ -11877,7 +11778,7 @@ Prof. Michael Johnson,m.johnson@university.edu,Engineering,Assistant Professor,+
             id: 'cs401_default',
             courseId: 'CS401',
             courseName: 'Advanced Algorithms',
-            faculty: 'Dr. Sarah Johnson',
+            faculty: 'TBD',
             role: 'Instructor',
             workload: '100%',
             credits: 3,
@@ -11887,7 +11788,7 @@ Prof. Michael Johnson,m.johnson@university.edu,Engineering,Assistant Professor,+
             id: 'cs350_default',
             courseId: 'CS350',
             courseName: 'Machine Learning',
-            faculty: 'Dr. Sarah Johnson',
+            faculty: 'TBD',
             role: 'Instructor',
             workload: '100%',
             credits: 3,
@@ -11897,7 +11798,7 @@ Prof. Michael Johnson,m.johnson@university.edu,Engineering,Assistant Professor,+
             id: 'math301_default',
             courseId: 'MATH301',
             courseName: 'Statistics',
-            faculty: 'Prof. Michael Chen',
+            faculty: 'TBD',
             role: 'Instructor',
             workload: '100%',
             credits: 3,
@@ -11907,7 +11808,7 @@ Prof. Michael Johnson,m.johnson@university.edu,Engineering,Assistant Professor,+
             id: 'eng201_main',
             courseId: 'ENG201',
             courseName: 'Sustainable Systems',
-            faculty: 'Dr. Emily Rodriguez',
+            faculty: 'TBD',
             role: 'Instructor',
             workload: '80%',
             credits: 3,

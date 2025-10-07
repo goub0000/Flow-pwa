@@ -980,15 +980,10 @@
               <h3>Notifications</h3>
               <button class="btn btn--sm btn--ghost" onclick="markAllNotificationsRead()">Mark all read</button>
             </div>
-            <div class="notifications-list">
-              <div class="notification-item notification-item--unread" data-id="1">
-                <div class="notification-icon notification-icon--new">🆕</div>
-                <div class="notification-content">
-                  <div class="notification-title">New Message Received</div>
-                  <div class="notification-message">Sarah Johnson sent a message regarding document clarification</div>
-                  <div class="notification-time">5 minutes ago</div>
-                </div>
-                <button class="notification-dismiss" onclick="dismissNotification('1')" aria-label="Dismiss">×</button>
+            <div class="notifications-list" id="notificationsList">
+              <!-- Notifications will be loaded dynamically -->
+              <div class="empty-state" style="text-align: center; padding: 2rem; color: #9ca3af;">
+                <p>No notifications</p>
               </div>
             </div>
           </div>
@@ -1008,16 +1003,9 @@
               <button class="btn btn--sm btn--primary" onclick="composeMessage()">Compose</button>
             </div>
             <div class="messages-list" id="messagesList">
-              <div class="message-item message-item--unread" data-id="1" onclick="markMessageRead('1')">
-                <div class="message-avatar">
-                  <img src="/assets/img/avatars/student1.jpg" alt="Sarah Johnson" width="32" height="32">
-                </div>
-                <div class="message-content">
-                  <div class="message-sender">Sarah Johnson</div>
-                  <div class="message-preview">Hello, I have a question about the required documents for...</div>
-                  <div class="message-time">5 min ago</div>
-                </div>
-                <div class="message-status message-status--unread"></div>
+              <!-- Messages will be loaded dynamically -->
+              <div class="empty-state" style="text-align: center; padding: 2rem; color: #9ca3af;">
+                <p>No messages</p>
               </div>
             </div>
           </div>
@@ -1030,7 +1018,7 @@
               <img src="/assets/img/avatars/institution.jpg" alt="University of Excellence" width="32" height="32">
             </div>
             <div class="profile-info">
-              <span class="profile-name">University of Excellence</span>
+              <span class="profile-name" id="institutionName">Loading...</span>
               <span class="profile-role">Institution Admin</span>
             </div>
             <svg width="16" height="16" fill="white" class="profile-chevron">
@@ -1164,73 +1152,13 @@
               </div>
             </header>
             <div class="conversations-list" id="conversationsList">
-              <div class="conversation-item conversation-item--unread" onclick="openConversation('conv-1')">
-                <div class="conversation-avatar">
-                  <img src="/assets/img/avatars/student1.jpg" alt="Sarah Johnson" width="40" height="40">
-                </div>
-                <div class="conversation-content">
-                  <div class="conversation-header">
-                    <span class="conversation-name">Sarah Johnson</span>
-                    <span class="conversation-time">2 min ago</span>
-                  </div>
-                  <div class="conversation-preview">Thank you for reviewing my application. I have a question about...</div>
-                  <div class="conversation-meta">
-                    <span class="conversation-badge conversation-badge--urgent">Urgent</span>
-                    <span class="conversation-count">3 unread</span>
-                  </div>
-                </div>
-                <div class="conversation-status conversation-status--unread"></div>
-              </div>
-
-              <div class="conversation-item" onclick="openConversation('conv-2')">
-                <div class="conversation-avatar">
-                  <img src="/assets/img/avatars/student2.jpg" alt="Michael Chen" width="40" height="40">
-                </div>
-                <div class="conversation-content">
-                  <div class="conversation-header">
-                    <span class="conversation-name">Michael Chen</span>
-                    <span class="conversation-time">1 hour ago</span>
-                  </div>
-                  <div class="conversation-preview">I wanted to follow up on the document requirements for...</div>
-                  <div class="conversation-meta">
-                    <span class="conversation-badge conversation-badge--application">Application</span>
-                  </div>
-                </div>
-                <div class="conversation-status"></div>
-              </div>
-
-              <div class="conversation-item" onclick="openConversation('conv-3')">
-                <div class="conversation-avatar">
-                  <div class="conversation-avatar-placeholder">ER</div>
-                </div>
-                <div class="conversation-content">
-                  <div class="conversation-header">
-                    <span class="conversation-name">Emily Rodriguez</span>
-                    <span class="conversation-time">2 days ago</span>
-                  </div>
-                  <div class="conversation-preview">Hello, I would like to schedule my interview for...</div>
-                  <div class="conversation-meta">
-                    <span class="conversation-badge conversation-badge--interview">Interview</span>
-                  </div>
-                </div>
-                <div class="conversation-status"></div>
-              </div>
-
-              <div class="conversation-item" onclick="openConversation('conv-4')">
-                <div class="conversation-avatar">
-                  <div class="conversation-avatar-placeholder">JW</div>
-                </div>
-                <div class="conversation-content">
-                  <div class="conversation-header">
-                    <span class="conversation-name">James Wilson</span>
-                    <span class="conversation-time">3 days ago</span>
-                  </div>
-                  <div class="conversation-preview">Great news about my acceptance! I have some questions...</div>
-                  <div class="conversation-meta">
-                    <span class="conversation-badge conversation-badge--accepted">Accepted</span>
-                  </div>
-                </div>
-                <div class="conversation-status"></div>
+              <!-- Conversations will be loaded dynamically -->
+              <div class="empty-state" style="text-align: center; padding: 3rem; color: #9ca3af;">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="margin: 0 auto 1rem; opacity: 0.3;">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <h3 style="margin-bottom: 0.5rem;">No conversations yet</h3>
+                <p>Messages from students and applicants will appear here</p>
               </div>
             </div>
           </article>
@@ -1251,7 +1179,7 @@
                 <div class="template-icon">👋</div>
                 <div class="template-content">
                   <div class="template-name">Welcome Message</div>
-                  <div class="template-preview">Welcome to University of Excellence! We're excited to...</div>
+                  <div class="template-preview">Welcome message template for new students...</div>
                 </div>
                 <button class="template-action" onclick="editTemplate('welcome', event)">
                   <svg width="16" height="16" fill="white">
@@ -1312,17 +1240,17 @@
             </header>
             <div class="analytics-grid">
               <div class="analytics-stat">
-                <div class="analytics-stat__number">127</div>
+                <div class="analytics-stat__number" id="messagesSent">0</div>
                 <div class="analytics-stat__label">Messages Sent (This Month)</div>
-                <div class="analytics-stat__change analytics-stat__change--positive">+15%</div>
+                <div class="analytics-stat__change analytics-stat__change--positive" id="messagesSentChange">--</div>
               </div>
               <div class="analytics-stat">
-                <div class="analytics-stat__number">94.2%</div>
+                <div class="analytics-stat__number" id="responseRate">0%</div>
                 <div class="analytics-stat__label">Response Rate</div>
-                <div class="analytics-stat__change analytics-stat__change--positive">+2.1%</div>
+                <div class="analytics-stat__change analytics-stat__change--positive" id="responseRateChange">--</div>
               </div>
               <div class="analytics-stat">
-                <div class="analytics-stat__number">12</div>
+                <div class="analytics-stat__number" id="activeConversations">0</div>
                 <div class="analytics-stat__label">Unread Messages</div>
                 <div class="analytics-stat__change analytics-stat__change--neutral">0</div>
               </div>
@@ -1577,18 +1505,15 @@
               <label style="display: block; margin-bottom: 1rem; font-weight: 600; color: #374151;">Select Student:</label>
               <select style="width: 100%; padding: 1rem; border-radius: 12px; border: 1px solid #d1d5db; background: rgba(255,255,255,0.9);">
                 <option value="">Choose a student...</option>
-                <option value="sarah-johnson">Sarah Johnson - Application #2024001</option>
-                <option value="michael-chen">Michael Chen - Application #2024002</option>
-                <option value="emily-rodriguez">Emily Rodriguez - Application #2024003</option>
-                <option value="james-wilson">James Wilson - Application #2024004</option>
+                <!-- Students will be loaded dynamically -->
               </select>
             </div>
 
             <div class="student-file-card">
               <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
                 <div>
-                  <h4 style="font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">Sarah Johnson - Complete Application Package</h4>
-                  <p style="color: #6b7280; font-size: 0.875rem;">Application submitted: March 15, 2024</p>
+                  <h4 style="font-weight: 600; color: #1f2937; margin-bottom: 0.5rem;">Select a student to view their application</h4>
+                  <p style="color: #6b7280; font-size: 0.875rem;">Choose from the dropdown above</p>
                 </div>
                 <div class="status-indicator status-indicator--online">
                   <div style="width: 8px; height: 8px; background: #22c55e; border-radius: 50%;"></div>

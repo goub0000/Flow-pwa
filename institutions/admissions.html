@@ -252,7 +252,7 @@
               <img src="/assets/img/avatars/institution.jpg" alt="University of Excellence" width="32" height="32">
             </div>
             <div class="profile-info">
-              <span class="profile-name">University of Excellence</span>
+              <span class="profile-name" id="institutionName">Loading...</span>
               <span class="profile-role">Institution Admin</span>
             </div>
             <svg width="16" height="16" fill="white" class="profile-chevron">
@@ -969,7 +969,7 @@
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                 <div>
                   <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">Institution Name *</label>
-                  <input type="text" name="institution" required style="width: 100%; padding: 0.875rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.95rem;" placeholder="University of Excellence">
+                  <input type="text" name="institution" required style="width: 100%; padding: 0.875rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.95rem;" placeholder="Your institution name">
                 </div>
                 <div>
                   <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">Institution Type *</label>
@@ -1082,7 +1082,7 @@
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
                 <div>
                   <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">Institution Name *</label>
-                  <input type="text" name="institution" required style="width: 100%; padding: 0.875rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.95rem;" placeholder="University of Excellence">
+                  <input type="text" name="institution" required style="width: 100%; padding: 0.875rem; border: 2px solid #e5e7eb; border-radius: 8px; font-size: 0.95rem;" placeholder="Your institution name">
                 </div>
                 <div>
                   <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #374151;">Your Name *</label>
@@ -1347,11 +1347,7 @@
     function initializeRoutingData() {
       if (!localStorage.getItem(ROUTING_STORAGE.reviewers)) {
         const sampleReviewers = [
-          { id: 1, name: 'Dr. Sarah Johnson', email: 'sarah.johnson@university.edu', department: 'Computer Science', workload: 12, maxCapacity: 25 },
-          { id: 2, name: 'Prof. Michael Chen', email: 'michael.chen@university.edu', department: 'Engineering', workload: 8, maxCapacity: 20 },
-          { id: 3, name: 'Dr. Emily Rodriguez', email: 'emily.rodriguez@university.edu', department: 'Business', workload: 15, maxCapacity: 30 },
-          { id: 4, name: 'Prof. David Williams', email: 'david.williams@university.edu', department: 'Liberal Arts', workload: 10, maxCapacity: 22 },
-          { id: 5, name: 'Dr. Lisa Park', email: 'lisa.park@university.edu', department: 'Sciences', workload: 6, maxCapacity: 18 }
+          // Reviewers will be loaded from database
         ];
         localStorage.setItem(ROUTING_STORAGE.reviewers, JSON.stringify(sampleReviewers));
       }
