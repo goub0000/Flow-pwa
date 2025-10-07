@@ -1022,35 +1022,29 @@
             // Get form data from students-onboarding.js if it exists
             const formData = window.studentOnboardingData || {};
 
-            // Prepare profile data
+            console.log('📝 Form data from onboarding:', formData);
+
+            // Prepare profile data using actual form field names
             const profileData = {
               accountType: 'student',
               firstName: formData.firstName || '',
               lastName: formData.lastName || '',
               displayName: `${formData.firstName || ''} ${formData.lastName || ''}`.trim() || 'Student',
               dateOfBirth: formData.dateOfBirth || '',
+              gender: formData.gender || '',
               phone: formData.phone || '',
-              address: {
-                street: formData.street || '',
-                city: formData.city || '',
-                state: formData.state || '',
-                zipCode: formData.zipCode || '',
-                country: formData.country || ''
-              },
-              academicInfo: {
-                currentGrade: formData.currentGrade || formData.grade || '',
-                gpa: parseFloat(formData.gpa) || 0,
-                schoolName: formData.schoolName || '',
-                graduationYear: parseInt(formData.graduationYear) || null,
-                intendedMajor: formData.intendedMajor || ''
-              },
-              testScores: {
-                sat: parseInt(formData.sat) || null,
-                act: parseInt(formData.act) || null
-              },
-              preferences: {
-                language: localStorage.getItem('flowLanguage') || 'en'
-              }
+              country: formData.profileCountry || formData.country || '',
+              city: formData.city || '',
+              educationLevel: formData.educationLevel || '',
+              gpa: formData.gpa || '',
+              institution: formData.institution || '',
+              graduationYear: formData.graduationYear || '',
+              fieldOfStudy: formData.fieldOfStudy || '',
+              interestedFields: formData.interestedFields || '',
+              interests: formData.interests || [],
+              academicGoals: formData.academicGoals || '',
+              language: formData.language || localStorage.getItem('flowLanguage') || 'en',
+              onboardingCompleted: true
             };
 
             console.log('💾 Saving student profile:', profileData);

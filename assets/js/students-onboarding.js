@@ -359,7 +359,13 @@
       if (onboardingData.interests.length===0){ validation.showError('interestedFields','Please select at least one field of interest'); ok=false; }
       return ok;
     },
-    saveProfileData(){ const form=new FormData($('#profileForm')); for (const [k,v] of form.entries()) onboardingData[k]=v; },
+    saveProfileData(){
+      const form=new FormData($('#profileForm'));
+      for (const [k,v] of form.entries()) onboardingData[k]=v;
+      // Update the global export
+      window.studentOnboardingData = onboardingData;
+      console.log('📝 Profile data saved to window.studentOnboardingData:', onboardingData);
+    },
     updateSaveButton(){ const btn=$('#saveProfile'); if (btn) btn.disabled = !this.isProfileValid(); },
     isProfileValid(){ const f=$('#firstName')?.value?.trim(), l=$('#lastName')?.value?.trim(), d=$('#dateOfBirth')?.value, c=$('#profileCountry')?.value, city=$('#city')?.value?.trim(), edu=$('#educationLevel')?.value; return f && l && d && c && city && edu && onboardingData.interests.length>0; },
     autoSave(){ toast.show('Progress saved automatically','success',1500); },
