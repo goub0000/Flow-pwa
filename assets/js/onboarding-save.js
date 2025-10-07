@@ -18,16 +18,34 @@
   // Save profile data to Firestore
   async function saveProfile(profileData) {
     try {
+      console.log('💾 Starting profile save...');
+
       // Wait for Firebase
       await waitForFirebase();
+      console.log('✅ Firebase ready');
 
       // Get current user
       const user = window.FlowAuth?.getCurrentUser();
+      console.log('👤 Current user:', user ? user.email : 'none');
+
       if (!user) {
         throw new Error('No user is currently signed in. Please log in first.');
       }
 
       const db = window.Firebase.db;
+      console.log('📊 Firestore instance:', !!db);
+
+      if (!db) {
+        throw new Error('Firestore is not available');
+      }
+
+      // Get timestamp function
+      const getTimestamp = window.FirebaseUtils?.getTimestamp;
+      console.log('⏰ Timestamp function available:', !!getTimestamp);
+
+      if (!getTimestamp) {
+        throw new Error('FirebaseUtils.getTimestamp is not available');
+      }
 
       // Prepare data with required fields
       const dataToSave = {
@@ -44,14 +62,17 @@
         onboardingCompleted: true,
 
         // Timestamps
-        updatedAt: window.FirebaseUtils.getTimestamp(),
-        lastLoginAt: window.FirebaseUtils.getTimestamp()
+        updatedAt: getTimestamp(),
+        lastLoginAt: getTimestamp()
       };
 
       // If createdAt doesn't exist, add it
       if (!profileData.createdAt) {
-        dataToSave.createdAt = window.FirebaseUtils.getTimestamp();
+        dataToSave.createdAt = getTimestamp();
       }
+
+      console.log('💾 Saving to Firestore for user:', user.uid);
+      console.log('📝 Data to save:', dataToSave);
 
       // Save to Firestore using set with merge
       await db.collection('users').doc(user.uid).set(dataToSave, { merge: true });
@@ -66,10 +87,13 @@
 
     } catch (error) {
       console.error('❌ Error saving profile:', error);
+      console.error('❌ Error name:', error?.name);
+      console.error('❌ Error message:', error?.message);
+      console.error('❌ Error stack:', error?.stack);
 
       return {
         success: false,
-        error: error.message,
+        error: error?.message || error?.toString() || 'Unknown error',
         message: 'Failed to save profile. Please try again.'
       };
     }
