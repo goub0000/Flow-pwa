@@ -24,9 +24,15 @@
       await waitForFirebase();
       console.log('✅ Firebase ready');
 
-      // Get current user
-      const user = window.FlowAuth?.getCurrentUser();
-      console.log('👤 Current user:', user ? user.email : 'none');
+      // Get current user from Firebase Auth directly (more reliable than FlowAuth during onboarding)
+      let user = window.Firebase?.auth?.currentUser;
+      console.log('👤 Current user from Firebase.auth:', user ? user.email : 'none');
+
+      // Fallback to FlowAuth if Firebase.auth not available
+      if (!user) {
+        user = window.FlowAuth?.getCurrentUser();
+        console.log('👤 Fallback to FlowAuth.getCurrentUser():', user ? user.email : 'none');
+      }
 
       if (!user) {
         throw new Error('No user is currently signed in. Please log in first.');
