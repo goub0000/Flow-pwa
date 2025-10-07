@@ -5192,25 +5192,25 @@
         </div>
 
         <!-- Stats Grid -->
-        <div class="stats-grid">
+        <div class="stats-grid" id="parent-stats-grid">
           <div class="stat-card">
             <div class="stat-icon applications">📝</div>
-            <div class="stat-value">8</div>
+            <div class="stat-value" id="parent-active-applications">0</div>
             <div class="stat-label">Active Applications</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon approvals">⏳</div>
-            <div class="stat-value">3</div>
+            <div class="stat-value" id="parent-pending-approvals">0</div>
             <div class="stat-label">Pending Approvals</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon finance">💰</div>
-            <div class="stat-value">$2,450</div>
+            <div class="stat-value" id="parent-total-paid">$0</div>
             <div class="stat-label">Total Paid</div>
           </div>
           <div class="stat-card">
             <div class="stat-icon deadlines">⚠️</div>
-            <div class="stat-value">5</div>
+            <div class="stat-value" id="parent-upcoming-deadlines">0</div>
             <div class="stat-label">Upcoming Deadlines</div>
           </div>
         </div>
@@ -5218,29 +5218,15 @@
         <!-- Recent Activity -->
         <div class="activity-section">
           <h2 class="section-title">Recent Activity</h2>
-          <div class="activity-item">
-            <div class="activity-icon success">✓</div>
-            <div class="activity-content">
-              <div class="activity-title">Payment Approved</div>
-              <div class="activity-description">Stanford University application fee - $90</div>
+          <div id="parent-recent-activity">
+            <div class="empty-state">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+              <h3>No recent activity</h3>
+              <p>Your child's application activity will appear here when they start working on applications.</p>
             </div>
-            <div class="activity-time">2 hours ago</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-icon info">📄</div>
-            <div class="activity-content">
-              <div class="activity-title">Document Submitted</div>
-              <div class="activity-description">Personal statement for UC Berkeley</div>
-            </div>
-            <div class="activity-time">1 day ago</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-icon success">✓</div>
-            <div class="activity-content">
-              <div class="activity-title">Interview Scheduled</div>
-              <div class="activity-description">Harvard Alumni Interview - Sept 20th</div>
-            </div>
-            <div class="activity-time">2 days ago</div>
           </div>
         </div>
       </section>
@@ -5249,27 +5235,27 @@
       <section id="applications" class="section">
         <div class="activity-section">
           <h2 class="section-title">Applications Management</h2>
-          
+
           <!-- Applications Overview -->
-          <div class="stats-grid" style="margin-bottom: 2rem;">
+          <div class="stats-grid" id="parent-applications-stats" style="margin-bottom: 2rem;">
             <div class="stat-card">
               <div class="stat-icon applications">📝</div>
-              <div class="stat-value">8</div>
+              <div class="stat-value" id="parent-total-applications">0</div>
               <div class="stat-label">Total Applications</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon" style="background: #fff3e0; color: #f57c00;">⏳</div>
-              <div class="stat-value">3</div>
+              <div class="stat-value" id="parent-in-progress">0</div>
               <div class="stat-label">In Progress</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon" style="background: #e8f5e8; color: #388e3c;">✅</div>
-              <div class="stat-value">4</div>
+              <div class="stat-value" id="parent-submitted">0</div>
               <div class="stat-label">Submitted</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon" style="background: #ffebee; color: #d32f2f;">⚠️</div>
-              <div class="stat-value">1</div>
+              <div class="stat-value" id="parent-needs-action">0</div>
               <div class="stat-label">Needs Action</div>
             </div>
           </div>
@@ -5288,89 +5274,14 @@
           </div>
 
           <!-- Applications List -->
-          <div class="applications-list">
-            <div class="application-item">
-              <div class="app-header">
-                <div class="app-info">
-                  <h3 class="app-title">Stanford University</h3>
-                  <p class="app-program">Computer Science - Undergraduate</p>
-                </div>
-                <div class="app-status status-submitted">Submitted</div>
-              </div>
-              <div class="app-details">
-                <div class="app-detail">
-                  <span class="detail-label">Application Fee:</span>
-                  <span class="detail-value">$90 (Paid)</span>
-                </div>
-                <div class="app-detail">
-                  <span class="detail-label">Deadline:</span>
-                  <span class="detail-value">Jan 5, 2024</span>
-                </div>
-                <div class="app-detail">
-                  <span class="detail-label">Status:</span>
-                  <span class="detail-value">Under Review</span>
-                </div>
-              </div>
-              <div class="app-actions">
-                <button class="btn-small" onclick="viewApplication('stanford')">View Details</button>
-                <button class="btn-small btn-secondary" onclick="trackApplication('stanford')">Track Status</button>
-              </div>
-            </div>
-
-            <div class="application-item">
-              <div class="app-header">
-                <div class="app-info">
-                  <h3 class="app-title">Harvard University</h3>
-                  <p class="app-program">Business Administration - Undergraduate</p>
-                </div>
-                <div class="app-status status-progress">In Progress</div>
-              </div>
-              <div class="app-details">
-                <div class="app-detail">
-                  <span class="detail-label">Application Fee:</span>
-                  <span class="detail-value">$75 (Pending)</span>
-                </div>
-                <div class="app-detail">
-                  <span class="detail-label">Deadline:</span>
-                  <span class="detail-value">Jan 1, 2024</span>
-                </div>
-                <div class="app-detail">
-                  <span class="detail-label">Completion:</span>
-                  <span class="detail-value">75%</span>
-                </div>
-              </div>
-              <div class="app-actions">
-                <button class="btn-small" onclick="continueApplication('harvard')">Continue</button>
-                <button class="btn-small btn-secondary" onclick="payFee('harvard')">Pay Fee</button>
-              </div>
-            </div>
-
-            <div class="application-item">
-              <div class="app-header">
-                <div class="app-info">
-                  <h3 class="app-title">UC Berkeley</h3>
-                  <p class="app-program">Engineering - Undergraduate</p>
-                </div>
-                <div class="app-status status-action">Needs Action</div>
-              </div>
-              <div class="app-details">
-                <div class="app-detail">
-                  <span class="detail-label">Application Fee:</span>
-                  <span class="detail-value">$70 (Paid)</span>
-                </div>
-                <div class="app-detail">
-                  <span class="detail-label">Deadline:</span>
-                  <span class="detail-value">Nov 30, 2023</span>
-                </div>
-                <div class="app-detail">
-                  <span class="detail-label">Issue:</span>
-                  <span class="detail-value">Missing Transcript</span>
-                </div>
-              </div>
-              <div class="app-actions">
-                <button class="btn-small" onclick="resolveIssue('berkeley')">Resolve Issue</button>
-                <button class="btn-small btn-secondary" onclick="contactSupport('berkeley')">Contact Support</button>
-              </div>
+          <div id="parent-applications-list" class="applications-list">
+            <div class="empty-state">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                <path d="M14 2v6h6"/>
+              </svg>
+              <h3>No applications yet</h3>
+              <p>Your child's university applications will appear here when they start applying to programs.</p>
             </div>
           </div>
         </div>
@@ -5380,27 +5291,27 @@
       <section id="finance" class="section">
         <div class="activity-section">
           <h2 class="section-title">Financial Management</h2>
-          
+
           <!-- Financial Overview -->
-          <div class="stats-grid" style="margin-bottom: 2rem;">
+          <div class="stats-grid" id="parent-finance-stats" style="margin-bottom: 2rem;">
             <div class="stat-card">
               <div class="stat-icon finance">💰</div>
-              <div class="stat-value">$12,450</div>
+              <div class="stat-value" id="parent-total-spent">$0</div>
               <div class="stat-label">Total Spent</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon" style="background: #fff3e0; color: #f57c00;">⏳</div>
-              <div class="stat-value">$2,240</div>
+              <div class="stat-value" id="parent-pending-payments">$0</div>
               <div class="stat-label">Pending Payments</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon" style="background: #e3f2fd; color: #1976d2;">📊</div>
-              <div class="stat-value">$8,500</div>
+              <div class="stat-value" id="parent-budget-remaining">$0</div>
               <div class="stat-label">Budget Remaining</div>
             </div>
             <div class="stat-card">
               <div class="stat-icon" style="background: #f3e5f5; color: #7b1fa2;">💳</div>
-              <div class="stat-value">15</div>
+              <div class="stat-value" id="parent-transactions-count">0</div>
               <div class="stat-label">Transactions</div>
             </div>
           </div>
@@ -5421,45 +5332,14 @@
           <!-- Payment History -->
           <div class="finance-section">
             <h3 class="section-subtitle">Recent Transactions</h3>
-            <div class="transactions-list">
-              <div class="transaction-item">
-                <div class="transaction-icon success">✓</div>
-                <div class="transaction-info">
-                  <div class="transaction-title">Stanford University - Application Fee</div>
-                  <div class="transaction-date">September 8, 2024 • 2:30 PM</div>
-                </div>
-                <div class="transaction-amount success">-$90.00</div>
-                <div class="transaction-status">Completed</div>
-              </div>
-
-              <div class="transaction-item">
-                <div class="transaction-icon success">✓</div>
-                <div class="transaction-info">
-                  <div class="transaction-title">Harvard University - Application Fee</div>
-                  <div class="transaction-date">September 5, 2024 • 10:15 AM</div>
-                </div>
-                <div class="transaction-amount success">-$75.00</div>
-                <div class="transaction-status">Completed</div>
-              </div>
-
-              <div class="transaction-item">
-                <div class="transaction-icon pending">⏳</div>
-                <div class="transaction-info">
-                  <div class="transaction-title">UC Berkeley - Enrollment Deposit</div>
-                  <div class="transaction-date">September 3, 2024 • 4:45 PM</div>
-                </div>
-                <div class="transaction-amount pending">-$500.00</div>
-                <div class="transaction-status">Processing</div>
-              </div>
-
-              <div class="transaction-item">
-                <div class="transaction-icon success">✓</div>
-                <div class="transaction-info">
-                  <div class="transaction-title">SAT Test Registration</div>
-                  <div class="transaction-date">August 28, 2024 • 9:20 AM</div>
-                </div>
-                <div class="transaction-amount success">-$68.00</div>
-                <div class="transaction-status">Completed</div>
+            <div id="parent-transactions-list" class="transactions-list">
+              <div class="empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                  <rect x="3" y="5" width="18" height="14" rx="2"/>
+                  <path d="M3 10h18"/>
+                </svg>
+                <h3>No transactions yet</h3>
+                <p>Payment history for application fees and other expenses will appear here.</p>
               </div>
             </div>
           </div>
@@ -5467,45 +5347,17 @@
           <!-- Budget Tracking -->
           <div class="finance-section" style="margin-top: 2rem;">
             <h3 class="section-subtitle">Budget Overview</h3>
-            <div class="budget-categories">
-              <div class="budget-item">
-                <div class="budget-header">
-                  <span class="budget-category">Application Fees</span>
-                  <span class="budget-amount">$650 / $1,000</span>
-                </div>
-                <div class="budget-bar">
-                  <div class="budget-progress" style="width: 65%"></div>
-                </div>
-              </div>
-
-              <div class="budget-item">
-                <div class="budget-header">
-                  <span class="budget-category">Test Fees</span>
-                  <span class="budget-amount">$340 / $500</span>
-                </div>
-                <div class="budget-bar">
-                  <div class="budget-progress" style="width: 68%"></div>
-                </div>
-              </div>
-
-              <div class="budget-item">
-                <div class="budget-header">
-                  <span class="budget-category">Counseling Services</span>
-                  <span class="budget-amount">$1,200 / $2,000</span>
-                </div>
-                <div class="budget-bar">
-                  <div class="budget-progress" style="width: 60%"></div>
-                </div>
-              </div>
-
-              <div class="budget-item">
-                <div class="budget-header">
-                  <span class="budget-category">Miscellaneous</span>
-                  <span class="budget-amount">$180 / $500</span>
-                </div>
-                <div class="budget-bar">
-                  <div class="budget-progress" style="width: 36%"></div>
-                </div>
+            <div id="parent-budget-categories" class="budget-categories">
+              <div class="empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                  <line x1="12" y1="1" x2="12" y2="23"/>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                <h3>No budget set</h3>
+                <p>Create a budget to track your spending on application fees, tests, and other education expenses.</p>
+                <button class="action-btn" onclick="setupBudget()">
+                  📊 Setup Budget
+                </button>
               </div>
             </div>
           </div>
@@ -5540,391 +5392,36 @@
                 </div>
               </div>
             </div>
-            
+
             <!-- Quick Stats Bar -->
-            <div class="stats-bar">
+            <div class="stats-bar" id="parent-messages-stats">
               <div class="stat-item">
-                <span class="stat-number">12</span>
+                <span class="stat-number" id="parent-unread-messages">0</span>
                 <span class="stat-label">Unread</span>
               </div>
               <div class="stat-item">
-                <span class="stat-number">5</span>
+                <span class="stat-number" id="parent-active-conversations">0</span>
                 <span class="stat-label">Active</span>
               </div>
               <div class="stat-item">
-                <span class="stat-number">28</span>
+                <span class="stat-number" id="parent-total-conversations">0</span>
                 <span class="stat-label">Total</span>
               </div>
             </div>
           </div>
 
           <!-- Main Messages Container -->
-          <div class="messages-container-modern">
-            <!-- Sidebar -->
-            <div class="messages-sidebar-modern">
-              <!-- Filter Tabs -->
-              <div class="filter-section">
-                <div class="filter-tabs">
-                  <button class="filter-tab active" data-filter="all">All</button>
-                  <button class="filter-tab" data-filter="unread">Unread</button>
-                  <button class="filter-tab" data-filter="priority">Priority</button>
-                  <button class="filter-tab" data-filter="archived">Archived</button>
-                </div>
-              </div>
-
-              <!-- Conversation Categories -->
-              <div class="conversation-groups">
-                <!-- Admissions Group -->
-                <div class="conversation-group">
-                  <div class="group-header">
-                    <span class="group-icon">🎓</span>
-                    <span class="group-title">Admissions</span>
-                    <span class="group-count">6</span>
-                  </div>
-                  <div class="conversation-list">
-                    <div class="conversation-card active" data-conversation="sarah">
-                      <div class="conversation-avatar">
-                        <img src="/assets/img/counselor1.jpg" alt="Sarah" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="avatar-fallback">SM</div>
-                        <div class="status-indicator online"></div>
-                      </div>
-                      <div class="conversation-content">
-                        <div class="conversation-header">
-                          <h4 class="contact-name">Sarah Martinez</h4>
-                          <span class="timestamp">2:30 PM</span>
-                        </div>
-                        <p class="contact-role">College Counselor • Stanford</p>
-                        <p class="last-message">Great progress on your application essays! Let's schedule a review...</p>
-                        <div class="conversation-badges">
-                          <span class="priority-badge">⭐ Priority</span>
-                          <span class="unread-count">3</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="conversation-card" data-conversation="michael">
-                      <div class="conversation-avatar">
-                        <img src="/assets/img/counselor2.jpg" alt="Michael" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="avatar-fallback">MD</div>
-                        <div class="status-indicator away"></div>
-                      </div>
-                      <div class="conversation-content">
-                        <div class="conversation-header">
-                          <h4 class="contact-name">Michael Davis</h4>
-                          <span class="timestamp">Yesterday</span>
-                        </div>
-                        <p class="contact-role">Academic Advisor • MIT</p>
-                        <p class="last-message">The scholarship applications are looking strong. Just a few more...</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Financial Aid Group -->
-                <div class="conversation-group">
-                  <div class="group-header">
-                    <span class="group-icon">💰</span>
-                    <span class="group-title">Financial Aid</span>
-                    <span class="group-count">4</span>
-                  </div>
-                  <div class="conversation-list">
-                    <div class="conversation-card" data-conversation="jennifer">
-                      <div class="conversation-avatar">
-                        <img src="/assets/img/advisor1.jpg" alt="Jennifer" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="avatar-fallback">JL</div>
-                        <div class="status-indicator offline"></div>
-                      </div>
-                      <div class="conversation-content">
-                        <div class="conversation-header">
-                          <h4 class="contact-name">Jennifer Lopez</h4>
-                          <span class="timestamp">3 hours ago</span>
-                        </div>
-                        <p class="contact-role">Financial Aid Officer</p>
-                        <p class="last-message">Your FAFSA has been processed successfully. Here are the next steps...</p>
-                        <div class="conversation-badges">
-                          <span class="unread-count">1</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Support Group -->
-                <div class="conversation-group">
-                  <div class="group-header">
-                    <span class="group-icon">🎯</span>
-                    <span class="group-title">Academic Support</span>
-                    <span class="group-count">3</span>
-                  </div>
-                  <div class="conversation-list">
-                    <div class="conversation-card" data-conversation="alex">
-                      <div class="conversation-avatar">
-                        <img src="/assets/img/tutor1.jpg" alt="Alex" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <div class="avatar-fallback">AR</div>
-                        <div class="status-indicator online"></div>
-                      </div>
-                      <div class="conversation-content">
-                        <div class="conversation-header">
-                          <h4 class="contact-name">Alex Rodriguez</h4>
-                          <span class="timestamp">2 days ago</span>
-                        </div>
-                        <p class="contact-role">Math Tutor</p>
-                        <p class="last-message">Ready for our calculus session tomorrow? I've prepared some practice problems...</p>
-                        <div class="conversation-badges">
-                          <span class="priority-badge">⭐ Priority</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Chat Area -->
-            <div class="chat-area-modern">
-              <!-- Chat Header -->
-              <div class="chat-header">
-                <div class="contact-info">
-                  <div class="contact-avatar-large">
-                    <img src="/assets/img/counselor1.jpg" alt="Sarah" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="avatar-fallback-large">SM</div>
-                    <div class="status-indicator online"></div>
-                  </div>
-                  <div class="contact-details">
-                    <h3 class="contact-name-large">Sarah Martinez</h3>
-                    <p class="contact-status">
-                      <span class="status-dot online"></span>
-                      Online • College Counselor at Stanford University
-                    </p>
-                  </div>
-                </div>
-                <div class="chat-actions">
-                  <button class="chat-action-btn" onclick="startVoiceCall()" title="Voice Call">
-                    <span class="action-icon">📞</span>
-                  </button>
-                  <button class="chat-action-btn" onclick="startVideoCall()" title="Video Call">
-                    <span class="action-icon">📹</span>
-                  </button>
-                  <button class="chat-action-btn" onclick="shareScreen()" title="Share Screen">
-                    <span class="action-icon">📺</span>
-                  </button>
-                  <button class="chat-action-btn" onclick="scheduleAppointment()" title="Schedule Meeting">
-                    <span class="action-icon">📅</span>
-                  </button>
-                  <button class="chat-action-btn" onclick="openChatInfo()" title="Chat Info">
-                    <span class="action-icon">ℹ️</span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Messages Area -->
-              <div class="messages-area" id="messagesArea">
-                <!-- Date Separator -->
-                <div class="date-separator">
-                  <span class="date-text">Today</span>
-                </div>
-
-                <!-- Message from contact -->
-                <div class="message-group received">
-                  <div class="message-avatar">
-                    <img src="/assets/img/counselor1.jpg" alt="Sarah" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="avatar-fallback">SM</div>
-                  </div>
-                  <div class="message-content">
-                    <div class="message-bubble">
-                      <p>Hi! I've reviewed your Stanford application materials and I'm really impressed with the progress you've made! 🎉</p>
-                    </div>
-                    <div class="message-bubble">
-                      <p>Your personal statement has improved significantly since our last revision. The way you've connected your experiences to your academic goals is compelling.</p>
-                    </div>
-                    <div class="message-meta">
-                      <span class="message-time">2:28 PM</span>
-                      <div class="message-reactions">
-                        <button class="reaction-btn active" onclick="toggleReaction(this, '👍')">
-                          👍 <span class="reaction-count">1</span>
-                        </button>
-                        <button class="reaction-btn" onclick="toggleReaction(this, '❤️')">
-                          ❤️
-                        </button>
-                        <button class="add-reaction-btn" onclick="showReactionPicker(this)">
-                          <span class="plus-icon">+</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Message from user -->
-                <div class="message-group sent">
-                  <div class="message-content">
-                    <div class="message-bubble">
-                      <p>Thank you so much! Your feedback has been incredibly helpful. I'm excited about the application.</p>
-                    </div>
-                    <div class="message-bubble">
-                      <p>When do you think we'll hear back from Stanford? I'm trying to plan my timeline for other applications too.</p>
-                    </div>
-                    <div class="message-meta">
-                      <span class="message-time">2:32 PM</span>
-                      <span class="message-status read">✓✓</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Message with attachment -->
-                <div class="message-group received">
-                  <div class="message-avatar">
-                    <img src="/assets/img/counselor1.jpg" alt="Sarah" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="avatar-fallback">SM</div>
-                  </div>
-                  <div class="message-content">
-                    <div class="message-bubble">
-                      <p>Stanford typically releases decisions in late March. In the meantime, let's work on strengthening your backup applications! 📚</p>
-                      
-                      <!-- File Attachment -->
-                      <div class="attachment-container">
-                        <div class="attachment-card">
-                          <div class="attachment-icon">📄</div>
-                          <div class="attachment-info">
-                            <h4 class="attachment-name">Backup_Schools_Strategy.pdf</h4>
-                            <p class="attachment-details">2.3 MB • PDF Document</p>
-                          </div>
-                          <button class="attachment-download" onclick="downloadFile('backup-strategy.pdf')">
-                            <span class="download-icon">⬇️</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="message-meta">
-                      <span class="message-time">2:35 PM</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- Typing Indicator -->
-                <div class="typing-indicator" id="typingIndicator" style="display: none;">
-                  <div class="message-avatar">
-                    <img src="/assets/img/counselor1.jpg" alt="Sarah" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="avatar-fallback">SM</div>
-                  </div>
-                  <div class="typing-animation">
-                    <div class="typing-bubble">
-                      <div class="typing-dots">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </div>
-                      <span class="typing-text">Sarah is typing...</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Compose Area -->
-              <div class="compose-area-modern">
-                <!-- Compose Toolbar -->
-                <div class="compose-toolbar">
-                  <div class="toolbar-left">
-                    <button class="toolbar-btn" onclick="attachFile()" title="Attach File">
-                      <span class="btn-icon">📎</span>
-                    </button>
-                    <button class="toolbar-btn" onclick="insertEmoji()" title="Add Emoji">
-                      <span class="btn-icon">😊</span>
-                    </button>
-                    <button class="toolbar-btn" onclick="addGif()" title="Add GIF">
-                      <span class="btn-icon">🎬</span>
-                    </button>
-                    <button class="toolbar-btn" onclick="voiceMessage()" title="Voice Message">
-                      <span class="btn-icon">🎤</span>
-                    </button>
-                    <button class="toolbar-btn" onclick="scheduleMessage()" title="Schedule Send">
-                      <span class="btn-icon">⏰</span>
-                    </button>
-                  </div>
-                  <div class="toolbar-right">
-                    <button class="formatting-btn" onclick="toggleBold()" title="Bold">
-                      <span class="format-icon">B</span>
-                    </button>
-                    <button class="formatting-btn" onclick="toggleItalic()" title="Italic">
-                      <span class="format-icon">I</span>
-                    </button>
-                    <button class="formatting-btn" onclick="addLink()" title="Add Link">
-                      <span class="format-icon">🔗</span>
-                    </button>
-                  </div>
-                </div>
-
-                <!-- Message Input -->
-                <div class="compose-input-container">
-                  <div class="input-wrapper">
-                    <textarea 
-                      class="message-input-modern" 
-                      placeholder="Type your message..." 
-                      id="messageInput"
-                      rows="1"
-                      oninput="handleInputResize(); updateCharCount(); showTypingIndicator();"
-                      onkeydown="handleKeyPress(event)"
-                    ></textarea>
-                    <div class="input-actions">
-                      <button class="send-button-modern" onclick="sendMessage()" id="sendButton" disabled>
-                        <span class="send-icon">→</span>
-                      </button>
-                    </div>
-                  </div>
-                  
-                  <!-- Message Options -->
-                  <div class="message-options">
-                    <div class="options-left">
-                      <label class="option-toggle">
-                        <input type="checkbox" id="highPriority">
-                        <span class="toggle-label">📌 High Priority</span>
-                      </label>
-                      <label class="option-toggle">
-                        <input type="checkbox" id="readReceipt">
-                        <span class="toggle-label">👁️ Read Receipt</span>
-                      </label>
-                    </div>
-                    <div class="options-right">
-                      <span class="char-counter">
-                        <span id="charCount">0</span> / 1000
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Quick Actions Panel -->
-            <div class="quick-actions-panel" id="quickActionsPanel">
-              <div class="panel-header">
-                <h3>Quick Actions</h3>
-                <button class="panel-close" onclick="closeQuickActions()">×</button>
-              </div>
-              <div class="quick-actions-grid">
-                <button class="quick-action" onclick="useTemplate('followup')">
-                  <span class="action-emoji">📅</span>
-                  <span class="action-text">Follow Up</span>
-                </button>
-                <button class="quick-action" onclick="useTemplate('thank-you')">
-                  <span class="action-emoji">🙏</span>
-                  <span class="action-text">Thank You</span>
-                </button>
-                <button class="quick-action" onclick="useTemplate('question')">
-                  <span class="action-emoji">❓</span>
-                  <span class="action-text">Ask Question</span>
-                </button>
-                <button class="quick-action" onclick="useTemplate('meeting-request')">
-                  <span class="action-emoji">🤝</span>
-                  <span class="action-text">Meeting Request</span>
-                </button>
-                <button class="quick-action" onclick="useTemplate('urgent')">
-                  <span class="action-emoji">🚨</span>
-                  <span class="action-text">Urgent</span>
-                </button>
-                <button class="quick-action" onclick="useTemplate('reminder')">
-                  <span class="action-emoji">⏰</span>
-                  <span class="action-text">Reminder</span>
-                </button>
-              </div>
+          <div class="messages-container-modern" id="parent-messages-container">
+            <div class="empty-state" style="padding: 4rem; text-align: center;">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <h3>No messages yet</h3>
+              <p>Start a conversation with counselors, advisors, and support staff to get help with your child's applications.</p>
+              <button class="action-button primary" onclick="composeNewMessage()" style="margin-top: 1rem;">
+                <span class="button-icon">✏️</span>
+                Compose Message
+              </button>
             </div>
           </div>
         </div>
@@ -5949,12 +5446,12 @@
                 </button>
               </div>
             </div>
-            
+
             <div class="profile-info">
               <div class="profile-avatar-section">
                 <div class="profile-avatar-large">
                   <img src="/assets/img/parent-avatar.jpg" alt="Profile" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                  <div class="avatar-fallback-profile">MP</div>
+                  <div class="avatar-fallback-profile" id="parent-avatar-fallback">P</div>
                   <button class="avatar-edit-btn" onclick="changeAvatar()">
                     <span class="edit-icon">📷</span>
                   </button>
@@ -5964,40 +5461,40 @@
                   <span class="badge-text">Verified Parent</span>
                 </div>
               </div>
-              
+
               <div class="profile-details">
-                <h1 class="profile-name">Maria Petrova</h1>
-                <p class="profile-title">Parent & Educational Advocate</p>
-                <div class="profile-meta">
+                <h1 class="profile-name" id="parent-profile-name">Parent Profile</h1>
+                <p class="profile-title" id="parent-profile-title">Parent & Educational Advocate</p>
+                <div class="profile-meta" id="parent-profile-meta">
                   <div class="meta-item">
                     <span class="meta-icon">📍</span>
-                    <span class="meta-text">San Francisco, CA</span>
+                    <span class="meta-text" id="parent-location">Not set</span>
                   </div>
                   <div class="meta-item">
                     <span class="meta-icon">📅</span>
-                    <span class="meta-text">Member since 2023</span>
+                    <span class="meta-text" id="parent-member-since">Member since 2025</span>
                   </div>
                   <div class="meta-item">
                     <span class="meta-icon">👨‍👩‍👧‍👦</span>
-                    <span class="meta-text">2 Children</span>
+                    <span class="meta-text" id="parent-children-count">0 Children</span>
                   </div>
                 </div>
-                
+
                 <div class="profile-stats">
                   <div class="stat-card">
-                    <div class="stat-number" id="totalChildren">0</div>
+                    <div class="stat-number" id="parent-profile-linked-students">0</div>
                     <div class="stat-label">Linked Students</div>
                   </div>
                   <div class="stat-card">
-                    <div class="stat-number" id="totalApplications">0</div>
+                    <div class="stat-number" id="parent-profile-total-applications">0</div>
                     <div class="stat-label">Total Applications</div>
                   </div>
                   <div class="stat-card">
-                    <div class="stat-number" id="acceptedApplications">0</div>
+                    <div class="stat-number" id="parent-profile-accepted">0</div>
                     <div class="stat-label">Accepted</div>
                   </div>
                   <div class="stat-card">
-                    <div class="stat-number" id="completionRate">0%</div>
+                    <div class="stat-number" id="parent-profile-completion-rate">0%</div>
                     <div class="stat-label">Completion Rate</div>
                   </div>
                 </div>
@@ -6019,127 +5516,47 @@
                   Edit
                 </button>
               </div>
-              <div class="section-content">
-                <p class="about-text">
-                  Dedicated parent committed to supporting my children's educational journey. With a background in educational consulting, 
-                  I actively advocate for student success and help navigate the complex college admissions process. 
-                  Passionate about creating opportunities for academic excellence and personal growth.
-                </p>
-                <div class="interests-tags">
-                  <span class="interest-tag">Education</span>
-                  <span class="interest-tag">College Planning</span>
-                  <span class="interest-tag">STEM Advocacy</span>
-                  <span class="interest-tag">Community Service</span>
-                  <span class="interest-tag">Student Mentoring</span>
+              <div class="section-content" id="parent-about-section">
+                <div class="empty-state">
+                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  <h3>Complete your profile</h3>
+                  <p>Add information about yourself to help counselors and advisors understand your family's educational goals.</p>
+                  <button class="action-btn" onclick="editAbout()">
+                    ✏️ Edit Profile
+                  </button>
                 </div>
               </div>
             </div>
 
-            <!-- Children Information -->
+            <!-- Linked Students/Children Section -->
             <div class="profile-section">
               <div class="section-header">
                 <h2 class="section-title">
                   <span class="title-icon">👨‍👩‍👧‍👦</span>
-                  Children
+                  Linked Students
                 </h2>
-                <button class="add-child-btn" onclick="addChild()">
-                  <span class="add-icon">+</span>
-                  Add Child
+                <button class="edit-section-btn" onclick="linkChild()">
+                  <span class="edit-icon">➕</span>
+                  Link Student
                 </button>
               </div>
               <div class="section-content">
-                <div class="children-grid">
-                  <div class="child-card">
-                    <div class="child-avatar">
-                      <img src="/assets/img/student1.jpg" alt="Alex" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                      <div class="child-avatar-fallback">AP</div>
-                    </div>
-                    <div class="child-info">
-                      <h3 class="child-name">Alex Petrova</h3>
-                      <p class="child-grade">Grade 12 • Senior</p>
-                      <p class="child-school">Lincoln High School</p>
-                      <div class="child-achievements">
-                        <span class="achievement-badge">Honor Roll</span>
-                        <span class="achievement-badge">Math Olympiad</span>
-                      </div>
-                    </div>
-                    <div class="child-actions">
-                      <button class="child-action-btn" onclick="viewChildProfile('alex')">View</button>
-                      <button class="child-action-btn secondary" onclick="editChild('alex')">Edit</button>
-                    </div>
-                  </div>
-                  
-                  <div class="child-card">
-                    <div class="child-avatar">
-                      <img src="/assets/img/student2.jpg" alt="Emma" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                      <div class="child-avatar-fallback">EP</div>
-                    </div>
-                    <div class="child-info">
-                      <h3 class="child-name">Emma Petrova</h3>
-                      <p class="child-grade">Grade 10 • Sophomore</p>
-                      <p class="child-school">Lincoln High School</p>
-                      <div class="child-achievements">
-                        <span class="achievement-badge">Science Fair Winner</span>
-                        <span class="achievement-badge">Drama Club</span>
-                      </div>
-                    </div>
-                    <div class="child-actions">
-                      <button class="child-action-btn" onclick="viewChildProfile('emma')">View</button>
-                      <button class="child-action-btn secondary" onclick="editChild('emma')">Edit</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Contact Information -->
-            <div class="profile-section">
-              <div class="section-header">
-                <h2 class="section-title">
-                  <span class="title-icon">📞</span>
-                  Contact Information
-                </h2>
-                <button class="edit-section-btn" onclick="editContact()">
-                  <span class="edit-icon">✏️</span>
-                  Edit
-                </button>
-              </div>
-              <div class="section-content">
-                <div class="contact-grid">
-                  <div class="contact-item">
-                    <div class="contact-icon">📧</div>
-                    <div class="contact-details">
-                      <div class="contact-label">Email</div>
-                      <div class="contact-value">maria.petrova@email.com</div>
-                    </div>
-                    <button class="contact-action" onclick="contactVia('email')">Send Email</button>
-                  </div>
-                  
-                  <div class="contact-item">
-                    <div class="contact-icon">📱</div>
-                    <div class="contact-details">
-                      <div class="contact-label">Phone</div>
-                      <div class="contact-value">+1 (555) 123-4567</div>
-                    </div>
-                    <button class="contact-action" onclick="contactVia('phone')">Call</button>
-                  </div>
-                  
-                  <div class="contact-item">
-                    <div class="contact-icon">💼</div>
-                    <div class="contact-details">
-                      <div class="contact-label">LinkedIn</div>
-                      <div class="contact-value">linkedin.com/in/mariapetrova</div>
-                    </div>
-                    <button class="contact-action" onclick="contactVia('linkedin')">Connect</button>
-                  </div>
-                  
-                  <div class="contact-item">
-                    <div class="contact-icon">🏠</div>
-                    <div class="contact-details">
-                      <div class="contact-label">Address</div>
-                      <div class="contact-value">1234 Education Ave, San Francisco, CA 94102</div>
-                    </div>
-                    <button class="contact-action" onclick="viewMap()">View Map</button>
+                <div id="parent-children-grid" class="children-grid">
+                  <div class="empty-state">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                      <circle cx="9" cy="7" r="4"/>
+                      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <h3>No linked students yet</h3>
+                    <p>Connect your child's student account to monitor their applications and provide support throughout the college admissions process.</p>
+                    <button class="action-btn" onclick="linkChild()">
+                      ➕ Link Student Account
+                    </button>
                   </div>
                 </div>
               </div>
@@ -6152,135 +5569,16 @@
                   <span class="title-icon">📊</span>
                   Recent Activity
                 </h2>
-                <button class="view-all-btn" onclick="viewAllActivity()">View All</button>
               </div>
               <div class="section-content">
-                <div class="activity-timeline">
-                  <div class="activity-item">
-                    <div class="activity-icon">✅</div>
-                    <div class="activity-content">
-                      <h4 class="activity-title">Application Submitted</h4>
-                      <p class="activity-description">Stanford University application for Alex completed and submitted</p>
-                      <span class="activity-time">2 hours ago</span>
-                    </div>
-                  </div>
-                  
-                  <div class="activity-item">
-                    <div class="activity-icon">💬</div>
-                    <div class="activity-content">
-                      <h4 class="activity-title">Message from Counselor</h4>
-                      <p class="activity-description">Sarah Martinez sent recommendations for backup schools</p>
-                      <span class="activity-time">5 hours ago</span>
-                    </div>
-                  </div>
-                  
-                  <div class="activity-item">
-                    <div class="activity-icon">💰</div>
-                    <div class="activity-content">
-                      <h4 class="activity-title">Financial Aid Update</h4>
-                      <p class="activity-description">FAFSA processing completed for both children</p>
-                      <span class="activity-time">1 day ago</span>
-                    </div>
-                  </div>
-                  
-                  <div class="activity-item">
-                    <div class="activity-icon">📅</div>
-                    <div class="activity-content">
-                      <h4 class="activity-title">Meeting Scheduled</h4>
-                      <p class="activity-description">College counseling session booked for next week</p>
-                      <span class="activity-time">2 days ago</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Settings & Preferences -->
-            <div class="profile-section">
-              <div class="section-header">
-                <h2 class="section-title">
-                  <span class="title-icon">⚙️</span>
-                  Preferences
-                </h2>
-              </div>
-              <div class="section-content">
-                <div class="preferences-grid">
-                  <div class="preference-card">
-                    <div class="preference-info">
-                      <h4 class="preference-title">Email Notifications</h4>
-                      <p class="preference-description">Receive updates about applications and deadlines</p>
-                    </div>
-                    <div class="preference-control">
-                      <label class="toggle-switch">
-                        <input type="checkbox" data-preference="emailNotifications" onclick="togglePreference('emailNotifications')">
-                        <span class="toggle-slider"></span>
-                      </label>
-                    </div>
-                  </div>
-                  
-                  <div class="preference-card">
-                    <div class="preference-info">
-                      <h4 class="preference-title">SMS Notifications</h4>
-                      <p class="preference-description">Get urgent notifications via text message</p>
-                    </div>
-                    <div class="preference-control">
-                      <label class="toggle-switch">
-                        <input type="checkbox" data-preference="smsNotifications" onclick="togglePreference('smsNotifications')">
-                        <span class="toggle-slider"></span>
-                      </label>
-                    </div>
-                  </div>
-                  
-                  <div class="preference-card">
-                    <div class="preference-info">
-                      <h4 class="preference-title">Application Deadlines</h4>
-                      <p class="preference-description">Receive reminders for upcoming deadlines</p>
-                    </div>
-                    <div class="preference-control">
-                      <label class="toggle-switch">
-                        <input type="checkbox" data-preference="applicationDeadlines" onclick="togglePreference('applicationDeadlines')">
-                        <span class="toggle-slider"></span>
-                      </label>
-                    </div>
-                  </div>
-                  
-                  <div class="preference-card">
-                    <div class="preference-info">
-                      <h4 class="preference-title">Financial Updates</h4>
-                      <p class="preference-description">Get notified about payment updates and bills</p>
-                    </div>
-                    <div class="preference-control">
-                      <label class="toggle-switch">
-                        <input type="checkbox" data-preference="financialUpdates" onclick="togglePreference('financialUpdates')">
-                        <span class="toggle-slider"></span>
-                      </label>
-                    </div>
-                  </div>
-                  
-                  <div class="preference-card">
-                    <div class="preference-info">
-                      <h4 class="preference-title">Child Progress</h4>
-                      <p class="preference-description">Receive updates about your children's academic progress</p>
-                    </div>
-                    <div class="preference-control">
-                      <label class="toggle-switch">
-                        <input type="checkbox" data-preference="childProgress" onclick="togglePreference('childProgress')">
-                        <span class="toggle-slider"></span>
-                      </label>
-                    </div>
-                  </div>
-                  
-                  <div class="preference-card">
-                    <div class="preference-info">
-                      <h4 class="preference-title">Public Profile</h4>
-                      <p class="preference-description">Make your profile visible to other parents</p>
-                    </div>
-                    <div class="preference-control">
-                      <label class="toggle-switch">
-                        <input type="checkbox" data-preference="publicProfile" onclick="togglePreference('publicProfile')">
-                        <span class="toggle-slider"></span>
-                      </label>
-                    </div>
+                <div id="parent-profile-activity" class="activity-feed">
+                  <div class="empty-state">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                      <circle cx="12" cy="12" r="10"/>
+                      <path d="M12 6v6l4 2"/>
+                    </svg>
+                    <h3>No recent activity</h3>
+                    <p>Your activity related to your child's applications and communications will appear here.</p>
                   </div>
                 </div>
               </div>
@@ -6908,46 +6206,7 @@
         publicProfile: false
       },
       activities: [
-        {
-          id: 1,
-          type: 'applications',
-          title: 'Application submitted to Stanford University',
-          description: 'Emily\'s application for Stanford University was successfully submitted.',
-          date: '2024-12-05',
-          time: '2:30 PM'
-        },
-        {
-          id: 2,
-          type: 'messages',
-          title: 'Message from College Counselor',
-          description: 'New message regarding scholarship opportunities.',
-          date: '2024-12-04',
-          time: '10:15 AM'
-        },
-        {
-          id: 3,
-          type: 'finance',
-          title: 'Payment processed for application fees',
-          description: 'Application fee payment of $75 processed successfully.',
-          date: '2024-12-03',
-          time: '4:45 PM'
-        },
-        {
-          id: 4,
-          type: 'profile',
-          title: 'Profile updated',
-          description: 'Contact information was updated.',
-          date: '2024-12-02',
-          time: '11:20 AM'
-        },
-        {
-          id: 5,
-          type: 'applications',
-          title: 'Application deadline reminder',
-          description: 'Reminder: UC Berkeley application due in 3 days.',
-          date: '2024-12-01',
-          time: '9:00 AM'
-        }
+        // Notifications will be loaded dynamically from the backend
       ]
     };
 
@@ -8259,32 +7518,8 @@ Generated on: ${new Date().toLocaleDateString()}
 
     // Update Chat Header
     function updateChatHeader(conversationId) {
-      const conversations = {
-        'sarah': {
-          name: 'Sarah Martinez',
-          role: 'College Counselor at Stanford University',
-          avatar: '/assets/img/counselor1.jpg',
-          status: 'online'
-        },
-        'michael': {
-          name: 'Michael Davis',
-          role: 'Academic Advisor at MIT',
-          avatar: '/assets/img/counselor2.jpg',
-          status: 'away'
-        },
-        'jennifer': {
-          name: 'Jennifer Lopez',
-          role: 'Financial Aid Officer',
-          avatar: '/assets/img/advisor1.jpg',
-          status: 'offline'
-        },
-        'alex': {
-          name: 'Alex Rodriguez',
-          role: 'Math Tutor',
-          avatar: '/assets/img/tutor1.jpg',
-          status: 'online'
-        }
-      };
+      // Conversations will be loaded dynamically from the backend
+      const conversations = {};
 
       const conversation = conversations[conversationId];
       if (conversation) {

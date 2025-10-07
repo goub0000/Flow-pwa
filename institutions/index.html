@@ -1064,31 +1064,12 @@
           <article class="dashboard-card" aria-labelledby="tasksTitle">
             <header class="dashboard-card__header">
               <h2 id="tasksTitle">Admission Tasks</h2>
-              <span class="dashboard-card__count">8 pending</span>
+              <span class="dashboard-card__count" id="pendingTasksCount">0 pending</span>
             </header>
-            <div class="task-list">
-              <div class="task-item">
-                <div class="task-item__content">
-                  <div class="task-item__title">Review scholarship applications</div>
-                  <div class="task-item__meta">Due: Tomorrow</div>
-                </div>
-                <div class="task-item__priority task-item__priority--high"></div>
-              </div>
-
-              <div class="task-item">
-                <div class="task-item__content">
-                  <div class="task-item__title">Schedule admission interviews</div>
-                  <div class="task-item__meta">Due: This week</div>
-                </div>
-                <div class="task-item__priority task-item__priority--medium"></div>
-              </div>
-
-              <div class="task-item">
-                <div class="task-item__content">
-                  <div class="task-item__title">Update program requirements</div>
-                  <div class="task-item__meta">Due: Next week</div>
-                </div>
-                <div class="task-item__priority task-item__priority--low"></div>
+            <div class="task-list" id="institutionTasksList">
+              <div style="padding: 2rem; text-align: center; color: #666;">
+                <p>No pending tasks</p>
+                <p style="font-size: 0.9rem; margin-top: 0.5rem;">Your admission tasks will appear here</p>
               </div>
             </div>
           </article>
@@ -1845,7 +1826,8 @@
 
     // Profile functionality
     window.viewFullProfile = function() {
-      alert('👤 Institution Profile\n\n🏫 University of Excellence\n📧 admin@university.edu\n📞 (555) 123-4567\n🌐 www.university.edu\n📍 123 Education St, Academic City\n\n📊 Statistics:\n• Active Students: 15,247\n• Programs: 127\n• Faculty: 892\n• Applications (This Year): 8,456');
+      // Institution profile will be loaded dynamically from the backend
+      alert('👤 Institution Profile\n\nPlease complete your institution profile to display detailed information.');
     }
 
     window.editProfile = function() {
