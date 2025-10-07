@@ -141,9 +141,17 @@
         }
       }
 
-      // Initialize Cloud Storage
-      storage = firebase.storage();
-      console.log('✅ Firebase Storage initialized');
+      // Initialize Cloud Storage (optional)
+      if (firebase.storage) {
+        try {
+          storage = firebase.storage();
+          console.log('✅ Firebase Storage initialized');
+        } catch (error) {
+          console.warn('⚠️ Firebase Storage initialization failed:', error.message);
+        }
+      } else {
+        console.log('💾 Firebase Storage SDK not loaded, skipping...');
+      }
 
       // Initialize Analytics (optional) - skip in development to avoid noise
       if (firebase.analytics && !isDevelopment) {
@@ -154,11 +162,11 @@
           console.warn('⚠️ Firebase Analytics initialization failed:', error.message);
         }
       } else {
-        console.log('📊 Firebase Analytics skipped (development mode)');
+        console.log('📊 Firebase Analytics skipped (development mode or SDK not loaded)');
       }
 
       // Initialize Cloud Messaging (optional) - only in production with valid config
-      if (firebase.messaging && firebase.messaging.isSupported() && !isDevelopment) {
+      if (firebase.messaging && firebase.messaging.isSupported && firebase.messaging.isSupported() && !isDevelopment) {
         try {
           messaging = firebase.messaging();
           console.log('✅ Firebase Messaging initialized');
@@ -166,7 +174,7 @@
           console.warn('⚠️ Firebase Messaging initialization failed:', error.message);
         }
       } else {
-        console.log('📱 Firebase Messaging skipped (development mode or not supported)');
+        console.log('📱 Firebase Messaging skipped (development mode, not supported, or SDK not loaded)');
       }
 
       // Store service instances
