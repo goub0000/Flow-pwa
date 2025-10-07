@@ -844,10 +844,22 @@
   </div>
 
 
-  <!-- JS (order matters): auth → guards → i18n → main → page script -->
+  <!-- JS (order matters): Firebase SDK → firebase-config → auth → guards → i18n → main → page script -->
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+
+  <!-- Firebase Config & Auth -->
   <script src="/assets/js/firebase-config.js"></script>
   <script src="/assets/js/firebase-auth.js" defer></script>
   <script src="/assets/js/auth-guards.js" defer></script>
+
+  <!-- Data Layer -->
+  <script src="/assets/js/data-service.js" defer></script>
+  <script src="/assets/js/dashboard-loader.js" defer></script>
+
+  <!-- App Scripts -->
   <script src="/assets/js/i18n.js" defer></script>
   <script src="/assets/js/main.js" defer></script>
   <script src="/assets/js/students.js" defer></script>
