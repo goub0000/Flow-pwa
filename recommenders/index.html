@@ -218,22 +218,17 @@
               <div role="columnheader">Action</div>
             </div>
 
-            <div class="pending-row" role="row" data-req-id="RG-21873" data-student="Oumarou Gouba" data-program="B.Sc. Computer Science — University of Accra">
-              <div role="cell"><strong>Oumarou Gouba</strong><br/><small>Request ID: RG-21873</small></div>
-              <div role="cell">B.Sc. Computer Science — University of Accra</div>
-              <div role="cell"><time datetime="2025-09-05">Sept 5</time></div>
-              <div role="cell"><a class="btn btn--ghost link-upload" href="#upload">Upload</a></div>
-            </div>
-
-            <div class="pending-row" role="row" data-req-id="RG-21888" data-student="Adjoa Mensah" data-program="B.Eng. Software — Abuja Tech Institute">
-              <div role="cell"><strong>Adjoa Mensah</strong><br/><small>Request ID: RG-21888</small></div>
-              <div role="cell">B.Eng. Software — Abuja Tech Institute</div>
-              <div role="cell"><time datetime="2025-09-12">Sept 12</time></div>
-              <div role="cell"><a class="btn btn--ghost link-upload" href="#upload">Upload</a></div>
-            </div>
+            <!-- Pending requests will be populated dynamically via dashboard-loader.js -->
           </div>
         </div>
 
+        <div id="emptyRequestsState" class="empty-state" style="text-align: center; padding: 3rem 1rem; display: none;">
+          <svg class="empty-state__icon" width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 1rem;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          <h3 class="empty-state__title" style="margin-bottom: 0.5rem;">No Pending Requests</h3>
+          <p class="empty-state__description" style="color: #6b7280;">Recommendation requests from students will appear here once they invite you.</p>
+        </div>
         <p class="mt-4">Each request includes a secure token. Upload separate letters for each program if requested.</p>
       </div>
     </section>
@@ -252,10 +247,10 @@
                 <input id="reqId" name="reqId" type="text" required placeholder="RG-21873" />
               </label>
               <label for="studentName">Student Name
-                <input id="studentName" name="studentName" type="text" required placeholder="Oumarou Gouba" />
+                <input id="studentName" name="studentName" type="text" required placeholder="Enter student full name" />
               </label>
               <label for="recName">Your Full Name
-                <input id="recName" name="recName" type="text" required placeholder="Prof. Ama K." />
+                <input id="recName" name="recName" type="text" required placeholder="Enter your full name" />
               </label>
               <label for="recEmail">Your Email
                 <input id="recEmail" name="recEmail" type="email" required placeholder="prof@example.edu" />
@@ -271,7 +266,7 @@
                 </select>
               </label>
               <label for="program">Institution / Program
-                <input id="program" name="program" type="text" required placeholder="University of Accra — B.Sc. CS" />
+                <input id="program" name="program" type="text" required placeholder="Institution name and program" />
               </label>
               <label for="letterFile">Upload PDF (max 5MB)
                 <input id="letterFile" name="letterFile" type="file" accept="application/pdf" required />

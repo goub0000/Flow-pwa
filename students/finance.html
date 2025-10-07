@@ -222,21 +222,16 @@
               <span class="badge">Secure</span>
             </header>
             <div class="payment-options">
-              <div class="payment-row">
-                <div class="payment-row__info">
-                  <h3 class="payment-row__title">Application Fee — Abuja Tech Institute</h3>
-                  <p class="payment-row__desc">Required to submit your application</p>
-                </div>
-                <div class="payment-row__amount" data-amount-usd="50">$50</div>
-                <button class="btn btn--primary pay-now" data-desc="Application Fee — Abuja Tech Institute" data-usd="50">Pay Now</button>
+              <!-- Payment rows will be populated dynamically via dashboard-loader.js -->
+              <div id="paymentsListContainer" class="empty-state" style="text-align: center; padding: 3rem 1rem; display: none;">
+                <svg class="empty-state__icon" width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto 1rem;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                </svg>
+                <h3 class="empty-state__title" style="margin-bottom: 0.5rem;">No Pending Payments</h3>
+                <p class="empty-state__description" style="color: #6b7280;">Application fees and other payments will appear here.</p>
               </div>
 
-              <div class="payment-row">
-                <div class="payment-row__info">
-                  <h3 class="payment-row__title">Tuition Deposit — École Polytechnique Dakar</h3>
-                  <p class="payment-row__desc">Reserves your seat for Fall 2025</p>
-                </div>
-                <div class="payment-row__amount" data-amount-usd="500">$500</div>
+              <!-- Additional payment rows will be populated dynamically -->
                 <button class="btn btn--ghost pay-now" data-desc="Tuition Deposit — École Polytechnique Dakar" data-usd="500">Pay Now</button>
               </div>
 

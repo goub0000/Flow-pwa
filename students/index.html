@@ -129,78 +129,11 @@
 
   <main id="main">
 
-    <!-- Onboarding banner -->
-    <section class="section section--compact" aria-labelledby="onboardingTitle" id="onboardingBanner">
-      <div class="container">
-        <div class="onboarding-banner">
-          <div class="onboarding-banner__content">
-            <div class="onboarding-banner__icon" aria-hidden="true">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <defs>
-                  <radialGradient id="starGradient" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" style="stop-color:#fbbf24"/>
-                    <stop offset="70%" style="stop-color:#f59e0b"/>
-                    <stop offset="100%" style="stop-color:#d97706"/>
-                  </radialGradient>
-                </defs>
-                <path fill="url(#starGradient)" d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                <path fill="white" opacity="0.4" d="M12 2l1.5 3L16 6l-2.5 2.5L14 12l-2-1-2 1 .5-3.5L8 6l2.5-1L12 2z"/>
-                <g opacity="0.6">
-                  <circle cx="12" cy="8" r="0.5" fill="white">
-                    <animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/>
-                  </circle>
-                  <circle cx="8" cy="12" r="0.3" fill="white">
-                    <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.3s" repeatCount="indefinite"/>
-                  </circle>
-                  <circle cx="16" cy="12" r="0.3" fill="white">
-                    <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.6s" repeatCount="indefinite"/>
-                  </circle>
-                  <circle cx="12" cy="16" r="0.4" fill="white">
-                    <animate attributeName="opacity" values="0;1;0" dur="1.5s" begin="0.9s" repeatCount="indefinite"/>
-                  </circle>
-                </g>
-                <animateTransform attributeName="transform" type="rotate" values="0 12 12;5 12 12;0 12 12;-5 12 12;0 12 12" dur="4s" repeatCount="indefinite"/>
-              </svg>
-            </div>
-            <div class="onboarding-banner__text">
-              <h2 id="onboardingTitle" data-i18n="students.banner.title">Complete your profile to unlock AI-powered program recommendations</h2>
-              <p data-i18n="students.banner.body">Your profile is <strong>25% complete</strong>. Add academic information and documents to get personalized university suggestions.</p>
-            </div>
-            <div class="onboarding-banner__progress">
-              <div class="progress-bar">
-                <div class="progress-bar__fill" style="width: 25%" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" data-i18n-attrs="aria-label:students.banner.progressAria" aria-label="Profile completion: 25%"></div>
-              </div>
-              <span class="progress-text" data-i18n="students.banner.progressText">25% complete</span>
-            </div>
-          </div>
-          <div class="onboarding-banner__actions">
-            <a class="btn btn--primary" href="/students/onboarding.html">
-              <span data-i18n="students.banner.ctaContinue">Continue Setup</span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                <defs>
-                  <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:currentColor" opacity="0.6"/>
-                    <stop offset="100%" style="stop-color:currentColor"/>
-                  </linearGradient>
-                </defs>
-                <path fill="url(#arrowGradient)" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
-                <path fill="currentColor" opacity="0.3" d="M2.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L8.293 8 2.646 2.354a.5.5 0 0 1 0-.708z">
-                  <animateTransform attributeName="transform" type="translateX" values="0;2;0" dur="2s" repeatCount="indefinite"/>
-                  <animate attributeName="opacity" values="0.3;0.1;0.3" dur="2s" repeatCount="indefinite"/>
-                </path>
-              </svg>
-            </a>
-            <button class="btn btn--ghost" id="dismissBanner" type="button" data-i18n="common.maybeLater">Maybe later</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Dashboard overview -->
     <section id="dashboard" class="section" aria-labelledby="dashTitle">
       <div class="container">
         <header class="section__header">
-          <h1 id="dashTitle" data-i18n="students.dashboard.title">Welcome back, Oumarou!</h1>
+          <h1 id="dashTitle" data-i18n="students.dashboard.title">Welcome back!</h1>
           <p class="section__description" data-i18n="students.dashboard.subtitle">Here's what's happening with your applications</p>
         </header>
 
@@ -334,48 +267,14 @@
               <h2 id="appsTitle" data-i18n="students.apps.title">Active Applications</h2>
               <a href="/students/applications.html" class="dashboard-card__action" data-i18n="common.viewAll">View all</a>
             </header>
-            <div class="application-list">
-              <div class="application-item">
-                <div class="application-item__status application-item__status--review"></div>
-                <div class="application-item__content">
-                  <h3 class="application-item__title">University of Accra</h3>
-                  <p class="application-item__program">B.Sc. Computer Science</p>
-                  <div class="application-item__progress">
-                    <span class="status-badge status-badge--warning" data-i18n="status.underReview">Under Review</span>
-                    <time datetime="2025-08-20" class="application-item__date" data-i18n="time.updatedOneDayAgo">Updated 1 day ago</time>
-                  </div>
-                </div>
-                <button class="application-item__action" data-i18n-attrs="aria-label:students.apps.viewAccra" aria-label="View University of Accra application">
-                  <svg width="16" height="16" fill="currentColor"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
-                </button>
-              </div>
-              <div class="application-item">
-                <div class="application-item__status application-item__status--draft"></div>
-                <div class="application-item__content">
-                  <h3 class="application-item__title">Abuja Tech Institute</h3>
-                  <p class="application-item__program">B.Eng. Software Engineering</p>
-                  <div class="application-item__progress">
-                    <span class="status-badge status-badge--draft" data-i18n="status.draft">Draft</span>
-                    <time datetime="2025-08-16" class="application-item__date" data-i18n="time.lastEditedFiveDaysAgo">Last edited 5 days ago</time>
-                  </div>
-                </div>
-                <button class="application-item__action" data-i18n-attrs="aria-label:students.apps.continueAbuja" aria-label="Continue Abuja Tech Institute application">
-                  <svg width="16" height="16" fill="currentColor"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
-                </button>
-              </div>
-              <div class="application-item">
-                <div class="application-item__status application-item__status--submitted"></div>
-                <div class="application-item__content">
-                  <h3 class="application-item__title">École Polytechnique Dakar</h3>
-                  <p class="application-item__program">B.Eng. Computer Engineering</p>
-                  <div class="application-item__progress">
-                    <span class="status-badge status-badge--success" data-i18n="status.submitted">Submitted</span>
-                    <time datetime="2025-08-10" class="application-item__date" data-i18n="time.submittedElevenDaysAgo">Submitted 11 days ago</time>
-                  </div>
-                </div>
-                <button class="application-item__action" data-i18n-attrs="aria-label:students.apps.viewEpd" aria-label="View École Polytechnique Dakar application">
-                  <svg width="16" height="16" fill="currentColor"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
-                </button>
+            <div id="applications-list" class="application-list">
+              <div class="empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                  <path d="M14 2v6h6"/>
+                </svg>
+                <p>You haven't started any applications yet.</p>
+                <a href="/students/programs.html" class="btn btn--primary">Browse Programs</a>
               </div>
             </div>
             <div class="dashboard-card__footer">
@@ -390,30 +289,16 @@
           <article class="dashboard-card" aria-labelledby="tasksTitle">
             <header class="dashboard-card__header">
               <h2 id="tasksTitle" data-i18n="students.tasks.title">Urgent Tasks</h2>
-              <span class="task-count" data-i18n="students.tasks.pendingCount">2 pending</span>
+              <span id="task-count" class="task-count"></span>
             </header>
-            <div class="task-list">
-              <div class="task-item task-item--urgent">
-                <div class="task-item__priority" data-i18n-attrs="aria-label:priority.high" aria-label="High priority"></div>
-                <div class="task-item__content">
-                  <h3 class="task-item__title" data-i18n="students.tasks.essayTitle">Essay Draft Due</h3>
-                  <p class="task-item__description" data-i18n="students.tasks.essayDesc">Personal statement for Abuja Tech Institute</p>
-                  <time datetime="2025-09-01" class="task-item__deadline" data-i18n="students.tasks.essayDue">Due Sept 1, 2025</time>
-                </div>
-                <button class="task-item__action btn btn--sm btn--ghost" type="button" data-i18n="common.start">Start</button>
+            <div id="tasks-list" class="task-list">
+              <div class="empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 6v6l4 2"/>
+                </svg>
+                <p>No pending tasks</p>
               </div>
-              <div class="task-item">
-                <div class="task-item__priority" data-i18n-attrs="aria-label:priority.medium" aria-label="Medium priority"></div>
-                <div class="task-item__content">
-                  <h3 class="task-item__title" data-i18n="students.tasks.transcriptTitle">Upload Transcript</h3>
-                  <p class="task-item__description" data-i18n="students.tasks.transcriptDesc">Official transcript for École Polytechnique</p>
-                  <time datetime="2025-09-05" class="task-item__deadline" data-i18n="students.tasks.transcriptDue">Due Sept 5, 2025</time>
-                </div>
-                <button class="task-item__action btn btn--sm btn--ghost" type="button" data-i18n="common.upload">Upload</button>
-              </div>
-            </div>
-            <div class="dashboard-card__footer">
-              <a href="/students/tasks.html" class="btn btn--ghost" data-i18n="students.tasks.viewAll">View all tasks</a>
             </div>
           </article>
 
@@ -426,40 +311,15 @@
                 </svg>
                 <span data-i18n="students.recs.title">AI Recommendations</span>
               </h2>
-              <span class="recommendation-badge" data-i18n="label.new">New</span>
             </header>
-            <div class="recommendation-content">
-              <p class="recommendation-description" data-i18n="students.recs.intro">Based on your Computer Science interest and 3.8 GPA, here are programs that match your profile:</p>
-              <div class="recommendation-list">
-                <div class="recommendation-item">
-                  <div class="recommendation-item__content">
-                    <h3 class="recommendation-item__title">Kwame Nkrumah University</h3>
-                    <p class="recommendation-item__program">B.Sc. Computer Science</p>
-                    <div class="recommendation-item__match">
-                      <span class="match-score" data-i18n="students.recs.match95">95% match</span>
-                      <span class="recommendation-item__scholarship" data-i18n="students.recs.scholarship">Scholarship available</span>
-                    </div>
-                  </div>
-                  <button class="recommendation-item__action btn btn--sm btn--primary" type="button" data-i18n="common.apply">Apply</button>
-                </div>
-                <div class="recommendation-item">
-                  <div class="recommendation-item__content">
-                    <h3 class="recommendation-item__title">University of Nairobi</h3>
-                    <p class="recommendation-item__program">B.Sc. Information Technology</p>
-                    <div class="recommendation-item__match">
-                      <span class="match-score" data-i18n="students.recs.match88">88% match</span>
-                      <span class="recommendation-item__deadline" data-i18n="students.recs.deadlineOct15">Deadline: Oct 15</span>
-                    </div>
-                  </div>
-                  <button class="recommendation-item__action btn btn--sm btn--ghost" type="button" data-i18n="common.learnMore">Learn more</button>
-                </div>
+            <div id="recommendations-content" class="recommendation-content">
+              <div class="empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <p>Complete your profile to get AI-powered recommendations</p>
+                <a href="/students/profile.html" class="btn btn--primary">Complete Profile</a>
               </div>
-            </div>
-            <div class="dashboard-card__footer">
-              <a href="/students/programs.html?view=recommended" class="btn btn--primary">
-                <span data-i18n="students.recs.viewAll">View All Recommendations</span>
-                <svg width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/></svg>
-              </a>
             </div>
           </article>
 
@@ -467,29 +327,14 @@
           <article class="dashboard-card" aria-labelledby="messagesTitle">
             <header class="dashboard-card__header">
               <h2 id="messagesTitle" data-i18n="students.messages.title">Recent Messages</h2>
-              <span class="message-count" data-i18n="students.messages.unreadCount">2 unread</span>
+              <span id="message-count" class="message-count"></span>
             </header>
-            <div class="message-list">
-              <div class="message-item message-item--unread">
-                <div class="message-item__avatar" aria-hidden="true">
-                  <svg width="20" height="20" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>
-                </div>
-                <div class="message-item__content">
-                  <h3 class="message-item__sender">Admissions Office</h3>
-                  <p class="message-item__preview" data-i18n="students.messages.preview1">Please confirm your interview slot for next week. We have available times on...</p>
-                  <time datetime="2025-08-20" class="message-item__time" data-i18n="time.twoHoursAgo">2 hours ago</time>
-                </div>
-                <div class="message-item__status" data-i18n-attrs="aria-label:messages.unread" aria-label="Unread message"></div>
-              </div>
-              <div class="message-item">
-                <div class="message-item__avatar" aria-hidden="true">
-                  <svg width="20" height="20" fill="currentColor"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>
-                </div>
-                <div class="message-item__content">
-                  <h3 class="message-item__sender">Counselor Sarah</h3>
-                  <p class="message-item__preview" data-i18n="students.messages.preview2">I've shared some scholarship opportunities that might interest you. Check your...</p>
-                  <time datetime="2025-08-19" class="message-item__time" data-i18n="time.oneDayAgo">1 day ago</time>
-                </div>
+            <div id="messages-list" class="message-list">
+              <div class="empty-state">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <p>No messages yet</p>
               </div>
             </div>
             <div class="dashboard-card__footer">
@@ -518,11 +363,11 @@
                 </div>
                 <div class="finance-item">
                   <span class="finance-item__label" data-i18n="students.finance.tuition">Estimated tuition</span>
-                  <span class="finance-item__amount">$4,200</span>
+                  <span class="finance-item__amount">$0</span>
                 </div>
                 <div class="finance-item">
                   <span class="finance-item__label" data-i18n="students.finance.scholarshipPotential">Scholarship potential</span>
-                  <span class="finance-item__amount">-$1,500</span>
+                  <span class="finance-item__amount">$0</span>
                 </div>
               </div>
               <div class="mobile-money-cta">
@@ -1776,7 +1621,7 @@
         const programs = Array.from(modal.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.nextSibling.textContent.trim()).join(', ');
         const message = modal.querySelector('#recMessage').value;
         
-        alert(`📧 Email Preview:\n\nDear ${name},\n\nOumarou has requested a recommendation letter for the following programs:\n${programs || '[Selected Programs]'}\n\n${message || '[Personal message will appear here]'}\n\nPlease click the link below to submit your recommendation.\n\nBest regards,\nFlow Education Platform`);
+        alert(`📧 Email Preview:\n\nDear ${name},\n\nYou have been requested to provide a recommendation letter for the following programs:\n${programs || '[Selected Programs]'}\n\n${message || '[Personal message will appear here]'}\n\nPlease click the link below to submit your recommendation.\n\nBest regards,\nFlow Education Platform`);
       };
       
       modal.querySelector('.send-btn').onclick = () => {
