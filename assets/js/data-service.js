@@ -322,8 +322,38 @@
         setCache(cacheKey, applications);
         return applications;
       } catch (error) {
+        // If index is missing, try without orderBy
+        if (error.code === 'failed-precondition' && error.message.includes('index')) {
+          console.warn('⚠️ Firestore index missing, querying without ordering');
+          try {
+            const snapshot = await db.collection('applications')
+              .where('studentId', '==', studentId)
+              .get();
+
+            const applications = [];
+            snapshot.forEach(doc => {
+              applications.push({ id: doc.id, ...doc.data() });
+            });
+
+            // Sort in memory by createdAt
+            applications.sort((a, b) => {
+              const aTime = a.createdAt?.toMillis?.() || 0;
+              const bTime = b.createdAt?.toMillis?.() || 0;
+              return bTime - aTime;
+            });
+
+            setCache(cacheKey, applications);
+            return applications;
+          } catch (retryError) {
+            console.error('Error getting student applications (retry):', retryError);
+            // Return empty array instead of throwing
+            return [];
+          }
+        }
+
         console.error('Error getting student applications:', error);
-        throw error;
+        // Return empty array instead of throwing to prevent dashboard from breaking
+        return [];
       }
     },
 
