@@ -84,16 +84,32 @@
 
     try {
       const user = window.FlowAuth.getCurrentUser();
-      const profile = window.FlowAuth.getUserProfile();
+      let profile = window.FlowAuth.getUserProfile();
 
       if (!user || !profile) {
         console.error('No user or profile found');
         return;
       }
 
-      // Update profile information
-      const studentName = profile.displayName || `${profile.firstName || ''} ${profile.lastName || ''}`.trim() || 'Student';
+      // Ensure we have the latest profile from Firestore, not cached Firebase Auth data
+      if (!profile.onboardingCompleted) {
+        console.log('⏳ Profile not fully loaded, reloading from Firestore...');
+        try {
+          profile = await window.FlowAuth.reloadUserProfile();
+          console.log('✅ Fresh profile loaded:', profile);
+        } catch (error) {
+          console.warn('⚠️ Failed to reload profile, using cached data');
+        }
+      }
+
+      // Update profile information - ONLY use Firestore profile data, NOT Firebase Auth displayName
+      // This prevents showing old cached name before fresh data loads
+      const studentName = profile.displayName ||
+                         `${profile.firstName || ''} ${profile.lastName || ''}`.trim() ||
+                         'Student';
       const email = user.email || profile.email || 'email@student.edu';
+
+      console.log('📝 Updating dashboard with:', { studentName, email, profile });
 
       updateElement('headerStudentName', studentName);
       updateElement('profileStudentName', studentName);
@@ -334,7 +350,7 @@
       await waitForDependencies();
 
       const user = window.FlowAuth.getCurrentUser();
-      const profile = window.FlowAuth.getUserProfile();
+      let profile = window.FlowAuth.getUserProfile();
 
       if (!user || !profile) {
         console.log('⏳ Waiting for user authentication and profile...');
@@ -342,10 +358,21 @@
         return;
       }
 
+      // Force reload profile to ensure we have latest Firestore data
+      console.log('🔄 Reloading profile to ensure fresh data...');
+      try {
+        profile = await window.FlowAuth.reloadUserProfile();
+        console.log('✅ Fresh profile reloaded');
+      } catch (error) {
+        console.warn('⚠️ Failed to reload profile:', error);
+      }
+
       console.log('✅ User and profile loaded:', {
         email: user.email,
         accountType: profile.accountType,
-        displayName: profile.displayName || profile.institutionName || 'Unknown'
+        displayName: profile.displayName || profile.institutionName || 'Unknown',
+        firstName: profile.firstName,
+        lastName: profile.lastName
       });
 
       const accountType = profile.accountType;
