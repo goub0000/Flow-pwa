@@ -343,7 +343,22 @@
   // MAIN LOADER
   // =============================================================================
 
+  let dashboardLoading = false;
+  let dashboardLoaded = false;
+
   async function loadDashboard() {
+    // Prevent duplicate loads
+    if (dashboardLoading) {
+      console.log('⏭️ Dashboard already loading, skipping duplicate call');
+      return;
+    }
+
+    if (dashboardLoaded) {
+      console.log('✅ Dashboard already loaded, skipping reload');
+      return;
+    }
+
+    dashboardLoading = true;
     console.log('🚀 Initializing dashboard loader...');
 
     try {
@@ -397,8 +412,13 @@
         default:
           console.warn('Unknown account type:', accountType);
       }
+
+      dashboardLoaded = true;
+      dashboardLoading = false;
+      console.log('✅ Dashboard load complete');
     } catch (error) {
       console.error('❌ Error in dashboard loader:', error);
+      dashboardLoading = false;
     }
   }
 
@@ -426,7 +446,11 @@
 
   // Expose reload function with cache clearing
   window.reloadDashboard = async function() {
-    console.log('🔄 Reloading dashboard and clearing cache...');
+    console.log('🔄 Manually reloading dashboard and clearing cache...');
+
+    // Clear loaded flags to allow reload
+    dashboardLoaded = false;
+    dashboardLoading = false;
 
     // Clear data service cache
     if (window.DataService && window.DataService.clearCache) {
